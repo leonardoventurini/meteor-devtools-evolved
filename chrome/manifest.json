@@ -1,0 +1,25 @@
+{
+  "name": "Meteor DevTools",
+  "version": "1.6.0",
+  "description": "Developer tools for Meteor",
+  "background" : {
+    "scripts": ["scripts/background.js"],
+    "persistent": false
+  },
+  "icons": {
+    "16": "icons/icon16.png",
+    "48": "icons/icon48.png",
+    "128": "icons/icon128.png"
+  },
+  "content_scripts": [{
+    "matches": ["<all_urls>"],
+    "js": ["scripts/content.js"],
+    "run_at": "document_end",
+    "all_frames": true
+  }],
+  "content_security_policy": "script-src 'self' 'unsafe-eval' https://www.google-analytics.com; object-src 'self'",
+
+  "devtools_page": "devtools.html",
+  "options_page": "panel.html",
+  "manifest_version": 2
+}
