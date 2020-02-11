@@ -8,7 +8,7 @@ const { CleanWebpackPlugin } = require('clean-webpack-plugin');
 module.exports = override =>
   extend(
     {
-      entry: [path.resolve(src, 'App.jsx')],
+      entry: [path.resolve(src, 'App.tsx')],
       plugins: [new CleanWebpackPlugin()],
       module: {
         rules: [
@@ -17,6 +17,7 @@ module.exports = override =>
             loader: 'babel-loader',
             include: src,
           },
+          { test: /\.tsx?$/, loader: 'ts-loader' },
           {
             test: /\.css$/,
             loader: 'style-loader!css-loader!postcss-loader',
@@ -51,6 +52,8 @@ module.exports = override =>
           '.sass',
           '.scss',
           '.ttf',
+          '.ts',
+          '.tsx',
           '.woff',
         ],
       },

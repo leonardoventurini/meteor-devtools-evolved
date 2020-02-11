@@ -1,11 +1,10 @@
-import React from 'react';
+import React, { FunctionComponent } from 'react';
+import { Alignment, Button, Navbar } from '@blueprintjs/core';
 import { render } from 'react-dom';
 
 import './Style.scss';
-import { Button, Navbar } from '@blueprintjs/core';
-import { Alignment } from '@blueprintjs/core/lib/esnext/common/alignment';
 
-const App = () => (
+export const App: FunctionComponent = () => (
   <>
     <Navbar fixedToTop>
       <Navbar.Group align={Alignment.LEFT}>
