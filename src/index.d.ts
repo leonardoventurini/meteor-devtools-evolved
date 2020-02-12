@@ -4,6 +4,7 @@ declare module Meteor {
 
 interface MeteorMessage {
   content: string;
+  trace?: object;
   isInbound?: boolean;
   isOutbound?: boolean;
 }
