@@ -1,39 +1,41 @@
 const connections = {};
 
-chrome.runtime.onConnect.addListener(function(port) {
-  // Listen to messages sent from the DevTools page
-  port.onMessage.addListener(function(request) {
-    console.log(arguments);
+const panelListener = () => {
+  chrome.runtime.onConnect.addListener(function(port) {
+    port.onMessage.addListener(function(request) {
+      if (request.name === 'init') {
+        connections[request.tabId] = port;
 
-    // Register initial connection
-    if (request.name === 'init') {
-      connections[request.tabId] = port;
+        port.onDisconnect.addListener(function() {
+          delete connections[request.tabId];
+        });
+      }
+    });
+  });
+};
 
-      port.onDisconnect.addListener(function() {
-        delete connections[request.tabId];
-      });
+const tabRemovalListener = () => {
+  chrome.tabs.onRemoved.addListener(function(tabId) {
+    if (connections[tabId]) {
+      delete connections[tabId];
     }
   });
-});
+};
 
-chrome.tabs.onRemoved.addListener(function(tabId) {
-  if (connections[tabId]) {
-    delete connections[tabId];
-  }
-});
+const contentListener = () => {
+  chrome.runtime.onMessage.addListener(function(request, sender, sendResponse) {
+    if (sender.tab) {
+      const tabId = sender.tab.id;
 
-// Receive message from content script and relay to the devTools page for the
-// current tab
-chrome.runtime.onMessage.addListener(function(request, sender, sendResponse) {
-  console.log(arguments);
-
-  // Messages from content scripts should have sender.tab set
-  if (sender.tab) {
-    const tabId = sender.tab.id;
-
-    if (tabId in connections) {
-      connections[tabId].postMessage(request);
+      if (tabId in connections) {
+        connections[tabId].postMessage(request);
+      }
     }
-  }
-  return true;
-});
+
+    return true;
+  });
+};
+
+panelListener();
+tabRemovalListener();
+contentListener();
