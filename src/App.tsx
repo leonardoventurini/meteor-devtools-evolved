@@ -1,20 +1,24 @@
-import React, { FunctionComponent } from 'react';
-import { Alignment, Button, Navbar } from '@blueprintjs/core';
+import React from 'react';
 import { render } from 'react-dom';
+
+import { Panel } from './_Panel';
+import { Options } from './_Options';
+import { Popup } from './_Popup';
 
 import './Style.scss';
 
-export const App: FunctionComponent = () => (
-  <>
-    <Navbar fixedToTop>
-      <Navbar.Group align={Alignment.LEFT}>
-        <Navbar.Heading>Meteor DevTools Evolved</Navbar.Heading>
-        <Navbar.Divider />
-        <Button icon='home' text='Home' minimal />
-        <Button icon='document' text='DDP' minimal />
-      </Navbar.Group>
-    </Navbar>
-  </>
-);
+const panelElement = document.getElementById('panel');
+const optionsElement = document.getElementById('options');
+const popupElement = document.getElementById('popup');
 
-render(<App />, document.getElementById('app'));
+if (panelElement) {
+  render(<Panel />, panelElement);
+}
+
+if (optionsElement) {
+  render(<Options />, optionsElement);
+}
+
+if (popupElement) {
+  render(<Popup />, popupElement);
+}
