@@ -1,9 +1,9 @@
 import React from 'react';
 import { render } from 'react-dom';
 
-import { Panel } from './_Panel';
-import { Options } from './_Options';
-import { Popup } from './_Popup';
+import { Panel } from './Pages/Panel';
+import { Options } from './Pages/Options';
+import { Popup } from './Pages/Popup';
 
 import './Style.scss';
 
