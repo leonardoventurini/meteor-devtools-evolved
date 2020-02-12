@@ -1,17 +1,35 @@
 {
   "name": "Meteor DevTools Evolved",
-  "version": "1.0.0",
-  "description": "Developer tools for Meteor",
+  "version": "1.0",
+
+  "author": "Leonardo Venturini",
+
+  "permissions": ["storage", "activeTab", "declarativeContent"],
+
+  "icons": {
+    "16": "icons/meteor-16.png",
+    "48": "icons/meteor-48.png",
+    "128": "icons/meteor-128.png"
+  },
+
+  "browser_action" : {
+    "default_title" : "Meteor",
+    "default_icon" : "icons/meteor-48.png",
+    "default_popup" : "popup.html"
+  },
+
   "background" : {
     "scripts": ["scripts/background.js"],
     "persistent": false
   },
+
   "content_scripts": [{
     "matches": ["<all_urls>"],
     "js": ["scripts/content.js"],
     "run_at": "document_end",
     "all_frames": true
   }],
+
   "content_security_policy": "script-src 'self' 'unsafe-eval' https://www.google-analytics.com; object-src 'self'",
 
   "devtools_page": "devtools.html",
