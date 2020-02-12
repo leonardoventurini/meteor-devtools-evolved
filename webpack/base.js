@@ -8,7 +8,10 @@ const { CleanWebpackPlugin } = require('clean-webpack-plugin');
 module.exports = override =>
   extend(
     {
-      entry: [path.resolve(src, 'App.tsx')],
+      entry: {
+        bundle: path.resolve(src, 'App.tsx'),
+        inject: path.resolve(src, 'Injector.ts'),
+      },
       plugins: [new CleanWebpackPlugin()],
       module: {
         rules: [

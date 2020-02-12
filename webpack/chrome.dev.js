@@ -7,7 +7,7 @@ module.exports = base({
   mode: 'development',
 
   output: {
-    filename: 'bundle.js',
+    filename: '[name].js',
     path: path.join(__dirname, '../chrome/build/'),
   },
 
