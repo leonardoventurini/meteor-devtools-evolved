@@ -1,9 +1,7 @@
 export const injectScript = (scriptUrl: string) => {
-  const xhr = new XMLHttpRequest();
-  xhr.open('GET', chrome.extension.getURL(scriptUrl), false);
-  xhr.send();
-
-  chrome.devtools.inspectedWindow.eval(xhr.responseText);
+  fetch(chrome.extension.getURL(scriptUrl))
+    .then(response => response.text())
+    .then(text => chrome.devtools.inspectedWindow.eval(text));
 };
 
 const chromeSetup = function() {
@@ -14,6 +12,10 @@ const chromeSetup = function() {
   backgroundConnection.postMessage({
     name: 'init',
     tabId: chrome.devtools.inspectedWindow.tabId,
+  });
+
+  backgroundConnection.onMessage.addListener(message => {
+    console.log(message);
   });
 };
 
