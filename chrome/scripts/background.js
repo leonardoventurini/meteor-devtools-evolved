@@ -9,7 +9,7 @@ chrome.runtime.onMessage.addListener(function(request, sender, sendResponse) {
     if (tabId in connections) {
       connections[tabId].postMessage(request);
     }
-  } 
+  }
   return true;
 });
 
@@ -23,14 +23,11 @@ chrome.runtime.onConnect.addListener(function(port) {
       port.onDisconnect.addListener(function() {
         delete connections[request.tabId];
       });
-
-      return;
     }
   });
-
 });
 
-chrome.tabs.onRemoved.addListener(function (tabId) {
+chrome.tabs.onRemoved.addListener(function(tabId) {
   if (connections[tabId]) {
     delete connections[tabId];
   }
