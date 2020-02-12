@@ -4,7 +4,7 @@ export const injectScript = (scriptUrl: string) => {
     .then(text => chrome.devtools.inspectedWindow.eval(text));
 };
 
-const chromeSetup = function() {
+const chromeSetup = () => {
   const backgroundConnection = chrome.runtime.connect({
     name: 'panel',
   });
