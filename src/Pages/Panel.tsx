@@ -39,8 +39,8 @@ const PanelObserver: FunctionComponent<Props> = flow(
   };
 
   return (
-    <>
-      <Navbar>
+    <div className='mde-layout'>
+      <Navbar fixedToTop>
         <Navbar.Group>
           <Navbar.Heading>
             <img src='icons/meteor-32.png' alt='Meteor DevTools Evolved' />
@@ -74,7 +74,7 @@ const PanelObserver: FunctionComponent<Props> = flow(
         </Navbar.Group>
       </Navbar>
       <div className='mde-layout__tab-panel'>{renderTab(selectedTabId)}</div>
-    </>
+    </div>
   );
 });
 

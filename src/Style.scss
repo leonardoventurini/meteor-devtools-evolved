@@ -6,6 +6,10 @@ body {
   background-color: #30404d;
 }
 
+.mde-layout {
+  padding-top: 50px;
+}
+
 .mde-table {
   width: 100%;
 
@@ -18,4 +22,29 @@ body {
   max-width: 100vw;
   overflow: hidden;
   padding: 15px;
+}
+
+.mde-ddp {
+  width: 100%;
+
+  .mde-ddp__log-row {
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    padding: 5px 0;
+
+    div + div {
+      margin-left: 10px;
+    }
+
+    .time {
+    }
+
+    .direction {
+    }
+
+    .content {
+      flex-grow: 1;
+    }
+  }
 }
