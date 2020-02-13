@@ -16,9 +16,11 @@ const chromeSetup = () => {
     tabId: chrome.devtools.inspectedWindow.tabId,
   });
 
-  backgroundConnection.onMessage.addListener(message => {
-    PanelStore.ddp.push(message);
-  });
+  backgroundConnection.onMessage.addListener(
+    (message: RawMessage<MeteorMessage>) => {
+      PanelStore.ddp.push(message.data);
+    },
+  );
 };
 
 export const setupBridge = () => {
