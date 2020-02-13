@@ -13,4 +13,5 @@ interface MeteorMessage {
   trace?: object;
   isInbound?: boolean;
   isOutbound?: boolean;
+  timestamp?: number;
 }

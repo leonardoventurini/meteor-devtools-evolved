@@ -1,4 +1,5 @@
 import { PanelStore } from './Stores/PanelStore';
+import { extend } from 'lodash';
 
 export const injectScript = (scriptUrl: string) => {
   fetch(chrome.extension.getURL(scriptUrl))
@@ -18,7 +19,11 @@ const chromeSetup = () => {
 
   backgroundConnection.onMessage.addListener(
     (message: RawMessage<MeteorMessage>) => {
-      PanelStore.ddp.push(message.data);
+      const data = extend(message.data, {
+        timestamp: Date.now(),
+      });
+
+      PanelStore.ddp.push(data);
     },
   );
 };

@@ -6,6 +6,14 @@ body {
   background-color: #30404d;
 }
 
+.mde-table {
+  td {
+    word-break: break-word;
+  }
+}
+
 .mde-layout__tab-panel {
+  max-width: 100vw;
+  overflow: hidden;
   padding: 15px;
 }
