@@ -10,7 +10,7 @@ const MAX_PREVIEW_LENGTH = 64;
 
 interface Props {
   store: PanelStoreConstructor;
-  message: MeteorMessage;
+  message: DDPLog;
 }
 
 export const DDPMessage: FunctionComponent<Props> = flow(

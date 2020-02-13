@@ -18,18 +18,16 @@ const chromeSetup = () => {
     tabId: chrome.devtools.inspectedWindow.tabId,
   });
 
-  backgroundConnection.onMessage.addListener(
-    (message: RawMessage<MeteorMessage>) => {
-      sha1(message.data.content, hash => {
-        const data = extend(message.data, {
-          timestamp: Date.now(),
-          hash,
-        });
-
-        PanelStore.pushDdpMessage(data);
+  backgroundConnection.onMessage.addListener((message: Message<DDPLog>) => {
+    sha1(message.data.content, hash => {
+      const data = extend(message.data, {
+        timestamp: Date.now(),
+        hash,
       });
-    },
-  );
+
+      PanelStore.pushLog(data);
+    });
+  });
 };
 
 export const setupBridge = () => {

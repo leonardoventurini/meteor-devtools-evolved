@@ -1,4 +1,4 @@
-type MessageCallback = (message: MeteorMessage) => void;
+type MessageCallback = (message: DDPLog) => void;
 
 export const injectOutboundInterceptor = (callback: MessageCallback) => {
   const send = Meteor.connection._stream.send;

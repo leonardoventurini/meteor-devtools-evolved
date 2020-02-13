@@ -9,13 +9,13 @@ declare module 'simple-sha1' {
   ): void;
 }
 
-interface RawMessage<T> {
+interface Message<T> {
   eventType: string;
   data: T;
   source: string;
 }
 
-interface MeteorMessage {
+interface DDPLog {
   content: string;
   trace?: object;
   isInbound?: boolean;

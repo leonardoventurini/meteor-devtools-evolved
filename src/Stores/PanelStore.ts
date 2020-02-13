@@ -1,17 +1,17 @@
 import { action, observable } from 'mobx';
-import { createContext, useContext } from 'react';
+import { createContext } from 'react';
 import { debounce } from 'lodash';
 
 export class PanelStoreConstructor {
   @observable ddpCount: number = 0;
-  @observable ddp: MeteorMessage[] = [];
+  @observable ddp: DDPLog[] = [];
   @observable newDdpLogs: number[] = [];
 
   @action
-  pushDdpMessage(log: MeteorMessage) {
-    const { timestamp } = log;
-
-    timestamp && this.pushNewLog(timestamp);
+  pushLog(log: DDPLog) {
+    if (log.timestamp) {
+      this.newDdpLogs.push(log.timestamp);
+    }
 
     ++this.ddpCount;
     this.ddp.push(log);
@@ -21,11 +21,6 @@ export class PanelStoreConstructor {
     }
 
     this.clearNewLogs();
-  }
-
-  @action
-  pushNewLog(timestamp: number) {
-    this.newDdpLogs.push(timestamp);
   }
 
   clearNewLogs = debounce(
@@ -43,6 +38,3 @@ export const PanelStoreContext = createContext<PanelStoreConstructor>(
 );
 
 export const PanelStoreProvider = PanelStoreContext.Provider;
-
-export const useStore = (): PanelStoreConstructor =>
-  useContext(PanelStoreContext);

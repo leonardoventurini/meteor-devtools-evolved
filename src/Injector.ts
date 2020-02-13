@@ -27,7 +27,7 @@ export const getStackTrace = (stackTraceLimit: number) => {
   }
 };
 
-export const sendDdpMessage = (message: MeteorMessage) => {
+export const sendLogMessage = (message: DDPLog) => {
   const stackTrace = getStackTrace(15);
 
   if (stackTrace && stackTrace.length) {
@@ -44,6 +44,6 @@ export const sendDdpMessage = (message: MeteorMessage) => {
 
 console.log('Meteor DevTools Evolved: Injecting script...');
 
-injectInboundInterceptor(sendDdpMessage);
+injectInboundInterceptor(sendLogMessage);
 
-injectOutboundInterceptor(sendDdpMessage);
+injectOutboundInterceptor(sendLogMessage);
