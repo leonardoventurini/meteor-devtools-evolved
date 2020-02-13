@@ -26,7 +26,7 @@ const chromeSetup = () => {
           hash,
         });
 
-        PanelStore.ddp.push(data);
+        PanelStore.pushDdpMessage(data);
       });
     },
   );

@@ -1,6 +1,7 @@
-import React, { FunctionComponent } from 'react';
+import React, { FunctionComponent, useState } from 'react';
 import moment from 'moment';
 import { Classes, Icon, Tag } from '@blueprintjs/core';
+import classnames from 'classnames';
 
 const MAX_PREVIEW_LENGTH = 64;
 
@@ -9,6 +10,8 @@ interface Props {
 }
 
 export const DDPMessage: FunctionComponent<Props> = ({ message }) => {
+  const [isNew, setIsNew] = useState(true);
+
   const { content, timestamp, isOutbound, isInbound, hash } = message;
 
   const direction = (isOutbound?: boolean, isInbound?: boolean) => {
@@ -36,8 +39,16 @@ export const DDPMessage: FunctionComponent<Props> = ({ message }) => {
   const time = (timestamp?: number) =>
     timestamp ? moment(timestamp).format('HH:mm:ss.SSS') : 'Unknown';
 
+  const classes = classnames('mde-ddp__log-row', {
+    'mde-ddp__log-row--new': isNew,
+  });
+
+  setTimeout(() => {
+    setIsNew(false);
+  }, 1000);
+
   return (
-    <div className='mde-ddp__log-row'>
+    <div className={classes}>
       <div className='time'>
         <Tag minimal>{time(timestamp)}</Tag>
       </div>

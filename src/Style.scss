@@ -2,12 +2,20 @@
 @import '~@blueprintjs/core/lib/css/blueprint.css';
 @import '~@blueprintjs/icons/lib/css/blueprint-icons.css';
 
+$background-color: #30404d;
+
 body {
-  background-color: #30404d;
+  background-color: $background-color;
 }
 
 .mde-layout {
   padding-top: 50px;
+
+  .mde-layout__status {
+    display: flex;
+    justify-content: flex-end;
+    margin-top: 15px;
+  }
 }
 
 .mde-table {
@@ -34,6 +42,12 @@ body {
     padding: 5px 15px;
     margin: 0 -15px;
 
+    transition: background-color .5s ease;
+
+    &.mde-ddp__log-row--new {
+      background-color: lighten($background-color, 5%);
+    }
+
     div + div {
       margin-left: 10px;
     }
@@ -57,7 +71,7 @@ body {
     }
 
     &:hover {
-      background-color: #394B59;
+      background-color: #394b59;
     }
 
     &:hover .interactions {
