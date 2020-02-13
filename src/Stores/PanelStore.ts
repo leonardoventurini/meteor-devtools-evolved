@@ -1,5 +1,4 @@
 import { action, observable } from 'mobx';
-import { createContext } from 'react';
 import { debounce } from 'lodash';
 
 export class PanelStoreConstructor {
@@ -32,9 +31,3 @@ export class PanelStoreConstructor {
 }
 
 export const PanelStore = new PanelStoreConstructor();
-
-export const PanelStoreContext = createContext<PanelStoreConstructor>(
-  PanelStore,
-);
-
-export const PanelStoreProvider = PanelStoreContext.Provider;
