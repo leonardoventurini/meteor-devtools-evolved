@@ -1,6 +1,8 @@
 import React, { FunctionComponent } from 'react';
 import moment from 'moment';
-import { Icon, Tag } from '@blueprintjs/core';
+import { Classes, Icon, Tag } from '@blueprintjs/core';
+
+const MAX_PREVIEW_LENGTH = 64;
 
 interface Props {
   message: MeteorMessage;
@@ -26,7 +28,9 @@ export const DDPMessage: FunctionComponent<Props> = ({ message }) => {
   };
 
   const preview = (content: string) => {
-    return content.length > 48 ? content.slice(0, 48).concat('...') : content;
+    return content.length > MAX_PREVIEW_LENGTH
+      ? content.slice(0, MAX_PREVIEW_LENGTH).concat('...')
+      : content;
   };
 
   const time = (timestamp?: number) =>
@@ -38,7 +42,12 @@ export const DDPMessage: FunctionComponent<Props> = ({ message }) => {
         <Tag minimal>{time(timestamp)}</Tag>
       </div>
       <div className='direction'>{direction(isOutbound, isInbound)}</div>
-      <div className='content'>{preview(content)}</div>
+      <div className='content'>
+        <code className={Classes.CODE}>{preview(content)}</code>
+      </div>
+      <div className='interactions'>
+        <Icon icon='star-empty' />
+      </div>
     </div>
   );
 };

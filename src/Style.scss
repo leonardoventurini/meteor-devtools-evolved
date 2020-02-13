@@ -31,7 +31,8 @@ body {
     display: flex;
     flex-direction: row;
     justify-content: space-between;
-    padding: 5px 0;
+    padding: 5px 15px;
+    margin: 0 -15px;
 
     div + div {
       margin-left: 10px;
@@ -45,6 +46,18 @@ body {
 
     .content {
       flex-grow: 1;
+    }
+
+    .interactions {
+      visibility: hidden;
+    }
+
+    &:hover {
+      background-color: #394B59;
+    }
+
+    &:hover .interactions {
+      visibility: visible;
     }
   }
 }
