@@ -57,11 +57,11 @@ export const DDPMessage: FunctionComponent<Props> = flow(
       <div className='content'>
         <code className={Classes.CODE}>{preview(content)}</code>
       </div>
-      <div className='hash'>
-        <Tag minimal>{hash?.slice(0, 6)}</Tag>
-      </div>
       <div className='interactions'>
         <Icon icon='star-empty' />
+      </div>
+      <div className='hash'>
+        <Tag minimal>{hash?.slice(0, 6)}</Tag>
       </div>
     </div>
   );
