@@ -4,6 +4,7 @@ import { flow } from 'lodash/fp';
 import { inject, observer } from 'mobx-react';
 import { HTMLTable } from '@blueprintjs/core';
 import JSONTree from 'react-json-tree';
+import moment from 'moment';
 
 interface Props {
   panelStore?: PanelStoreConstructor;
@@ -46,14 +47,14 @@ export const DDP: FunctionComponent<Props> = flow(
           hideRoot
         />
       </td>
-      <td>{message.timestamp}</td>
+      <td>
+        {message.timestamp && moment(message.timestamp).format('HH:mm:ss.SSS')}
+      </td>
     </tr>
   ));
 
   return (
     <div>
-      <h1>DDP</h1>
-
       <HTMLTable className='mde-table' condensed interactive>
         <thead>
           <tr>
