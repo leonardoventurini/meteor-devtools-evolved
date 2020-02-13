@@ -1,17 +1,22 @@
-import React, { FunctionComponent, useState } from 'react';
+import React, { FunctionComponent } from 'react';
 import moment from 'moment';
 import { Classes, Icon, Tag } from '@blueprintjs/core';
 import classnames from 'classnames';
+import { PanelStoreConstructor } from '../../../Stores/PanelStore';
+import { flow } from 'lodash/fp';
+import { inject, observer } from 'mobx-react';
 
 const MAX_PREVIEW_LENGTH = 64;
 
 interface Props {
+  store: PanelStoreConstructor;
   message: MeteorMessage;
 }
 
-export const DDPMessage: FunctionComponent<Props> = ({ message }) => {
-  const [isNew, setIsNew] = useState(true);
-
+export const DDPMessage: FunctionComponent<Props> = flow(
+  observer,
+  inject('panelStore'),
+)(({ store, message }) => {
   const { content, timestamp, isOutbound, isInbound, hash } = message;
 
   const direction = (isOutbound?: boolean, isInbound?: boolean) => {
@@ -40,12 +45,8 @@ export const DDPMessage: FunctionComponent<Props> = ({ message }) => {
     timestamp ? moment(timestamp).format('HH:mm:ss.SSS') : 'Unknown';
 
   const classes = classnames('mde-ddp__log-row', {
-    'mde-ddp__log-row--new': isNew,
+    'mde-ddp__log-row--new': timestamp && store.newDdpLogs.includes(timestamp),
   });
-
-  setTimeout(() => {
-    setIsNew(false);
-  }, 1000);
 
   return (
     <div className={classes}>
@@ -64,4 +65,4 @@ export const DDPMessage: FunctionComponent<Props> = ({ message }) => {
       </div>
     </div>
   );
-};
+});
