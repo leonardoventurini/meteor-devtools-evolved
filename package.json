@@ -64,6 +64,7 @@
     "@blueprintjs/core": "^3.23.1",
     "@blueprintjs/icons": "^3.13.0",
     "classnames": "^2.2.6",
+    "dexie": "^2.0.4",
     "error-stack-parser": "^2.0.6",
     "immutable": "^4.0.0-rc.12",
     "js-stylesheet": "0.0.1",
