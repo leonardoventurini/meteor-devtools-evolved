@@ -1,3 +1,5 @@
+import { PanelStore } from './Stores/PanelStore';
+
 export const injectScript = (scriptUrl: string) => {
   fetch(chrome.extension.getURL(scriptUrl))
     .then(response => response.text())
@@ -15,7 +17,7 @@ const chromeSetup = () => {
   });
 
   backgroundConnection.onMessage.addListener(message => {
-    console.log(message);
+    PanelStore.ddp.push(message);
   });
 };
 

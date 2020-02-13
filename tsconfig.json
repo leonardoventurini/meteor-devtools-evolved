@@ -1,14 +1,13 @@
 {
-  "module": "commonjs",
-  "target": "es2017",
-  "moduleResolution": "node",
-  "experimentalDecorators": true,
-  "emitDecoratorMetadata": true,
-  "sourceMap": true,
-
   "include": ["src/*.d.ts", "src/**/*.ts", "src/**/*.tsx"],
 
   "compilerOptions": {
+    "target": "es2017",
+    "module": "commonjs",
+    "moduleResolution": "node",
+    "experimentalDecorators": true,
+    "emitDecoratorMetadata": true,
+    "sourceMap": true,
     "strict": true,
     "esModuleInterop": true,
     "jsx": "react",
