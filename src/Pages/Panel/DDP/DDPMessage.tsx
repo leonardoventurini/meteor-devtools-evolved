@@ -9,7 +9,7 @@ interface Props {
 }
 
 export const DDPMessage: FunctionComponent<Props> = ({ message }) => {
-  const { content, timestamp, isOutbound, isInbound } = message;
+  const { content, timestamp, isOutbound, isInbound, hash } = message;
 
   const direction = (isOutbound?: boolean, isInbound?: boolean) => {
     if (isOutbound && isInbound) {
@@ -44,6 +44,9 @@ export const DDPMessage: FunctionComponent<Props> = ({ message }) => {
       <div className='direction'>{direction(isOutbound, isInbound)}</div>
       <div className='content'>
         <code className={Classes.CODE}>{preview(content)}</code>
+      </div>
+      <div className='hash'>
+        <Tag minimal>{hash?.slice(0, 6)}</Tag>
       </div>
       <div className='interactions'>
         <Icon icon='star-empty' />

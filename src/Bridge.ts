@@ -1,5 +1,6 @@
 import { PanelStore } from './Stores/PanelStore';
 import { extend } from 'lodash';
+import sha1 from 'simple-sha1';
 
 export const injectScript = (scriptUrl: string) => {
   fetch(chrome.extension.getURL(scriptUrl))
@@ -19,11 +20,14 @@ const chromeSetup = () => {
 
   backgroundConnection.onMessage.addListener(
     (message: RawMessage<MeteorMessage>) => {
-      const data = extend(message.data, {
-        timestamp: Date.now(),
-      });
+      sha1(message.data.content, hash => {
+        const data = extend(message.data, {
+          timestamp: Date.now(),
+          hash,
+        });
 
-      PanelStore.ddp.push(data);
+        PanelStore.ddp.push(data);
+      });
     },
   );
 };
