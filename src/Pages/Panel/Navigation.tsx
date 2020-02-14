@@ -1,5 +1,5 @@
 import React, { FunctionComponent } from 'react';
-import { Icon, Navbar, Tab, Tabs } from '@blueprintjs/core';
+import { Navbar, Tab, Tabs } from '@blueprintjs/core';
 
 interface Props {
   selectedTabId: string;
@@ -15,7 +15,7 @@ export const Navigation: FunctionComponent<Props> = ({
   <Navbar fixedToTop>
     <Navbar.Group>
       <Navbar.Heading>
-        <img src='icons/meteor-32.png' alt='Meteor DevTools Evolved' />
+        <img src='icons/meteor-16.png' alt='Meteor DevTools Evolved' />
       </Navbar.Heading>
     </Navbar.Group>
     <Navbar.Group>
@@ -24,24 +24,8 @@ export const Navigation: FunctionComponent<Props> = ({
         selectedTabId={selectedTabId}
         onChange={(newTabId: string) => setSelectedTabId(newTabId)}
       >
-        <Tab
-          id='ddp'
-          title={
-            <>
-              <Icon icon='globe-network' />
-              &nbsp;DDP
-            </>
-          }
-        />
-        <Tab
-          id='minimongo'
-          title={
-            <>
-              <Icon icon='database' />
-              &nbsp;Minimongo
-            </>
-          }
-        />
+        <Tab id='ddp' title='DDP' />
+        <Tab id='minimongo' title='Minimongo' />
       </Tabs>
     </Navbar.Group>
   </Navbar>

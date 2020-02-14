@@ -19,6 +19,8 @@ const chromeSetup = () => {
   });
 
   backgroundConnection.onMessage.addListener((message: Message<DDPLog>) => {
+    console.log(message.data);
+
     sha1(message.data.content, hash => {
       const data = extend(message.data, {
         timestamp: Date.now(),
@@ -40,8 +42,6 @@ export const setupBridge = () => {
   }
 
   chromeSetup();
-
-  injectScript(INJECT_SCRIPT_PATH);
 
   chrome.devtools.network.onNavigated.addListener(function() {
     injectScript(INJECT_SCRIPT_PATH);

@@ -30,8 +30,6 @@ const PanelObserver: FunctionComponent<Props> = flow(
 
   const renderTab = (tabId: string) => {
     if (panelStore) {
-      console.log(tabId);
-
       return (
         <>
           <Hideable isVisible={tabId === 'ddp'}>
