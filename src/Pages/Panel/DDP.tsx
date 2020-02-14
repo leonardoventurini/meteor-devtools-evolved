@@ -4,7 +4,7 @@ import { defer } from 'lodash';
 import { flow } from 'lodash/fp';
 import { inject, observer } from 'mobx-react';
 import { DDPMessage } from './DDP/DDPMessage';
-import { Tag } from '@blueprintjs/core';
+import { Button, Icon, Tag } from '@blueprintjs/core';
 import { scrollToBottom } from '../../Utils';
 
 interface Props {
@@ -29,6 +29,17 @@ export const DDP: FunctionComponent<Props> = flow(
         <Tag intent='primary' minimal round>
           {panelStore?.ddpCount}
         </Tag>
+
+        <Button
+          intent='danger'
+          minimal
+          style={{ marginLeft: 10 }}
+          onClick={() => {
+            panelStore?.clearLogs();
+          }}
+        >
+          <Icon icon='disable' />
+        </Button>
       </div>
     </>
   );

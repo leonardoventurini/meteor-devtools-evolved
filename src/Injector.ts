@@ -42,8 +42,16 @@ export const sendLogMessage = (message: DDPLog) => {
   );
 };
 
-console.log('Meteor DevTools Evolved: Injecting script...');
+const readyStateCheckInterval = setInterval(function() {
+  const isMeteorDefined = typeof Meteor !== 'undefined';
 
-injectInboundInterceptor(sendLogMessage);
+  if (document.readyState === 'complete' || isMeteorDefined) {
+    clearInterval(readyStateCheckInterval);
 
-injectOutboundInterceptor(sendLogMessage);
+    injectInboundInterceptor(sendLogMessage);
+
+    injectOutboundInterceptor(sendLogMessage);
+
+    console.log('Meteor DevTools Evolved: Injecting script...');
+  }
+}, 20);

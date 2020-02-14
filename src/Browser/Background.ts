@@ -8,9 +8,11 @@ const panelListener = () => {
   chrome.runtime.onConnect.addListener(function(port) {
     port.onMessage.addListener(function(request) {
       if (request.name === 'init') {
-        connections[request.tabId] = port;
+        if (request.tabId in connections) {
+          delete connections[request.tabId];
+        }
 
-        console.log(request);
+        connections[request.tabId] = port;
 
         port.onDisconnect.addListener(function() {
           delete connections[request.tabId];

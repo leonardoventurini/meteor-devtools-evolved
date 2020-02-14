@@ -28,6 +28,12 @@ export class PanelStoreConstructor {
     }),
     3000,
   );
+
+  @action
+  clearLogs() {
+    this.ddp = [];
+    this.ddpCount = 0;
+  }
 }
 
 export const PanelStore = new PanelStoreConstructor();
