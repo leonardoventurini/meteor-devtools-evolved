@@ -8,9 +8,11 @@
         - Connections
         - Ping-Pong
     - Count Added/Removed Items
-    - Show Content Hash
+    - Show Content Hash [x]
         - Click to Copy Full Hash
+        - Highlight Similar Logs On Hover
+    - Show Content Size [x]
     - Star Messages
-    - Clear DDP Messages
-    - Crunch Statistics Data
+    - Clear DDP Messages [x]
+    - Crunch Statistics Data✅✅✅✅✅
 - Minimongo
