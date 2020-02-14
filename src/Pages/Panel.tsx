@@ -2,10 +2,12 @@ import React, { FunctionComponent, useState } from 'react';
 import { Icon, Navbar, Tab, Tabs } from '@blueprintjs/core';
 import { setupBridge } from '../Bridge';
 import { DDP } from './Panel/DDP';
-import { Minimongo } from './Panel/Minimongo';
 import { PanelStore, PanelStoreConstructor } from '../Stores/PanelStore';
 import { inject, observer, Provider } from 'mobx-react';
 import { flow } from 'lodash/fp';
+import { Hideable } from '../Utils/Hideable';
+import { defer } from 'lodash';
+import { scrollToBottom } from '../Utils';
 
 interface Props {
   panelStore?: PanelStoreConstructor;
@@ -25,18 +27,21 @@ const PanelObserver: FunctionComponent<Props> = flow(
 
   const renderTab = (tabId: string) => {
     if (panelStore) {
-      switch (tabId) {
-        case 'ddp':
-          return <DDP />;
-        case 'minimongo':
-          return <Minimongo />;
-        default:
-          return <DDP />;
-      }
-    }
+      return (
+        <>
+          <Hideable isHidden={tabId === 'ddp' || true}>
+            <DDP />
+          </Hideable>
 
-    return null;
+          <Hideable isHidden={tabId === 'minimongo'}>
+            <DDP />
+          </Hideable>
+        </>
+      );
+    }
   };
+
+  defer(scrollToBottom);
 
   return (
     <div className='mde-layout'>

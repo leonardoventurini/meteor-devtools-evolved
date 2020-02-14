@@ -5,6 +5,7 @@ import { flow } from 'lodash/fp';
 import { inject, observer } from 'mobx-react';
 import { DDPMessage } from './DDP/DDPMessage';
 import { Tag } from '@blueprintjs/core';
+import { scrollToBottom } from '../../Utils';
 
 interface Props {
   panelStore?: PanelStoreConstructor;
@@ -18,7 +19,7 @@ export const DDP: FunctionComponent<Props> = flow(
     <DDPMessage store={panelStore} message={message} key={message.timestamp} />
   ));
 
-  defer(() => window.scrollTo(0, document.body.scrollHeight));
+  defer(scrollToBottom);
 
   return (
     <>
