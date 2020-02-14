@@ -48,10 +48,12 @@ export const DDPMessage: FunctionComponent<Props> = flow(
     'mde-ddp__log-row--new': timestamp && store.newDdpLogs.includes(timestamp),
   });
 
+  const size = new Blob([content]).size;
+
   return (
     <div className={classes}>
       <div className='time'>
-        <Tag minimal>{time(timestamp)}</Tag>
+        <small>{time(timestamp)}</small>
       </div>
       <div className='direction'>{direction(isOutbound, isInbound)}</div>
       <div className='content'>
@@ -62,11 +64,16 @@ export const DDPMessage: FunctionComponent<Props> = flow(
             store.setActiveLog(message);
           }}
         >
-          <code>{preview(content)}</code>
+          <small>
+            <code>{preview(content)}</code>
+          </small>
         </Tag>
       </div>
       <div className='interactions'>
         <Icon icon='star-empty' />
+      </div>
+      <div className='size'>
+        <Tag minimal>{size} B</Tag>
       </div>
       <div className='hash'>
         <Tag minimal>{hash?.slice(0, 6)}</Tag>
