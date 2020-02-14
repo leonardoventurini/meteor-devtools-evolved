@@ -23,6 +23,7 @@ export const Navigation: FunctionComponent<Props> = ({
         defaultSelectedTabId={defaultSelectedTabId}
         selectedTabId={selectedTabId}
         onChange={(newTabId: string) => setSelectedTabId(newTabId)}
+        large
       >
         <Tab id='ddp' title='DDP' />
         <Tab id='minimongo' title='Minimongo' />
