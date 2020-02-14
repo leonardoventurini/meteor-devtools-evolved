@@ -1,10 +1,16 @@
-const connections = {};
+interface Connection {
+  [key: string]: chrome.runtime.Port;
+}
+
+const connections: Connection = {};
 
 const panelListener = () => {
   chrome.runtime.onConnect.addListener(function(port) {
     port.onMessage.addListener(function(request) {
       if (request.name === 'init') {
         connections[request.tabId] = port;
+
+        console.log(request);
 
         port.onDisconnect.addListener(function() {
           delete connections[request.tabId];
@@ -24,7 +30,7 @@ const tabRemovalListener = () => {
 
 const contentListener = () => {
   chrome.runtime.onMessage.addListener(function(request, sender, sendResponse) {
-    if (sender.tab) {
+    if (sender.tab && sender.tab.id) {
       const tabId = sender.tab.id;
 
       if (tabId in connections) {

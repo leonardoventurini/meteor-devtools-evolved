@@ -19,13 +19,13 @@
   },
 
   "background" : {
-    "scripts": ["scripts/background.js"],
+    "scripts": ["build/background.js"],
     "persistent": false
   },
 
   "content_scripts": [{
     "matches": ["<all_urls>"],
-    "js": ["scripts/content.js"],
+    "js": ["build/content.js"],
     "run_at": "document_end",
     "all_frames": true
   }],
