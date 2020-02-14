@@ -1,14 +1,14 @@
 import React, { FunctionComponent, useRef, useState } from 'react';
-import { Icon, Navbar, Tab, Tabs } from '@blueprintjs/core';
 import { setupBridge } from '../Bridge';
-import { DDP } from './Panel/DDP';
+import { DDP } from './Panel/DDP/DDP';
 import { PanelStore, PanelStoreConstructor } from '../Stores/PanelStore';
 import { inject, observer, Provider } from 'mobx-react';
 import { flow } from 'lodash/fp';
 import { Hideable } from '../Utils/Hideable';
 import { defer } from 'lodash';
 import { scrollToBottom } from '../Utils';
-import { Minimongo } from './Panel/Minimongo';
+import { Minimongo } from './Panel/Minimongo/Minimongo';
+import { Navigation } from './Panel/Navigation';
 
 interface Props {
   panelStore?: PanelStoreConstructor;
@@ -48,41 +48,16 @@ const PanelObserver: FunctionComponent<Props> = flow(
 
   defer(() => scrollToBottom(panelRef));
 
+  const navigationProps = {
+    selectedTabId,
+    defaultSelectedTabId,
+    setSelectedTabId,
+  };
+
   return (
     <div className='mde-layout'>
-      <Navbar fixedToTop>
-        <Navbar.Group>
-          <Navbar.Heading>
-            <img src='icons/meteor-32.png' alt='Meteor DevTools Evolved' />
-          </Navbar.Heading>
-        </Navbar.Group>
-        <Navbar.Group>
-          <Tabs
-            defaultSelectedTabId={defaultSelectedTabId}
-            selectedTabId={selectedTabId}
-            onChange={(newTabId: string) => setSelectedTabId(newTabId)}
-          >
-            <Tab
-              id='ddp'
-              title={
-                <>
-                  <Icon icon='globe-network' />
-                  &nbsp;DDP
-                </>
-              }
-            />
-            <Tab
-              id='minimongo'
-              title={
-                <>
-                  <Icon icon='database' />
-                  &nbsp;Minimongo
-                </>
-              }
-            />
-          </Tabs>
-        </Navbar.Group>
-      </Navbar>
+      <Navigation {...navigationProps} />
+
       <div className='mde-layout__tab-panel' ref={panelRef}>
         {renderTab(selectedTabId)}
       </div>

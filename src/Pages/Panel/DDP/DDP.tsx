@@ -1,11 +1,11 @@
 import React, { FunctionComponent, RefObject } from 'react';
-import { PanelStoreConstructor } from '../../Stores/PanelStore';
+import { PanelStoreConstructor } from '../../../Stores/PanelStore';
 import { defer } from 'lodash';
 import { flow } from 'lodash/fp';
 import { inject, observer } from 'mobx-react';
-import { DDPMessage } from './DDP/DDPMessage';
+import { DDPMessage } from './DDPMessage';
 import { Button, Icon, Tag } from '@blueprintjs/core';
-import { scrollToBottom } from '../../Utils';
+import { scrollToBottom } from '../../../Utils';
 
 interface Props {
   panelRef: RefObject<HTMLDivElement>;
