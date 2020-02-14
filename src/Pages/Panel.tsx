@@ -71,7 +71,9 @@ const PanelObserver: FunctionComponent<Props> = flow(
               <JSONTree
                 data={JSON.parse(panelStore?.activeLog.content)}
                 theme={JSONTreeTheme}
+                shouldExpandNode={() => true}
                 invertTheme={false}
+                hideRoot
               />
             )}
           </div>
