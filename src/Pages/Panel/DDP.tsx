@@ -1,4 +1,4 @@
-import React, { FunctionComponent } from 'react';
+import React, { FunctionComponent, RefObject } from 'react';
 import { PanelStoreConstructor } from '../../Stores/PanelStore';
 import { defer } from 'lodash';
 import { flow } from 'lodash/fp';
@@ -8,18 +8,19 @@ import { Button, Icon, Tag } from '@blueprintjs/core';
 import { scrollToBottom } from '../../Utils';
 
 interface Props {
+  panelRef: RefObject<HTMLDivElement>;
   panelStore?: PanelStoreConstructor;
 }
 
 export const DDP: FunctionComponent<Props> = flow(
   observer,
   inject('panelStore'),
-)(({ panelStore }) => {
+)(({ panelRef, panelStore }) => {
   const logs = panelStore?.ddp.map(message => (
     <DDPMessage store={panelStore} message={message} key={message.timestamp} />
   ));
 
-  defer(scrollToBottom);
+  defer(() => scrollToBottom(panelRef));
 
   return (
     <>

@@ -1,4 +1,4 @@
-import React, { FunctionComponent, useState } from 'react';
+import React, { FunctionComponent, useRef, useState } from 'react';
 import { Icon, Navbar, Tab, Tabs } from '@blueprintjs/core';
 import { setupBridge } from '../Bridge';
 import { DDP } from './Panel/DDP';
@@ -8,6 +8,7 @@ import { flow } from 'lodash/fp';
 import { Hideable } from '../Utils/Hideable';
 import { defer } from 'lodash';
 import { scrollToBottom } from '../Utils';
+import { Minimongo } from './Panel/Minimongo';
 
 interface Props {
   panelStore?: PanelStoreConstructor;
@@ -17,6 +18,8 @@ const PanelObserver: FunctionComponent<Props> = flow(
   observer,
   inject('panelStore'),
 )(({ panelStore }) => {
+  const panelRef = useRef<HTMLDivElement>(null);
+
   setupBridge();
 
   const defaultSelectedTabId = 'ddp';
@@ -27,21 +30,23 @@ const PanelObserver: FunctionComponent<Props> = flow(
 
   const renderTab = (tabId: string) => {
     if (panelStore) {
+      console.log(tabId);
+
       return (
         <>
-          <Hideable isHidden={tabId === 'ddp' || true}>
-            <DDP />
+          <Hideable isVisible={tabId === 'ddp'}>
+            <DDP panelRef={panelRef} />
           </Hideable>
 
-          <Hideable isHidden={tabId === 'minimongo'}>
-            <DDP />
+          <Hideable isVisible={tabId === 'minimongo'}>
+            <Minimongo />
           </Hideable>
         </>
       );
     }
   };
 
-  defer(scrollToBottom);
+  defer(() => scrollToBottom(panelRef));
 
   return (
     <div className='mde-layout'>
@@ -78,7 +83,9 @@ const PanelObserver: FunctionComponent<Props> = flow(
           </Tabs>
         </Navbar.Group>
       </Navbar>
-      <div className='mde-layout__tab-panel'>{renderTab(selectedTabId)}</div>
+      <div className='mde-layout__tab-panel' ref={panelRef}>
+        {renderTab(selectedTabId)}
+      </div>
     </div>
   );
 });

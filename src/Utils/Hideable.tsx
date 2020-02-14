@@ -1,16 +1,16 @@
 import React, { FunctionComponent, HTMLProps } from 'react';
 
 interface Props {
-  isHidden: boolean;
+  isVisible: boolean;
 }
 
 export const Hideable: FunctionComponent<Props & HTMLProps<HTMLDivElement>> = ({
   children,
-  isHidden,
+  isVisible,
   ...props
 }) => {
   const styles = {
-    display: isHidden ? 'none' : undefined,
+    display: !isVisible ? 'none' : undefined,
   };
 
   return (
