@@ -5,6 +5,7 @@ export class PanelStoreConstructor {
   @observable ddpCount: number = 0;
   @observable ddp: DDPLog[] = [];
   @observable newDdpLogs: number[] = [];
+  @observable activeLog: DDPLog | null = null;
 
   @action
   pushLog(log: DDPLog) {
@@ -33,6 +34,11 @@ export class PanelStoreConstructor {
   clearLogs() {
     this.ddp = [];
     this.ddpCount = 0;
+  }
+
+  @action
+  setActiveLog(log: DDPLog | null) {
+    this.activeLog = log;
   }
 }
 

@@ -9,6 +9,9 @@ import { defer } from 'lodash';
 import { scrollToBottom } from '../Utils';
 import { Minimongo } from './Panel/Minimongo/Minimongo';
 import { Navigation } from './Panel/Navigation';
+import { Classes, Drawer } from '@blueprintjs/core';
+import JSONTree from 'react-json-tree';
+import { JSONTreeTheme } from './Panel/JSONTreeTheme';
 
 interface Props {
   panelStore?: PanelStoreConstructor;
@@ -54,6 +57,27 @@ const PanelObserver: FunctionComponent<Props> = flow(
 
   return (
     <div className='mde-layout'>
+      <Drawer
+        icon='document'
+        title='JSON'
+        isOpen={!!panelStore?.activeLog}
+        onClose={() => {
+          panelStore?.setActiveLog(null);
+        }}
+      >
+        <div className={Classes.DRAWER_BODY}>
+          <div className={Classes.DIALOG_BODY}>
+            {panelStore?.activeLog && (
+              <JSONTree
+                data={JSON.parse(panelStore?.activeLog.content)}
+                theme={JSONTreeTheme}
+                invertTheme={false}
+              />
+            )}
+          </div>
+        </div>
+      </Drawer>
+
       <Navigation {...navigationProps} />
 
       <div className='mde-layout__tab-panel' ref={panelRef}>

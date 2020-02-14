@@ -1,6 +1,5 @@
 export const JSONTreeTheme = {
-  scheme: 'google',
-  base00: 'transparent',
+  base00: '#ffffff',
   base01: '#282a2e',
   base02: '#373b41',
   base03: '#969896',
@@ -11,7 +10,7 @@ export const JSONTreeTheme = {
   base08: '#CC342B',
   base09: '#F96A38',
   base0A: '#FBA922',
-  base0B: '#CED9E0',
+  base0B: '#747e85', // String
   base0C: '#eda794',
   base0D: '#2B95D6',
   base0E: '#A36AC7',

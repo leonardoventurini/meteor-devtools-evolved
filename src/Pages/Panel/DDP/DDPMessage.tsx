@@ -1,6 +1,6 @@
 import React, { FunctionComponent } from 'react';
 import moment from 'moment';
-import { Classes, Icon, Tag } from '@blueprintjs/core';
+import { Icon, Tag } from '@blueprintjs/core';
 import classnames from 'classnames';
 import { PanelStoreConstructor } from '../../../Stores/PanelStore';
 import { flow } from 'lodash/fp';
@@ -55,7 +55,15 @@ export const DDPMessage: FunctionComponent<Props> = flow(
       </div>
       <div className='direction'>{direction(isOutbound, isInbound)}</div>
       <div className='content'>
-        <code className={Classes.CODE}>{preview(content)}</code>
+        <Tag
+          interactive
+          minimal
+          onClick={() => {
+            store.setActiveLog(message);
+          }}
+        >
+          <code>{preview(content)}</code>
+        </Tag>
       </div>
       <div className='interactions'>
         <Icon icon='star-empty' />
