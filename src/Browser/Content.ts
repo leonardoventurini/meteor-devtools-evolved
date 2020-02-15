@@ -1,11 +1,13 @@
-window.addEventListener('message', function(event) {
+const messageHandler = (event: MessageEvent) => {
   // Only accept messages from same frame
   if (event.source !== window) return;
 
-  const message = event.data;
-
   // Only accept messages that we know are ours
-  if (message.source !== 'meteor-devtools-evolved') return;
+  if (event.data.source !== 'meteor-devtools-evolved') return;
 
-  chrome.runtime.sendMessage(message);
-});
+  console.debug(event);
+
+  chrome.runtime.sendMessage(event.data);
+};
+
+window.addEventListener('message', messageHandler);
