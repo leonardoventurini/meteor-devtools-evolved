@@ -5,16 +5,12 @@ interface Connection {
 const connections: Connection = {};
 
 const panelListener = () => {
-  chrome.runtime.onConnect.addListener(function(port) {
-    port.onMessage.addListener(function(request) {
+  chrome.runtime.onConnect.addListener(port => {
+    port.onMessage.addListener(request => {
       if (request.name === 'init') {
-        if (request.tabId in connections) {
-          delete connections[request.tabId];
-        }
-
         connections[request.tabId] = port;
 
-        port.onDisconnect.addListener(function() {
+        port.onDisconnect.addListener(() => {
           delete connections[request.tabId];
         });
       }
@@ -23,7 +19,7 @@ const panelListener = () => {
 };
 
 const tabRemovalListener = () => {
-  chrome.tabs.onRemoved.addListener(function(tabId) {
+  chrome.tabs.onRemoved.addListener(tabId => {
     if (connections[tabId]) {
       delete connections[tabId];
     }
@@ -31,14 +27,14 @@ const tabRemovalListener = () => {
 };
 
 const contentListener = () => {
-  chrome.runtime.onMessage.addListener(function(request, sender, sendResponse) {
-    if (sender.tab && sender.tab.id) {
-      const tabId = sender.tab.id;
+  chrome.runtime.onMessage.addListener((request, sender, sendResponse) => {
+    const tabId = sender?.tab?.id;
 
-      if (tabId in connections) {
-        connections[tabId].postMessage(request);
-      }
+    if (tabId && tabId in connections) {
+      connections[tabId].postMessage(request);
     }
+
+    console.log(connections);
 
     return true;
   });
