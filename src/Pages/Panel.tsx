@@ -10,7 +10,6 @@ import { Navigation } from './Panel/Navigation';
 import { Classes, Drawer } from '@blueprintjs/core';
 import JSONTree from 'react-json-tree';
 import { JSONTreeTheme } from './Panel/JSONTreeTheme';
-import { tryScroll } from '../Utils';
 
 interface Props {
   panelStore?: PanelStoreConstructor;
@@ -45,8 +44,6 @@ const PanelObserver: FunctionComponent<Props> = flow(
       );
     }
   };
-
-  tryScroll(panelRef);
 
   const navigationProps = {
     selectedTabId,

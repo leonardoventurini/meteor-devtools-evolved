@@ -6,7 +6,6 @@ export class PanelStoreConstructor {
   @observable ddp: DDPLog[] = [];
   @observable newDdpLogs: number[] = [];
   @observable activeLog: DDPLog | null = null;
-  @observable canScroll: boolean = true;
 
   @action
   pushLog(log: DDPLog) {
@@ -40,11 +39,6 @@ export class PanelStoreConstructor {
   @action
   setActiveLog(log: DDPLog | null) {
     this.activeLog = log;
-  }
-
-  @action
-  setCanScroll(canScroll: boolean) {
-    this.canScroll = canScroll;
   }
 }
 

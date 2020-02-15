@@ -4,7 +4,6 @@ import { flow } from 'lodash/fp';
 import { inject, observer } from 'mobx-react';
 import { DDPMessage } from './DDPMessage';
 import { Button, Icon, Tag } from '@blueprintjs/core';
-import { tryScroll } from '../../../Utils';
 
 interface Props {
   panelRef: RefObject<HTMLDivElement>;
@@ -18,8 +17,6 @@ export const DDP: FunctionComponent<Props> = flow(
   const logs = panelStore?.ddp.map(message => (
     <DDPMessage store={panelStore} message={message} key={message.timestamp} />
   ));
-
-  tryScroll(panelRef);
 
   return (
     <>
