@@ -5,13 +5,12 @@ import { PanelStore, PanelStoreConstructor } from '../Stores/PanelStore';
 import { inject, observer, Provider } from 'mobx-react';
 import { flow } from 'lodash/fp';
 import { Hideable } from '../Utils/Hideable';
-import { defer } from 'lodash';
-import { scrollToBottom } from '../Utils';
 import { Minimongo } from './Panel/Minimongo/Minimongo';
 import { Navigation } from './Panel/Navigation';
 import { Classes, Drawer } from '@blueprintjs/core';
 import JSONTree from 'react-json-tree';
 import { JSONTreeTheme } from './Panel/JSONTreeTheme';
+import { tryScroll } from '../Utils';
 
 interface Props {
   panelStore?: PanelStoreConstructor;
@@ -47,7 +46,7 @@ const PanelObserver: FunctionComponent<Props> = flow(
     }
   };
 
-  defer(() => scrollToBottom(panelRef));
+  tryScroll(panelRef);
 
   const navigationProps = {
     selectedTabId,

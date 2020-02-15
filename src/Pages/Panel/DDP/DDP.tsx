@@ -1,11 +1,10 @@
 import React, { FunctionComponent, RefObject } from 'react';
 import { PanelStoreConstructor } from '../../../Stores/PanelStore';
-import { defer } from 'lodash';
 import { flow } from 'lodash/fp';
 import { inject, observer } from 'mobx-react';
 import { DDPMessage } from './DDPMessage';
 import { Button, Icon, Tag } from '@blueprintjs/core';
-import { scrollToBottom } from '../../../Utils';
+import { tryScroll } from '../../../Utils';
 
 interface Props {
   panelRef: RefObject<HTMLDivElement>;
@@ -20,7 +19,7 @@ export const DDP: FunctionComponent<Props> = flow(
     <DDPMessage store={panelStore} message={message} key={message.timestamp} />
   ));
 
-  defer(() => scrollToBottom(panelRef));
+  tryScroll(panelRef);
 
   return (
     <>
