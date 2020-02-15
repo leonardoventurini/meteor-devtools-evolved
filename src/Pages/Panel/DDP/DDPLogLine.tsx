@@ -13,7 +13,7 @@ interface Props {
   message: DDPLog;
 }
 
-export const DDPMessage: FunctionComponent<Props> = flow(
+export const DDPLogLine: FunctionComponent<Props> = flow(
   observer,
   inject('panelStore'),
 )(({ store, message }) => {
