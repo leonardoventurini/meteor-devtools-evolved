@@ -1,4 +1,4 @@
-import { action, observable } from 'mobx';
+import { action, observable, toJS } from 'mobx';
 import { debounce } from 'lodash';
 
 export class PanelStoreConstructor {
@@ -6,6 +6,7 @@ export class PanelStoreConstructor {
   @observable ddp: DDPLog[] = [];
   @observable newDdpLogs: number[] = [];
   @observable activeLog: DDPLog | null = null;
+  @observable activeStackTrace: StackTrace[] | null = null;
 
   @action
   pushLog(log: DDPLog) {
@@ -41,6 +42,12 @@ export class PanelStoreConstructor {
   @action
   setActiveLog(log: DDPLog | null) {
     this.activeLog = log;
+  }
+
+  @action
+  setActiveStackTrace(trace: StackTrace[] | null) {
+    console.log(toJS(trace));
+    this.activeStackTrace = trace;
   }
 }
 

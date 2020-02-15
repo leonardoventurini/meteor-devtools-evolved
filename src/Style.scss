@@ -25,6 +25,10 @@ body {
   overflow: hidden;
 }
 
+pre {
+  white-space: pre-wrap;
+}
+
 .mde-layout {
   display: flex;
   flex-direction: column;

@@ -18,7 +18,7 @@ export const DDPLog: FunctionComponent<Props> = flow(
   observer,
   inject('panelStore'),
 )(({ store, log }) => {
-  const { content, timestamp, hash } = log;
+  const { content, timestamp, trace, hash } = log;
 
   const time = (timestamp?: number) =>
     timestamp ? moment(timestamp).format('HH:mm:ss.SSS') : 'Unknown';
@@ -41,7 +41,10 @@ export const DDPLog: FunctionComponent<Props> = flow(
         <DDPLogPreview log={log} store={store} />
       </div>
       <div className='interactions'>
-        <Icon icon='eye-open' />
+        <Icon
+          icon='eye-open'
+          onClick={() => trace && store.setActiveStackTrace(trace)}
+        />
         <Icon icon='star-empty' />
       </div>
       <div className='size'>

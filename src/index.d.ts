@@ -16,9 +16,17 @@ interface Message<T> {
   source: string;
 }
 
+interface StackTrace {
+  columnNumber: number;
+  lineNumber: number;
+  source: string;
+  functionName?: string;
+  fileName?: string;
+}
+
 interface DDPLog {
   content: string;
-  trace?: object;
+  trace?: StackTrace[];
   isInbound?: boolean;
   isOutbound?: boolean;
   timestamp?: number;
