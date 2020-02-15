@@ -6,6 +6,9 @@ import { Options } from './Pages/Options';
 import { Popup } from './Pages/Popup';
 
 import './Style.scss';
+import { FocusStyleManager } from '@blueprintjs/core';
+
+FocusStyleManager.onlyShowFocusOnTabs();
 
 const panelElement = document.getElementById('panel');
 const optionsElement = document.getElementById('options');

@@ -23,6 +23,7 @@ export const Navigation: FunctionComponent<Props> = ({
         onClick={() => setSelectedTabId('ddp')}
         active={selectedTabId === 'ddp'}
         minimal
+        style={{ marginRight: 4 }}
       />
       <Button
         icon='database'
