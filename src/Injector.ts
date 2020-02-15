@@ -42,20 +42,12 @@ export const sendLogMessage = (message: DDPLog) => {
   );
 };
 
-if (!Meteor.__devtools) {
-  const readyStateCheckInterval = setInterval(function() {
-    const isMeteorDefined = typeof Meteor !== 'undefined';
+document.addEventListener('DOMContentLoaded', () => {
+  if (!Meteor.__devtools && typeof Meteor === 'object') {
+    injectInboundInterceptor(sendLogMessage);
 
-    if (document.readyState === 'complete' || isMeteorDefined) {
-      clearInterval(readyStateCheckInterval);
+    injectOutboundInterceptor(sendLogMessage);
 
-      injectInboundInterceptor(sendLogMessage);
-
-      injectOutboundInterceptor(sendLogMessage);
-
-      Meteor.__devtools = true;
-
-      console.log('Meteor DevTools Evolved: Injecting script...');
-    }
-  }, 20);
-}
+    console.log('Meteor DevTools Evolved: Injecting script...');
+  }
+});
