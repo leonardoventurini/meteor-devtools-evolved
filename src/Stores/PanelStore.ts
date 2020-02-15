@@ -27,7 +27,7 @@ export class PanelStoreConstructor {
     action(() => {
       this.newDdpLogs = [];
     }),
-    3000,
+    1000,
   );
 
   @action

@@ -78,7 +78,7 @@ body {
     transition: background-color 0.5s ease;
 
     &.mde-ddp__log-row--new {
-      background-color: lighten($background-color, 8%);
+      background-color: adjust_hue($background-color, -25%);
     }
 
     div + div {
