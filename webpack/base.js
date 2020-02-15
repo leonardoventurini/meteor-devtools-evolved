@@ -15,6 +15,13 @@ module.exports = override =>
         content: path.resolve(src, 'Browser', 'Content.ts'),
         devtools: path.resolve(src, 'Browser', 'DevTools.ts'),
       },
+
+      output: {
+        filename: '[name].js',
+        path: path.join(__dirname, '../chrome/build/'),
+        publicPath: '/build/',
+      },
+
       plugins: [new CleanWebpackPlugin()],
       module: {
         rules: [
