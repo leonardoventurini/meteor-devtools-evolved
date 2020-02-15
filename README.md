@@ -15,4 +15,7 @@
     - Star Messages
     - Clear DDP Messages [x]
     - Crunch Statistics Data✅✅✅✅✅
+    - Stack Trace Viewer
+    - JSON Content Viewer
+    - Content Search
 - Minimongo
