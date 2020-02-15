@@ -15,7 +15,7 @@ const preview = (content: string) => {
     : content;
 };
 
-export const DDPLogLinePreview: FunctionComponent<Props> = ({ log, store }) => (
+export const DDPLogPreview: FunctionComponent<Props> = ({ log, store }) => (
   <Tag
     interactive
     minimal

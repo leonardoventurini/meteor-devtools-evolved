@@ -5,7 +5,7 @@ interface Prop {
   log: DDPLog;
 }
 
-export const DDPLogLineDirection: FunctionComponent<Prop> = ({ log }) => {
+export const DDPLogDirection: FunctionComponent<Prop> = ({ log }) => {
   const { isOutbound, isInbound } = log;
 
   if (isOutbound && isInbound) {

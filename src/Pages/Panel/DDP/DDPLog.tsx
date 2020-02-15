@@ -6,15 +6,15 @@ import { PanelStoreConstructor } from '../../../Stores/PanelStore';
 import { flow } from 'lodash/fp';
 import { memoize } from 'lodash';
 import { inject, observer } from 'mobx-react';
-import { DDPLogLineDirection } from './DDPLogLineDirection';
-import { DDPLogLinePreview } from './DDPLogLinePreview';
+import { DDPLogDirection } from './DDPLogDirection';
+import { DDPLogPreview } from './DDPLogPreview';
 
 interface Props {
   store: PanelStoreConstructor;
   log: DDPLog;
 }
 
-export const DDPLogLine: FunctionComponent<Props> = flow(
+export const DDPLog: FunctionComponent<Props> = flow(
   observer,
   inject('panelStore'),
 )(({ store, log }) => {
@@ -35,10 +35,10 @@ export const DDPLogLine: FunctionComponent<Props> = flow(
         <small>{time(timestamp)}</small>
       </div>
       <div className='direction'>
-        <DDPLogLineDirection log={log} />
+        <DDPLogDirection log={log} />
       </div>
       <div className='content'>
-        <DDPLogLinePreview log={log} store={store} />
+        <DDPLogPreview log={log} store={store} />
       </div>
       <div className='interactions'>
         <Icon icon='eye-open' />

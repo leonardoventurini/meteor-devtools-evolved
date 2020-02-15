@@ -2,7 +2,7 @@ import React, { FunctionComponent } from 'react';
 import { PanelStoreConstructor } from '../../../Stores/PanelStore';
 import { flow } from 'lodash/fp';
 import { inject, observer } from 'mobx-react';
-import { DDPLogLine } from './DDPLogLine';
+import { DDPLog } from './DDPLog';
 import { Button, Classes, Icon, Tag } from '@blueprintjs/core';
 
 interface Props {
@@ -22,7 +22,7 @@ export const DDP: FunctionComponent<Props> = flow(
   inject('panelStore'),
 )(({ panelStore }) => {
   const logs = panelStore?.ddp.map(log => (
-    <DDPLogLine store={panelStore} log={log} key={log.timestamp} />
+    <DDPLog store={panelStore} log={log} key={log.timestamp} />
   ));
 
   return (
