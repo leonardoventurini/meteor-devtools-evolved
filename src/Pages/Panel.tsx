@@ -34,7 +34,7 @@ const PanelObserver: FunctionComponent<Props> = flow(
       return (
         <>
           <Hideable isVisible={tabId === 'ddp'}>
-            <DDP panelRef={panelRef} />
+            <DDP />
           </Hideable>
 
           <Hideable isVisible={tabId === 'minimongo'}>
@@ -46,8 +46,6 @@ const PanelObserver: FunctionComponent<Props> = flow(
   };
 
   const navigationProps = {
-    selectedTabId,
-    defaultSelectedTabId,
     setSelectedTabId,
   };
 

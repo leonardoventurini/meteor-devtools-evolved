@@ -1,26 +1,33 @@
-import React, { FunctionComponent, RefObject } from 'react';
+import React, { FunctionComponent } from 'react';
 import { PanelStoreConstructor } from '../../../Stores/PanelStore';
 import { flow } from 'lodash/fp';
 import { inject, observer } from 'mobx-react';
 import { DDPMessage } from './DDPMessage';
-import { Button, Icon, Tag } from '@blueprintjs/core';
+import { Button, Classes, Icon, Tag } from '@blueprintjs/core';
 
 interface Props {
-  panelRef: RefObject<HTMLDivElement>;
   panelStore?: PanelStoreConstructor;
 }
+
+const Empty: FunctionComponent = () => (
+  <div style={{ display: 'flex', justifyContent: 'center' }}>
+    <span className={Classes.TEXT_MUTED}>
+      No logs yet... <Icon icon='comment' />
+    </span>
+  </div>
+);
 
 export const DDP: FunctionComponent<Props> = flow(
   observer,
   inject('panelStore'),
-)(({ panelRef, panelStore }) => {
+)(({ panelStore }) => {
   const logs = panelStore?.ddp.map(message => (
     <DDPMessage store={panelStore} message={message} key={message.timestamp} />
   ));
 
   return (
     <>
-      <div className='mde-ddp'>{logs}</div>
+      <div className='mde-ddp'>{logs?.length ? logs : <Empty />}</div>
 
       <div className='mde-layout__status'>
         <Tag intent='primary' minimal round>
