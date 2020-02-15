@@ -101,6 +101,14 @@ body {
 
     .interactions {
       visibility: hidden;
+
+      span {
+        cursor: pointer;
+      }
+
+      span + span {
+        margin-left: 8px;
+      }
     }
 
     &:hover {

@@ -21,8 +21,8 @@ export const DDP: FunctionComponent<Props> = flow(
   observer,
   inject('panelStore'),
 )(({ panelStore }) => {
-  const logs = panelStore?.ddp.map(message => (
-    <DDPLogLine store={panelStore} message={message} key={message.timestamp} />
+  const logs = panelStore?.ddp.map(log => (
+    <DDPLogLine store={panelStore} log={log} key={log.timestamp} />
   ));
 
   return (
