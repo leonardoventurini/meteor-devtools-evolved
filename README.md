@@ -14,7 +14,7 @@
     - Show Content Size [x]
     - Star Messages
     - Clear DDP Messages [x]
-    - Crunch Statistics Data✅✅✅✅✅
+    - Crunch Statistics Data
     - Stack Trace Viewer
     - JSON Content Viewer
     - Content Search
