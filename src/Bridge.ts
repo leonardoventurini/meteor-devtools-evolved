@@ -3,6 +3,8 @@ import { extend } from 'lodash';
 import sha1 from 'simple-sha1';
 
 export const injectScript = (scriptUrl: string) => {
+  console.trace();
+
   fetch(chrome.extension.getURL(scriptUrl))
     .then(response => response.text())
     .then(text => chrome.devtools.inspectedWindow.eval(text));
@@ -35,13 +37,12 @@ export const setupBridge = () => {
 
   const INJECT_SCRIPT_PATH = '/build/inject.js';
 
-  if (!chrome || !chrome.devtools) {
-    return;
-  }
+  if (!chrome || !chrome.devtools) return;
 
   chromeSetup();
 
-  chrome.devtools.network.onNavigated.addListener(function() {
+  chrome.devtools.network.onNavigated.addListener((...args) => {
+    console.debug(args);
     injectScript(INJECT_SCRIPT_PATH);
   });
 };
