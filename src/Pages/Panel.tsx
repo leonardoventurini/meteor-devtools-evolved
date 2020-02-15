@@ -46,6 +46,7 @@ const PanelObserver: FunctionComponent<Props> = flow(
   };
 
   const navigationProps = {
+    selectedTabId,
     setSelectedTabId,
   };
 

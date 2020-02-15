@@ -13,11 +13,13 @@ export class PanelStoreConstructor {
       this.newDdpLogs.push(log.timestamp);
     }
 
-    ++this.ddpCount;
     this.ddp.push(log);
 
-    if (this.ddpCount > 100) {
+    // Maximum number of items.
+    if (this.ddpCount + 1 > 1000) {
       this.ddp.shift();
+    } else {
+      ++this.ddpCount;
     }
 
     this.clearNewLogs();
