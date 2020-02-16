@@ -270,6 +270,8 @@ export class CRC32 {
     for (let i = 0; i < dataView.length; ++i) {
       this.crc = (this.crc >>> 8) ^ Lookup[(this.crc ^ dataView[i]) & 0xff];
     }
+
+    return this;
   }
 
   digest(radix: number = 16) {
