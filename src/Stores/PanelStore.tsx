@@ -5,12 +5,14 @@ import { PanelDatabase } from '../Database/PanelDatabase';
 
 export class PanelStoreConstructor {
   @observable ddpCount: number = 0;
-  @observable ddp: DDPLog[] = [];
-  @observable newDdpLogs: string[] = [];
+  @observable.shallow ddp: DDPLog[] = [];
+  @observable.shallow newDdpLogs: string[] = [];
+
   @observable activeLog: DDPLog | null = null;
-  @observable activeStackTrace: StackTrace[] | null = null;
-  @observable bookmarks: Bookmark[] = [];
-  @observable bookmarkIds: (string | undefined)[] = [];
+  @observable.shallow activeStackTrace: StackTrace[] | null = null;
+
+  @observable.shallow bookmarks: Bookmark[] = [];
+  @observable.shallow bookmarkIds: (string | undefined)[] = [];
 
   constructor() {
     this.syncBookmarks().catch(console.error);
@@ -18,9 +20,9 @@ export class PanelStoreConstructor {
 
   @action
   pushLog(log: DDPLog) {
-    if (log.timestamp) {
-      this.newDdpLogs.push(log.id);
-    }
+    this.newDdpLogs.push(log.id);
+
+    console.log(log);
 
     this.ddp.push(log);
 
