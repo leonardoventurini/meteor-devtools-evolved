@@ -1,6 +1,6 @@
 import React, { FunctionComponent } from 'react';
 import moment from 'moment';
-import { Icon, Tag } from '@blueprintjs/core';
+import { Icon, Tag, Tooltip } from '@blueprintjs/core';
 import classnames from 'classnames';
 import { usePanelStore } from '../../../Stores/PanelStore';
 import { memoize } from 'lodash';
@@ -40,20 +40,31 @@ export const DDPLog: FunctionComponent<Props> = observer(({ log }) => {
       <div className='content'>
         <DDPLogPreview log={log} store={store} />
       </div>
-      <div className='interactions'>
-        <Icon
-          icon='eye-open'
-          onClick={() => trace && store.setActiveStackTrace(trace)}
-        />
-        {timestamp && store.bookmarkIds.includes(timestamp) ? (
-          <Icon icon='star' onClick={() => store.removeBookmark(log)} />
-        ) : (
-          <Icon icon='star-empty' onClick={() => store.addBookmark(log)} />
-        )}
-      </div>
+
       <div className='size'>
         <Tag minimal>{size(content)}</Tag>
       </div>
+
+      <div className='interactions'>
+        <Tooltip
+          content='View Stack Trace'
+          hoverOpenDelay={1000}
+          position='top'
+        >
+          <Icon
+            icon='eye-open'
+            onClick={() => trace && store.setActiveStackTrace(trace)}
+          />
+        </Tooltip>
+        <Tooltip content='Star & Keep' hoverOpenDelay={1000} position='top'>
+          {timestamp && store.bookmarkIds.includes(timestamp) ? (
+            <Icon icon='star' onClick={() => store.removeBookmark(log)} />
+          ) : (
+            <Icon icon='star-empty' onClick={() => store.addBookmark(log)} />
+          )}
+        </Tooltip>
+      </div>
+
       <div className='hash'>
         <Tag minimal>{hash?.slice(0, 6)}</Tag>
       </div>
