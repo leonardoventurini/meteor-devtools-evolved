@@ -1,5 +1,5 @@
 import { PanelStore } from './Stores/PanelStore';
-import { extend, memoize } from 'lodash';
+import { memoize, padStart } from 'lodash';
 import prettyBytes from 'pretty-bytes';
 import moment from 'moment';
 import { CRC32 } from './Utils/CRC32';
@@ -12,6 +12,10 @@ const injectScript = (scriptUrl: string) => {
 
 const getSize = memoize((content: string) => new Blob([content]).size);
 
+const getHash = memoize((content: string) =>
+  padStart(new CRC32().update(content).digest(), 8, '0'),
+);
+
 const chromeSetup = () => {
   const backgroundConnection = chrome.runtime.connect({
     name: 'panel',
@@ -23,22 +27,18 @@ const chromeSetup = () => {
   });
 
   backgroundConnection.onMessage.addListener((message: Message<DDPLog>) => {
-    const startTime = performance.now();
-
     const size = getSize(message.data.content);
+    const hash = getHash(message.data.content);
 
-    const crc32 = new CRC32();
-
-    crc32.update(message.data.content);
-
-    const hash = crc32.digest();
-
-    const data = extend(message.data, {
+    const data = {
+      ...message.data,
       timestampPretty: moment(message.data.timestamp).format('HH:mm:ss.SSS'),
       size,
       sizePretty: prettyBytes(size),
       hash,
-    });
+    };
+
+    const startTime = performance.now();
 
     PanelStore.pushLog(data);
 
@@ -46,7 +46,6 @@ const chromeSetup = () => {
       'Message Processing Time:',
       (performance.now() - startTime).toFixed(3),
       'ms',
-      hash,
     );
   });
 };
