@@ -7,6 +7,7 @@ import { memoize } from 'lodash';
 import { DDPLogDirection } from './DDPLogDirection';
 import { DDPLogPreview } from './DDPLogPreview';
 import { observer } from 'mobx-react-lite';
+import prettyBytes from 'pretty-bytes';
 
 interface Props {
   log: DDPLog;
@@ -24,7 +25,9 @@ export const DDPLog: FunctionComponent<Props> = observer(({ log }) => {
     'mde-ddp__log-row--new': timestamp && store.newDdpLogs.includes(timestamp),
   });
 
-  const size = memoize((content: string) => new Blob([content]).size);
+  const size = memoize((content: string) =>
+    prettyBytes(new Blob([content]).size),
+  );
 
   return (
     <div className={classes}>
@@ -42,14 +45,14 @@ export const DDPLog: FunctionComponent<Props> = observer(({ log }) => {
           icon='eye-open'
           onClick={() => trace && store.setActiveStackTrace(trace)}
         />
-        {store.bookmarkIds.includes(timestamp) ? (
+        {timestamp && store.bookmarkIds.includes(timestamp) ? (
           <Icon icon='star' onClick={() => store.removeBookmark(log)} />
         ) : (
           <Icon icon='star-empty' onClick={() => store.addBookmark(log)} />
         )}
       </div>
       <div className='size'>
-        <Tag minimal>{size(content)} B</Tag>
+        <Tag minimal>{size(content)}</Tag>
       </div>
       <div className='hash'>
         <Tag minimal>{hash?.slice(0, 6)}</Tag>
