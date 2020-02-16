@@ -13,10 +13,10 @@ interface Props {
 export const DDPLog: FunctionComponent<Props> = observer(({ log }) => {
   const store = usePanelStore();
 
-  const { timestamp, trace, hash } = log;
+  const { trace, hash } = log;
 
   const classes = classnames('mde-ddp__log-row', {
-    'mde-ddp__log-row--new': timestamp && store.newDdpLogs.includes(timestamp),
+    'mde-ddp__log-row--new': store.newDdpLogs.includes(log.id),
   });
 
   return (
@@ -47,7 +47,7 @@ export const DDPLog: FunctionComponent<Props> = observer(({ log }) => {
           />
         </Tooltip>
         <Tooltip content='Star & Keep' hoverOpenDelay={1000} position='top'>
-          {timestamp && store.bookmarkIds.includes(log.id) ? (
+          {store.bookmarkIds.includes(log.id) ? (
             <Icon icon='star' onClick={() => store.removeBookmark(log)} />
           ) : (
             <Icon icon='star-empty' onClick={() => store.addBookmark(log)} />

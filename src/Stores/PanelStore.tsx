@@ -2,12 +2,11 @@ import React, { createContext, FunctionComponent } from 'react';
 import { action, observable, toJS } from 'mobx';
 import { debounce } from 'lodash';
 import { PanelDatabase } from '../Database/PanelDatabase';
-import { useLocalStore } from 'mobx-react-lite';
 
 export class PanelStoreConstructor {
   @observable ddpCount: number = 0;
   @observable ddp: DDPLog[] = [];
-  @observable newDdpLogs: number[] = [];
+  @observable newDdpLogs: string[] = [];
   @observable activeLog: DDPLog | null = null;
   @observable activeStackTrace: StackTrace[] | null = null;
   @observable bookmarks: Bookmark[] = [];
@@ -20,7 +19,7 @@ export class PanelStoreConstructor {
   @action
   pushLog(log: DDPLog) {
     if (log.timestamp) {
-      this.newDdpLogs.push(log.timestamp);
+      this.newDdpLogs.push(log.id);
     }
 
     this.ddp.push(log);
@@ -90,21 +89,17 @@ export const PanelStore = new PanelStoreConstructor();
 
 const PanelStoreContext = createContext<PanelStoreConstructor | null>(null);
 
-export const PanelStoreProvider: FunctionComponent = ({ children }) => {
-  const store = useLocalStore(() => PanelStore);
-
-  return (
-    <PanelStoreContext.Provider value={store}>
-      {children}
-    </PanelStoreContext.Provider>
-  );
-};
+export const PanelStoreProvider: FunctionComponent = ({ children }) => (
+  <PanelStoreContext.Provider value={PanelStore}>
+    {children}
+  </PanelStoreContext.Provider>
+);
 
 export const usePanelStore = () => {
   const store = React.useContext(PanelStoreContext);
 
   if (!store) {
-    throw new Error('useStore must be used within a StoreProvider.');
+    throw new Error('Must be used within a provider.');
   }
 
   return store;
