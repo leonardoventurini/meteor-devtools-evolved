@@ -12,7 +12,12 @@ interface Props {
   store: PanelStoreConstructor;
 }
 
-export const DDPLog: FunctionComponent<Props> = ({ log, isNew, isStarred, store }) => {
+export const DDPLog: FunctionComponent<Props> = ({
+  log,
+  isNew,
+  isStarred,
+  store,
+}) => {
   const { trace, hash } = log;
 
   const classes = classnames('mde-ddp__log-row', {
