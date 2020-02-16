@@ -1,9 +1,9 @@
 import React, { FunctionComponent } from 'react';
-import { usePanelStore } from '../../../Stores/PanelStore';
 import { DDPLog } from './DDPLog';
 import { Button, Classes, Icon, Tag } from '@blueprintjs/core';
 import { observer } from 'mobx-react-lite';
 import { Hideable } from '../../../Utils/Hideable';
+import { usePanelStore } from '../../../Stores/PanelStore';
 
 const Empty: FunctionComponent = () => (
   <div style={{ display: 'flex', justifyContent: 'center' }}>
@@ -18,9 +18,16 @@ interface Props {
 }
 
 export const DDP: FunctionComponent<Props> = observer(({ isVisible }) => {
-  const panelStore = usePanelStore();
+  const store = usePanelStore();
 
-  const logs = panelStore?.ddp.map(log => <DDPLog log={log} key={log.id} />);
+  const logs = store?.ddp.map(log => (
+    <DDPLog
+      key={log.id}
+      store={store}
+      log={log}
+      isNew={store.newDdpLogs.includes(log.id)}
+    />
+  ));
 
   return (
     <Hideable isVisible={isVisible}>
@@ -28,7 +35,7 @@ export const DDP: FunctionComponent<Props> = observer(({ isVisible }) => {
 
       <div className='mde-layout__status'>
         <Tag intent='primary' minimal round>
-          {panelStore?.ddpCount}
+          {store?.ddpCount}
         </Tag>
 
         <Button
@@ -36,7 +43,7 @@ export const DDP: FunctionComponent<Props> = observer(({ isVisible }) => {
           minimal
           style={{ marginLeft: 10 }}
           onClick={() => {
-            panelStore?.clearLogs();
+            store?.clearLogs();
           }}
         >
           <Icon icon='disable' />

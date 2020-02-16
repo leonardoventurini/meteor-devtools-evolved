@@ -1,22 +1,21 @@
 import React, { FunctionComponent } from 'react';
 import { Icon, Tag, Tooltip } from '@blueprintjs/core';
 import classnames from 'classnames';
-import { usePanelStore } from '../../../Stores/PanelStore';
+import { PanelStoreConstructor } from '../../../Stores/PanelStore';
 import { DDPLogDirection } from './DDPLogDirection';
 import { DDPLogPreview } from './DDPLogPreview';
-import { observer } from 'mobx-react-lite';
 
 interface Props {
   log: DDPLog;
+  isNew: boolean;
+  store: PanelStoreConstructor;
 }
 
-export const DDPLog: FunctionComponent<Props> = observer(({ log }) => {
-  const store = usePanelStore();
-
+export const DDPLog: FunctionComponent<Props> = ({ log, isNew, store }) => {
   const { trace, hash } = log;
 
   const classes = classnames('mde-ddp__log-row', {
-    'mde-ddp__log-row--new': store.newDdpLogs.includes(log.id),
+    'mde-ddp__log-row--new': isNew,
   });
 
   return (
@@ -36,17 +35,13 @@ export const DDPLog: FunctionComponent<Props> = observer(({ log }) => {
       </div>
 
       <div className='interactions'>
-        <Tooltip
-          content='View Stack Trace'
-          hoverOpenDelay={1000}
-          position='top'
-        >
+        <Tooltip content='View Stack Trace' hoverOpenDelay={800} position='top'>
           <Icon
             icon='eye-open'
             onClick={() => trace && store.setActiveStackTrace(trace)}
           />
         </Tooltip>
-        <Tooltip content='Star & Keep' hoverOpenDelay={1000} position='top'>
+        <Tooltip content='Star & Keep' hoverOpenDelay={800} position='top'>
           {store.bookmarkIds.includes(log.id) ? (
             <Icon icon='star' onClick={() => store.removeBookmark(log)} />
           ) : (
@@ -56,10 +51,10 @@ export const DDPLog: FunctionComponent<Props> = observer(({ log }) => {
       </div>
 
       <div className='hash'>
-        <Tooltip content='CRC32'>
+        <Tooltip content='CRC32' hoverOpenDelay={800} position='top'>
           <Tag minimal>{hash}</Tag>
         </Tooltip>
       </div>
     </div>
   );
-});
+};
