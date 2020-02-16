@@ -1,3 +1,7 @@
+interface Window {
+  __devtools: boolean;
+}
+
 declare module Meteor {
   let __devtools: boolean;
   const connection: any;
