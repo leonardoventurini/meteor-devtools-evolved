@@ -20,15 +20,21 @@ interface Props {
 export const DDP: FunctionComponent<Props> = observer(({ isVisible }) => {
   const store = usePanelStore();
 
-  const logs = store?.ddp.map(log => (
-    <DDPLog
-      key={log.id}
-      store={store}
-      log={log}
-      isNew={store.newDdpLogs.includes(log.id)}
-      isStarred={store.bookmarkIds.includes(log.id)}
-    />
-  ));
+  const logs = store?.ddp
+    .filter(log => {
+      const msg = log?.content?.match(/"msg":"(\w+)"/);
+
+      return !msg || !store.activeFilterBlacklist.includes(msg[1]);
+    })
+    .map(log => (
+      <DDPLog
+        key={log.id}
+        store={store}
+        log={log}
+        isNew={store.newDdpLogs.includes(log.id)}
+        isStarred={store.bookmarkIds.includes(log.id)}
+      />
+    ));
 
   return (
     <Hideable isVisible={isVisible}>
