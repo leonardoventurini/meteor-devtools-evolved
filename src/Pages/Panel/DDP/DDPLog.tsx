@@ -56,7 +56,9 @@ export const DDPLog: FunctionComponent<Props> = observer(({ log }) => {
       </div>
 
       <div className='hash'>
-        <Tag minimal>{hash?.slice(0, 6)}</Tag>
+        <Tooltip content='CRC32'>
+          <Tag minimal>{hash}</Tag>
+        </Tooltip>
       </div>
     </div>
   );

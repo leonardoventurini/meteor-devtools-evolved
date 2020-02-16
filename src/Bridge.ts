@@ -1,8 +1,8 @@
 import { PanelStore } from './Stores/PanelStore';
 import { extend, memoize } from 'lodash';
-import sha1 from 'simple-sha1';
 import prettyBytes from 'pretty-bytes';
 import moment from 'moment';
+import { CRC32 } from './Utils/CRC32';
 
 const injectScript = (scriptUrl: string) => {
   fetch(chrome.extension.getURL(scriptUrl))
@@ -23,18 +23,31 @@ const chromeSetup = () => {
   });
 
   backgroundConnection.onMessage.addListener((message: Message<DDPLog>) => {
+    const startTime = performance.now();
+
     const size = getSize(message.data.content);
 
-    sha1(message.data.content, hash => {
-      const data = extend(message.data, {
-        timestampPretty: moment(message.data.timestamp).format('HH:mm:ss.SSS'),
-        size,
-        sizePretty: prettyBytes(size),
-        hash,
-      });
+    const crc32 = new CRC32();
 
-      PanelStore.pushLog(data);
+    crc32.update(message.data.content);
+
+    const hash = crc32.digest();
+
+    const data = extend(message.data, {
+      timestampPretty: moment(message.data.timestamp).format('HH:mm:ss.SSS'),
+      size,
+      sizePretty: prettyBytes(size),
+      hash,
     });
+
+    PanelStore.pushLog(data);
+
+    console.info(
+      'Message Processing Time:',
+      (performance.now() - startTime).toFixed(3),
+      'ms',
+      hash,
+    );
   });
 };
 

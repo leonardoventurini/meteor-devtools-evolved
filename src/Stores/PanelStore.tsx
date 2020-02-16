@@ -1,5 +1,5 @@
 import React, { createContext, FunctionComponent } from 'react';
-import { action, observable, toJS } from 'mobx';
+import { action, observable } from 'mobx';
 import { debounce } from 'lodash';
 import { PanelDatabase } from '../Database/PanelDatabase';
 
@@ -34,12 +34,9 @@ export class PanelStoreConstructor {
     this.clearNewLogs();
   }
 
-  clearNewLogs = debounce(
-    action(() => {
-      this.newDdpLogs = [];
-    }),
-    1000,
-  );
+  clearNewLogs = debounce(() => {
+    this.newDdpLogs = [];
+  }, 1000);
 
   @action
   clearLogs() {
@@ -54,7 +51,6 @@ export class PanelStoreConstructor {
 
   @action
   setActiveStackTrace(trace: StackTrace[] | null) {
-    console.log(toJS(trace));
     this.activeStackTrace = trace;
   }
 

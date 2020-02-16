@@ -5,8 +5,6 @@ const messageHandler = (event: MessageEvent) => {
   // Only accept messages that we know are ours
   if (event.data.source !== 'meteor-devtools-evolved') return;
 
-  console.debug(event);
-
   chrome.runtime.sendMessage(event.data);
 };
 
