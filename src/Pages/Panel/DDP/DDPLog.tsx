@@ -2,22 +2,19 @@ import React, { FunctionComponent } from 'react';
 import moment from 'moment';
 import { Icon, Tag } from '@blueprintjs/core';
 import classnames from 'classnames';
-import { PanelStoreConstructor } from '../../../Stores/PanelStore';
-import { flow } from 'lodash/fp';
+import { usePanelStore } from '../../../Stores/PanelStore';
 import { memoize } from 'lodash';
-import { inject, observer } from 'mobx-react';
 import { DDPLogDirection } from './DDPLogDirection';
 import { DDPLogPreview } from './DDPLogPreview';
+import { observer } from 'mobx-react-lite';
 
 interface Props {
-  store: PanelStoreConstructor;
   log: DDPLog;
 }
 
-export const DDPLog: FunctionComponent<Props> = flow(
-  observer,
-  inject('panelStore'),
-)(({ store, log }) => {
+export const DDPLog: FunctionComponent<Props> = observer(({ log }) => {
+  const store = usePanelStore();
+
   const { content, timestamp, trace, hash } = log;
 
   const time = (timestamp?: number) =>

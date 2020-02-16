@@ -1,25 +1,19 @@
 import React, { FunctionComponent, useRef, useState } from 'react';
 import { setupBridge } from '../Bridge';
 import { DDP } from './Panel/DDP/DDP';
-import { PanelStore, PanelStoreConstructor } from '../Stores/PanelStore';
-import { inject, observer, Provider } from 'mobx-react';
-import { flow } from 'lodash/fp';
+import { PanelStoreProvider, usePanelStore } from '../Stores/PanelStore';
 import { Hideable } from '../Utils/Hideable';
 import { Minimongo } from './Panel/Minimongo/Minimongo';
 import { Navigation } from './Panel/Navigation';
-import { Classes, Drawer } from '@blueprintjs/core';
-import JSONTree from 'react-json-tree';
-import { JSONTreeTheme } from './Panel/JSONTreeTheme';
+import { DrawerStackTrace } from './Panel/DrawerStackTrace';
+import { DrawerLogJSON } from './Panel/DrawerLogJSON';
+import { observer } from 'mobx-react-lite';
 
-interface Props {
-  panelStore?: PanelStoreConstructor;
-}
+interface Props {}
 
-const PanelObserver: FunctionComponent<Props> = flow(
-  observer,
-  inject('panelStore'),
-)(({ panelStore }) => {
+const PanelObserverComponent: FunctionComponent<Props> = observer(() => {
   const panelRef = useRef<HTMLDivElement>(null);
+  const panelStore = usePanelStore();
 
   setupBridge();
 
@@ -52,73 +46,9 @@ const PanelObserver: FunctionComponent<Props> = flow(
 
   return (
     <div className='mde-layout'>
-      <Drawer
-        icon='document'
-        title='JSON'
-        isOpen={!!panelStore?.activeLog}
-        onClose={() => {
-          panelStore?.setActiveLog(null);
-        }}
-      >
-        <div className={Classes.DRAWER_BODY}>
-          <div className={Classes.DIALOG_BODY}>
-            {panelStore?.activeLog && (
-              <JSONTree
-                data={JSON.parse(panelStore?.activeLog.content)}
-                theme={JSONTreeTheme}
-                shouldExpandNode={() => true}
-                invertTheme={false}
-                hideRoot
-              />
-            )}
-          </div>
-        </div>
-      </Drawer>
+      <DrawerLogJSON />
 
-      <Drawer
-        icon='document'
-        title='Stack Trace'
-        isOpen={!!panelStore?.activeStackTrace}
-        onClose={() => {
-          panelStore?.setActiveStackTrace(null);
-        }}
-      >
-        <div className={Classes.DRAWER_BODY}>
-          <div className={Classes.DIALOG_BODY}>
-            {panelStore?.activeStackTrace?.map(
-              (stack: StackTrace, index: number) => {
-                const text = (
-                  <div>
-                    <em>{stack?.functionName?.trim() ?? 'Anonymous'}</em>
-                    {'@'}
-                    <span>
-                      {stack?.columnNumber && stack?.columnNumber}
-                      {stack?.columnNumber && stack?.lineNumber ? ':' : null}
-                      {stack?.lineNumber && stack?.lineNumber}
-                    </span>
-                  </div>
-                );
-
-                return (
-                  <pre key={index} style={{ marginBottom: 6 }}>
-                    {stack?.fileName ? (
-                      <a
-                        href={stack.fileName.trim()}
-                        target='_blank'
-                        rel='noopener noreferrer'
-                      >
-                        {text}
-                      </a>
-                    ) : (
-                      text
-                    )}
-                  </pre>
-                );
-              },
-            )}
-          </div>
-        </div>
-      </Drawer>
+      <DrawerStackTrace />
 
       <Navigation {...navigationProps} />
 
@@ -130,7 +60,7 @@ const PanelObserver: FunctionComponent<Props> = flow(
 });
 
 export const Panel = () => (
-  <Provider panelStore={PanelStore}>
-    <PanelObserver />
-  </Provider>
+  <PanelStoreProvider>
+    <PanelObserverComponent />
+  </PanelStoreProvider>
 );

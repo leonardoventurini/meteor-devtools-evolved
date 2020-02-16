@@ -1,13 +1,8 @@
 import React, { FunctionComponent } from 'react';
-import { PanelStoreConstructor } from '../../../Stores/PanelStore';
-import { flow } from 'lodash/fp';
-import { inject, observer } from 'mobx-react';
+import { usePanelStore } from '../../../Stores/PanelStore';
 import { DDPLog } from './DDPLog';
 import { Button, Classes, Icon, Tag } from '@blueprintjs/core';
-
-interface Props {
-  panelStore?: PanelStoreConstructor;
-}
+import { observer } from 'mobx-react-lite';
 
 const Empty: FunctionComponent = () => (
   <div style={{ display: 'flex', justifyContent: 'center' }}>
@@ -17,12 +12,11 @@ const Empty: FunctionComponent = () => (
   </div>
 );
 
-export const DDP: FunctionComponent<Props> = flow(
-  observer,
-  inject('panelStore'),
-)(({ panelStore }) => {
+export const DDP: FunctionComponent = observer(() => {
+  const panelStore = usePanelStore();
+
   const logs = panelStore?.ddp.map(log => (
-    <DDPLog store={panelStore} log={log} key={log.timestamp} />
+    <DDPLog log={log} key={log.timestamp} />
   ));
 
   return (

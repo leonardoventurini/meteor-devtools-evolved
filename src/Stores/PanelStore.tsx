@@ -1,6 +1,8 @@
+import React, { createContext, FunctionComponent } from 'react';
 import { action, computed, observable, toJS } from 'mobx';
 import { debounce } from 'lodash';
 import { PanelDatabase } from '../Database/PanelDatabase';
+import { useLocalStore } from 'mobx-react-lite';
 
 export class PanelStoreConstructor {
   @observable ddpCount: number = 0;
@@ -86,3 +88,25 @@ export class PanelStoreConstructor {
 }
 
 export const PanelStore = new PanelStoreConstructor();
+
+const PanelStoreContext = createContext<PanelStoreConstructor | null>(null);
+
+export const PanelStoreProvider: FunctionComponent = ({ children }) => {
+  const store = useLocalStore(() => PanelStore);
+
+  return (
+    <PanelStoreContext.Provider value={store}>
+      {children}
+    </PanelStoreContext.Provider>
+  );
+};
+
+export const usePanelStore = () => {
+  const store = React.useContext(PanelStoreContext);
+
+  if (!store) {
+    throw new Error('useStore must be used within a StoreProvider.');
+  }
+
+  return store;
+};

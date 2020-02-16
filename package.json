@@ -69,7 +69,7 @@
     "immutable": "^4.0.0-rc.12",
     "js-stylesheet": "0.0.1",
     "lodash": "^4.17.15",
-    "mobx-react": "^6.1.7",
+    "mobx-react-lite": "^1.5.2",
     "moment": "^2.24.0",
     "node-sass": "^4.13.1",
     "object-assign": "^4.0.1",
