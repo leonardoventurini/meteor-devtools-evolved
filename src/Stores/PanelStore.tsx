@@ -1,5 +1,5 @@
 import React, { createContext, FunctionComponent } from 'react';
-import { action, computed, observable, toJS } from 'mobx';
+import { action, observable, toJS } from 'mobx';
 import { debounce } from 'lodash';
 import { PanelDatabase } from '../Database/PanelDatabase';
 import { useLocalStore } from 'mobx-react-lite';
@@ -11,10 +11,7 @@ export class PanelStoreConstructor {
   @observable activeLog: DDPLog | null = null;
   @observable activeStackTrace: StackTrace[] | null = null;
   @observable bookmarks: Bookmark[] = [];
-
-  @computed get bookmarkIds() {
-    return this.bookmarks.map((bookmark: Bookmark) => bookmark.log.timestamp);
-  }
+  @observable bookmarkIds: number[] = [];
 
   constructor() {
     this.syncBookmarks().catch(console.error);
@@ -70,6 +67,7 @@ export class PanelStoreConstructor {
 
     if (bookmark) {
       this.bookmarks.push(bookmark);
+      this.bookmarkIds.push(bookmark.log.timestamp ?? 0);
     }
   }
 
@@ -84,6 +82,9 @@ export class PanelStoreConstructor {
   @action
   async syncBookmarks() {
     this.bookmarks = await PanelDatabase.getBookmarks();
+    this.bookmarkIds = this.bookmarks.map(
+      (bookmark: Bookmark) => bookmark.log.timestamp ?? 0,
+    );
   }
 }
 
