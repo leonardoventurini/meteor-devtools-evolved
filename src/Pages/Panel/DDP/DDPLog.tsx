@@ -47,7 +47,7 @@ export const DDPLog: FunctionComponent<Props> = observer(({ log }) => {
           />
         </Tooltip>
         <Tooltip content='Star & Keep' hoverOpenDelay={1000} position='top'>
-          {timestamp && store.bookmarkIds.includes(timestamp) ? (
+          {timestamp && store.bookmarkIds.includes(log.id) ? (
             <Icon icon='star' onClick={() => store.removeBookmark(log)} />
           ) : (
             <Icon icon='star-empty' onClick={() => store.addBookmark(log)} />

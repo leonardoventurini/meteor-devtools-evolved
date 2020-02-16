@@ -20,9 +20,7 @@ interface Props {
 export const DDP: FunctionComponent<Props> = observer(({ isVisible }) => {
   const panelStore = usePanelStore();
 
-  const logs = panelStore?.ddp.map(log => (
-    <DDPLog log={log} key={log.timestamp} />
-  ));
+  const logs = panelStore?.ddp.map(log => <DDPLog log={log} key={log.id} />);
 
   return (
     <Hideable isVisible={isVisible}>

@@ -2,7 +2,7 @@ import Dexie from 'dexie';
 import { toJS } from 'mobx';
 
 class Database extends Dexie {
-  bookmarks: Dexie.Table<Bookmark, number>;
+  bookmarks: Dexie.Table<Bookmark, string>;
 
   constructor() {
     super('MeteorToolsDatabase');
@@ -16,17 +16,17 @@ class Database extends Dexie {
 
   addBookmark(log: DDPLog) {
     return this.bookmarks.add({
-      id: log.timestamp,
+      id: log.id,
       timestamp: Date.now(),
       log: toJS(log),
     });
   }
 
-  getBookmark(key: number) {
+  getBookmark(key: string) {
     return this.bookmarks.get(key);
   }
 
-  removeBookmark(key: number) {
+  removeBookmark(key: string) {
     return this.bookmarks.delete(key);
   }
 

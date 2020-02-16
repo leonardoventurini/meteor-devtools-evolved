@@ -24,12 +24,10 @@ const chromeSetup = () => {
 
   backgroundConnection.onMessage.addListener((message: Message<DDPLog>) => {
     const size = getSize(message.data.content);
-    const timestamp = Date.now();
 
     sha1(message.data.content, hash => {
       const data = extend(message.data, {
-        timestamp,
-        timestampPretty: moment(timestamp).format('HH:mm:ss.SSS'),
+        timestampPretty: moment(message.data.timestamp).format('HH:mm:ss.SSS'),
         size,
         sizePretty: prettyBytes(size),
         hash,

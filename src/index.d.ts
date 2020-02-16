@@ -29,6 +29,7 @@ interface StackTrace {
 }
 
 interface DDPLog {
+  id: string;
   content: string;
   trace?: StackTrace[];
   isInbound?: boolean;
@@ -41,7 +42,7 @@ interface DDPLog {
 }
 
 interface Bookmark {
-  id?: number;
+  id?: string;
   timestamp: number;
   log: DDPLog;
 }

@@ -11,7 +11,7 @@ export class PanelStoreConstructor {
   @observable activeLog: DDPLog | null = null;
   @observable activeStackTrace: StackTrace[] | null = null;
   @observable bookmarks: Bookmark[] = [];
-  @observable bookmarkIds: number[] = [];
+  @observable bookmarkIds: (string | undefined)[] = [];
 
   constructor() {
     this.syncBookmarks().catch(console.error);
@@ -67,14 +67,14 @@ export class PanelStoreConstructor {
 
     if (bookmark) {
       this.bookmarks.push(bookmark);
-      this.bookmarkIds.push(bookmark.log.timestamp ?? 0);
+      this.bookmarkIds.push(bookmark.log.id);
     }
   }
 
   @action
   async removeBookmark(log: DDPLog) {
     if (log.timestamp) {
-      await PanelDatabase.removeBookmark(log.timestamp);
+      await PanelDatabase.removeBookmark(log.id);
       await this.syncBookmarks();
     }
   }
@@ -82,9 +82,7 @@ export class PanelStoreConstructor {
   @action
   async syncBookmarks() {
     this.bookmarks = await PanelDatabase.getBookmarks();
-    this.bookmarkIds = this.bookmarks.map(
-      (bookmark: Bookmark) => bookmark.id ?? 0,
-    );
+    this.bookmarkIds = this.bookmarks.map((bookmark: Bookmark) => bookmark.id);
   }
 }
 
