@@ -39,6 +39,8 @@ export class PanelStoreConstructor {
 
       this.ddpBuffer = [];
 
+      this.ddpCount = this.ddp.length;
+
       this.clearNewLogs();
     }),
     100,
