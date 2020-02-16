@@ -34,7 +34,10 @@ interface DDPLog {
   isInbound?: boolean;
   isOutbound?: boolean;
   timestamp?: number;
+  timestampPretty?: string;
   hash?: string;
+  size?: number;
+  sizePretty?: string;
 }
 
 interface Bookmark {

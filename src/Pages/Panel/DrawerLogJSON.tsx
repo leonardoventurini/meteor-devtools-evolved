@@ -23,7 +23,11 @@ export const DrawerLogJSON: FunctionComponent = observer(() => {
             <JSONTree
               data={JSON.parse(panelStore?.activeLog.content)}
               theme={JSONTreeTheme}
-              shouldExpandNode={() => true}
+              shouldExpandNode={(
+                keyPath: (string | number)[],
+                data: [any] | {},
+                level: number,
+              ) => level <= 3}
               invertTheme={false}
               hideRoot
             />

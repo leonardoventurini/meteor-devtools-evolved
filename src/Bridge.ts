@@ -1,12 +1,16 @@
 import { PanelStore } from './Stores/PanelStore';
-import { extend } from 'lodash';
+import { extend, memoize } from 'lodash';
 import sha1 from 'simple-sha1';
+import prettyBytes from 'pretty-bytes';
+import moment from 'moment';
 
-export const injectScript = (scriptUrl: string) => {
+const injectScript = (scriptUrl: string) => {
   fetch(chrome.extension.getURL(scriptUrl))
     .then(response => response.text())
     .then(text => chrome.devtools.inspectedWindow.eval(text));
 };
+
+const getSize = memoize((content: string) => new Blob([content]).size);
 
 const chromeSetup = () => {
   const backgroundConnection = chrome.runtime.connect({
@@ -19,9 +23,15 @@ const chromeSetup = () => {
   });
 
   backgroundConnection.onMessage.addListener((message: Message<DDPLog>) => {
+    const size = getSize(message.data.content);
+    const timestamp = Date.now();
+
     sha1(message.data.content, hash => {
       const data = extend(message.data, {
-        timestamp: Date.now(),
+        timestamp,
+        timestampPretty: moment(timestamp).format('HH:mm:ss.SSS'),
+        size,
+        sizePretty: prettyBytes(size),
         hash,
       });
 

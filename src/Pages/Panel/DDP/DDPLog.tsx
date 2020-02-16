@@ -1,13 +1,10 @@
 import React, { FunctionComponent } from 'react';
-import moment from 'moment';
 import { Icon, Tag, Tooltip } from '@blueprintjs/core';
 import classnames from 'classnames';
 import { usePanelStore } from '../../../Stores/PanelStore';
-import { memoize } from 'lodash';
 import { DDPLogDirection } from './DDPLogDirection';
 import { DDPLogPreview } from './DDPLogPreview';
 import { observer } from 'mobx-react-lite';
-import prettyBytes from 'pretty-bytes';
 
 interface Props {
   log: DDPLog;
@@ -16,23 +13,16 @@ interface Props {
 export const DDPLog: FunctionComponent<Props> = observer(({ log }) => {
   const store = usePanelStore();
 
-  const { content, timestamp, trace, hash } = log;
-
-  const time = (timestamp?: number) =>
-    timestamp ? moment(timestamp).format('HH:mm:ss.SSS') : 'Unknown';
+  const { timestamp, trace, hash } = log;
 
   const classes = classnames('mde-ddp__log-row', {
     'mde-ddp__log-row--new': timestamp && store.newDdpLogs.includes(timestamp),
   });
 
-  const size = memoize((content: string) =>
-    prettyBytes(new Blob([content]).size),
-  );
-
   return (
     <div className={classes}>
       <div className='time'>
-        <small>{time(timestamp)}</small>
+        <small>{log.timestampPretty}</small>
       </div>
       <div className='direction'>
         <DDPLogDirection log={log} />
@@ -42,7 +32,7 @@ export const DDPLog: FunctionComponent<Props> = observer(({ log }) => {
       </div>
 
       <div className='size'>
-        <Tag minimal>{size(content)}</Tag>
+        <Tag minimal>{log.sizePretty}</Tag>
       </div>
 
       <div className='interactions'>

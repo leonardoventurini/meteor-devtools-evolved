@@ -1,5 +1,4 @@
 import React, { FunctionComponent, useRef, useState } from 'react';
-import { setupBridge } from '../Bridge';
 import { DDP } from './Panel/DDP/DDP';
 import { PanelStoreProvider } from '../Stores/PanelStore';
 import { Minimongo } from './Panel/Minimongo/Minimongo';
@@ -7,13 +6,14 @@ import { Navigation } from './Panel/Navigation';
 import { DrawerStackTrace } from './Panel/DrawerStackTrace';
 import { DrawerLogJSON } from './Panel/DrawerLogJSON';
 import { Starred } from './Panel/Starred/Starred';
+import { setupBridge } from '../Bridge';
+
+setupBridge();
 
 interface Props {}
 
 const PanelObserverComponent: FunctionComponent<Props> = () => {
   const panelRef = useRef<HTMLDivElement>(null);
-
-  setupBridge();
 
   const defaultSelectedTabId = 'ddp';
 
