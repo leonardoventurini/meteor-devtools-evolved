@@ -26,6 +26,7 @@ export const DDP: FunctionComponent<Props> = observer(({ isVisible }) => {
       store={store}
       log={log}
       isNew={store.newDdpLogs.includes(log.id)}
+      isStarred={store.bookmarkIds.includes(log.id)}
     />
   ));
 

@@ -38,15 +38,7 @@ const chromeSetup = () => {
       hash,
     };
 
-    const startTime = performance.now();
-
     PanelStore.pushLog(data);
-
-    console.info(
-      'Message Processing Time:',
-      (performance.now() - startTime).toFixed(3),
-      'ms',
-    );
   });
 };
 

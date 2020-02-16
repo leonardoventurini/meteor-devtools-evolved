@@ -8,10 +8,11 @@ import { DDPLogPreview } from './DDPLogPreview';
 interface Props {
   log: DDPLog;
   isNew: boolean;
+  isStarred: boolean;
   store: PanelStoreConstructor;
 }
 
-export const DDPLog: FunctionComponent<Props> = ({ log, isNew, store }) => {
+export const DDPLog: FunctionComponent<Props> = ({ log, isNew, isStarred, store }) => {
   const { trace, hash } = log;
 
   const classes = classnames('mde-ddp__log-row', {
@@ -42,7 +43,7 @@ export const DDPLog: FunctionComponent<Props> = ({ log, isNew, store }) => {
           />
         </Tooltip>
         <Tooltip content='Star & Keep' hoverOpenDelay={800} position='top'>
-          {store.bookmarkIds.includes(log.id) ? (
+          {isStarred ? (
             <Icon icon='star' onClick={() => store.removeBookmark(log)} />
           ) : (
             <Icon icon='star-empty' onClick={() => store.addBookmark(log)} />
