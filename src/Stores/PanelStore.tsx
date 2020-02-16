@@ -18,23 +18,31 @@ export class PanelStoreConstructor {
     this.syncBookmarks().catch(console.error);
   }
 
-  @action
+  ddpQueue: DDPLog[] = [];
+
   pushLog(log: DDPLog) {
-    this.newDdpLogs.push(log.id);
-
-    console.log(log);
-
-    this.ddp.push(log);
-
-    // Maximum number of items.
-    if (this.ddpCount + 1 > 1000) {
-      this.ddp.shift();
-    } else {
-      ++this.ddpCount;
-    }
-
-    this.clearNewLogs();
+    this.ddpQueue.push(log);
+    this.submitLogs();
   }
+
+  submitLogs = debounce(
+    action(() => {
+      const newDdp = this.ddp.concat(this.ddpQueue);
+
+      if (newDdp.length > 500) {
+        this.ddp = newDdp.slice(-500);
+      } else {
+        this.ddp = newDdp;
+      }
+
+      this.newDdpLogs.push(...this.ddpQueue.map(({ id }) => id));
+
+      this.ddpQueue = [];
+
+      this.clearNewLogs();
+    }),
+    100,
+  );
 
   clearNewLogs = debounce(() => {
     this.newDdpLogs = [];
@@ -78,6 +86,8 @@ export class PanelStoreConstructor {
 
   @action
   async syncBookmarks() {
+    console.log('Syncing bookmarks...');
+
     this.bookmarks = await PanelDatabase.getBookmarks();
     this.bookmarkIds = this.bookmarks.map((bookmark: Bookmark) => bookmark.id);
   }

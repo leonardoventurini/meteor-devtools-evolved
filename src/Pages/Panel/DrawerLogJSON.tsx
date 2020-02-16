@@ -2,26 +2,23 @@ import React, { FunctionComponent } from 'react';
 import { Classes, Drawer } from '@blueprintjs/core';
 import JSONTree from 'react-json-tree';
 import { JSONTreeTheme } from './JSONTreeTheme';
-import { usePanelStore } from '../../Stores/PanelStore';
-import { observer } from 'mobx-react-lite';
 
-export const DrawerLogJSON: FunctionComponent = observer(() => {
-  const panelStore = usePanelStore();
+interface Props {
+  activeLog: DDPLog | null;
+  onClose(): void;
+}
 
+export const DrawerLogJSON: FunctionComponent<Props> = ({
+  activeLog,
+  onClose,
+}) => {
   return (
-    <Drawer
-      icon='document'
-      title='JSON'
-      isOpen={!!panelStore?.activeLog}
-      onClose={() => {
-        panelStore?.setActiveLog(null);
-      }}
-    >
+    <Drawer icon='document' title='JSON' isOpen={!!activeLog} onClose={onClose}>
       <div className={Classes.DRAWER_BODY}>
         <div className={Classes.DIALOG_BODY}>
-          {panelStore?.activeLog && (
+          {activeLog && (
             <JSONTree
-              data={JSON.parse(panelStore?.activeLog.content)}
+              data={JSON.parse(activeLog.content)}
               theme={JSONTreeTheme}
               shouldExpandNode={(
                 keyPath: (string | number)[],
@@ -36,4 +33,4 @@ export const DrawerLogJSON: FunctionComponent = observer(() => {
       </div>
     </Drawer>
   );
-});
+};
