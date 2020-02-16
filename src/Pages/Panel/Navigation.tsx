@@ -31,6 +31,14 @@ export const Navigation: FunctionComponent<Props> = ({
         onClick={() => setSelectedTabId('minimongo')}
         active={selectedTabId === 'minimongo'}
         minimal
+        style={{ marginRight: 4 }}
+      />
+      <Button
+        icon='star'
+        text='Starred'
+        onClick={() => setSelectedTabId('starred')}
+        active={selectedTabId === 'starred'}
+        minimal
       />
     </Navbar.Group>
   </Navbar>

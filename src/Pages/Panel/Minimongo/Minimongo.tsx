@@ -1,7 +1,12 @@
 import React, { FunctionComponent } from 'react';
+import { Hideable } from '../../../Utils/Hideable';
 
-export const Minimongo: FunctionComponent = () => (
-  <div>
+interface Props {
+  isVisible: boolean;
+}
+
+export const Minimongo: FunctionComponent<Props> = ({ isVisible }) => (
+  <Hideable isVisible={isVisible}>
     <h1>Minimongo</h1>
-  </div>
+  </Hideable>
 );

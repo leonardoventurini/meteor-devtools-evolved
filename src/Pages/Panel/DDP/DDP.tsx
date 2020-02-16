@@ -3,6 +3,7 @@ import { usePanelStore } from '../../../Stores/PanelStore';
 import { DDPLog } from './DDPLog';
 import { Button, Classes, Icon, Tag } from '@blueprintjs/core';
 import { observer } from 'mobx-react-lite';
+import { Hideable } from '../../../Utils/Hideable';
 
 const Empty: FunctionComponent = () => (
   <div style={{ display: 'flex', justifyContent: 'center' }}>
@@ -12,7 +13,11 @@ const Empty: FunctionComponent = () => (
   </div>
 );
 
-export const DDP: FunctionComponent = observer(() => {
+interface Props {
+  isVisible: boolean;
+}
+
+export const DDP: FunctionComponent<Props> = observer(({ isVisible }) => {
   const panelStore = usePanelStore();
 
   const logs = panelStore?.ddp.map(log => (
@@ -20,7 +25,7 @@ export const DDP: FunctionComponent = observer(() => {
   ));
 
   return (
-    <>
+    <Hideable isVisible={isVisible}>
       <div className='mde-ddp'>{logs?.length ? logs : <Empty />}</div>
 
       <div className='mde-layout__status'>
@@ -39,6 +44,6 @@ export const DDP: FunctionComponent = observer(() => {
           <Icon icon='disable' />
         </Button>
       </div>
-    </>
+    </Hideable>
   );
 });

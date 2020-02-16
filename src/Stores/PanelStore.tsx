@@ -83,7 +83,7 @@ export class PanelStoreConstructor {
   async syncBookmarks() {
     this.bookmarks = await PanelDatabase.getBookmarks();
     this.bookmarkIds = this.bookmarks.map(
-      (bookmark: Bookmark) => bookmark.log.timestamp ?? 0,
+      (bookmark: Bookmark) => bookmark.id ?? 0,
     );
   }
 }
