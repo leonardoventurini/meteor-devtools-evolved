@@ -32,3 +32,9 @@ interface DDPLog {
   timestamp?: number;
   hash?: string;
 }
+
+interface Bookmark {
+  id?: number;
+  timestamp: number;
+  log: DDPLog;
+}

@@ -45,7 +45,11 @@ export const DDPLog: FunctionComponent<Props> = flow(
           icon='eye-open'
           onClick={() => trace && store.setActiveStackTrace(trace)}
         />
-        <Icon icon='star-empty' />
+        {store.bookmarkIds.includes(timestamp) ? (
+          <Icon icon='star' onClick={() => store.removeBookmark(log)} />
+        ) : (
+          <Icon icon='star-empty' onClick={() => store.addBookmark(log)} />
+        )}
       </div>
       <div className='size'>
         <Tag minimal>{size(content)} B</Tag>

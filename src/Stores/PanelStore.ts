@@ -1,5 +1,6 @@
-import { action, observable, toJS } from 'mobx';
+import { action, computed, observable, toJS } from 'mobx';
 import { debounce } from 'lodash';
+import { PanelDatabase } from '../Database/PanelDatabase';
 
 export class PanelStoreConstructor {
   @observable ddpCount: number = 0;
@@ -7,6 +8,15 @@ export class PanelStoreConstructor {
   @observable newDdpLogs: number[] = [];
   @observable activeLog: DDPLog | null = null;
   @observable activeStackTrace: StackTrace[] | null = null;
+  @observable bookmarks: Bookmark[] = [];
+
+  @computed get bookmarkIds() {
+    return this.bookmarks.map((bookmark: Bookmark) => bookmark.log.timestamp);
+  }
+
+  constructor() {
+    this.syncBookmarks().catch(console.error);
+  }
 
   @action
   pushLog(log: DDPLog) {
@@ -48,6 +58,30 @@ export class PanelStoreConstructor {
   setActiveStackTrace(trace: StackTrace[] | null) {
     console.log(toJS(trace));
     this.activeStackTrace = trace;
+  }
+
+  @action
+  async addBookmark(log: DDPLog) {
+    const bookmarkKey = await PanelDatabase.addBookmark(log);
+
+    const bookmark = await PanelDatabase.getBookmark(bookmarkKey);
+
+    if (bookmark) {
+      this.bookmarks.push(bookmark);
+    }
+  }
+
+  @action
+  async removeBookmark(log: DDPLog) {
+    if (log.timestamp) {
+      await PanelDatabase.removeBookmark(log.timestamp);
+      await this.syncBookmarks();
+    }
+  }
+
+  @action
+  async syncBookmarks() {
+    this.bookmarks = await PanelDatabase.getBookmarks();
   }
 }
 
