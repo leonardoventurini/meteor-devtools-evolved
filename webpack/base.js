@@ -54,7 +54,6 @@ module.exports = override =>
         ],
       },
       resolve: {
-        alias: {},
         extensions: [
           '.css',
           '.eot',

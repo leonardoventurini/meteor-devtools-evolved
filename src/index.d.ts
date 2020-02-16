@@ -46,3 +46,10 @@ interface Bookmark {
   timestamp: number;
   log: DDPLog;
 }
+
+type FilterType =
+  | 'heartbeat'
+  | 'subscription'
+  | 'collection'
+  | 'method'
+  | 'connection';

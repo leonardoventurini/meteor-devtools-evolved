@@ -1,9 +1,12 @@
 import React, { createContext, FunctionComponent } from 'react';
-import { action, observable } from 'mobx';
-import { debounce } from 'lodash';
+import { action, observable, toJS } from 'mobx';
+import { compact, debounce, flatten } from 'lodash';
 import { PanelDatabase } from '../Database/PanelDatabase';
+import { FilterCriteria } from '../Pages/Panel/DDP/FilterConstants';
 
 export class PanelStoreConstructor {
+  ddpBuffer: DDPLog[] = [];
+
   @observable ddpCount: number = 0;
   @observable.shallow ddp: DDPLog[] = [];
   @observable.shallow newDdpLogs: string[] = [];
@@ -14,11 +17,19 @@ export class PanelStoreConstructor {
   @observable.shallow bookmarks: Bookmark[] = [];
   @observable.shallow bookmarkIds: (string | undefined)[] = [];
 
+  @observable.shallow activeFilterBlacklist: string[] = [];
+
+  @observable activeFilters = {
+    heartbeat: true,
+    subscription: true,
+    collection: true,
+    method: true,
+    connection: true,
+  };
+
   constructor() {
     this.syncBookmarks().catch(console.error);
   }
-
-  ddpBuffer: DDPLog[] = [];
 
   pushLog(log: DDPLog) {
     this.ddpBuffer.push(log);
@@ -91,6 +102,21 @@ export class PanelStoreConstructor {
 
     this.bookmarks = await PanelDatabase.getBookmarks();
     this.bookmarkIds = this.bookmarks.map((bookmark: Bookmark) => bookmark.id);
+  }
+
+  @action
+  setFilter(type: FilterType, isEnabled: boolean) {
+    this.activeFilters[type] = isEnabled;
+
+    this.activeFilterBlacklist = flatten(
+      compact(
+        Object.entries(this.activeFilters).map(([type, isEnabled]) => {
+          return isEnabled ? false : FilterCriteria[type];
+        }),
+      ),
+    );
+
+    console.log(toJS(this.activeFilterBlacklist));
   }
 }
 

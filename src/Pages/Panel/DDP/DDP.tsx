@@ -1,6 +1,6 @@
-import React, { FunctionComponent } from 'react';
+import React, { FormEvent, FunctionComponent } from 'react';
 import { DDPLog } from './DDPLog';
-import { Button, Classes, Icon, Tag } from '@blueprintjs/core';
+import { Button, Classes, Icon, Switch, Tag } from '@blueprintjs/core';
 import { observer } from 'mobx-react-lite';
 import { Hideable } from '../../../Utils/Hideable';
 import { usePanelStore } from '../../../Stores/PanelStore';
@@ -35,6 +35,44 @@ export const DDP: FunctionComponent<Props> = observer(({ isVisible }) => {
       <div className='mde-ddp'>{logs?.length ? logs : <Empty />}</div>
 
       <div className='mde-layout__status'>
+        <div className='mde-layout__status__filter'>
+          <Switch
+            checked={store.activeFilters.heartbeat}
+            label='Heartbeat'
+            onChange={(event: FormEvent<HTMLInputElement>) =>
+              store.setFilter('heartbeat', event.currentTarget.checked)
+            }
+          />
+          <Switch
+            checked={store.activeFilters.subscription}
+            label='Subscription'
+            onChange={(event: FormEvent<HTMLInputElement>) =>
+              store.setFilter('subscription', event.currentTarget.checked)
+            }
+          />
+          <Switch
+            checked={store.activeFilters.collection}
+            label='Collection'
+            onChange={(event: FormEvent<HTMLInputElement>) =>
+              store.setFilter('collection', event.currentTarget.checked)
+            }
+          />
+          <Switch
+            checked={store.activeFilters.method}
+            label='Method'
+            onChange={(event: FormEvent<HTMLInputElement>) =>
+              store.setFilter('method', event.currentTarget.checked)
+            }
+          />
+          <Switch
+            checked={store.activeFilters.connection}
+            label='Connection'
+            onChange={(event: FormEvent<HTMLInputElement>) =>
+              store.setFilter('connection', event.currentTarget.checked)
+            }
+          />
+        </div>
+
         <Tag intent='primary' minimal round>
           {store?.ddpCount}
         </Tag>
