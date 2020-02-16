@@ -4,6 +4,7 @@ import { Button, Classes, Icon, Switch, Tag } from '@blueprintjs/core';
 import { observer } from 'mobx-react-lite';
 import { Hideable } from '../../../Utils/Hideable';
 import { usePanelStore } from '../../../Stores/PanelStore';
+import prettyBytes from 'pretty-bytes';
 
 const Empty: FunctionComponent = () => (
   <div style={{ display: 'flex', justifyContent: 'center' }}>
@@ -79,14 +80,27 @@ export const DDP: FunctionComponent<Props> = observer(({ isVisible }) => {
           />
         </div>
 
-        <Tag intent='primary' minimal round>
+        <Tag minimal round style={{ marginRight: 10 }}>
+          <Icon
+            icon='cloud-download'
+            style={{ marginRight: 4, marginBottom: 1 }}
+            iconSize={12}
+          />
+          {prettyBytes(store.transferBytes)}
+        </Tag>
+
+        <Tag minimal round style={{ marginRight: 10 }}>
+          <Icon
+            icon='vertical-bar-chart-asc'
+            style={{ marginRight: 4, marginBottom: 1 }}
+            iconSize={12}
+          />
           {store?.ddpCount}
         </Tag>
 
         <Button
-          intent='danger'
+          intent='none'
           minimal
-          style={{ marginLeft: 10 }}
           onClick={() => {
             store?.clearLogs();
           }}

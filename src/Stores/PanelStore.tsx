@@ -1,11 +1,13 @@
 import React, { createContext, FunctionComponent } from 'react';
-import { action, observable, toJS } from 'mobx';
+import { action, observable } from 'mobx';
 import { compact, debounce, flatten } from 'lodash';
 import { PanelDatabase } from '../Database/PanelDatabase';
 import { FilterCriteria } from '../Pages/Panel/DDP/FilterConstants';
 
 export class PanelStoreConstructor {
   ddpBuffer: DDPLog[] = [];
+
+  @observable transferBytes: number = 0;
 
   @observable ddpCount: number = 0;
   @observable.shallow ddp: DDPLog[] = [];
@@ -33,6 +35,9 @@ export class PanelStoreConstructor {
 
   pushLog(log: DDPLog) {
     this.ddpBuffer.push(log);
+
+    ++this.ddpCount;
+
     this.submitLogs();
   }
 
@@ -49,8 +54,6 @@ export class PanelStoreConstructor {
       this.newDdpLogs.push(...this.ddpBuffer.map(({ id }) => id));
 
       this.ddpBuffer = [];
-
-      this.ddpCount = this.ddp.length;
 
       this.clearNewLogs();
     }),
@@ -115,8 +118,11 @@ export class PanelStoreConstructor {
         }),
       ),
     );
+  }
 
-    console.log(toJS(this.activeFilterBlacklist));
+  @action
+  addTransferBytes(size: number) {
+    this.transferBytes += size;
   }
 }
 
