@@ -1,4 +1,5 @@
-import { Dexie } from 'dexie';
+import Dexie from 'dexie';
+import { toJS } from 'mobx';
 
 class Database extends Dexie {
   bookmarks: Dexie.Table<Bookmark, number>;
@@ -10,14 +11,14 @@ class Database extends Dexie {
       bookmarks: 'id, timestamp, log',
     });
 
-    this.bookmarks = this.table('contacts');
+    this.bookmarks = this.table('bookmarks');
   }
 
   addBookmark(log: DDPLog) {
     return this.bookmarks.add({
       id: log.timestamp,
       timestamp: Date.now(),
-      log,
+      log: toJS(log),
     });
   }
 
