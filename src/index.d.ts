@@ -55,4 +55,4 @@ type FilterType =
   | 'connection';
 
 
-type FilterTypeMap = { [day in FilterType]: string[] };
+type FilterTypeMap<T> = { [day in FilterType]: T };

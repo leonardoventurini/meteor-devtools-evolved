@@ -21,7 +21,7 @@ export class PanelStoreConstructor {
 
   @observable.shallow activeFilterBlacklist: string[] = [];
 
-  @observable activeFilters = {
+  @observable activeFilters: FilterTypeMap<boolean> = {
     heartbeat: true,
     subscription: true,
     collection: true,
@@ -121,7 +121,7 @@ export class PanelStoreConstructor {
     this.activeFilterBlacklist = flatten(
       compact(
         Object.entries(this.activeFilters).map(([type, isEnabled]) => {
-          return isEnabled ? false : FilterCriteria[type];
+          return isEnabled ? false : FilterCriteria[type as FilterType];
         }),
       ),
     );
