@@ -1,5 +1,5 @@
 module.exports = {
-  parser: '@typescript-eslint/parser', // Specifies the ESLint parser
+  parser: '@typescript-eslint/parser',
   extends: ['plugin:react/recommended', 'plugin:prettier/recommended'],
   parserOptions: {
     ecmaVersion: 2018,
