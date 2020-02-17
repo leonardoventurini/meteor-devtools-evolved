@@ -10,7 +10,7 @@ export const DDPFilterMenu: FunctionComponent = observer(() => {
   const filters = Object.keys(FilterCriteria).map(filter => (
     <Switch
       key={filter}
-      checked={store.activeFilters.heartbeat}
+      checked={store.activeFilters[filter as FilterType]}
       label={filter.charAt(0).toUpperCase() + filter.slice(1)}
       onChange={(event: FormEvent<HTMLInputElement>) =>
         store.setFilter(filter as FilterType, event.currentTarget.checked)
