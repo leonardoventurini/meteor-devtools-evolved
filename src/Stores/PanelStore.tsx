@@ -7,7 +7,8 @@ import { FilterCriteria } from '../Pages/Panel/DDP/FilterConstants';
 export class PanelStoreConstructor {
   ddpBuffer: DDPLog[] = [];
 
-  @observable transferBytes: number = 0;
+  @observable inboundBytes: number = 0;
+  @observable outboundBytes: number = 0;
 
   @observable.shallow ddp: DDPLog[] = [];
   @observable.shallow newDdpLogs: string[] = [];
@@ -50,9 +51,13 @@ export class PanelStoreConstructor {
 
       this.newDdpLogs.push(...this.ddpBuffer.map(({ id }) => id));
 
-      this.addTransferBytes(
-        this.ddpBuffer.reduce((sum, log) => sum + (log.size ?? 0), 0),
-      );
+      this.inboundBytes += this.ddpBuffer
+        .filter(log => log.isInbound)
+        .reduce((sum, log) => sum + (log.size ?? 0), 0);
+
+      this.outboundBytes += this.ddpBuffer
+        .filter(log => log.isOutbound)
+        .reduce((sum, log) => sum + (log.size ?? 0), 0);
 
       this.ddpBuffer = [];
 
@@ -120,11 +125,6 @@ export class PanelStoreConstructor {
         }),
       ),
     );
-  }
-
-  @action
-  addTransferBytes(size: number) {
-    this.transferBytes += size;
   }
 }
 

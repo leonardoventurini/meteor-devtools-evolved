@@ -93,7 +93,16 @@ export const DDP: FunctionComponent<Props> = observer(({ isVisible }) => {
             style={{ marginRight: 4, marginBottom: 1 }}
             iconSize={12}
           />
-          {prettyBytes(store.transferBytes)}
+          {prettyBytes(store.inboundBytes)}
+        </Tag>
+
+        <Tag minimal round style={{ marginRight: 10 }}>
+          <Icon
+            icon='cloud-upload'
+            style={{ marginRight: 4, marginBottom: 1 }}
+            iconSize={12}
+          />
+          {prettyBytes(store.outboundBytes)}
         </Tag>
 
         <Tag minimal round style={{ marginRight: 10 }}>
