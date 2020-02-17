@@ -1,5 +1,5 @@
 import React, { FormEvent, FunctionComponent } from 'react';
-import { Menu, Switch } from '@blueprintjs/core';
+import { Switch } from '@blueprintjs/core';
 import { observer } from 'mobx-react-lite';
 import { usePanelStore } from '../../../Stores/PanelStore';
 
@@ -7,7 +7,7 @@ export const DDPFilterMenu: FunctionComponent = observer(() => {
   const store = usePanelStore();
 
   return (
-    <Menu>
+    <div style={{ padding: 10 }}>
       <Switch
         checked={store.activeFilters.heartbeat}
         label='Heartbeat'
@@ -48,6 +48,6 @@ export const DDPFilterMenu: FunctionComponent = observer(() => {
         }
         style={{ marginBottom: 0 }}
       />
-    </Menu>
+    </div>
   );
 });
