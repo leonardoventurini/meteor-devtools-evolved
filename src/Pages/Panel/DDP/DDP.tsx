@@ -1,10 +1,12 @@
-import React, { FormEvent, FunctionComponent } from 'react';
+import React, { FunctionComponent } from 'react';
 import { DDPLog } from './DDPLog';
-import { Button, Classes, Icon, Switch, Tag } from '@blueprintjs/core';
+import { Button, Classes, Icon, Popover, Tag } from '@blueprintjs/core';
 import { observer } from 'mobx-react-lite';
 import { Hideable } from '../../../Utils/Hideable';
 import { usePanelStore } from '../../../Stores/PanelStore';
 import prettyBytes from 'pretty-bytes';
+import { DDPFilterMenu } from './DDPFilterMenu';
+import { Position } from '@blueprintjs/core/lib/esm/common/position';
 
 const Empty: FunctionComponent = () => (
   <div style={{ display: 'flex', justifyContent: 'center' }}>
@@ -44,41 +46,9 @@ export const DDP: FunctionComponent<Props> = observer(({ isVisible }) => {
 
       <div className='mde-layout__status'>
         <div className='mde-layout__status__filter'>
-          <Switch
-            checked={store.activeFilters.heartbeat}
-            label='Heartbeat'
-            onChange={(event: FormEvent<HTMLInputElement>) =>
-              store.setFilter('heartbeat', event.currentTarget.checked)
-            }
-          />
-          <Switch
-            checked={store.activeFilters.subscription}
-            label='Subscription'
-            onChange={(event: FormEvent<HTMLInputElement>) =>
-              store.setFilter('subscription', event.currentTarget.checked)
-            }
-          />
-          <Switch
-            checked={store.activeFilters.collection}
-            label='Collection'
-            onChange={(event: FormEvent<HTMLInputElement>) =>
-              store.setFilter('collection', event.currentTarget.checked)
-            }
-          />
-          <Switch
-            checked={store.activeFilters.method}
-            label='Method'
-            onChange={(event: FormEvent<HTMLInputElement>) =>
-              store.setFilter('method', event.currentTarget.checked)
-            }
-          />
-          <Switch
-            checked={store.activeFilters.connection}
-            label='Connection'
-            onChange={(event: FormEvent<HTMLInputElement>) =>
-              store.setFilter('connection', event.currentTarget.checked)
-            }
-          />
+          <Popover content={<DDPFilterMenu />} position={Position.RIGHT_TOP}>
+            <Button icon='filter' text='Filter' />
+          </Popover>
         </div>
 
         {store.isLoading && (
