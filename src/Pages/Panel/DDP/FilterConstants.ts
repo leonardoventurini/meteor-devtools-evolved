@@ -1,4 +1,4 @@
-export const FilterCriteria: { [key: string]: string[] } = {
+export const FilterCriteria: FilterTypeMap = {
   heartbeat: ['ping', 'pong'],
   subscription: ['sub', 'unsub', 'nosub', 'ready'],
   collection: ['added', 'removed', 'changed'],

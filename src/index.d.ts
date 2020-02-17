@@ -53,3 +53,6 @@ type FilterType =
   | 'collection'
   | 'method'
   | 'connection';
+
+
+type FilterTypeMap = { [day in FilterType]: string[] };
