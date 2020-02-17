@@ -30,8 +30,6 @@ const chromeSetup = () => {
     const size = getSize(message.data.content);
     const hash = getHash(message.data.content);
 
-    PanelStore.addTransferBytes(size);
-
     const data = {
       ...message.data,
       timestampPretty: moment(message.data.timestamp).format('HH:mm:ss.SSS'),

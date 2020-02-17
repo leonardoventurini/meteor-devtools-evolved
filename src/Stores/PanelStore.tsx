@@ -9,7 +9,6 @@ export class PanelStoreConstructor {
 
   @observable transferBytes: number = 0;
 
-  @observable ddpCount: number = 0;
   @observable.shallow ddp: DDPLog[] = [];
   @observable.shallow newDdpLogs: string[] = [];
 
@@ -29,33 +28,37 @@ export class PanelStoreConstructor {
     connection: true,
   };
 
+  @observable isLoading: boolean = false;
+
   constructor() {
     this.syncBookmarks().catch(console.error);
   }
 
   pushLog(log: DDPLog) {
-    this.ddpBuffer.push(log);
+    if (!this.isLoading) {
+      this.isLoading = true;
+    }
 
-    ++this.ddpCount;
+    this.ddpBuffer.push(log);
 
     this.submitLogs();
   }
 
   submitLogs = debounce(
     action(() => {
-      const newDdp = this.ddp.concat(this.ddpBuffer);
-
-      if (newDdp.length > 500) {
-        this.ddp = newDdp.slice(-500);
-      } else {
-        this.ddp = newDdp;
-      }
+      this.ddp.push(...this.ddpBuffer);
 
       this.newDdpLogs.push(...this.ddpBuffer.map(({ id }) => id));
+
+      this.addTransferBytes(
+        this.ddpBuffer.reduce((sum, log) => sum + (log.size ?? 0), 0),
+      );
 
       this.ddpBuffer = [];
 
       this.clearNewLogs();
+
+      this.isLoading = false;
     }),
     100,
   );
@@ -67,7 +70,6 @@ export class PanelStoreConstructor {
   @action
   clearLogs() {
     this.ddp = [];
-    this.ddpCount = 0;
   }
 
   @action

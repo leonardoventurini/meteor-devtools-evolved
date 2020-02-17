@@ -27,6 +27,7 @@ export const DDP: FunctionComponent<Props> = observer(({ isVisible }) => {
 
       return !msg || !store.activeFilterBlacklist.includes(msg[1]);
     })
+    .slice(-100)
     .map(log => (
       <DDPLog
         key={log.id}
@@ -80,6 +81,12 @@ export const DDP: FunctionComponent<Props> = observer(({ isVisible }) => {
           />
         </div>
 
+        {store.isLoading && (
+          <Tag minimal round style={{ marginRight: 10 }}>
+            Loading...
+          </Tag>
+        )}
+
         <Tag minimal round style={{ marginRight: 10 }}>
           <Icon
             icon='cloud-download'
@@ -95,7 +102,7 @@ export const DDP: FunctionComponent<Props> = observer(({ isVisible }) => {
             style={{ marginRight: 4, marginBottom: 1 }}
             iconSize={12}
           />
-          {store?.ddpCount}
+          {store?.ddp.length}
         </Tag>
 
         <Button
