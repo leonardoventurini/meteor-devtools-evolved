@@ -9,19 +9,8 @@
   ],
   "scripts": {
     "start": "webpack --config webpack/chrome.dev.js",
-    "test": "jest",
-    "inject": "webpack --config webpack/chrome.inject.js",
-    "chrome:build": "webpack --config webpack/chrome.prod.js"
-  },
-  "jest": {
-    "scriptPreprocessor": "./node_modules/babel-jest",
-    "testFileExtensions": [
-      "js"
-    ],
-    "moduleFileExtensions": [
-      "js",
-      "jsx"
-    ]
+    "devapp": "cd devapp && npm start",
+    "build": "webpack --config webpack/chrome.prod.js"
   },
   "author": "Leonardo Venturini",
   "license": "MIT",
@@ -38,7 +27,6 @@
     "@types/react-dom": "^16.9.5",
     "@types/react-json-tree": "^0.6.11",
     "@typescript-eslint/parser": "^2.20.0",
-    "babel-eslint": "^10.0.3",
     "babel-loader": "^8.0.6",
     "clean-webpack-plugin": "^3.0.0",
     "css-loader": "^3.4.2",
@@ -48,9 +36,6 @@
     "eslint-plugin-prettier": "^3.1.2",
     "eslint-plugin-react": "^7.18.3",
     "file-loader": "^5.0.2",
-    "jest": "^25.1.0",
-    "jest-cli": "^25.1.0",
-    "mobx": "^5.15.4",
     "normalize.css": "^8.0.1",
     "prettier": "^1.19.1",
     "sass-loader": "^8.0.2",
@@ -67,19 +52,15 @@
     "classnames": "^2.2.6",
     "dexie": "^2.0.4",
     "error-stack-parser": "^2.0.6",
-    "immutable": "^4.0.0-rc.12",
-    "js-stylesheet": "0.0.1",
     "lodash": "^4.17.15",
+    "mobx": "^5.15.4",
     "mobx-react-lite": "^1.5.2",
     "moment": "^2.24.0",
     "node-sass": "^4.13.1",
-    "object-assign": "^4.0.1",
     "pretty-bytes": "^5.3.0",
     "react": "^16.12.0",
     "react-dom": "^16.12.0",
     "react-json-tree": "^0.11.2",
-    "react-notification-system": "^0.3.0",
-    "simple-sha1": "^3.0.1",
-    "slugify": "^1.3.6"
+    "simple-sha1": "^3.0.1"
   }
 }
