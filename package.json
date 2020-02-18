@@ -8,7 +8,7 @@
     "devtools"
   ],
   "scripts": {
-    "start": "webpack --config webpack/chrome.dev.js",
+    "start": "npx concurrently 'webpack --config webpack/chrome.dev.js' 'npm run devapp'",
     "devapp": "cd devapp && npm start",
     "build": "webpack --config webpack/chrome.prod.js"
   },
@@ -29,6 +29,7 @@
     "@typescript-eslint/parser": "^2.20.0",
     "babel-loader": "^8.0.6",
     "clean-webpack-plugin": "^3.0.0",
+    "concurrently": "^5.1.0",
     "css-loader": "^3.4.2",
     "cssnano": "^4.1.10",
     "eslint": "^6.8.0",
