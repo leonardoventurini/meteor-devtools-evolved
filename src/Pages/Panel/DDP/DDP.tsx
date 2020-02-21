@@ -1,5 +1,12 @@
 import React, { FunctionComponent, useRef } from 'react';
-import { Button, Classes, Icon, Popover, Tag } from '@blueprintjs/core';
+import {
+  Button,
+  Classes,
+  Icon,
+  Popover,
+  Tag,
+  Tooltip,
+} from '@blueprintjs/core';
 import { observer } from 'mobx-react-lite';
 import { Hideable } from '../../../Utils/Hideable';
 import { usePanelStore } from '../../../Stores/PanelStore';
@@ -72,24 +79,21 @@ export const DDP: FunctionComponent<Props> = observer(({ isVisible }) => {
           {prettyBytes(store.outboundBytes)}
         </Tag>
 
-        <Tag minimal round style={{ marginRight: 10 }}>
+        <Tag
+          intent='warning'
+          minimal
+          round
+          style={{ marginRight: 10 }}
+          interactive
+          onClick={() => store.clearLogs()}
+        >
           <Icon
-            icon='vertical-bar-chart-asc'
+            icon='inbox'
             style={{ marginRight: 4, marginBottom: 1 }}
             iconSize={12}
           />
           {store?.ddp.length}
         </Tag>
-
-        <Button
-          intent='none'
-          minimal
-          onClick={() => {
-            store?.clearLogs();
-          }}
-        >
-          <Icon icon='disable' />
-        </Button>
       </div>
     </Hideable>
   );
