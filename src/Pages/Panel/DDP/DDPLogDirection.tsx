@@ -2,23 +2,19 @@ import React, { FunctionComponent } from 'react';
 import { Icon } from '@blueprintjs/core';
 
 interface Prop {
-  log: DDPLog;
+  isOutbound?: boolean;
+  isInbound?: boolean;
 }
 
-export const DDPLogDirection: FunctionComponent<Prop> = ({ log }) => {
-  const { isOutbound, isInbound } = log;
+export const DDPLogDirection: FunctionComponent<Prop> = ({
+  isOutbound,
+  isInbound,
+}) => {
+  if (isOutbound && isInbound) return <Icon icon='full-circle' />;
 
-  if (isOutbound && isInbound) {
-    return <Icon icon='full-circle' />;
-  }
+  if (isOutbound) return <Icon icon='arrow-top-right' intent='danger' />;
 
-  if (isOutbound) {
-    return <Icon icon='arrow-top-right' intent='danger' />;
-  }
-
-  if (isInbound) {
-    return <Icon icon='arrow-bottom-left' intent='success' />;
-  }
+  if (isInbound) return <Icon icon='arrow-bottom-left' intent='success' />;
 
   return <Icon icon='warning-sign' intent='warning' />;
 };

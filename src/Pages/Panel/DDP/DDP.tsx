@@ -5,8 +5,9 @@ import { observer } from 'mobx-react-lite';
 import { Hideable } from '../../../Utils/Hideable';
 import { usePanelStore } from '../../../Stores/PanelStore';
 import { DDPStatus } from './DDPStatus';
+import { calculatePagination } from '../../../Utils/Pagination';
 
-const VIEWABLE_HISTORY = 100;
+const VIEWABLE_HISTORY = 48;
 
 const Empty: FunctionComponent = () => (
   <div style={{ display: 'flex', justifyContent: 'center' }}>
@@ -15,43 +16,6 @@ const Empty: FunctionComponent = () => (
     </span>
   </div>
 );
-
-const calculatePagination = (
-  collectionLength: number,
-  currentPage: number,
-  setCurrentPage: (page: number) => void,
-): Pagination => {
-  const lastIndex = collectionLength - 1;
-  const start = lastIndex - currentPage * VIEWABLE_HISTORY;
-  const end = start + VIEWABLE_HISTORY + 1;
-  const pages = Math.ceil(collectionLength / VIEWABLE_HISTORY);
-
-  const hasOnePage = pages === 1;
-  const hasNextPage = currentPage < pages;
-  const hasPreviousPage = currentPage > 1;
-
-  return {
-    lastIndex,
-    start: start >= 0 ? start : 0,
-    end: end <= collectionLength ? end : collectionLength,
-    pages,
-    hasOnePage,
-    hasNextPage,
-    hasPreviousPage,
-    currentPage,
-    setCurrentPage,
-    next() {
-      if (hasNextPage) {
-        setCurrentPage(currentPage + 1);
-      }
-    },
-    prev() {
-      if (hasPreviousPage) {
-        setCurrentPage(currentPage - 1);
-      }
-    },
-  };
-};
 
 interface Props {
   isVisible: boolean;
@@ -63,6 +27,7 @@ export const DDP: FunctionComponent<Props> = observer(({ isVisible }) => {
   const store = usePanelStore();
 
   const pagination = calculatePagination(
+    VIEWABLE_HISTORY,
     store.ddp.length,
     currentPage,
     setCurrentPage,
@@ -82,6 +47,7 @@ export const DDP: FunctionComponent<Props> = observer(({ isVisible }) => {
         log={log}
         isNew={store.newDdpLogs.includes(log.id)}
         isStarred={store.bookmarkIds.includes(log.id)}
+        {...log}
       />
     ));
 

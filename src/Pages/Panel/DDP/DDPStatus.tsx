@@ -16,28 +16,6 @@ export const DDPStatus: FunctionComponent<Props> = ({ store, pagination }) => (
       <Popover content={<DDPFilterMenu />} position={Position.RIGHT_TOP}>
         <Button icon='filter' text='Filter' />
       </Popover>
-
-      {pagination.hasNextPage && (
-        <Tag minimal interactive round onClick={pagination.next}>
-          <Icon
-            icon='fast-backward'
-            style={{ marginRight: 4, marginBottom: 1 }}
-            iconSize={12}
-          />
-          Older
-        </Tag>
-      )}
-
-      {pagination.hasPreviousPage && (
-        <Tag minimal interactive round onClick={pagination.prev}>
-          Newer
-          <Icon
-            icon='fast-forward'
-            style={{ marginLeft: 4, marginBottom: 1 }}
-            iconSize={12}
-          />
-        </Tag>
-      )}
     </div>
 
     {store.isLoading && (
@@ -79,5 +57,20 @@ export const DDPStatus: FunctionComponent<Props> = ({ store, pagination }) => (
       />
       {store?.ddp.length}
     </Tag>
+
+    <Button
+      minimal
+      onClick={pagination.next}
+      disabled={!pagination.hasNextPage}
+      icon='fast-backward'
+      style={{ marginRight: 10 }}
+    />
+
+    <Button
+      minimal
+      onClick={pagination.prev}
+      disabled={!pagination.hasPreviousPage}
+      icon='fast-forward'
+    />
   </div>
 );
