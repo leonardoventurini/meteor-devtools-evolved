@@ -14,7 +14,7 @@ export const Hideable: FunctionComponent<Props & HTMLProps<HTMLDivElement>> = ({
   };
 
   return (
-    <div style={styles} {...props}>
+    <div className='hideable' style={styles} {...props}>
       {children}
     </div>
   );
