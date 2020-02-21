@@ -54,5 +54,18 @@ type FilterType =
   | 'method'
   | 'connection';
 
-
 type FilterTypeMap<T> = { [day in FilterType]: T };
+
+interface Pagination {
+  lastIndex: number;
+  start: number;
+  end: number;
+  pages: number;
+  currentPage: number;
+  hasOnePage: boolean;
+  hasNextPage: boolean;
+  hasPreviousPage: boolean;
+  setCurrentPage(page: number): void;
+  next(): void;
+  prev(): void;
+}

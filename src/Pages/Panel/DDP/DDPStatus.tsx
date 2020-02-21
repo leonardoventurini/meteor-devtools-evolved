@@ -7,14 +7,37 @@ import { PanelStoreConstructor } from '../../../Stores/PanelStore';
 
 interface Props {
   store: PanelStoreConstructor;
+  pagination: Pagination;
 }
 
-export const DDPStatus: FunctionComponent<Props> = ({ store }) => (
+export const DDPStatus: FunctionComponent<Props> = ({ store, pagination }) => (
   <div className='mde-layout__status'>
     <div className='mde-layout__status__filter'>
       <Popover content={<DDPFilterMenu />} position={Position.RIGHT_TOP}>
         <Button icon='filter' text='Filter' />
       </Popover>
+
+      {pagination.hasNextPage && (
+        <Tag minimal interactive round onClick={pagination.next}>
+          <Icon
+            icon='fast-backward'
+            style={{ marginRight: 4, marginBottom: 1 }}
+            iconSize={12}
+          />
+          Older
+        </Tag>
+      )}
+
+      {pagination.hasPreviousPage && (
+        <Tag minimal interactive round onClick={pagination.prev}>
+          Newer
+          <Icon
+            icon='fast-forward'
+            style={{ marginLeft: 4, marginBottom: 1 }}
+            iconSize={12}
+          />
+        </Tag>
+      )}
     </div>
 
     {store.isLoading && (

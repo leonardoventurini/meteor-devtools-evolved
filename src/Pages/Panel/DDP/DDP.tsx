@@ -1,12 +1,12 @@
-import React, { FunctionComponent } from 'react';
+import React, { FunctionComponent, useState } from 'react';
 import { DDPLog } from './DDPLog';
-import { Button, Classes, Icon, Popover, Tag } from '@blueprintjs/core';
+import { Classes, Icon } from '@blueprintjs/core';
 import { observer } from 'mobx-react-lite';
 import { Hideable } from '../../../Utils/Hideable';
 import { usePanelStore } from '../../../Stores/PanelStore';
-import prettyBytes from 'pretty-bytes';
-import { DDPFilterMenu } from './DDPFilterMenu';
-import { Position } from '@blueprintjs/core/lib/esm/common/position';
+import { DDPStatus } from './DDPStatus';
+
+const VIEWABLE_HISTORY = 100;
 
 const Empty: FunctionComponent = () => (
   <div style={{ display: 'flex', justifyContent: 'center' }}>
@@ -16,12 +16,57 @@ const Empty: FunctionComponent = () => (
   </div>
 );
 
+const calculatePagination = (
+  collectionLength: number,
+  currentPage: number,
+  setCurrentPage: (page: number) => void,
+): Pagination => {
+  const lastIndex = collectionLength - 1;
+  const start = lastIndex - currentPage * VIEWABLE_HISTORY;
+  const end = start + VIEWABLE_HISTORY + 1;
+  const pages = Math.ceil(collectionLength / VIEWABLE_HISTORY);
+
+  const hasOnePage = pages === 1;
+  const hasNextPage = currentPage < pages;
+  const hasPreviousPage = currentPage > 1;
+
+  return {
+    lastIndex,
+    start: start >= 0 ? start : 0,
+    end: end <= collectionLength ? end : collectionLength,
+    pages,
+    hasOnePage,
+    hasNextPage,
+    hasPreviousPage,
+    currentPage,
+    setCurrentPage,
+    next() {
+      if (hasNextPage) {
+        setCurrentPage(currentPage + 1);
+      }
+    },
+    prev() {
+      if (hasPreviousPage) {
+        setCurrentPage(currentPage - 1);
+      }
+    },
+  };
+};
+
 interface Props {
   isVisible: boolean;
 }
 
 export const DDP: FunctionComponent<Props> = observer(({ isVisible }) => {
+  const [currentPage, setCurrentPage] = useState(1);
+
   const store = usePanelStore();
+
+  const pagination = calculatePagination(
+    store.ddp.length,
+    currentPage,
+    setCurrentPage,
+  );
 
   const logs = store?.ddp
     .filter(log => {
@@ -29,7 +74,7 @@ export const DDP: FunctionComponent<Props> = observer(({ isVisible }) => {
 
       return !msg || !store.activeFilterBlacklist.includes(msg[1]);
     })
-    .slice(-100)
+    .slice(pagination.start, pagination.end)
     .map(log => (
       <DDPLog
         key={log.id}
@@ -44,7 +89,7 @@ export const DDP: FunctionComponent<Props> = observer(({ isVisible }) => {
     <Hideable isVisible={isVisible}>
       <div className='mde-ddp'>{logs?.length ? logs : <Empty />}</div>
 
-      <DDPStatus store={store} />
+      <DDPStatus store={store} pagination={pagination} />
     </Hideable>
   );
 });

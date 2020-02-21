@@ -62,12 +62,15 @@ pre {
     align-items: center;
 
     .mde-layout__status__filter {
-      display: flex;
       margin-right: auto;
 
       label {
         margin-bottom: 0;
         margin-right: 8px;
+      }
+
+      span + span {
+        margin-left: 8px;
       }
     }
   }
