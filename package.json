@@ -27,7 +27,6 @@
     "@types/react-dom": "^16.9.5",
     "@types/react-json-tree": "^0.6.11",
     "@types/react-window": "^1.8.1",
-    "@types/react-window-infinite-loader": "^1.0.2",
     "@typescript-eslint/parser": "^2.20.0",
     "babel-loader": "^8.0.6",
     "clean-webpack-plugin": "^3.0.0",
@@ -65,7 +64,6 @@
     "react-dom": "^16.12.0",
     "react-json-tree": "^0.11.2",
     "react-window": "^1.8.5",
-    "react-window-infinite-loader": "^1.0.5",
     "simple-sha1": "^3.0.1"
   }
 }
