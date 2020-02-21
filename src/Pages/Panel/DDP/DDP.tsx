@@ -44,56 +44,7 @@ export const DDP: FunctionComponent<Props> = observer(({ isVisible }) => {
     <Hideable isVisible={isVisible}>
       <div className='mde-ddp'>{logs?.length ? logs : <Empty />}</div>
 
-      <div className='mde-layout__status'>
-        <div className='mde-layout__status__filter'>
-          <Popover content={<DDPFilterMenu />} position={Position.RIGHT_TOP}>
-            <Button icon='filter' text='Filter' />
-          </Popover>
-        </div>
-
-        {store.isLoading && (
-          <Tag minimal round style={{ marginRight: 10 }}>
-            Loading...
-          </Tag>
-        )}
-
-        <Tag minimal round style={{ marginRight: 10 }}>
-          <Icon
-            icon='cloud-download'
-            style={{ marginRight: 4, marginBottom: 1 }}
-            iconSize={12}
-          />
-          {prettyBytes(store.inboundBytes)}
-        </Tag>
-
-        <Tag minimal round style={{ marginRight: 10 }}>
-          <Icon
-            icon='cloud-upload'
-            style={{ marginRight: 4, marginBottom: 1 }}
-            iconSize={12}
-          />
-          {prettyBytes(store.outboundBytes)}
-        </Tag>
-
-        <Tag minimal round style={{ marginRight: 10 }}>
-          <Icon
-            icon='vertical-bar-chart-asc'
-            style={{ marginRight: 4, marginBottom: 1 }}
-            iconSize={12}
-          />
-          {store?.ddp.length}
-        </Tag>
-
-        <Button
-          intent='none'
-          minimal
-          onClick={() => {
-            store?.clearLogs();
-          }}
-        >
-          <Icon icon='disable' />
-        </Button>
-      </div>
+      <DDPStatus store={store} />
     </Hideable>
   );
 });
