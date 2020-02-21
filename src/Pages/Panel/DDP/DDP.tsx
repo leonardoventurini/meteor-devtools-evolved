@@ -26,19 +26,20 @@ export const DDP: FunctionComponent<Props> = observer(({ isVisible }) => {
 
   const store = usePanelStore();
 
+  const filterRegExp = new RegExp(
+    `"msg":"(${store.activeFilterBlacklist.join('|')})"`,
+  );
+
+  const collection = store.ddp.filter(log => !filterRegExp.test(log.content));
+
   const pagination = calculatePagination(
     VIEWABLE_HISTORY,
-    store.ddp.length,
+    collection.length,
     currentPage,
     setCurrentPage,
   );
 
-  const logs = store?.ddp
-    .filter(log => {
-      const msg = log?.content?.match(/"msg":"(\w+)"/);
-
-      return !msg || !store.activeFilterBlacklist.includes(msg[1]);
-    })
+  const logs = collection
     .slice(pagination.start, pagination.end)
     .map(log => (
       <DDPLog
