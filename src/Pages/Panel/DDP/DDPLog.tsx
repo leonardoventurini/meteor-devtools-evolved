@@ -1,4 +1,4 @@
-import React, { FunctionComponent, memo } from 'react';
+import React, { CSSProperties, FunctionComponent, memo } from 'react';
 import { Icon, Tag, Tooltip } from '@blueprintjs/core';
 import classnames from 'classnames';
 import { PanelStoreConstructor } from '../../../Stores/PanelStore';
@@ -10,10 +10,11 @@ interface Props {
   isNew: boolean;
   isStarred: boolean;
   store: PanelStoreConstructor;
+  style: CSSProperties;
 }
 
 export const DDPLog: FunctionComponent<Props> = memo(
-  ({ log, isNew, isStarred, store }) => {
+  ({ log, isNew, isStarred, store, style }) => {
     const { trace, hash } = log;
 
     const classes = classnames('mde-ddp__log-row', {
@@ -21,7 +22,7 @@ export const DDPLog: FunctionComponent<Props> = memo(
     });
 
     return (
-      <div className={classes}>
+      <div className={classes} style={style}>
         <div className='time'>
           <small>{log.timestampPretty}</small>
         </div>
