@@ -48,8 +48,6 @@ export const DDP: FunctionComponent<Props> = observer(({ isVisible }) => {
         )}
         autoWidth
         overscanRowCount={50}
-        newDdpLogs={store.newDdpLogs}
-        bookmarkIds={store.bookmarkIds}
       />
 
       <div className='mde-layout__status'>
