@@ -3,25 +3,31 @@ import { DDPLog } from './DDPLog';
 import { PanelStoreConstructor } from '../../../Stores/PanelStore';
 
 interface Props {
+  key: string;
   index: number;
   style: CSSProperties;
-  data: {
-    items: DDPLog[];
-  };
+  newDdpLogs: string[];
+  bookmarkIds: (string | undefined)[];
 }
 
 export const DDPRow = (
   store: PanelStoreConstructor,
-): FunctionComponent<Props> => ({ data, index, style }) => {
-  const log = data.items[data.items.length - index - 1];
+): FunctionComponent<Props> => ({
+  key,
+  index,
+  style,
+  newDdpLogs,
+  bookmarkIds,
+}) => {
+  const log = store.ddp[index];
 
   return (
     <DDPLog
-      key={log.id}
+      key={key}
       store={store}
       log={log}
-      isNew={store.newDdpLogs.includes(log.id)}
-      isStarred={store.bookmarkIds.includes(log.id)}
+      isNew={Boolean(newDdpLogs?.includes(log.id))}
+      isStarred={Boolean(bookmarkIds?.includes(log.id))}
       style={style}
     />
   );

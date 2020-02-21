@@ -47,7 +47,7 @@ export class PanelStoreConstructor {
 
   submitLogs = debounce(
     action(() => {
-      this.ddp.push(...this.ddpBuffer);
+      this.ddp.unshift(...this.ddpBuffer.reverse());
 
       this.newDdpLogs.push(...this.ddpBuffer.map(({ id }) => id));
 

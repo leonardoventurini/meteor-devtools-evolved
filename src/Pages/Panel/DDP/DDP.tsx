@@ -1,19 +1,12 @@
 import React, { FunctionComponent, useRef } from 'react';
-import {
-  Button,
-  Classes,
-  Icon,
-  Popover,
-  Tag,
-  Tooltip,
-} from '@blueprintjs/core';
+import { Button, Classes, Icon, Popover, Tag } from '@blueprintjs/core';
 import { observer } from 'mobx-react-lite';
 import { Hideable } from '../../../Utils/Hideable';
 import { usePanelStore } from '../../../Stores/PanelStore';
 import prettyBytes from 'pretty-bytes';
 import { DDPFilterMenu } from './DDPFilterMenu';
 import { Position } from '@blueprintjs/core/lib/esm/common/position';
-import { FixedSizeList } from 'react-window';
+import { List } from 'react-virtualized';
 import { DDPRow } from './DDPRow';
 
 const Empty: FunctionComponent = () => (
@@ -29,24 +22,35 @@ interface Props {
 }
 
 export const DDP: FunctionComponent<Props> = observer(({ isVisible }) => {
-  const listRef = useRef(null);
+  const listRef = useRef<List>(null);
 
   const store = usePanelStore();
 
+  listRef?.current?.forceUpdateGrid();
+
+  const Renderer = DDPRow(store);
+
   return (
     <Hideable isVisible={isVisible}>
-      <FixedSizeList
-        itemData={{ items: store.ddp }}
-        height={window.innerHeight - 120}
-        itemCount={store.ddp.length}
-        itemSize={30}
+      <List
         ref={listRef}
-        width={'100%'}
+        height={window.innerHeight - 120}
+        rowCount={store.ddp.length}
+        rowHeight={30}
+        width={window.innerWidth}
         className='mde-ddp'
-        overscanCount={50}
-      >
-        {DDPRow(store)}
-      </FixedSizeList>
+        rowRenderer={props => (
+          <Renderer
+            newDdpLogs={store.newDdpLogs}
+            bookmarkIds={store.bookmarkIds}
+            {...props}
+          />
+        )}
+        autoWidth
+        overscanRowCount={50}
+        newDdpLogs={store.newDdpLogs}
+        bookmarkIds={store.bookmarkIds}
+      />
 
       <div className='mde-layout__status'>
         <div className='mde-layout__status__filter'>
