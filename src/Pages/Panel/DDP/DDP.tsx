@@ -31,7 +31,6 @@ export const DDP: FunctionComponent<Props> = observer(({ isVisible }) => {
   return (
     <Hideable isVisible={isVisible}>
       <List
-        ref={listRef}
         height={window.innerHeight - 120}
         rowCount={store.ddp.length}
         rowHeight={30}

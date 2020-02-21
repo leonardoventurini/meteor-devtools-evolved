@@ -3,7 +3,6 @@ import { DDPLog } from './DDPLog';
 import { PanelStoreConstructor } from '../../../Stores/PanelStore';
 
 interface Props {
-  key: string;
   index: number;
   style: CSSProperties;
   newDdpLogs: string[];
@@ -13,7 +12,6 @@ interface Props {
 export const DDPRow = (
   store: PanelStoreConstructor,
 ): FunctionComponent<Props> => ({
-  key,
   index,
   style,
   newDdpLogs,
@@ -23,7 +21,6 @@ export const DDPRow = (
 
   return (
     <DDPLog
-      key={key}
       store={store}
       log={log}
       isNew={Boolean(newDdpLogs?.includes(log.id))}
