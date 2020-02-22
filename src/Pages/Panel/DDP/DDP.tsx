@@ -1,21 +1,13 @@
 import React, { FunctionComponent, useState } from 'react';
 import { DDPLog } from './DDPLog';
-import { Classes, Icon } from '@blueprintjs/core';
 import { observer } from 'mobx-react-lite';
 import { Hideable } from '../../../Utils/Hideable';
 import { usePanelStore } from '../../../Stores/PanelStore';
 import { DDPStatus } from './DDPStatus';
 import { calculatePagination } from '../../../Utils/Pagination';
+import { Travolta } from '../../../Utils/Travolta';
 
 const VIEWABLE_HISTORY = 48;
-
-const Empty: FunctionComponent = () => (
-  <div style={{ display: 'flex', justifyContent: 'center' }}>
-    <span className={Classes.TEXT_MUTED}>
-      No logs yet... <Icon icon='comment' />
-    </span>
-  </div>
-);
 
 interface Props {
   isVisible: boolean;
@@ -30,7 +22,9 @@ export const DDP: FunctionComponent<Props> = observer(({ isVisible }) => {
     `"msg":"(${store.activeFilterBlacklist.join('|')})"`,
   );
 
-  const collection = store.ddp.filter(log => !filterRegExp.test(log.content));
+  const collection = store.ddp
+    .filter(log => !filterRegExp.test(log.content))
+    .filter(log => !store.search || log.content.includes(store.search));
 
   const pagination = calculatePagination(
     VIEWABLE_HISTORY,
@@ -54,7 +48,7 @@ export const DDP: FunctionComponent<Props> = observer(({ isVisible }) => {
 
   return (
     <Hideable isVisible={isVisible}>
-      <div className='mde-ddp'>{logs?.length ? logs : <Empty />}</div>
+      <div className='mde-ddp'>{logs?.length ? logs : <Travolta />}</div>
 
       <DDPStatus store={store} pagination={pagination} />
     </Hideable>

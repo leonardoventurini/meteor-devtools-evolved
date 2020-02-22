@@ -112,6 +112,8 @@ pre {
       align-items: center;
 
       .mde-layout__status__filter {
+        display: flex;
+        flex-direction: row;
         margin-right: auto;
 
         label {
@@ -119,8 +121,8 @@ pre {
           margin-right: 8px;
         }
 
-        span + span {
-          margin-left: 8px;
+        span {
+          margin-right: 8px;
         }
       }
     }

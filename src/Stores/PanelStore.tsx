@@ -19,6 +19,7 @@ export class PanelStoreConstructor {
   @observable.shallow bookmarks: Bookmark[] = [];
   @observable.shallow bookmarkIds: (string | undefined)[] = [];
 
+  @observable search: string = '';
   @observable.shallow activeFilterBlacklist: string[] = [];
 
   @observable activeFilters: FilterTypeMap<boolean> = {
@@ -126,6 +127,13 @@ export class PanelStoreConstructor {
       ),
     );
   }
+
+  setSearch = debounce(
+    action((search: string) => {
+      this.search = search;
+    }),
+    250,
+  );
 }
 
 export const PanelStore = new PanelStoreConstructor();
