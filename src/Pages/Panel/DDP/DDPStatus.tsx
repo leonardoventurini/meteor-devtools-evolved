@@ -1,5 +1,12 @@
 import React, { FormEvent, FunctionComponent } from 'react';
-import { Button, Icon, InputGroup, Popover, Tag } from '@blueprintjs/core';
+import {
+  Button,
+  Icon,
+  InputGroup,
+  Popover,
+  Spinner,
+  Tag,
+} from '@blueprintjs/core';
 import { DDPFilterMenu } from './DDPFilterMenu';
 import { Position } from '@blueprintjs/core/lib/esm/common/position';
 import prettyBytes from 'pretty-bytes';
@@ -26,12 +33,17 @@ export const DDPStatus: FunctionComponent<Props> = observer(
             store.setSearch(event.currentTarget.value)
           }
         />
+
+        <Tag minimal round>
+          <Icon icon='eye-open' style={{ marginRight: 8 }} />
+          {pagination.pageItems + ' of ' + pagination.length}
+        </Tag>
       </div>
 
       {store.isLoading && (
-        <Tag minimal round style={{ marginRight: 10 }}>
-          Loading...
-        </Tag>
+        <div style={{ marginRight: 8 }}>
+          <Spinner size={16} intent='warning' />
+        </div>
       )}
 
       <Tag // In-bytes

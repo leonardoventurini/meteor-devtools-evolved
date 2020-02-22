@@ -1,4 +1,4 @@
-declare module '*.gif'
+declare module '*.gif';
 
 interface Window {
   __devtools: boolean;
@@ -59,6 +59,8 @@ type FilterType =
 type FilterTypeMap<T> = { [day in FilterType]: T };
 
 interface Pagination {
+  offset: number;
+  length: number;
   lastIndex: number;
   start: number;
   end: number;
@@ -67,6 +69,7 @@ interface Pagination {
   hasOnePage: boolean;
   hasNextPage: boolean;
   hasPreviousPage: boolean;
+  pageItems: number;
   setCurrentPage(page: number): void;
   next(): void;
   prev(): void;
