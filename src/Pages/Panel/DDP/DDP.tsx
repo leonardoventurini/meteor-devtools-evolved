@@ -1,55 +1,37 @@
-import React, { FunctionComponent, useState } from 'react';
+import React, { FunctionComponent } from 'react';
 import { DDPLog } from './DDPLog';
 import { observer } from 'mobx-react-lite';
 import { Hideable } from '../../../Utils/Hideable';
 import { usePanelStore } from '../../../Stores/PanelStore';
 import { DDPStatus } from './DDPStatus';
-import { calculatePagination } from '../../../Utils/Pagination';
 import { Travolta } from '../../../Utils/Travolta';
-import { VIEWABLE_HISTORY } from '../../../Constants';
 
 interface Props {
   isVisible: boolean;
 }
 
 export const DDP: FunctionComponent<Props> = observer(({ isVisible }) => {
-  const [currentPage, setCurrentPage] = useState(1);
-
   const store = usePanelStore();
 
-  const filterRegExp = new RegExp(
-    `"msg":"(${store.activeFilterBlacklist.join('|')})"`,
-  );
-
-  const collection = store.ddp
-    .filter(log => !filterRegExp.test(log.content))
-    .filter(log => !store.search || log.content.includes(store.search));
-
-  const pagination = calculatePagination(
-    VIEWABLE_HISTORY,
-    collection.length,
-    currentPage,
-    setCurrentPage,
-  );
-
-  const logs = collection
-    .slice(pagination.start, pagination.end)
-    .map(log => (
-      <DDPLog
-        key={log.id}
-        store={store}
-        log={log}
-        isNew={store.newDdpLogs.includes(log.id)}
-        isStarred={store.bookmarkIds.includes(log.id)}
-        {...log}
-      />
-    ));
+  const logs = store.ddpStore.paginatedFilteredLogsCollection.map(log => (
+    <DDPLog
+      key={log.id}
+      store={store}
+      log={log}
+      isNew={store.newLogs.includes(log.id)}
+      isStarred={store.bookmarkIds.includes(log.id)}
+      {...log}
+    />
+  ));
 
   return (
     <Hideable isVisible={isVisible}>
       <div className='mde-ddp'>{logs?.length ? logs : <Travolta />}</div>
 
-      <DDPStatus store={store} pagination={pagination} />
+      <DDPStatus
+        store={store.ddpStore}
+        pagination={store.ddpStore.pagination}
+      />
     </Hideable>
   );
 });

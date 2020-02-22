@@ -1,12 +1,14 @@
 import React, { FormEvent, FunctionComponent } from 'react';
 import { Switch } from '@blueprintjs/core';
 import { observer } from 'mobx-react-lite';
-import { usePanelStore } from '../../../Stores/PanelStore';
 import { FilterCriteria } from './FilterConstants';
+import { DDPStore } from '../../../Stores/Panel/DDPStore';
 
-export const DDPFilterMenu: FunctionComponent = observer(() => {
-  const store = usePanelStore();
+interface Props {
+  store: DDPStore;
+}
 
+export const DDPFilterMenu: FunctionComponent<Props> = observer(({ store }) => {
   const filters = Object.keys(FilterCriteria).map(filter => (
     <Switch
       key={filter}

@@ -1,1 +1,1 @@
-export const VIEWABLE_HISTORY = 48;
+export const DEFAULT_OFFSET = 48;

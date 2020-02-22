@@ -1,17 +1,18 @@
 import React, { createContext, FunctionComponent } from 'react';
 import { action, observable } from 'mobx';
-import { compact, debounce, flatten } from 'lodash';
 import { PanelDatabase } from '../Database/PanelDatabase';
-import { FilterCriteria } from '../Pages/Panel/DDP/FilterConstants';
+import { DDPStore } from './Panel/DDPStore';
 
 export class PanelStoreConstructor {
-  ddpBuffer: DDPLog[] = [];
+  @observable PanelDDP = {
+    currentPage: 1,
+  };
 
   @observable inboundBytes: number = 0;
   @observable outboundBytes: number = 0;
 
-  @observable.shallow ddp: DDPLog[] = [];
-  @observable.shallow newDdpLogs: string[] = [];
+  @observable.shallow logsCollection: DDPLog[] = [];
+  @observable newLogs: string[] = [];
 
   @observable activeLog: DDPLog | null = null;
   @observable.shallow activeStackTrace: StackTrace[] | null = null;
@@ -30,52 +31,19 @@ export class PanelStoreConstructor {
     connection: true,
   };
 
+  ddpStore: DDPStore;
+
   @observable isLoading: boolean = false;
 
   constructor() {
+    this.ddpStore = new DDPStore();
+
     this.syncBookmarks().catch(console.error);
   }
 
-  pushLog(log: DDPLog) {
-    if (!this.isLoading) {
-      this.isLoading = true;
-    }
-
-    this.ddpBuffer.push(log);
-
-    this.submitLogs();
-  }
-
-  submitLogs = debounce(
-    action(() => {
-      this.ddp.unshift(...this.ddpBuffer.reverse());
-
-      this.newDdpLogs.push(...this.ddpBuffer.map(({ id }) => id));
-
-      this.inboundBytes += this.ddpBuffer
-        .filter(log => log.isInbound)
-        .reduce((sum, log) => sum + (log.size ?? 0), 0);
-
-      this.outboundBytes += this.ddpBuffer
-        .filter(log => log.isOutbound)
-        .reduce((sum, log) => sum + (log.size ?? 0), 0);
-
-      this.ddpBuffer = [];
-
-      this.clearNewLogs();
-
-      this.isLoading = false;
-    }),
-    100,
-  );
-
-  clearNewLogs = debounce(() => {
-    this.newDdpLogs = [];
-  }, 1000);
-
   @action
   clearLogs() {
-    this.ddp = [];
+    this.logsCollection = [];
   }
 
   @action
@@ -114,26 +82,6 @@ export class PanelStoreConstructor {
     this.bookmarks = await PanelDatabase.getBookmarks();
     this.bookmarkIds = this.bookmarks.map((bookmark: Bookmark) => bookmark.id);
   }
-
-  @action
-  setFilter(type: FilterType, isEnabled: boolean) {
-    this.activeFilters[type] = isEnabled;
-
-    this.activeFilterBlacklist = flatten(
-      compact(
-        Object.entries(this.activeFilters).map(([type, isEnabled]) => {
-          return isEnabled ? false : FilterCriteria[type as FilterType];
-        }),
-      ),
-    );
-  }
-
-  setSearch = debounce(
-    action((search: string) => {
-      this.search = search;
-    }),
-    250,
-  );
 }
 
 export const PanelStore = new PanelStoreConstructor();

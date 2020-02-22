@@ -59,18 +59,20 @@ type FilterType =
 type FilterTypeMap<T> = { [day in FilterType]: T };
 
 interface Pagination {
-  offset: number;
-  length: number;
-  lastIndex: number;
-  start: number;
-  end: number;
-  pages: number;
-  currentPage: number;
-  hasOnePage: boolean;
-  hasNextPage: boolean;
-  hasPreviousPage: boolean;
-  pageItems: number;
+  readonly offset: number;
+  readonly length: number;
+  readonly lastIndex: number;
+  readonly start: number;
+  readonly end: number;
+  readonly pages: number;
+  readonly currentPage: number;
+  readonly hasOnePage: boolean;
+  readonly hasNextPage: boolean;
+  readonly hasPreviousPage: boolean;
+  readonly pageItems: number;
   setCurrentPage(page: number): void;
   next(): void;
   prev(): void;
 }
+
+interface Store {}

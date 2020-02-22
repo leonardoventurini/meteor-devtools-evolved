@@ -5,8 +5,7 @@ import { Hideable } from '../../../Utils/Hideable';
 import { calculatePagination } from '../../../Utils/Pagination';
 import { DDPLog } from '../DDP/DDPLog';
 import { Travolta } from '../../../Utils/Travolta';
-import { DDPStatus } from '../DDP/DDPStatus';
-import { VIEWABLE_HISTORY } from '../../../Constants';
+import { DEFAULT_OFFSET } from '../../../Constants';
 
 interface Props {
   isVisible: boolean;
@@ -28,7 +27,7 @@ export const Starred: FunctionComponent<Props> = observer(({ isVisible }) => {
     );
 
   const pagination = calculatePagination(
-    VIEWABLE_HISTORY,
+    DEFAULT_OFFSET,
     collection.length,
     currentPage,
     setCurrentPage,
@@ -41,7 +40,7 @@ export const Starred: FunctionComponent<Props> = observer(({ isVisible }) => {
         key={log.id}
         store={store}
         log={log}
-        isNew={store.newDdpLogs.includes(log.id)}
+        isNew={store.newLogs.includes(log.id)}
         isStarred={store.bookmarkIds.includes(log.id)}
         {...log}
       />
@@ -50,8 +49,6 @@ export const Starred: FunctionComponent<Props> = observer(({ isVisible }) => {
   return (
     <Hideable isVisible={isVisible}>
       <div className='mde-ddp'>{logs?.length ? logs : <Travolta />}</div>
-
-      <DDPStatus store={store} pagination={pagination} />
     </Hideable>
   );
 });

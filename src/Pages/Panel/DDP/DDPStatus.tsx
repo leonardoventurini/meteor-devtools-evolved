@@ -10,11 +10,11 @@ import {
 import { DDPFilterMenu } from './DDPFilterMenu';
 import { Position } from '@blueprintjs/core/lib/esm/common/position';
 import prettyBytes from 'pretty-bytes';
-import { PanelStoreConstructor } from '../../../Stores/PanelStore';
 import { observer } from 'mobx-react-lite';
+import { DDPStore } from '../../../Stores/Panel/DDPStore';
 
 interface Props {
-  store: PanelStoreConstructor;
+  store: DDPStore;
   pagination: Pagination;
 }
 
@@ -22,7 +22,10 @@ export const DDPStatus: FunctionComponent<Props> = observer(
   ({ store, pagination }) => (
     <div className='mde-layout__status'>
       <div className='mde-layout__status__filter'>
-        <Popover content={<DDPFilterMenu />} position={Position.RIGHT_TOP}>
+        <Popover
+          content={<DDPFilterMenu store={store} />}
+          position={Position.RIGHT_TOP}
+        >
           <Button icon='filter' text='Filter' />
         </Popover>
 
@@ -85,7 +88,7 @@ export const DDPStatus: FunctionComponent<Props> = observer(
           style={{ marginRight: 4, marginBottom: 1 }}
           iconSize={12}
         />
-        {store?.ddp.length}
+        {store?.logsCollection.length}
       </Tag>
 
       <Button // Next Page
