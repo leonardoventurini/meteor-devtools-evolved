@@ -1,12 +1,16 @@
 import React, { FunctionComponent, useEffect, useState } from 'react';
+import { sample } from 'lodash';
 
 import TravoltaGif from '../Assets/travolta.gif';
-import { Classes, Icon } from '@blueprintjs/core';
+import { Classes } from '@blueprintjs/core';
 
-const randomMessages = [
-  'Hit the refresh button!!!',
-  'Ahoy, get them logs...',
-  'No one is here yet...',
+const messages = [
+  'No logs yet',
+  'Hit that refresh button',
+  'Ahoy',
+  'No one is here yet',
+  'Here comes the BOOM',
+  'Watch this',
 ];
 
 export const Travolta: FunctionComponent = () => {
@@ -19,10 +23,10 @@ export const Travolta: FunctionComponent = () => {
     return () => clearTimeout(timer);
   }, []);
 
+  const message = sample(messages);
+
   const placeholder = isFinished ? (
-    <span className={Classes.TEXT_MUTED}>
-      No logs yet... <Icon icon='comment' />
-    </span>
+    <span className={Classes.TEXT_MUTED}>{message}</span>
   ) : (
     <img src={TravoltaGif} height={64} width={64} />
   );
