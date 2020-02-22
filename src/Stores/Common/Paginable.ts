@@ -76,7 +76,7 @@ export class Paginable<T> {
       DEFAULT_OFFSET,
       this.filteredLogsCollection.length,
       this.currentPage,
-      this.setCurrentPage,
+      this.setCurrentPage.bind(this),
     );
   }
 

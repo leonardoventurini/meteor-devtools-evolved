@@ -38,7 +38,7 @@ const chromeSetup = () => {
       hash,
     };
 
-    PanelStore.ddpStore.pushLog(data);
+    PanelStore.ddpStore.pushItem(data);
   });
 };
 

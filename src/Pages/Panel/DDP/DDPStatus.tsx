@@ -88,7 +88,7 @@ export const DDPStatus: FunctionComponent<Props> = observer(
           style={{ marginRight: 4, marginBottom: 1 }}
           iconSize={12}
         />
-        {store?.logsCollection.length}
+        {store?.collection.length}
       </Tag>
 
       <Button // Next Page

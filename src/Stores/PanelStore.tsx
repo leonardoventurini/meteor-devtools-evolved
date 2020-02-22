@@ -4,15 +4,8 @@ import { PanelDatabase } from '../Database/PanelDatabase';
 import { DDPStore } from './Panel/DDPStore';
 
 export class PanelStoreConstructor {
-  @observable PanelDDP = {
-    currentPage: 1,
-  };
-
   @observable inboundBytes: number = 0;
   @observable outboundBytes: number = 0;
-
-  @observable.shallow logsCollection: DDPLog[] = [];
-  @observable newLogs: string[] = [];
 
   @observable activeLog: DDPLog | null = null;
   @observable.shallow activeStackTrace: StackTrace[] | null = null;
@@ -20,30 +13,10 @@ export class PanelStoreConstructor {
   @observable.shallow bookmarks: Bookmark[] = [];
   @observable.shallow bookmarkIds: (string | undefined)[] = [];
 
-  @observable search: string = '';
-  @observable.shallow activeFilterBlacklist: string[] = [];
-
-  @observable activeFilters: FilterTypeMap<boolean> = {
-    heartbeat: true,
-    subscription: true,
-    collection: true,
-    method: true,
-    connection: true,
-  };
-
-  ddpStore: DDPStore;
-
-  @observable isLoading: boolean = false;
+  ddpStore = new DDPStore();
 
   constructor() {
-    this.ddpStore = new DDPStore();
-
     this.syncBookmarks().catch(console.error);
-  }
-
-  @action
-  clearLogs() {
-    this.logsCollection = [];
   }
 
   @action
