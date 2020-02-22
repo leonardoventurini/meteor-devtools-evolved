@@ -6,8 +6,7 @@ import { usePanelStore } from '../../../Stores/PanelStore';
 import { DDPStatus } from './DDPStatus';
 import { calculatePagination } from '../../../Utils/Pagination';
 import { Travolta } from '../../../Utils/Travolta';
-
-const VIEWABLE_HISTORY = 48;
+import { VIEWABLE_HISTORY } from '../../../Constants';
 
 interface Props {
   isVisible: boolean;
