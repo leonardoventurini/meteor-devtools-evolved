@@ -1,12 +1,12 @@
 const path = require('path');
-const { extend } = require('lodash');
+const merge = require('webpack-merge');
 
 const src = path.join(__dirname, '../src/');
 
 const { CleanWebpackPlugin } = require('clean-webpack-plugin');
 
 module.exports = override =>
-  extend(
+  merge(
     {
       entry: {
         bundle: path.resolve(src, 'App.tsx'),
@@ -23,6 +23,7 @@ module.exports = override =>
       },
 
       plugins: [new CleanWebpackPlugin()],
+
       module: {
         rules: [
           {
@@ -65,6 +66,7 @@ module.exports = override =>
           },
         ],
       },
+
       resolve: {
         extensions: [
           '.css',
@@ -81,6 +83,10 @@ module.exports = override =>
           '.tsx',
           '.woff',
         ],
+      },
+
+      performance: {
+        hints: false,
       },
     },
     override,
