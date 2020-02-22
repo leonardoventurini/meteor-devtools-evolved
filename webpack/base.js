@@ -51,6 +51,18 @@ module.exports = override =>
               },
             ],
           },
+          {
+            test: /\.(gif)(\?v=\d+\.\d+\.\d+)?$/,
+            use: [
+              {
+                loader: 'file-loader',
+                options: {
+                  name: '[name].[ext]',
+                  outputPath: 'assets/',
+                },
+              },
+            ],
+          },
         ],
       },
       resolve: {
@@ -64,6 +76,7 @@ module.exports = override =>
           '.sass',
           '.scss',
           '.ttf',
+          '.gif',
           '.ts',
           '.tsx',
           '.woff',

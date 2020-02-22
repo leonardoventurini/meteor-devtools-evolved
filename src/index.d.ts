@@ -1,3 +1,5 @@
+declare module '*.gif'
+
 interface Window {
   __devtools: boolean;
 }
