@@ -5,7 +5,7 @@ import { Panel } from './Pages/Panel';
 import { Options } from './Pages/Options';
 import { Popup } from './Pages/Popup';
 
-import './Style.scss';
+import './$App.scss';
 import { FocusStyleManager } from '@blueprintjs/core';
 
 FocusStyleManager.onlyShowFocusOnTabs();
