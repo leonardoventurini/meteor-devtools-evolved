@@ -10,15 +10,12 @@ export class Paginable<T> {
   bufferCallback: BufferCallback<T> = null;
   filterFunction: FilterFunction<T> = null;
 
-  collectionBuffer: T[] = [];
-
-  @observable currentPage: number = 1;
+  buffer: T[] = [];
 
   @observable.shallow collection: T[] = [];
 
+  @observable currentPage: number = 1;
   @observable search: string = '';
-  @observable.shallow activeFilterBlacklist: string[] = [];
-
   @observable isLoading: boolean = false;
 
   pushItem(log: T) {
@@ -26,20 +23,20 @@ export class Paginable<T> {
       this.isLoading = true;
     }
 
-    this.collectionBuffer.push(log);
+    this.buffer.push(log);
 
     this.submitLogs();
   }
 
   submitLogs = debounce(
     action(() => {
-      this.collection.unshift(...this.collectionBuffer.reverse());
+      this.collection.unshift(...this.buffer.reverse());
 
       if (this.bufferCallback) {
-        this.bufferCallback(this.collectionBuffer);
+        this.bufferCallback(this.buffer);
       }
 
-      this.collectionBuffer = [];
+      this.buffer = [];
 
       this.isLoading = false;
     }),
@@ -64,7 +61,7 @@ export class Paginable<T> {
   }
 
   @computed
-  get filteredLogsCollection() {
+  get filtered() {
     return this.filterFunction
       ? this.filterFunction(this.collection, this.search)
       : this.collection;
@@ -74,17 +71,14 @@ export class Paginable<T> {
   get pagination() {
     return calculatePagination(
       DEFAULT_OFFSET,
-      this.filteredLogsCollection.length,
+      this.filtered.length,
       this.currentPage,
       this.setCurrentPage.bind(this),
     );
   }
 
   @computed
-  get paginatedFilteredLogsCollection() {
-    return this.filteredLogsCollection.slice(
-      this.pagination.start,
-      this.pagination.end,
-    );
+  get paginated() {
+    return this.filtered.slice(this.pagination.start, this.pagination.end);
   }
 }
