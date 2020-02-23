@@ -6,6 +6,12 @@ function insertLink(title, url) {
   LinksCollection.insert({ title, url, createdAt: new Date() });
 }
 
+Meteor.methods({
+  echo(echo) {
+    return echo;
+  },
+});
+
 Meteor.startup(() => {
   if (LinksCollection.find().count() === 0) {
     insertLink(

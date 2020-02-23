@@ -41,22 +41,58 @@ const getTypeTag = (filterType?: FilterType | null) => {
   }
 };
 
+const idFormat = (message: string, id?: string | number | null | false) => {
+  if (id === false || id === undefined || id === null) {
+    return message;
+  }
+
+  return `[${id}] ${message}`;
+};
+
 const getMessage = (log: DDPLog, filterType?: FilterType | null) => {
   if (log.parsedContent) {
-    const content = log.parsedContent;
+    const { msg, collection, session, id, method, result } = log.parsedContent;
 
-    if (filterType === 'heartbeat') {
-      return content.msg;
-    }
+    const message = (() => {
+      if (filterType === 'heartbeat') {
+        return msg;
+      }
 
-    if (filterType === 'collection') {
-      return `${content.msg} to ${content.collection}`;
-    }
+      if (filterType === 'collection') {
+        const prepMap: { [key: string]: string } = {
+          added: 'to',
+          removed: 'from',
+          changed: 'at',
+        };
 
-    if (filterType === 'connection') {
-      return content.session
-        ? `${content.msg} to ${content.session}`
-        : content.msg;
+        if (msg && msg in prepMap) {
+          return `${msg} ${prepMap[msg]} ${collection}`;
+        }
+      }
+
+      if (filterType === 'connection') {
+        return session ? session : msg;
+      }
+
+      if (filterType === 'subscription') {
+        return msg;
+      }
+
+      if (filterType === 'method') {
+        if (msg === 'method') {
+          return method;
+        }
+
+        if (msg === 'result') {
+          return preview(JSON.stringify(result), MAX_PREVIEW_LENGTH);
+        }
+
+        return msg;
+      }
+    })();
+
+    if (message) {
+      return idFormat(message, id);
     }
   }
 

@@ -34,6 +34,9 @@ interface DDPLogContent {
   msg?: string;
   collection?: string;
   session?: string;
+  id?: string;
+  method?: string;
+  result?: string;
 }
 
 interface DDPLog {
