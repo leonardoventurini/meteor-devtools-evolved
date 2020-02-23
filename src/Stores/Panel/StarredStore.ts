@@ -2,13 +2,13 @@ import { Paginable } from '../Common/Paginable';
 import { action, observable } from 'mobx';
 import { PanelDatabase } from '../../Database/PanelDatabase';
 
-export class StarredStore extends Paginable<Bookmark> {
-  @observable.shallow bookmarkIds: (string | undefined)[] = [];
+export class StarredStore extends Paginable<StarredLog> {
+  @observable.shallow starredLogIds: (string | undefined)[] = [];
 
   @action
   async syncBookmarks() {
     this.collection = await PanelDatabase.getBookmarks();
-    this.bookmarkIds = this.collection.map((bookmark: Bookmark) => bookmark.id);
+    this.starredLogIds = this.collection.map((bookmark: StarredLog) => bookmark.id);
   }
 
   @action
@@ -26,7 +26,7 @@ export class StarredStore extends Paginable<Bookmark> {
 
     if (bookmark) {
       this.collection.push(bookmark);
-      this.bookmarkIds.push(bookmark.log.id);
+      this.starredLogIds.push(bookmark.log.id);
     }
   }
 }

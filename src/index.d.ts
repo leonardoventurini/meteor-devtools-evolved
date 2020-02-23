@@ -43,7 +43,7 @@ interface DDPLog {
   sizePretty?: string;
 }
 
-interface Bookmark {
+interface StarredLog {
   id?: string;
   timestamp: number;
   log: DDPLog;

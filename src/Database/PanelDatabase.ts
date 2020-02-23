@@ -2,7 +2,7 @@ import Dexie from 'dexie';
 import { toJS } from 'mobx';
 
 class Database extends Dexie {
-  bookmarks: Dexie.Table<Bookmark, string>;
+  bookmarks: Dexie.Table<StarredLog, string>;
 
   constructor() {
     super('MeteorToolsDatabase');
