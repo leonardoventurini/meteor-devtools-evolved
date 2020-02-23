@@ -29,16 +29,18 @@ const chromeSetup = () => {
   backgroundConnection.onMessage.addListener((message: Message<DDPLog>) => {
     const size = getSize(message.data.content);
     const hash = getHash(message.data.content);
+    const parsedContent = JSON.parse(message.data.content);
 
-    const data = {
+    const log = {
       ...message.data,
+      parsedContent,
       timestampPretty: moment(message.data.timestamp).format('HH:mm:ss.SSS'),
       size,
       sizePretty: prettyBytes(size),
       hash,
     };
 
-    PanelStore.ddpStore.pushItem(data);
+    PanelStore.ddpStore.pushItem(log);
   });
 };
 

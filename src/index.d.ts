@@ -30,9 +30,14 @@ interface StackTrace {
   fileName?: string;
 }
 
+interface DDPLogContent {
+  msg?: string;
+}
+
 interface DDPLog {
   id: string;
   content: string;
+  parsedContent?: DDPLogContent;
   trace?: StackTrace[];
   isInbound?: boolean;
   isOutbound?: boolean;
