@@ -32,6 +32,8 @@ interface StackTrace {
 
 interface DDPLogContent {
   msg?: string;
+  collection?: string;
+  session?: string;
 }
 
 interface DDPLog {
