@@ -29,8 +29,15 @@ export const DDP: FunctionComponent<Props> = observer(({ isVisible }) => {
       <div className='mde-ddp'>{logs?.length ? logs : <Travolta />}</div>
 
       <DDPStatus
-        store={store.ddpStore}
+        activeFilters={store.ddpStore.activeFilters}
+        clearLogs={store.ddpStore.clearLogs.bind(store.ddpStore)}
+        collectionLength={store.ddpStore.collection.length}
+        inboundBytes={store.ddpStore.inboundBytes}
+        isLoading={store.ddpStore.isLoading}
+        outboundBytes={store.ddpStore.outboundBytes}
         pagination={store.ddpStore.pagination}
+        setFilter={store.ddpStore.setFilter.bind(store.ddpStore)}
+        setSearch={store.ddpStore.setSearch.bind(store.ddpStore)}
       />
     </Hideable>
   );
