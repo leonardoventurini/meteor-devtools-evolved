@@ -12,6 +12,7 @@ interface Props {
 
 export const DDP: FunctionComponent<Props> = observer(({ isVisible }) => {
   const store = usePanelStore();
+  const pageStore = store.ddpStore;
 
   const logs = store.ddpStore.paginated.map(log => (
     <DDPLog

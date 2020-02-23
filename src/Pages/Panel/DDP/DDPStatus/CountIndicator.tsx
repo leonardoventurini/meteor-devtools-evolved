@@ -3,7 +3,7 @@ import { Icon, Tag } from '@blueprintjs/core';
 
 interface Props {
   count: number;
-  clear: () => void;
+  clear?: () => void;
 }
 
 export const CountIndicator: FunctionComponent<Props> = ({ count, clear }) => (
@@ -12,7 +12,7 @@ export const CountIndicator: FunctionComponent<Props> = ({ count, clear }) => (
     minimal
     round
     style={{ marginRight: 10 }}
-    interactive
+    interactive={!!clear}
     onClick={clear}
   >
     <Icon

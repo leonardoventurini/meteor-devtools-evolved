@@ -35,14 +35,6 @@ export class DDPStore extends Paginable<DDPLog> {
     this.clearNewLogs();
   };
 
-  filterFunction = (collection: DDPLog[], search: string) =>
-    collection
-      .filter(log => !this.filterRegularExpression.test(log.content))
-      .filter(
-        log =>
-          !search || log.content.toLowerCase().includes(search.toLowerCase()),
-      );
-
   clearNewLogs = debounce(() => {
     this.newLogs = [];
   }, 1000);
@@ -59,6 +51,18 @@ export class DDPStore extends Paginable<DDPLog> {
       ),
     );
   }
+
+  filterFunction = (collection: DDPLog[], search: string) =>
+    collection
+      .filter(log => !this.filterRegularExpression.test(log.content))
+      .filter(
+        log =>
+          !search ||
+          log.content
+            .toLowerCase()
+            .concat(log.hash ?? '')
+            .includes(search.toLowerCase()),
+      );
 
   @computed
   get filterRegularExpression() {

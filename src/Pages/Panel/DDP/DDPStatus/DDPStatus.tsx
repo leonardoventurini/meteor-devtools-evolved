@@ -16,7 +16,7 @@ interface Props {
   isLoading?: boolean;
   outboundBytes?: number;
   pagination: Pagination;
-  clearLogs: () => void;
+  clearLogs?: () => void;
   setFilter: (filter: FilterType, isEnabled: boolean) => void;
   setSearch: (search: string) => void;
 }
