@@ -1,22 +1,17 @@
 import React, { createContext, FunctionComponent } from 'react';
 import { action, observable } from 'mobx';
-import { PanelDatabase } from '../Database/PanelDatabase';
 import { DDPStore } from './Panel/DDPStore';
+import { StarredStore } from './Panel/StarredStore';
 
 export class PanelStoreConstructor {
-  @observable inboundBytes: number = 0;
-  @observable outboundBytes: number = 0;
-
   @observable activeLog: DDPLog | null = null;
   @observable.shallow activeStackTrace: StackTrace[] | null = null;
 
-  @observable.shallow bookmarks: Bookmark[] = [];
-  @observable.shallow bookmarkIds: (string | undefined)[] = [];
-
   ddpStore = new DDPStore();
+  starredStore = new StarredStore();
 
   constructor() {
-    this.syncBookmarks().catch(console.error);
+    this.starredStore.syncBookmarks().catch(console.error);
   }
 
   @action
@@ -27,33 +22,6 @@ export class PanelStoreConstructor {
   @action
   setActiveStackTrace(trace: StackTrace[] | null) {
     this.activeStackTrace = trace;
-  }
-
-  @action
-  async addBookmark(log: DDPLog) {
-    const bookmarkKey = await PanelDatabase.addBookmark(log);
-    const bookmark = await PanelDatabase.getBookmark(bookmarkKey);
-
-    if (bookmark) {
-      this.bookmarks.push(bookmark);
-      this.bookmarkIds.push(bookmark.log.id);
-    }
-  }
-
-  @action
-  async removeBookmark(log: DDPLog) {
-    if (log.timestamp) {
-      await PanelDatabase.removeBookmark(log.id);
-      await this.syncBookmarks();
-    }
-  }
-
-  @action
-  async syncBookmarks() {
-    console.log('Syncing bookmarks...');
-
-    this.bookmarks = await PanelDatabase.getBookmarks();
-    this.bookmarkIds = this.bookmarks.map((bookmark: Bookmark) => bookmark.id);
   }
 }
 

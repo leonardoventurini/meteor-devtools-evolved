@@ -59,9 +59,15 @@ export const DDPLog: FunctionComponent<Props> = memo(
           </Tooltip>
           <Tooltip content='Star & Keep' hoverOpenDelay={800} position='top'>
             {isStarred ? (
-              <Icon icon='star' onClick={() => store.removeBookmark(log)} />
+              <Icon
+                icon='star'
+                onClick={() => store.starredStore.removeBookmark(log)}
+              />
             ) : (
-              <Icon icon='star-empty' onClick={() => store.addBookmark(log)} />
+              <Icon
+                icon='star-empty'
+                onClick={() => store.starredStore.addBookmark(log)}
+              />
             )}
           </Tooltip>
         </div>
