@@ -1,17 +1,17 @@
 import React, { createContext, FunctionComponent } from 'react';
 import { action, observable } from 'mobx';
 import { DDPStore } from './Panel/DDPStore';
-import { StarredStore } from './Panel/StarredStore';
+import { BookmarkStore } from './Panel/BookmarkStore';
 
 export class PanelStoreConstructor {
   @observable activeLog: DDPLog | null = null;
   @observable.shallow activeStackTrace: StackTrace[] | null = null;
 
   ddpStore = new DDPStore();
-  starredStore = new StarredStore();
+  bookmarkStore = new BookmarkStore();
 
   constructor() {
-    this.starredStore.sync().catch(console.error);
+    this.bookmarkStore.sync().catch(console.error);
   }
 
   @action

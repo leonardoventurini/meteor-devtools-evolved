@@ -44,7 +44,7 @@ interface DDPLog {
   host?: string;
 }
 
-interface StarredLog {
+interface Bookmark {
   id?: string;
   timestamp: number;
   log: DDPLog;

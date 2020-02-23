@@ -1,5 +1,6 @@
 import React, { FunctionComponent } from 'react';
 import { Button, Navbar } from '@blueprintjs/core';
+import { PanelPage } from '../../Constants';
 
 interface Props {
   selectedTabId: string;
@@ -20,25 +21,25 @@ export const Navigation: FunctionComponent<Props> = ({
       <Button
         icon='changes'
         text='DDP'
-        onClick={() => setSelectedTabId('ddp')}
-        active={selectedTabId === 'ddp'}
+        onClick={() => setSelectedTabId(PanelPage.DDP)}
+        active={selectedTabId === PanelPage.DDP}
         minimal
         style={{ marginRight: 4 }}
       />
       <Button
         icon='star'
-        text='Starred'
-        onClick={() => setSelectedTabId('starred')}
-        active={selectedTabId === 'starred'}
+        text='Bookmarks'
+        onClick={() => setSelectedTabId(PanelPage.BOOKMARKS)}
+        active={selectedTabId === PanelPage.BOOKMARKS}
         minimal
+        style={{ marginRight: 4 }}
       />
       <Button
         icon='database'
         text='Minimongo'
-        onClick={() => setSelectedTabId('minimongo')}
-        active={selectedTabId === 'minimongo'}
+        onClick={() => setSelectedTabId(PanelPage.MINIMONGO)}
+        active={selectedTabId === PanelPage.MINIMONGO}
         minimal
-        style={{ marginRight: 4 }}
       />
     </Navbar.Group>
   </Navbar>

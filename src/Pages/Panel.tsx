@@ -5,9 +5,10 @@ import { Minimongo } from './Panel/Minimongo/Minimongo';
 import { Navigation } from './Panel/Navigation';
 import { DrawerStackTrace } from './Panel/DrawerStackTrace';
 import { DrawerLogJSON } from './Panel/DrawerLogJSON';
-import { Starred } from './Panel/Starred/Starred';
+import { Bookmarks } from './Panel/Bookmarks/Bookmarks';
 import { setupBridge } from '../Bridge';
 import { observer } from 'mobx-react-lite';
+import { PanelPage } from '../Constants';
 
 setupBridge();
 
@@ -43,9 +44,9 @@ const PanelObserverComponent: FunctionComponent<Props> = observer(() => {
       <Navigation {...navigationProps} />
 
       <div className='mde-layout__tab-panel' ref={panelRef}>
-        <DDP isVisible={selectedTabId === 'ddp'} />
-        <Minimongo isVisible={selectedTabId === 'minimongo'} />
-        <Starred isVisible={selectedTabId === 'starred'} />
+        <DDP isVisible={selectedTabId === PanelPage.DDP} />
+        <Bookmarks isVisible={selectedTabId === PanelPage.BOOKMARKS} />
+        <Minimongo isVisible={selectedTabId === PanelPage.MINIMONGO} />
       </div>
     </div>
   );
