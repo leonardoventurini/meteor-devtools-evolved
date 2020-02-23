@@ -27,6 +27,7 @@ export const DDPLog: FunctionComponent<Props> = memo(
   }) => {
     const classes = classnames('mde-ddp__log-row', {
       'mde-ddp__log-row--new': isNew,
+      'mde-ddp__log-row--starred': isStarred,
     });
 
     return (

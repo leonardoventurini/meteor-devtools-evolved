@@ -61,7 +61,11 @@ pre {
         transition: background-color 0.5s ease;
 
         &.mde-ddp__log-row--new {
-          background-color: adjust_hue($background-color, -25%);
+          background-color: adjust_color($background-color, $green: 25);
+        }
+
+        &.mde-ddp__log-row--starred {
+          background-color: adjust_color($background-color, $blue: 25);
         }
 
         div + div {
