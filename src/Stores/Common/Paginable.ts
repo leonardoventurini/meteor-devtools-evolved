@@ -51,6 +51,7 @@ export class Paginable<T> {
   setSearch = debounce(
     action((search: string) => {
       this.search = search;
+      this.currentPage = 1;
     }),
     250,
   );
