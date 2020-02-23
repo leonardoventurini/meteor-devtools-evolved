@@ -3,6 +3,8 @@ import { memoize, padStart } from 'lodash';
 import prettyBytes from 'pretty-bytes';
 import moment from 'moment';
 import { CRC32 } from './Utils/CRC32';
+import { detectType } from './Pages/Panel/DDP/FilterConstants';
+import { generatePreview } from './Utils/MessageFormatter';
 
 const injectScript = (scriptUrl: string) => {
   fetch(chrome.extension.getURL(scriptUrl))
@@ -30,6 +32,12 @@ const chromeSetup = () => {
     const size = getSize(message.data.content);
     const hash = getHash(message.data.content);
     const parsedContent = JSON.parse(message.data.content);
+    const filterType = detectType(parsedContent);
+    const preview = generatePreview(
+      message.data.content,
+      parsedContent,
+      filterType,
+    );
 
     const log = {
       ...message.data,
@@ -38,6 +46,8 @@ const chromeSetup = () => {
       size,
       sizePretty: prettyBytes(size),
       hash,
+      filterType,
+      preview,
     };
 
     PanelStore.ddpStore.pushItem(log);

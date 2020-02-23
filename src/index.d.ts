@@ -52,6 +52,8 @@ interface DDPLog {
   size?: number;
   sizePretty?: string;
   host?: string;
+  filterType?: FilterType | null;
+  preview?: string;
 }
 
 interface Bookmark {

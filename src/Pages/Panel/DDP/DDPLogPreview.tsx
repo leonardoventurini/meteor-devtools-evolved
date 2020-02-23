@@ -1,10 +1,6 @@
 import React, { FunctionComponent } from 'react';
 import { PanelStoreConstructor } from '../../../Stores/PanelStore';
 import { Icon, IconName, Tag, Tooltip } from '@blueprintjs/core';
-import { detectType } from './FilterConstants';
-import { MessageFormatter } from '../../../Utils/MessageFormatter';
-import { truncate } from '../../../Utils/String';
-import { isNumber, isString } from 'lodash';
 
 interface Props {
   log: DDPLog;
@@ -43,38 +39,10 @@ const getTypeTag = (filterType?: FilterType | null) => {
   }
 };
 
-const idFormat = (message: string, id?: string | number | null) => {
-  if (isNumber(id) || isString(id)) {
-    return `[${id}] ${truncate(message)}`;
-  }
-
-  return message;
-};
-
-const getMessage = (log: DDPLog, filterType?: FilterType | null) => {
-  if (log.parsedContent && filterType) {
-    const message = (() => {
-      if (filterType in MessageFormatter) {
-        return MessageFormatter[filterType](log.parsedContent);
-      }
-
-      return null;
-    })();
-
-    if (message) {
-      return idFormat(message, log.parsedContent.id);
-    }
-  }
-
-  return truncate(log.content);
-};
-
 export const DDPLogPreview: FunctionComponent<Props> = ({ log, store }) => {
-  const filterType = detectType(log.parsedContent);
-
   return (
     <>
-      {getTypeTag(filterType)}
+      {getTypeTag(log.filterType)}
       <Tag
         interactive
         minimal
@@ -83,7 +51,7 @@ export const DDPLogPreview: FunctionComponent<Props> = ({ log, store }) => {
         }}
       >
         <small>
-          <code>{getMessage(log, filterType)}</code>
+          <code>{log.preview}</code>
         </small>
       </Tag>
     </>

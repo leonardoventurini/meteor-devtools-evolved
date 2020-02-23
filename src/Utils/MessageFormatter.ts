@@ -1,4 +1,5 @@
 import { truncate } from './String';
+import { isNumber, isString } from 'lodash';
 
 export const MessageFormatter = {
   heartbeat({ msg }: DDPLogContent) {
@@ -36,4 +37,34 @@ export const MessageFormatter = {
 
     return msg;
   },
+};
+
+const idFormat = (message: string, id?: string | number | null) => {
+  if (isNumber(id) || isString(id)) {
+    return `[${id}] ${truncate(message)}`;
+  }
+
+  return message;
+};
+
+export const generatePreview = (
+  content: string,
+  parsedContent: DDPLogContent,
+  filterType?: FilterType | null,
+) => {
+  if (parsedContent && filterType) {
+    const message = (() => {
+      if (filterType in MessageFormatter) {
+        return MessageFormatter[filterType](parsedContent);
+      }
+
+      return null;
+    })();
+
+    if (message) {
+      return idFormat(message, parsedContent.id);
+    }
+  }
+
+  return truncate(content);
 };
