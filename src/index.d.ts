@@ -75,5 +75,3 @@ interface Pagination {
   next(): void;
   prev(): void;
 }
-
-interface Store {}

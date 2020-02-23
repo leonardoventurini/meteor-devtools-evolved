@@ -18,7 +18,7 @@ const PanelObserverComponent: FunctionComponent<Props> = observer(() => {
   const store = usePanelStore();
   const panelRef = useRef<HTMLDivElement>(null);
 
-  const defaultSelectedTabId = 'ddp';
+  const defaultSelectedTabId = PanelPage.DDP;
 
   const [selectedTabId, setSelectedTabId] = useState<string>(
     defaultSelectedTabId,

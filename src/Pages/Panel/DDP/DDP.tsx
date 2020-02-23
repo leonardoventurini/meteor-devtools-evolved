@@ -3,7 +3,7 @@ import { DDPLog } from './DDPLog';
 import { observer } from 'mobx-react-lite';
 import { Hideable } from '../../../Utils/Hideable';
 import { usePanelStore } from '../../../Stores/PanelStore';
-import { DDPStatus } from './DDPStatus';
+import { DDPStatus } from './DDPStatus/DDPStatus';
 import { Travolta } from '../../../Utils/Travolta';
 
 interface Props {
