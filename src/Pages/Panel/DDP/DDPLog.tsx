@@ -61,12 +61,12 @@ export const DDPLog: FunctionComponent<Props> = memo(
             {isStarred ? (
               <Icon
                 icon='star'
-                onClick={() => store.starredStore.removeBookmark(log)}
+                onClick={() => store.starredStore.removeStar(log)}
               />
             ) : (
               <Icon
                 icon='star-empty'
-                onClick={() => store.starredStore.addBookmark(log)}
+                onClick={() => store.starredStore.addStar(log)}
               />
             )}
           </Tooltip>

@@ -6,27 +6,29 @@ export class StarredStore extends Paginable<StarredLog> {
   @observable.shallow starredLogIds: (string | undefined)[] = [];
 
   @action
-  async syncBookmarks() {
-    this.collection = await PanelDatabase.getBookmarks();
-    this.starredLogIds = this.collection.map((bookmark: StarredLog) => bookmark.id);
+  async sync() {
+    this.collection = await PanelDatabase.getStarredLogs();
+    this.starredLogIds = this.collection.map(
+      (starred: StarredLog) => starred.id,
+    );
   }
 
   @action
-  async removeBookmark(log: DDPLog) {
+  async removeStar(log: DDPLog) {
     if (log.timestamp) {
-      await PanelDatabase.removeBookmark(log.id);
-      await this.syncBookmarks();
+      await PanelDatabase.removeStarredLog(log.id);
+      await this.sync();
     }
   }
 
   @action
-  async addBookmark(log: DDPLog) {
-    const bookmarkKey = await PanelDatabase.addBookmark(log);
-    const bookmark = await PanelDatabase.getBookmark(bookmarkKey);
+  async addStar(log: DDPLog) {
+    const starredKey = await PanelDatabase.addStarredLog(log);
+    const starred = await PanelDatabase.getStarredLog(starredKey);
 
-    if (bookmark) {
-      this.collection.push(bookmark);
-      this.starredLogIds.push(bookmark.log.id);
+    if (starred) {
+      this.collection.push(starred);
+      this.starredLogIds.push(starred.log.id);
     }
   }
 }

@@ -14,7 +14,7 @@ class Database extends Dexie {
     this.bookmarks = this.table('bookmarks');
   }
 
-  addBookmark(log: DDPLog) {
+  addStarredLog(log: DDPLog) {
     return this.bookmarks.add({
       id: log.id,
       timestamp: Date.now(),
@@ -22,15 +22,15 @@ class Database extends Dexie {
     });
   }
 
-  getBookmark(key: string) {
+  getStarredLog(key: string) {
     return this.bookmarks.get(key);
   }
 
-  removeBookmark(key: string) {
+  removeStarredLog(key: string) {
     return this.bookmarks.delete(key);
   }
 
-  getBookmarks() {
+  getStarredLogs() {
     return this.bookmarks.toArray();
   }
 }

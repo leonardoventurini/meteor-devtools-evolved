@@ -11,7 +11,7 @@ export class PanelStoreConstructor {
   starredStore = new StarredStore();
 
   constructor() {
-    this.starredStore.syncBookmarks().catch(console.error);
+    this.starredStore.sync().catch(console.error);
   }
 
   @action

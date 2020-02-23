@@ -38,6 +38,7 @@ export const sendLogMessage = (message: DDPLog) => {
     EventTypes.DDP,
     extend(message, {
       trace: stackTrace,
+      host: location.host,
     }),
   );
 };

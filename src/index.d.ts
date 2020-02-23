@@ -41,6 +41,7 @@ interface DDPLog {
   hash?: string;
   size?: number;
   sizePretty?: string;
+  host?: string;
 }
 
 interface StarredLog {
