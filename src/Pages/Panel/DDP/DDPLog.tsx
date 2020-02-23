@@ -72,11 +72,21 @@ export const DDPLog: FunctionComponent<Props> = memo(
           </Tooltip>
         </div>
 
-        <div className='hash'>
-          <Tooltip content='CRC32' hoverOpenDelay={800} position='top'>
-            <Tag minimal>{hash}</Tag>
-          </Tooltip>
-        </div>
+        {hash && (
+          <div className='hash'>
+            <Tooltip content='CRC32' hoverOpenDelay={800} position='top'>
+              <Tag
+                minimal
+                interactive
+                onClick={() => {
+                  navigator.clipboard.writeText(hash).catch(console.error);
+                }}
+              >
+                {hash}
+              </Tag>
+            </Tooltip>
+          </div>
+        )}
       </div>
     );
   },
