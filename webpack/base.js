@@ -10,7 +10,7 @@ module.exports = override =>
     {
       entry: {
         bundle: path.resolve(src, 'App.tsx'),
-        inject: path.resolve(src, 'Injector.ts'),
+        inject: path.resolve(src, 'Injectors', '_Injector.ts'),
         background: path.resolve(src, 'Browser', 'Background.ts'),
         content: path.resolve(src, 'Browser', 'Content.ts'),
         devtools: path.resolve(src, 'Browser', 'DevTools.ts'),

@@ -1,7 +1,8 @@
 import { extend } from 'lodash';
-import { DDPInjector } from './Injectors/DDPInjector';
+import { DDPInjector } from './DDPInjector';
 import ErrorStackParser from 'error-stack-parser';
-import { MinimongoInjector } from './Injectors/MinimongoInjector';
+import { MinimongoInjector, updateCollections } from './MinimongoInjector';
+import { warning } from '../Log';
 
 export const sendMessage = (eventType: EventType, data: object) => {
   window.postMessage(
@@ -39,6 +40,8 @@ export const sendLogMessage = (message: DDPLog) => {
       host: location.host,
     }),
   );
+
+  updateCollections();
 };
 
 type MessageHandler = (message: Message<void>) => void;
@@ -78,7 +81,7 @@ if (!window.__devtools) {
         );
       };
 
-      console.log('Meteor DevTools Evolved: Injecting script...');
+      warning('Injecting script...');
     }
   });
 }
