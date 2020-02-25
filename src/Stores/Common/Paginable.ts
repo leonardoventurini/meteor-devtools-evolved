@@ -6,7 +6,7 @@ import { calculatePagination } from '../../Utils/Pagination';
 type BufferCallback<T> = ((buffer: T[]) => void) | null;
 type FilterFunction<T> = ((collection: T[], search: string) => T[]) | null;
 
-export class Paginable<T> {
+export abstract class Paginable<T> {
   bufferCallback: BufferCallback<T> = null;
   filterFunction: FilterFunction<T> = null;
 
