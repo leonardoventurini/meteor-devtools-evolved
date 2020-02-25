@@ -23,12 +23,13 @@ const getCollections = () => {
   }
 
   const data = Object.values(collections).reduce(
-    (acc: object, collection: any) => ({
-      [collection.name]: collection
-        .find()
-        .fetch()
-        .map(cleanup),
-    }),
+    (acc: object, collection: any) =>
+      Object.assign(acc, {
+        [collection.name]: collection
+          .find()
+          .fetch()
+          .map(cleanup),
+      }),
     {},
   );
 
