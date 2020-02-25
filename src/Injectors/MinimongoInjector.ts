@@ -36,7 +36,7 @@ const getCollections = () => {
   sendMessage('minimongo-get-collections', data);
 };
 
-export const updateCollections = debounce(getCollections, 200);
+export const updateCollections = debounce(getCollections, 500);
 
 export const MinimongoInjector = () => {
   Registry.register('minimongo-explorer', message => {

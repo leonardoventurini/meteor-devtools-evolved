@@ -41,7 +41,7 @@ export const sendLogMessage = (message: DDPLog) => {
     }),
   );
 
-  updateCollections();
+  if (!/"msg":"(ping|pong)"/.test(message.content)) updateCollections();
 };
 
 type MessageHandler = (message: Message<void>) => void;
