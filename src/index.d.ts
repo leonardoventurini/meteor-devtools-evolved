@@ -2,6 +2,7 @@ declare module '*.gif';
 
 interface Window {
   __devtools: boolean;
+  __meteor_devtools_receiveMessage(message: Message<any>): void;
 }
 
 declare module Meteor {
@@ -16,10 +17,13 @@ declare module 'simple-sha1' {
   ): void;
 }
 
+type MessageSource = 'meteor-devtools-evolved' | 'minimongo-explorer';
+type EventType = 'ddp-event' | 'minimongo-get-collections';
+
 interface Message<T> {
-  eventType: string;
+  eventType: EventType;
   data: T;
-  source: string;
+  source: MessageSource;
 }
 
 interface StackTrace {

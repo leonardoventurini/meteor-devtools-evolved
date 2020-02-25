@@ -54,6 +54,14 @@ const chromeSetup = () => {
   });
 };
 
+export const sendPageMessage = (message: object) => {
+  if (chrome && chrome.devtools) {
+    chrome.devtools.inspectedWindow.eval(
+      `__meteor_devtools_receiveMessage(${JSON.stringify(message)})`,
+    );
+  }
+};
+
 export const setupBridge = () => {
   console.log('Setting up bridge...');
 

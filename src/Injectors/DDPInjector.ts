@@ -1,8 +1,10 @@
+import { sendLogMessage } from '../Injector';
+
 type MessageCallback = (message: DDPLog) => void;
 
 const generateId = () => (Date.now() + Math.random()).toString(36);
 
-export const injectOutboundInterceptor = (callback: MessageCallback) => {
+const injectOutboundInterceptor = (callback: MessageCallback) => {
   const send = Meteor.connection._stream.send;
 
   Meteor.connection._stream.send = function() {
@@ -17,7 +19,7 @@ export const injectOutboundInterceptor = (callback: MessageCallback) => {
   };
 };
 
-export const injectInboundInterceptor = (callback: MessageCallback) => {
+const injectInboundInterceptor = (callback: MessageCallback) => {
   Meteor.connection._stream.on('message', function() {
     callback({
       id: generateId(),
@@ -26,4 +28,9 @@ export const injectInboundInterceptor = (callback: MessageCallback) => {
       timestamp: Date.now(),
     });
   });
+};
+
+export const DDPInjector = () => {
+  injectOutboundInterceptor(sendLogMessage);
+  injectInboundInterceptor(sendLogMessage);
 };

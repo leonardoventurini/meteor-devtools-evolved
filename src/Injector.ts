@@ -1,17 +1,15 @@
 import { extend } from 'lodash';
-import { injectInboundInterceptor, injectOutboundInterceptor } from './Meteor';
+import { DDPInjector } from './Injectors/DDPInjector';
 import ErrorStackParser from 'error-stack-parser';
-import { EventTypes } from './EventTypes';
+import { MinimongoInjector } from './Injectors/MinimongoInjector';
 
-export const MESSAGE_SOURCE = 'meteor-devtools-evolved';
-
-export const sendMessage = (eventType: string, data: object) => {
+export const sendMessage = (eventType: EventType, data: object) => {
   window.postMessage(
     {
       eventType,
       data,
-      source: MESSAGE_SOURCE,
-    },
+      source: 'meteor-devtools-evolved',
+    } as Message<object>,
     '*',
   );
 };
@@ -35,7 +33,7 @@ export const sendLogMessage = (message: DDPLog) => {
   }
 
   sendMessage(
-    EventTypes.DDP,
+    'ddp-event',
     extend(message, {
       trace: stackTrace,
       host: location.host,
@@ -43,18 +41,44 @@ export const sendLogMessage = (message: DDPLog) => {
   );
 };
 
+type MessageHandler = (message: Message<void>) => void;
+type Registration = {
+  acceptedSource: MessageSource;
+  handler: MessageHandler;
+};
+
+interface IRegistry {
+  subscriptions: Registration[];
+  register(source: MessageSource, handler: MessageHandler): void;
+}
+
+export const Registry: IRegistry = {
+  subscriptions: [],
+
+  register(source: MessageSource, handler: MessageHandler) {
+    this.subscriptions.push({
+      acceptedSource: source,
+      handler,
+    });
+  },
+};
+
 if (!window.__devtools) {
   document.addEventListener('DOMContentLoaded', () => {
     if (typeof Meteor === 'object') {
       window.__devtools = true;
 
-      injectInboundInterceptor(sendLogMessage);
+      DDPInjector();
+      MinimongoInjector();
 
-      injectOutboundInterceptor(sendLogMessage);
+      window.__meteor_devtools_receiveMessage = (message: Message<any>) => {
+        Registry.subscriptions.forEach(
+          ({ acceptedSource, handler }) =>
+            acceptedSource === message.source && handler(message),
+        );
+      };
 
       console.log('Meteor DevTools Evolved: Injecting script...');
-
-      window.__devtools = true;
     }
   });
 }
