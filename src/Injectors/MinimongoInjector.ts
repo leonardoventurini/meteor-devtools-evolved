@@ -16,11 +16,13 @@ const getCollections = () => {
   const collections = Meteor.connection._mongo_livedata_collections;
 
   if (!collections) {
-    warning('Collections Not Found.');
+    warning(
+      'Collections not initialized in the client yet. Possibly forgotten to be imported.',
+    );
     return;
   }
 
-  const data = collections.reduce(
+  const data = Object.values(collections).reduce(
     (acc: object, collection: any) => ({
       [collection.name]: collection
         .find()
