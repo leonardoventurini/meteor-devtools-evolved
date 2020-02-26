@@ -23,7 +23,11 @@ export const Minimongo: FunctionComponent<Props> = observer(({ isVisible }) => {
 
   return (
     <Hideable isVisible={isVisible}>
-      <ObjectTree object={minimongoStore.collections} />
+      {minimongoStore.activeCollectionDocuments.paginated.map(
+        (document: Document) => (
+          <ObjectTree key={document._id} object={document} />
+        ),
+      )}
 
       <StatusBar>
         <div style={{ marginRight: 'auto' }}>

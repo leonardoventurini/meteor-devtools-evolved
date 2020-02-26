@@ -20,5 +20,10 @@ export class MinimongoStore {
   @action
   setActiveCollection(collection: string | null) {
     this.activeCollection = collection;
+
+    collection &&
+      this.activeCollectionDocuments.setCollection(
+        this.collections[collection],
+      );
   }
 }
