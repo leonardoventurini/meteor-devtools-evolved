@@ -14,12 +14,12 @@ export const DDP: FunctionComponent<Props> = observer(({ isVisible }) => {
   const store = usePanelStore();
   const pageStore = store.ddpStore;
 
-  const logs = store.ddpStore.paginated.map(log => (
+  const logs = pageStore.paginated.map(log => (
     <DDPLog
       key={log.id}
       store={store}
       log={log}
-      isNew={store.ddpStore.newLogs.includes(log.id)}
+      isNew={pageStore.newLogs.includes(log.id)}
       isStarred={store.bookmarkStore.bookmarkIds.includes(log.id)}
       {...log}
     />
@@ -30,15 +30,15 @@ export const DDP: FunctionComponent<Props> = observer(({ isVisible }) => {
       <div className='mde-ddp'>{logs?.length ? logs : <Travolta />}</div>
 
       <DDPStatus
-        activeFilters={store.ddpStore.activeFilters}
-        clearLogs={store.ddpStore.clearLogs.bind(store.ddpStore)}
-        collectionLength={store.ddpStore.collection.length}
-        inboundBytes={store.ddpStore.inboundBytes}
-        isLoading={store.ddpStore.isLoading}
-        outboundBytes={store.ddpStore.outboundBytes}
-        pagination={store.ddpStore.pagination}
-        setFilter={store.ddpStore.setFilter.bind(store.ddpStore)}
-        setSearch={store.ddpStore.setSearch.bind(store.ddpStore)}
+        activeFilters={pageStore.activeFilters}
+        clearLogs={pageStore.clearLogs.bind(pageStore)}
+        collectionLength={pageStore.collection.length}
+        inboundBytes={pageStore.inboundBytes}
+        isLoading={pageStore.isLoading}
+        outboundBytes={pageStore.outboundBytes}
+        pagination={pageStore.pagination}
+        setFilter={pageStore.setFilter.bind(pageStore)}
+        setSearch={pageStore.setSearch.bind(pageStore)}
       />
     </Hideable>
   );
