@@ -15,18 +15,24 @@ export const Collapsible: FunctionComponent<Props> = ({
 
   if (isCollapsed) {
     if (isArray(object)) {
+      const length = (object as any[]).length;
+
       return (
-        <span role='expand' onClick={() => setIsCollapsed(false)}>{`[${
-          (object as any[]).length
-        }]`}</span>
+        <span
+          role='expand'
+          onClick={() => length && setIsCollapsed(false)}
+        >{`[${length}]`}</span>
       );
     }
 
     if (isObject(object)) {
+      const length = Object.keys(object).length;
+
       return (
-        <span role='expand' onClick={() => setIsCollapsed(false)}>{`{${
-          Object.keys(object).length
-        }}`}</span>
+        <span
+          role='expand'
+          onClick={() => length && setIsCollapsed(false)}
+        >{`{${length}}`}</span>
       );
     }
   }
