@@ -13,35 +13,23 @@ const RenderArray: FunctionComponent<Renderer> = ({
   property,
   child,
   level,
-}) => {
-  const [isCollapsed, setIsCollapsed] = useState(true);
-
-  return (
-    <li key={property} role='array'>
-      <strong role='property' onClick={() => setIsCollapsed(!isCollapsed)}>
-        {property} {isCollapsed ? `[${(child as any[]).length}]` : ''}
-      </strong>
-      {isCollapsed || <ObjectTreeNode object={child} level={level + 1} />}
-    </li>
-  );
-};
+}) => (
+  <li key={property} role='array'>
+    <strong role='property'>{property}</strong>
+    <ObjectTreeNode object={child} level={level + 1} />
+  </li>
+);
 
 const RenderObject: FunctionComponent<Renderer> = ({
   property,
   child,
   level,
-}) => {
-  const [isCollapsed, setIsCollapsed] = useState(true);
-
-  return (
-    <li key={property} role='object'>
-      <strong role='property' onClick={() => setIsCollapsed(!isCollapsed)}>
-        {property} {isCollapsed ? `{${Object.keys(child).length}}` : ''}
-      </strong>
-      {isCollapsed || <ObjectTreeNode object={child} level={level + 1} />}
-    </li>
-  );
-};
+}) => (
+  <li key={property} role='object'>
+    <strong role='property'>{property}</strong>
+    <ObjectTreeNode object={child} level={level + 1} />
+  </li>
+);
 
 const renderString = (key: string, child: string) => (
   <li key={key} role='string'>
@@ -59,11 +47,10 @@ const renderNumber = (key: string, child: number) => (
 const ObjectTreeNode: FunctionComponent<{
   object: { [key: string]: any };
   level: number;
-  collapsible?: boolean;
-}> = ({ object, level, collapsible }) => {
-  const [isCollapsed, setIsCollapsed] = useState(true);
+}> = ({ object, level }) => {
+  const [isCollapsed, setIsCollapsed] = useState(level > 1);
 
-  if (collapsible && isCollapsed) {
+  if (isCollapsed) {
     if (isArray(object)) {
       return (
         <span role='expand' onClick={() => setIsCollapsed(false)}>{`[${
@@ -81,15 +68,24 @@ const ObjectTreeNode: FunctionComponent<{
     }
   }
 
+  const collapseButton = level > 1 && (
+    <span role='collapse' onClick={() => setIsCollapsed(true)}>
+      [-]
+    </span>
+  );
+
   if (isArray(object)) {
     return (
-      <ol start={0}>
-        {object.map((item, index) => (
-          <li key={index}>
-            <ObjectTreeNode object={item} level={level + 1} collapsible />
-          </li>
-        ))}
-      </ol>
+      <>
+        {collapseButton}
+        <ol start={0}>
+          {object.map((item, index) => (
+            <li key={index}>
+              <ObjectTreeNode object={item} level={level + 1} />
+            </li>
+          ))}
+        </ol>
+      </>
     );
   }
 
@@ -113,7 +109,12 @@ const ObjectTreeNode: FunctionComponent<{
     return renderString(key, JSON.stringify(child));
   });
 
-  return <ul>{children}</ul>;
+  return (
+    <>
+      {collapseButton}
+      <ul>{children}</ul>
+    </>
+  );
 };
 
 export const ObjectTree: FunctionComponent<{
