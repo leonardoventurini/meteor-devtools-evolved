@@ -2,6 +2,7 @@ import React, { createContext, FunctionComponent } from 'react';
 import { action, observable } from 'mobx';
 import { DDPStore } from './Panel/DDPStore';
 import { BookmarkStore } from './Panel/BookmarkStore';
+import { MinimongoStore } from './Panel/MinimongoStore';
 
 export class PanelStoreConstructor {
   @observable activeLog: DDPLog | null = null;
@@ -9,6 +10,7 @@ export class PanelStoreConstructor {
 
   ddpStore = new DDPStore();
   bookmarkStore = new BookmarkStore();
+  minimongoStore = new MinimongoStore();
 
   constructor() {
     this.bookmarkStore.sync().catch(console.error);
