@@ -6,7 +6,6 @@ div[role='tree'] {
   overflow-y: scroll;
 
   strong[role='property'] {
-    cursor: pointer;
     color: #669eff;
   }
 
@@ -14,14 +13,20 @@ div[role='tree'] {
     color: #ff6e4a;
   }
 
+  span[role='index'] {
+    color: #808080;
+  }
+
   span[role='string'] {
-    font-family: monospace;
     color: #c99765;
   }
 
   span[role='number'] {
-    font-family: monospace;
     color: #ad99ff;
+  }
+
+  span[role='boolean'] {
+    color: #c274c2;
   }
 
   span[role='expand'],
@@ -33,9 +38,15 @@ div[role='tree'] {
     user-select: none;
   }
 
-  ul {
+  ul,
+  ol {
     list-style: none;
-    padding: 0;
+    padding-left: 12px;
     margin: 0;
+  }
+
+  & > ul,
+  & > ol {
+    padding: 0;
   }
 }
