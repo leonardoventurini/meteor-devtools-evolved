@@ -22,7 +22,7 @@ const RenderArray: FunctionComponent<Renderer> = ({
   child,
   level,
 }) => (
-  <li key={property} role='array'>
+  <li key={property}>
     <strong role='property'>{property}</strong>
     <ObjectTreeNode object={child} level={level + 1} />
   </li>
@@ -33,27 +33,27 @@ const RenderObject: FunctionComponent<Renderer> = ({
   child,
   level,
 }) => (
-  <li key={property} role='object'>
+  <li key={property}>
     <strong role='property'>{property}</strong>
     <ObjectTreeNode object={child} level={level + 1} />
   </li>
 );
 
 const renderString = (key: string, child: string) => (
-  <li key={key} role='string'>
+  <li key={key}>
     <span role='property'>{key}</span>:&nbsp;
     <span role='string'>{`"${child}"`}</span>
   </li>
 );
 
 const renderNumber = (key: string, child: number) => (
-  <li key={key} role='number'>
+  <li key={key}>
     <span role='property'>{key}</span>:&nbsp;<span role='number'>{child}</span>
   </li>
 );
 
 const renderBoolean = (key: string, child: boolean) => (
-  <li key={key} role='boolean'>
+  <li key={key}>
     <span role='property'>{key}</span>:&nbsp;
     <span role='boolean'>{JSON.stringify(child)}</span>
   </li>
@@ -63,14 +63,29 @@ const ObjectTreeNode: FunctionComponent<{
   object: { [key: string]: any };
   level: number;
 }> = ({ object, level }) => {
+  const renderArrayNode = (child: any) => {
+    switch (typeof child) {
+      case 'string':
+        return <span role='string'>{`"${child}"`}</span>;
+      case 'number':
+        return <span role='number'>{child}</span>;
+      case 'boolean':
+        return <span role='boolean'>{JSON.stringify(child)}</span>;
+      case 'object':
+        return <ObjectTreeNode object={child} level={level + 1} />;
+      default:
+        return <span role='string'>{`"${JSON.stringify(child)}"`}</span>;
+    }
+  };
+
   if (isArray(object)) {
     return (
       <Collapsible object={object} level={level}>
-        <ol start={0}>
+        <ol start={0} role='array'>
           {object.map((item, index) => (
             <li key={index} role='item'>
               <span role='index'>{index}:</span>
-              <ObjectTreeNode object={item} level={level + 1} />
+              {renderArrayNode(item)}
             </li>
           ))}
         </ol>
@@ -104,7 +119,7 @@ const ObjectTreeNode: FunctionComponent<{
 
   return (
     <Collapsible object={object} level={level}>
-      <ul>{children}</ul>
+      <ul role='object'>{children}</ul>
     </Collapsible>
   );
 };
