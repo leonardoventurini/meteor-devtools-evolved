@@ -1,7 +1,5 @@
 div[role='tree'] {
-  font-family: monospace;
   font-size: 12px;
-
   padding: 12px;
 
   height: calc(100vh - 110px);
@@ -9,23 +7,26 @@ div[role='tree'] {
 
   strong[role='property'] {
     cursor: pointer;
-    color: #669EFF;
+    color: #669eff;
   }
 
   span[role='property'] {
-    color: #FF6E4A;
+    color: #ff6e4a;
   }
 
   span[role='string'] {
-    color: #C99765;
+    font-family: monospace;
+    color: #c99765;
   }
 
   span[role='number'] {
-    color: #AD99FF;
+    font-family: monospace;
+    color: #ad99ff;
   }
 
   span[role='expand'],
   span[role='collapse'] {
+    font-family: monospace;
     color: #808080;
     margin-left: 4px;
     cursor: pointer;
