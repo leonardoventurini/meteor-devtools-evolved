@@ -18,33 +18,35 @@ const getHash = memoize((content: string) =>
   padStart(new CRC32().update(content).digest(), 8, '0'),
 );
 
-const handleDdpMessage = (message: Message<DDPLog>) => {
-  const size = getSize(message.data.content);
-  const hash = getHash(message.data.content);
-  const parsedContent = JSON.parse(message.data.content);
-  const filterType = detectType(parsedContent);
-  const preview = generatePreview(
-    message.data.content,
-    parsedContent,
-    filterType,
-  );
+const Handlers: { [key in EventType]: (message: Message<any>) => void } = {
+  'ddp-event': (message: Message<DDPLog>) => {
+    const size = getSize(message.data.content);
+    const hash = getHash(message.data.content);
+    const parsedContent = JSON.parse(message.data.content);
+    const filterType = detectType(parsedContent);
+    const preview = generatePreview(
+      message.data.content,
+      parsedContent,
+      filterType,
+    );
 
-  const log = {
-    ...message.data,
-    parsedContent,
-    timestampPretty: moment(message.data.timestamp).format('HH:mm:ss.SSS'),
-    size,
-    sizePretty: prettyBytes(size),
-    hash,
-    filterType,
-    preview,
-  };
+    const log = {
+      ...message.data,
+      parsedContent,
+      timestampPretty: moment(message.data.timestamp).format('HH:mm:ss.SSS'),
+      size,
+      sizePretty: prettyBytes(size),
+      hash,
+      filterType,
+      preview,
+    };
 
-  PanelStore.ddpStore.pushItem(log);
-};
+    PanelStore.ddpStore.pushItem(log);
+  },
 
-const handleMinimongoMessage = (message: Message<any>) => {
-  console.log(message);
+  'minimongo-get-collections': (message: Message<any>) => {
+    PanelStore.minimongoStore.setCollections(message.data);
+  },
 };
 
 const chromeSetup = () => {
@@ -58,9 +60,9 @@ const chromeSetup = () => {
   });
 
   backgroundConnection.onMessage.addListener((message: Message<any>) => {
-    message.eventType === 'ddp-event' && handleDdpMessage(message);
-    message.eventType === 'minimongo-get-collections' &&
-      handleMinimongoMessage(message);
+    if (message.eventType in Handlers) {
+      Handlers[message.eventType](message);
+    }
   });
 };
 
