@@ -110,9 +110,9 @@ const ObjectTreeNode: FunctionComponent<{
 };
 
 export const ObjectTree: FunctionComponent<{
-  object: { [key: string]: any };
+  object?: { [key: string]: any };
 }> = ({ object }) => (
   <div role='tree'>
-    <ObjectTreeNode object={object} level={1} />
+    {object && <ObjectTreeNode object={object} level={1} />}
   </div>
 );

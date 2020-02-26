@@ -15,7 +15,7 @@ export const DrawerLogJSON: FunctionComponent<Props> = ({
     <Drawer icon='document' title='JSON' isOpen={!!activeLog} onClose={onClose}>
       <div className={Classes.DRAWER_BODY}>
         <div className={Classes.DIALOG_BODY}>
-          {activeLog && <ObjectTree object={activeLog} />}
+          {activeLog && <ObjectTree object={activeLog?.parsedContent} />}
         </div>
       </div>
     </Drawer>
