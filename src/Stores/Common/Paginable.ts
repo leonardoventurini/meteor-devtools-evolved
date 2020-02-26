@@ -1,7 +1,7 @@
+import { DEFAULT_OFFSET } from '@/Constants';
+import { calculatePagination } from '@/Utils/Pagination';
 import { debounce } from 'lodash';
 import { action, computed, observable } from 'mobx';
-import { DEFAULT_OFFSET } from '../../Constants';
-import { calculatePagination } from '../../Utils/Pagination';
 
 type BufferCallback<T> = ((buffer: T[]) => void) | null;
 type FilterFunction<T> = ((collection: T[], search: string) => T[]) | null;

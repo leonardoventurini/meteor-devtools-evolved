@@ -1,8 +1,8 @@
-import { Paginable } from '../Common/Paginable';
-import { action, computed, observable } from 'mobx';
-import { PanelDatabase } from '../../Database/PanelDatabase';
+import { PanelDatabase } from '@/Database/PanelDatabase';
+import { FilterCriteria } from '@/Pages/Panel/DDP/FilterConstants';
 import { compact, flatten } from 'lodash';
-import { FilterCriteria } from '../../Pages/Panel/DDP/FilterConstants';
+import { action, computed, observable } from 'mobx';
+import { Paginable } from '../Common/Paginable';
 
 export class BookmarkStore extends Paginable<Bookmark> {
   @observable.shallow bookmarkIds: (string | undefined)[] = [];

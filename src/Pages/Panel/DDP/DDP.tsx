@@ -1,10 +1,10 @@
+import { usePanelStore } from '@/Stores/PanelStore';
+import { Hideable } from '@/Utils/Hideable';
+import { Travolta } from '@/Utils/Travolta';
+import { observer } from 'mobx-react-lite';
 import React, { FunctionComponent } from 'react';
 import { DDPLog } from './DDPLog';
-import { observer } from 'mobx-react-lite';
-import { Hideable } from '../../../Utils/Hideable';
-import { usePanelStore } from '../../../Stores/PanelStore';
 import { DDPStatus } from './DDPStatus/DDPStatus';
-import { Travolta } from '../../../Utils/Travolta';
 
 interface Props {
   isVisible: boolean;

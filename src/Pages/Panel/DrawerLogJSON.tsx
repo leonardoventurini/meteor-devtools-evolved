@@ -1,6 +1,6 @@
-import React, { FunctionComponent } from 'react';
+import { ObjectTree } from '@/Utils/ObjectTree';
 import { Classes, Drawer } from '@blueprintjs/core';
-import { ObjectTree } from '../../Utils/ObjectTree';
+import React, { FunctionComponent } from 'react';
 
 interface Props {
   activeLog: DDPLog | null;

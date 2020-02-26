@@ -1,9 +1,9 @@
+import { usePanelStore } from '@/Stores/PanelStore';
+import { Hideable } from '@/Utils/Hideable';
+import { ObjectTree } from '@/Utils/ObjectTree';
 import { Button, Menu, MenuItem, Popover, Position } from '@blueprintjs/core';
 import { observer } from 'mobx-react-lite';
 import React, { FunctionComponent } from 'react';
-import { usePanelStore } from '../../../Stores/PanelStore';
-import { Hideable } from '../../../Utils/Hideable';
-import { ObjectTree } from '../../../Utils/ObjectTree';
 import { StatusBar } from '../../Layout/StatusBar';
 
 interface Props {

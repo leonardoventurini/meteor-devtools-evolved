@@ -1,7 +1,7 @@
-import React, { FunctionComponent, memo } from 'react';
+import { PanelStoreConstructor } from '@/Stores/PanelStore';
 import { Icon, Tag, Tooltip } from '@blueprintjs/core';
 import classnames from 'classnames';
-import { PanelStoreConstructor } from '../../../Stores/PanelStore';
+import React, { FunctionComponent, memo } from 'react';
 import { DDPLogDirection } from './DDPLogDirection';
 import { DDPLogPreview } from './DDPLogPreview';
 

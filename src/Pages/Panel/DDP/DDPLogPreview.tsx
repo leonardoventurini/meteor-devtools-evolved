@@ -1,6 +1,6 @@
-import React, { FunctionComponent } from 'react';
-import { PanelStoreConstructor } from '../../../Stores/PanelStore';
+import { PanelStoreConstructor } from '@/Stores/PanelStore';
 import { Icon, IconName, Tag, Tooltip } from '@blueprintjs/core';
+import React, { FunctionComponent } from 'react';
 
 interface Props {
   log: DDPLog;

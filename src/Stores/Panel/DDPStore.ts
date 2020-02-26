@@ -1,6 +1,6 @@
-import { action, computed, observable } from 'mobx';
+import { FilterCriteria } from '@/Pages/Panel/DDP/FilterConstants';
 import { compact, debounce, flatten } from 'lodash';
-import { FilterCriteria } from '../../Pages/Panel/DDP/FilterConstants';
+import { action, computed, observable } from 'mobx';
 import { Paginable } from '../Common/Paginable';
 
 export class DDPStore extends Paginable<DDPLog> {

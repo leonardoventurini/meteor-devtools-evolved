@@ -1,5 +1,5 @@
-import React, { FunctionComponent } from 'react';
 import { Icon } from '@blueprintjs/core';
+import React, { FunctionComponent } from 'react';
 
 interface Prop {
   isOutbound?: boolean;

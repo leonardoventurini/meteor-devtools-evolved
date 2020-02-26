@@ -1,6 +1,6 @@
+import { warning } from '@/Log';
 import { debounce } from 'lodash';
 import { Registry, sendMessage } from './_Injector';
-import { warning } from '../Log';
 
 const cleanup = (object: any) => {
   Object.keys(object).forEach((key: string) => {

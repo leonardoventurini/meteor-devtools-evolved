@@ -1,7 +1,7 @@
 import React, { FunctionComponent } from 'react';
 import { Spinner } from '@blueprintjs/core';
 import { observer } from 'mobx-react-lite';
-import { StatusBar } from '../../../Layout/StatusBar';
+import { StatusBar } from '@/Pages/Layout/StatusBar';
 import { OutboundBytesIndicator } from './OutboundBytesIndicator';
 import { InboundBytesIndicator } from './InboundBytesIndicator';
 import { CountIndicator } from './CountIndicator';

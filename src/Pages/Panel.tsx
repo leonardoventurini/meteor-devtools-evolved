@@ -1,14 +1,14 @@
+import { setupBridge } from '@/Bridge';
+import { PanelPage } from '@/Constants';
+import { PanelStoreProvider, usePanelStore } from '@/Stores/PanelStore';
+import { observer } from 'mobx-react-lite';
 import React, { FunctionComponent, useRef, useState } from 'react';
+import { Bookmarks } from './Panel/Bookmarks/Bookmarks';
 import { DDP } from './Panel/DDP/DDP';
-import { PanelStoreProvider, usePanelStore } from '../Stores/PanelStore';
+import { DrawerLogJSON } from './Panel/DrawerLogJSON';
+import { DrawerStackTrace } from './Panel/DrawerStackTrace';
 import { Minimongo } from './Panel/Minimongo/Minimongo';
 import { Navigation } from './Panel/Navigation';
-import { DrawerStackTrace } from './Panel/DrawerStackTrace';
-import { DrawerLogJSON } from './Panel/DrawerLogJSON';
-import { Bookmarks } from './Panel/Bookmarks/Bookmarks';
-import { setupBridge } from '../Bridge';
-import { observer } from 'mobx-react-lite';
-import { PanelPage } from '../Constants';
 
 setupBridge();
 

@@ -1,5 +1,5 @@
-import React, { FunctionComponent } from 'react';
 import { Classes, Drawer } from '@blueprintjs/core';
+import React, { FunctionComponent } from 'react';
 
 interface Props {
   activeStackTrace: StackTrace[] | null;

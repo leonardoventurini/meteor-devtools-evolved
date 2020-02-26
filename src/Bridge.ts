@@ -1,9 +1,9 @@
-import { PanelStore } from './Stores/PanelStore';
 import { memoize, padStart } from 'lodash';
-import prettyBytes from 'pretty-bytes';
 import moment from 'moment';
-import { CRC32 } from './Utils/CRC32';
+import prettyBytes from 'pretty-bytes';
 import { detectType } from './Pages/Panel/DDP/FilterConstants';
+import { PanelStore } from './Stores/PanelStore';
+import { CRC32 } from './Utils/CRC32';
 import { generatePreview } from './Utils/MessageFormatter';
 
 const injectScript = (scriptUrl: string) => {

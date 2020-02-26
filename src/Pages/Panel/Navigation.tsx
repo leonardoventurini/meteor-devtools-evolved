@@ -1,6 +1,6 @@
-import React, { FunctionComponent } from 'react';
+import { PanelPage } from '@/Constants';
 import { Button, Navbar } from '@blueprintjs/core';
-import { PanelPage } from '../../Constants';
+import React, { FunctionComponent } from 'react';
 
 interface Props {
   selectedTabId: string;

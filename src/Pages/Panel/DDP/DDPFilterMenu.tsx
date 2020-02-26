@@ -1,6 +1,6 @@
-import React, { FormEvent, FunctionComponent } from 'react';
 import { Switch } from '@blueprintjs/core';
 import { observer } from 'mobx-react-lite';
+import React, { FormEvent, FunctionComponent } from 'react';
 import { FilterCriteria } from './FilterConstants';
 
 interface Props {

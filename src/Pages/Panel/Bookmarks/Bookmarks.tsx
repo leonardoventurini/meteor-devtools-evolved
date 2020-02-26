@@ -1,9 +1,9 @@
-import React, { FunctionComponent } from 'react';
+import { usePanelStore } from '@/Stores/PanelStore';
+import { Hideable } from '@/Utils/Hideable';
+import { Travolta } from '@/Utils/Travolta';
 import { observer } from 'mobx-react-lite';
-import { Hideable } from '../../../Utils/Hideable';
-import { usePanelStore } from '../../../Stores/PanelStore';
+import React, { FunctionComponent } from 'react';
 import { DDPLog } from '../DDP/DDPLog';
-import { Travolta } from '../../../Utils/Travolta';
 import { DDPStatus } from '../DDP/DDPStatus/DDPStatus';
 
 interface Props {

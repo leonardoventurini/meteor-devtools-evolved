@@ -1,8 +1,8 @@
+import { warning } from '@/Log';
+import ErrorStackParser from 'error-stack-parser';
 import { extend } from 'lodash';
 import { DDPInjector } from './DDPInjector';
-import ErrorStackParser from 'error-stack-parser';
 import { MinimongoInjector, updateCollections } from './MinimongoInjector';
-import { warning } from '../Log';
 
 export const sendMessage = (eventType: EventType, data: object) => {
   window.postMessage(
