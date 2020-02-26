@@ -91,3 +91,8 @@ interface Pagination {
   next(): void;
   prev(): void;
 }
+
+interface Document {
+  _id: string;
+  [key: string]: any;
+}

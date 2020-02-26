@@ -1,5 +1,5 @@
-import { action, computed, observable } from 'mobx';
 import { debounce } from 'lodash';
+import { action, computed, observable } from 'mobx';
 import { DEFAULT_OFFSET } from '../../Constants';
 import { calculatePagination } from '../../Utils/Pagination';
 
@@ -17,6 +17,11 @@ export abstract class Paginable<T> {
   @observable currentPage: number = 1;
   @observable search: string = '';
   @observable isLoading: boolean = false;
+
+  @action
+  setCollection(collection: T[]) {
+    this.collection = collection;
+  }
 
   pushItem(log: T) {
     if (!this.isLoading) {

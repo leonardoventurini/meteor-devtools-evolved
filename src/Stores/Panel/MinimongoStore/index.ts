@@ -1,9 +1,5 @@
 import { action, observable } from 'mobx';
-
-interface Document {
-  _id: string;
-  [key: string]: any;
-}
+import { CollectionStore } from './CollectionStore';
 
 interface Collections {
   [key: string]: Document[];
@@ -12,8 +8,17 @@ interface Collections {
 export class MinimongoStore {
   @observable collections: Collections = {};
 
+  @observable activeCollection: string | null = null;
+
+  activeCollectionDocuments = new CollectionStore();
+
   @action
   setCollections(collections: Collections) {
     this.collections = collections;
+  }
+
+  @action
+  setActiveCollection(collection: string | null) {
+    this.activeCollection = collection;
   }
 }

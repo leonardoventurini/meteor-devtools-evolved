@@ -1,6 +1,6 @@
 import { Button, Menu, MenuItem, Popover, Position } from '@blueprintjs/core';
 import { observer } from 'mobx-react-lite';
-import React, { FunctionComponent, useState } from 'react';
+import React, { FunctionComponent } from 'react';
 import { usePanelStore } from '../../../Stores/PanelStore';
 import { Hideable } from '../../../Utils/Hideable';
 import { ObjectTree } from '../../../Utils/ObjectTree';
@@ -13,13 +13,12 @@ interface Props {
 export const Minimongo: FunctionComponent<Props> = observer(({ isVisible }) => {
   const { minimongoStore } = usePanelStore();
 
-  const [activeCollection, setActiveCollection] = useState<null | string>(null);
-
   const isActiveCollectionMissing =
-    activeCollection && !(activeCollection in minimongoStore.collections);
+    minimongoStore.activeCollection &&
+    !(minimongoStore.activeCollection in minimongoStore.collections);
 
   if (isActiveCollectionMissing) {
-    setActiveCollection(null);
+    minimongoStore.setActiveCollection(null);
   }
 
   return (
@@ -36,8 +35,8 @@ export const Minimongo: FunctionComponent<Props> = observer(({ isVisible }) => {
                     key={key}
                     icon='database'
                     text={key}
-                    active={activeCollection === key}
-                    onClick={() => setActiveCollection(key)}
+                    active={minimongoStore.activeCollection === key}
+                    onClick={() => minimongoStore.setActiveCollection(key)}
                   />
                 ))}
               </Menu>
@@ -45,8 +44,8 @@ export const Minimongo: FunctionComponent<Props> = observer(({ isVisible }) => {
             position={Position.RIGHT_TOP}
           >
             <Button
-              icon={activeCollection ? 'database' : null}
-              text={activeCollection || 'Select Collection'}
+              icon={minimongoStore.activeCollection ? 'database' : null}
+              text={minimongoStore.activeCollection || 'Select Collection'}
             />
           </Popover>
         </div>
