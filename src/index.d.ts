@@ -73,7 +73,7 @@ type FilterType =
   | 'method'
   | 'connection';
 
-type FilterTypeMap<T> = { [day in FilterType]: T };
+type FilterTypeMap<T> = { [key in FilterType]: T };
 
 interface Pagination {
   readonly offset: number;

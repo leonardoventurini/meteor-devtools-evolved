@@ -1,0 +1,40 @@
+div[role='tree'] {
+  font-family: monospace;
+  font-size: 12px;
+
+  padding: 12px;
+
+  height: calc(100vh - 110px);
+  overflow-y: scroll;
+
+  strong[role='property'] {
+    cursor: pointer;
+    color: #669EFF;
+  }
+
+  span[role='property'] {
+    color: #FF6E4A;
+  }
+
+  span[role='string'] {
+    color: #C99765;
+  }
+
+  span[role='number'] {
+    color: #AD99FF;
+  }
+
+  span[role='expand'],
+  span[role='collapse'] {
+    color: #808080;
+    margin-left: 4px;
+    cursor: pointer;
+    user-select: none;
+  }
+
+  ul {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+  }
+}
