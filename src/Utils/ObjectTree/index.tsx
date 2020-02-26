@@ -1,7 +1,8 @@
 import React, { FunctionComponent, useState } from 'react';
 import { isArray, isNumber, isObject, isString, toPairs } from 'lodash';
 
-import '../Styles/ObjectTree.scss';
+import '../../Styles/ObjectTree.scss';
+import { Collapsible } from './Collapsible';
 
 interface Renderer {
   property: string;
@@ -48,36 +49,9 @@ const ObjectTreeNode: FunctionComponent<{
   object: { [key: string]: any };
   level: number;
 }> = ({ object, level }) => {
-  const [isCollapsed, setIsCollapsed] = useState(level > 1);
-
-  if (isCollapsed) {
-    if (isArray(object)) {
-      return (
-        <span role='expand' onClick={() => setIsCollapsed(false)}>{`[${
-          (object as any[]).length
-        }]`}</span>
-      );
-    }
-
-    if (isObject(object)) {
-      return (
-        <span role='expand' onClick={() => setIsCollapsed(false)}>{`{${
-          Object.keys(object).length
-        }}`}</span>
-      );
-    }
-  }
-
-  const collapseButton = level > 1 && (
-    <span role='collapse' onClick={() => setIsCollapsed(true)}>
-      [-]
-    </span>
-  );
-
   if (isArray(object)) {
     return (
-      <>
-        {collapseButton}
+      <Collapsible object={object} level={level}>
         <ol start={0}>
           {object.map((item, index) => (
             <li key={index}>
@@ -85,7 +59,7 @@ const ObjectTreeNode: FunctionComponent<{
             </li>
           ))}
         </ol>
-      </>
+      </Collapsible>
     );
   }
 
@@ -110,10 +84,9 @@ const ObjectTreeNode: FunctionComponent<{
   });
 
   return (
-    <>
-      {collapseButton}
+    <Collapsible object={object} level={level}>
       <ul>{children}</ul>
-    </>
+    </Collapsible>
   );
 };
 
