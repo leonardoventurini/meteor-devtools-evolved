@@ -1,9 +1,12 @@
 const path = require('path');
 const merge = require('webpack-merge');
+const { getTypeScriptAliases } = require('./utils');
 
 const src = path.join(__dirname, '../src/');
 
 const { CleanWebpackPlugin } = require('clean-webpack-plugin');
+
+const aliases = getTypeScriptAliases();
 
 module.exports = override =>
   merge(
@@ -68,6 +71,8 @@ module.exports = override =>
       },
 
       resolve: {
+        alias: aliases,
+
         extensions: [
           '.css',
           '.eot',
