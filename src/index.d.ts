@@ -96,3 +96,5 @@ interface Document {
   _id: string;
   [key: string]: any;
 }
+
+type ViewableObject = DDPLogContent | Document | null;

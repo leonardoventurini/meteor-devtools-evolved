@@ -3,19 +3,24 @@ import { Classes, Drawer } from '@blueprintjs/core';
 import React, { FunctionComponent } from 'react';
 
 interface Props {
-  activeLog: DDPLog | null;
+  viewableObject: ViewableObject;
   onClose(): void;
 }
 
-export const DrawerLogJSON: FunctionComponent<Props> = ({
-  activeLog,
+export const DrawerJSON: FunctionComponent<Props> = ({
+  viewableObject,
   onClose,
 }) => {
   return (
-    <Drawer icon='document' title='JSON' isOpen={!!activeLog} onClose={onClose}>
+    <Drawer
+      icon='document'
+      title='JSON'
+      isOpen={!!viewableObject}
+      onClose={onClose}
+    >
       <div className={Classes.DRAWER_BODY}>
         <div className={Classes.DIALOG_BODY}>
-          {activeLog && <ObjectTree object={activeLog?.parsedContent} />}
+          {!!viewableObject && <ObjectTree object={viewableObject} />}
         </div>
       </div>
     </Drawer>

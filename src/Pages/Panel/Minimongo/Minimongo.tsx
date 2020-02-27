@@ -1,7 +1,14 @@
 import { usePanelStore } from '@/Stores/PanelStore';
 import { Hideable } from '@/Utils/Hideable';
-import { ObjectTree } from '@/Utils/ObjectTree';
-import { Button, Menu, MenuItem, Popover, Position } from '@blueprintjs/core';
+import { StringUtils } from '@/Utils/StringUtils';
+import {
+  Button,
+  Menu,
+  MenuItem,
+  Popover,
+  Position,
+  Tag,
+} from '@blueprintjs/core';
 import { observer } from 'mobx-react-lite';
 import React, { FunctionComponent } from 'react';
 import { StatusBar } from '../../Layout/StatusBar';
@@ -11,7 +18,8 @@ interface Props {
 }
 
 export const Minimongo: FunctionComponent<Props> = observer(({ isVisible }) => {
-  const { minimongoStore } = usePanelStore();
+  const panelStore = usePanelStore();
+  const { minimongoStore } = panelStore;
 
   const isActiveCollectionMissing =
     minimongoStore.activeCollection &&
@@ -23,11 +31,23 @@ export const Minimongo: FunctionComponent<Props> = observer(({ isVisible }) => {
 
   return (
     <Hideable isVisible={isVisible}>
-      {minimongoStore.activeCollectionDocuments.paginated.map(
-        (document: Document) => (
-          <ObjectTree key={document._id} object={document} />
-        ),
-      )}
+      <div className={'mde-content mde-minimongo'}>
+        {minimongoStore.activeCollectionDocuments.paginated.map(
+          (document: Document) => (
+            <div key={document._id} className='mde-minimongo__row'>
+              <Tag
+                minimal
+                interactive
+                onClick={() => panelStore.setActiveObject(document)}
+              >
+                <code>
+                  {StringUtils.truncate(JSON.stringify(document), 64)}
+                </code>
+              </Tag>
+            </div>
+          ),
+        )}
+      </div>
 
       <StatusBar>
         <div style={{ marginRight: 'auto' }}>

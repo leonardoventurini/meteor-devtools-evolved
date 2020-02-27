@@ -27,7 +27,9 @@ export const DDP: FunctionComponent<Props> = observer(({ isVisible }) => {
 
   return (
     <Hideable isVisible={isVisible}>
-      <div className='mde-ddp'>{logs?.length ? logs : <Travolta />}</div>
+      <div className='mde-content mde-ddp'>
+        {logs?.length ? logs : <Travolta />}
+      </div>
 
       <DDPStatus
         activeFilters={pageStore.activeFilters}

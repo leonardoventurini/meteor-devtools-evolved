@@ -47,7 +47,7 @@ export const DDPLogPreview: FunctionComponent<Props> = ({ log, store }) => {
         interactive
         minimal
         onClick={() => {
-          store.setActiveLog(log);
+          log.parsedContent && store.setActiveObject(log.parsedContent);
         }}
       >
         <small>

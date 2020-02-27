@@ -5,7 +5,7 @@ import { observer } from 'mobx-react-lite';
 import React, { FunctionComponent, useRef, useState } from 'react';
 import { Bookmarks } from './Panel/Bookmarks/Bookmarks';
 import { DDP } from './Panel/DDP/DDP';
-import { DrawerLogJSON } from './Panel/DrawerLogJSON';
+import { DrawerJSON } from './Panel/DrawerJSON';
 import { DrawerStackTrace } from './Panel/DrawerStackTrace';
 import { Minimongo } from './Panel/Minimongo/Minimongo';
 import { Navigation } from './Panel/Navigation';
@@ -31,9 +31,9 @@ const PanelObserverComponent: FunctionComponent<Props> = observer(() => {
 
   return (
     <div className='mde-layout'>
-      <DrawerLogJSON
-        activeLog={store.activeLog}
-        onClose={() => store.setActiveLog(null)}
+      <DrawerJSON
+        viewableObject={store.activeObject}
+        onClose={() => store.setActiveObject(null)}
       />
 
       <DrawerStackTrace

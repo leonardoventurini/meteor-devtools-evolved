@@ -1,11 +1,11 @@
+import { action, observable, toJS } from 'mobx';
 import React, { createContext, FunctionComponent } from 'react';
-import { action, observable } from 'mobx';
-import { DDPStore } from './Panel/DDPStore';
 import { BookmarkStore } from './Panel/BookmarkStore';
+import { DDPStore } from './Panel/DDPStore';
 import { MinimongoStore } from './Panel/MinimongoStore';
 
 export class PanelStoreConstructor {
-  @observable activeLog: DDPLog | null = null;
+  @observable activeObject: ViewableObject = null;
   @observable.shallow activeStackTrace: StackTrace[] | null = null;
 
   ddpStore = new DDPStore();
@@ -17,8 +17,8 @@ export class PanelStoreConstructor {
   }
 
   @action
-  setActiveLog(log: DDPLog | null) {
-    this.activeLog = log;
+  setActiveObject(viewableObject: ViewableObject) {
+    this.activeObject = viewableObject;
   }
 
   @action
