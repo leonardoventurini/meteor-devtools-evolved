@@ -1,3 +1,4 @@
+import { PaginationControls } from '@/Pages/Layout/PaginationControls';
 import { usePanelStore } from '@/Stores/PanelStore';
 import { Hideable } from '@/Utils/Hideable';
 import { StringUtils } from '@/Utils/StringUtils';
@@ -75,6 +76,9 @@ export const Minimongo: FunctionComponent<Props> = observer(({ isVisible }) => {
             />
           </Popover>
         </div>
+        <PaginationControls
+          pagination={minimongoStore.activeCollectionDocuments.pagination}
+        />
       </StatusBar>
     </Hideable>
   );

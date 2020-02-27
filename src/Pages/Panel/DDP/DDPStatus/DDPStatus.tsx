@@ -1,13 +1,13 @@
-import React, { FunctionComponent } from 'react';
-import { Spinner } from '@blueprintjs/core';
-import { observer } from 'mobx-react-lite';
+import { PaginationControls } from '@/Pages/Layout/PaginationControls';
 import { StatusBar } from '@/Pages/Layout/StatusBar';
-import { OutboundBytesIndicator } from './OutboundBytesIndicator';
-import { InboundBytesIndicator } from './InboundBytesIndicator';
-import { CountIndicator } from './CountIndicator';
-import { PaginationControls } from './PaginationControls';
-import { FilterControls } from './FilterControls';
+import { Spinner } from '@blueprintjs/core';
 import { isNumber } from 'lodash';
+import { observer } from 'mobx-react-lite';
+import React, { FunctionComponent } from 'react';
+import { CountIndicator } from './CountIndicator';
+import { FilterControls } from './FilterControls';
+import { InboundBytesIndicator } from './InboundBytesIndicator';
+import { OutboundBytesIndicator } from './OutboundBytesIndicator';
 
 interface Props {
   activeFilters: FilterTypeMap<boolean>;

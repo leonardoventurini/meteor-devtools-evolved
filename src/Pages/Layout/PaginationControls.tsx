@@ -1,5 +1,5 @@
-import React, { FunctionComponent } from 'react';
 import { Button } from '@blueprintjs/core';
+import React, { FunctionComponent } from 'react';
 
 interface Props {
   pagination: Pagination;
