@@ -37,7 +37,6 @@ export const Bookmarks: FunctionComponent<Props> = observer(({ isVisible }) => {
         isLoading={pageStore.isLoading}
         pagination={pageStore.pagination}
         setFilter={pageStore.setFilter.bind(pageStore)}
-        setSearch={pageStore.setSearch.bind(pageStore)}
       />
     </Hideable>
   );

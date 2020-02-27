@@ -1,4 +1,5 @@
 import { PaginationControls } from '@/Pages/Layout/PaginationControls';
+import { SearchControls } from '@/Pages/Layout/SearchControls';
 import { usePanelStore } from '@/Stores/PanelStore';
 import { Hideable } from '@/Utils/Hideable';
 import { StringUtils } from '@/Utils/StringUtils';
@@ -51,7 +52,7 @@ export const Minimongo: FunctionComponent<Props> = observer(({ isVisible }) => {
       </div>
 
       <StatusBar>
-        <div style={{ marginRight: 'auto' }}>
+        <div className='mde-layout__status__filter'>
           <Popover
             content={
               <Menu>
@@ -75,7 +76,12 @@ export const Minimongo: FunctionComponent<Props> = observer(({ isVisible }) => {
               disabled={!minimongoStore.collectionNames.length}
             />
           </Popover>
+
+          <SearchControls
+            pagination={minimongoStore.activeCollectionDocuments.pagination}
+          />
         </div>
+
         <PaginationControls
           pagination={minimongoStore.activeCollectionDocuments.pagination}
         />

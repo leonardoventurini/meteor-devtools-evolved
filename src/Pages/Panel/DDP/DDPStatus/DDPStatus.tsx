@@ -18,7 +18,6 @@ interface Props {
   pagination: Pagination;
   clearLogs?: () => void;
   setFilter: (filter: FilterType, isEnabled: boolean) => void;
-  setSearch: (search: string) => void;
 }
 
 export const DDPStatus: FunctionComponent<Props> = observer(
@@ -31,13 +30,11 @@ export const DDPStatus: FunctionComponent<Props> = observer(
     outboundBytes,
     pagination,
     setFilter,
-    setSearch,
   }) => (
     <StatusBar>
       <FilterControls
         activeFilters={activeFilters}
         setFilter={setFilter}
-        setSearch={setSearch}
         pagination={pagination}
       />
 

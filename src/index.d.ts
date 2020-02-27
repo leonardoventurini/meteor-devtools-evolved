@@ -87,6 +87,7 @@ interface Pagination {
   readonly hasNextPage: boolean;
   readonly hasPreviousPage: boolean;
   readonly pageItems: number;
+  setSearch(search: string): void;
   setCurrentPage(page: number): void;
   next(): void;
   prev(): void;

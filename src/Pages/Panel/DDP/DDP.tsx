@@ -40,7 +40,6 @@ export const DDP: FunctionComponent<Props> = observer(({ isVisible }) => {
         outboundBytes={pageStore.outboundBytes}
         pagination={pageStore.pagination}
         setFilter={pageStore.setFilter.bind(pageStore)}
-        setSearch={pageStore.setSearch.bind(pageStore)}
       />
     </Hideable>
   );

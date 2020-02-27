@@ -2,6 +2,7 @@ export const calculatePagination = (
   offset: number,
   length: number,
   currentPage: number,
+  setSearch: (search: string) => void,
   setCurrentPage: (page: number) => void,
 ): Pagination => {
   const lastIndex = length - 1;
@@ -26,6 +27,9 @@ export const calculatePagination = (
     currentPage,
     setCurrentPage,
     pageItems: length > end2 ? end2 : length,
+    setSearch(search: string) {
+      setSearch(search);
+    },
     next() {
       if (hasNextPage) {
         setCurrentPage(currentPage + 1);

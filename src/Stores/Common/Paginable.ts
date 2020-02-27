@@ -79,6 +79,7 @@ export abstract class Paginable<T> {
       DEFAULT_OFFSET,
       this.filtered.length,
       this.currentPage,
+      this.setSearch.bind(this),
       this.setCurrentPage.bind(this),
     );
   }
