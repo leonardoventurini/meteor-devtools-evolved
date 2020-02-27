@@ -1,4 +1,4 @@
-import { truncate } from './String';
+import { StringUtils } from '@/Utils/StringUtils';
 import { isNumber, isString } from 'lodash';
 
 export const MessageFormatter = {
@@ -32,7 +32,7 @@ export const MessageFormatter = {
     }
 
     if (msg === 'result') {
-      return truncate(JSON.stringify(result));
+      return StringUtils.truncate(JSON.stringify(result));
     }
 
     return msg;
@@ -41,7 +41,7 @@ export const MessageFormatter = {
 
 const idFormat = (message: string, id?: string | number | null) => {
   if (isNumber(id) || isString(id)) {
-    return `[${id}] ${truncate(message)}`;
+    return `[${id}] ${StringUtils.truncate(message)}`;
   }
 
   return message;
@@ -66,5 +66,5 @@ export const generatePreview = (
     }
   }
 
-  return truncate(content);
+  return StringUtils.truncate(content);
 };
