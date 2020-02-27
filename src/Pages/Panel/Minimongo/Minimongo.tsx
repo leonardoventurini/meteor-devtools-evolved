@@ -34,7 +34,7 @@ export const Minimongo: FunctionComponent<Props> = observer(({ isVisible }) => {
           <Popover
             content={
               <Menu>
-                {Object.keys(minimongoStore.collections).map(key => (
+                {minimongoStore.collectionNames.map(key => (
                   <MenuItem
                     key={key}
                     icon='database'
@@ -45,11 +45,13 @@ export const Minimongo: FunctionComponent<Props> = observer(({ isVisible }) => {
                 ))}
               </Menu>
             }
-            position={Position.RIGHT_TOP}
+            position={Position.TOP_RIGHT}
+            disabled={!minimongoStore.collectionNames.length}
           >
             <Button
               icon={minimongoStore.activeCollection ? 'database' : null}
               text={minimongoStore.activeCollection || 'Select Collection'}
+              disabled={!minimongoStore.collectionNames.length}
             />
           </Popover>
         </div>

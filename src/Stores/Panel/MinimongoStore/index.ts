@@ -1,4 +1,4 @@
-import { action, observable } from 'mobx';
+import { action, computed, observable } from 'mobx';
 import { CollectionStore } from './CollectionStore';
 
 interface Collections {
@@ -12,18 +12,30 @@ export class MinimongoStore {
 
   activeCollectionDocuments = new CollectionStore();
 
+  @computed
+  get collectionNames() {
+    return Object.keys(this.collections);
+  }
+
+  @action
+  syncDocuments() {
+    this.activeCollection &&
+      this.activeCollectionDocuments.setCollection(
+        this.collections[this.activeCollection],
+      );
+  }
+
   @action
   setCollections(collections: Collections) {
     this.collections = collections;
+
+    this.syncDocuments();
   }
 
   @action
   setActiveCollection(collection: string | null) {
     this.activeCollection = collection;
 
-    collection &&
-      this.activeCollectionDocuments.setCollection(
-        this.collections[collection],
-      );
+    this.syncDocuments();
   }
 }
