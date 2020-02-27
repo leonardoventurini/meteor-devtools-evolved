@@ -67,8 +67,12 @@ export const Registry: IRegistry = {
 };
 
 if (!window.__devtools) {
-  document.addEventListener('DOMContentLoaded', () => {
-    if (typeof Meteor === 'object') {
+  let attempts = 100;
+
+  const interval = window.setInterval(() => {
+    --attempts;
+
+    if (typeof Meteor === 'object' && !window.__devtools) {
       window.__devtools = true;
 
       DDPInjector();
@@ -81,7 +85,11 @@ if (!window.__devtools) {
         );
       };
 
-      warning('Injecting script...');
+      warning(`Initialized. (Attempts: ${100 - attempts})`);
     }
-  });
+
+    if (attempts === 0) {
+      clearInterval(interval);
+    }
+  }, 10);
 }
