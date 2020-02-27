@@ -1,4 +1,4 @@
-export const DEFAULT_OFFSET = 48;
+export const DEFAULT_OFFSET = 50;
 
 export enum PanelPage {
   DDP = 'ddp',

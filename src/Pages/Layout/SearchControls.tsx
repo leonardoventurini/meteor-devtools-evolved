@@ -1,4 +1,4 @@
-import { Icon, InputGroup, Tag } from '@blueprintjs/core';
+import { Icon, InputGroup } from '@blueprintjs/core';
 import React, { FormEvent, FunctionComponent } from 'react';
 
 interface Props {
@@ -15,9 +15,9 @@ export const SearchControls: FunctionComponent<Props> = ({ pagination }) => (
       }
     />
 
-    <Tag minimal round>
+    <small>
       <Icon icon='eye-open' style={{ marginRight: 8 }} />
       {pagination.pageItems + ' of ' + pagination.length}
-    </Tag>
+    </small>
   </>
 );

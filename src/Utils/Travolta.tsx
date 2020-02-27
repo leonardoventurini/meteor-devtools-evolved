@@ -1,8 +1,8 @@
-import React, { FunctionComponent, useEffect, useState } from 'react';
+import { Classes } from '@blueprintjs/core';
 import { sample } from 'lodash';
+import React, { FunctionComponent, useEffect, useState } from 'react';
 
 import TravoltaGif from '../Assets/travolta.gif';
-import { Classes } from '@blueprintjs/core';
 
 const messages = [
   'No logs yet',
