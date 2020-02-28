@@ -1,4 +1,4 @@
-Behold, the evolution of Meteor DevTools. 
+Behold, the evolution of Meteor DevTools.
 
 Harder, Better, Faster, Stronger. :rocket:
 
@@ -6,15 +6,15 @@ Are you beginning with Meteor? Do you want to get a sense of "what is going on" 
 
 ### Distributed Data Protocol (DDP)
 
-Everything you need to track and understand what is going on under the hood of your Meteor application. The extension allows you filter and search for any DDP message, being able to handle thousands and thousands of messages without a hiccup.
+Everything you need to track and understand what is going on under the hood of your Meteor application. The extension allows you to filter and search for any DDP message, being able to handle thousands and thousands of messages without a hiccup.
 
 ### Bookmarks
 
-The DDP inspection is ephemeral, but you can save as many DDP messages you want for later search and retrieval, from any host. Be careful though, it is saved in the IndexedDB local storage.
+The DDP inspection is ephemeral, but you can save as many DDP messages you want for later search and retrieval, from any host. Be careful though, it is saved on IndexedDB.
 
 ### Minimongo
 
-You don't know what data belongs to where? You can rapidly search for anything in your Minimongo local data and easily visualize the documents with our blazing fast custom-made Object Tree renderer.
+You don't know what data belongs to where? You can rapidly search for anything in your Minimongo data and easily visualize the documents with our blazing fast custom-made Object Tree renderer.
 
 ---
 
