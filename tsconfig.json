@@ -2,7 +2,7 @@
   "include": ["src/*.d.ts", "src/**/*.ts", "src/**/*.tsx"],
 
   "compilerOptions": {
-    "target": "es2017",
+    "target": "ES2019",
     "module": "commonjs",
     "moduleResolution": "node",
     "experimentalDecorators": true,

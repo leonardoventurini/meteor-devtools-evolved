@@ -1,3 +1,4 @@
+import { debounce, flatten } from 'lodash';
 import { action, computed, observable } from 'mobx';
 import { CollectionStore } from './CollectionStore';
 
@@ -6,6 +7,8 @@ export class MinimongoStore {
 
   @observable activeCollection: string | null = null;
 
+  @observable search: string = '';
+
   activeCollectionDocuments = new CollectionStore();
 
   @computed
@@ -13,12 +16,25 @@ export class MinimongoStore {
     return Object.keys(this.collections);
   }
 
+  @computed
+  get filteredCollectionNames() {
+    return this.collectionNames.filter(
+      name =>
+        !this.search || name.toLowerCase().includes(this.search.toLowerCase()),
+    );
+  }
+
   @action
   syncDocuments() {
-    this.activeCollection &&
+    if (this.activeCollection) {
       this.activeCollectionDocuments.setCollection(
         this.collections[this.activeCollection],
       );
+    } else {
+      this.activeCollectionDocuments.setCollection(
+        flatten(Object.values(this.collections)),
+      );
+    }
   }
 
   @action
@@ -34,4 +50,9 @@ export class MinimongoStore {
 
     this.syncDocuments();
   }
+
+  setSearch = debounce(
+    action((search: string) => (this.search = search)),
+    250,
+  );
 }
