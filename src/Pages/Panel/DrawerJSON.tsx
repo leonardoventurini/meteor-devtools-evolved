@@ -1,4 +1,4 @@
-import { ObjectTree } from '@/Utils/ObjectTree';
+import { ObjectTreerinator } from '@/Utils/ObjectTreerinator';
 import { Classes, Drawer } from '@blueprintjs/core';
 import React, { FunctionComponent } from 'react';
 
@@ -20,7 +20,7 @@ export const DrawerJSON: FunctionComponent<Props> = ({
     >
       <div className={Classes.DRAWER_BODY}>
         <div className={Classes.DIALOG_BODY}>
-          {!!viewableObject && <ObjectTree object={viewableObject} />}
+          {!!viewableObject && <ObjectTreerinator object={viewableObject} />}
         </div>
       </div>
     </Drawer>

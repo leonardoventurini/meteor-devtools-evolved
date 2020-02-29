@@ -1,12 +1,8 @@
 import { action, computed, observable } from 'mobx';
 import { CollectionStore } from './CollectionStore';
 
-interface Collections {
-  [key: string]: Document[];
-}
-
 export class MinimongoStore {
-  @observable collections: Collections = {};
+  @observable collections: MinimongoCollections = {};
 
   @observable activeCollection: string | null = null;
 
@@ -26,7 +22,7 @@ export class MinimongoStore {
   }
 
   @action
-  setCollections(collections: Collections) {
+  setCollections(collections: MinimongoCollections) {
     this.collections = collections;
 
     this.syncDocuments();

@@ -10,13 +10,6 @@ declare module Meteor {
   const connection: any;
 }
 
-declare module 'simple-sha1' {
-  export default function(
-    value: string,
-    callback: (hash: string) => void,
-  ): void;
-}
-
 type MessageSource = 'meteor-devtools-evolved' | 'minimongo-explorer';
 type EventType = 'ddp-event' | 'minimongo-get-collections';
 
@@ -93,9 +86,12 @@ interface Pagination {
   prev(): void;
 }
 
-interface Document {
+interface Document extends Record<string, any> {
   _id: string;
-  [key: string]: any;
 }
 
+type MinimongoCollections = Record<string, Document[]>;
+
 type ViewableObject = DDPLogContent | Document | null;
+
+type MessageHandler = (message: Message<any>) => void;

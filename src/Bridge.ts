@@ -18,7 +18,7 @@ const getHash = memoize((content: string) =>
   padStart(new CRC32().update(content).digest(), 8, '0'),
 );
 
-const Handlers: { [key in EventType]: (message: Message<any>) => void } = {
+const Handlers: Record<EventType, MessageHandler> = {
   'ddp-event': (message: Message<DDPLog>) => {
     const size = getSize(message.data.content);
     const hash = getHash(message.data.content);
@@ -44,7 +44,7 @@ const Handlers: { [key in EventType]: (message: Message<any>) => void } = {
     PanelStore.ddpStore.pushItem(log);
   },
 
-  'minimongo-get-collections': (message: Message<any>) => {
+  'minimongo-get-collections': (message: Message<MinimongoCollections>) => {
     PanelStore.minimongoStore.setCollections(message.data);
   },
 };

@@ -1,6 +1,6 @@
 Behold, the evolution of Meteor DevTools.
 
-Harder, Better, Faster, Stronger. :rocket:
+[Harder, Better, Faster, Stronger](https://www.youtube.com/watch?v=gAjR4_CbPpQ) :rocket:
 
 Are you beginning with Meteor? Do you want to get a sense of "what is going on" or even to optimize your Meteor app? This is the tool for you.
 
@@ -14,7 +14,7 @@ The DDP inspection is ephemeral, but you can save as many DDP messages you want 
 
 ### Minimongo
 
-You don't know what data belongs to where? You can rapidly search for anything in your Minimongo data and easily visualize the documents with our blazing fast custom-made Object Tree renderer.
+You don't know what data belongs to where? You can rapidly search for anything in your Minimongo data and easily visualize the documents with our blazing fast custom-made Object Treerinator.
 
 ---
 

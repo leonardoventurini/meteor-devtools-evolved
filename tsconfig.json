@@ -12,6 +12,7 @@
     "esModuleInterop": true,
     "jsx": "react",
     "baseUrl": "./",
+    "importHelpers": true,
     "paths": {
       "@/*": ["src/*"]
     }

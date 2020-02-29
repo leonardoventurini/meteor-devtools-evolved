@@ -124,7 +124,7 @@ const ObjectTreeNode: FunctionComponent<{
   );
 };
 
-export const ObjectTree: FunctionComponent<{
+export const ObjectTreerinator: FunctionComponent<{
   object?: { [key: string]: any };
 }> = ({ object }) => (
   <div role='tree'>
