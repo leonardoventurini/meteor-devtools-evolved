@@ -5,7 +5,6 @@ import { MinimongoRow } from '@/Pages/Panel/Minimongo/MinimongoRow';
 import { usePanelStore } from '@/Stores/PanelStore';
 import { Hideable } from '@/Utils/Hideable';
 import { Button } from '@blueprintjs/core';
-import { toPairs } from 'lodash';
 import { observer } from 'mobx-react-lite';
 import React, { FunctionComponent, useState } from 'react';
 import { StatusBar } from '../../Layout/StatusBar';
@@ -28,17 +27,17 @@ export const Minimongo: FunctionComponent<Props> = observer(({ isVisible }) => {
     minimongoStore.setActiveCollection(null);
   }
 
-  const mapCollections = toPairs(minimongoStore.activeCollectionDocuments);
-
   return (
     <Hideable isVisible={isVisible}>
       <div className={'mde-content mde-minimongo'}>
         {minimongoStore.activeCollectionDocuments.paginated.map(
-          ({ collectionName, document }) => (
+          ({ collectionName, color, document }) => (
             <MinimongoRow
               key={document._id}
               collectionName={collectionName}
+              color={color}
               document={document}
+              store={minimongoStore}
               panelStore={panelStore}
             />
           ),

@@ -2,6 +2,8 @@
 @import '~@blueprintjs/core/lib/css/blueprint.css';
 @import '~@blueprintjs/icons/lib/css/blueprint-icons.css';
 
+@import 'Utils';
+
 $navbar-height: 50px;
 $status-height: 60px;
 $background-color: #30404d;
@@ -112,8 +114,25 @@ pre {
 
     .mde-minimongo {
       .mde-minimongo__row {
+        display: flex;
+        align-items: center;
         padding: 5px 15px;
         margin: 0 -15px;
+
+        & > * + * {
+          margin-left: 8px;
+        }
+
+        .mde-minimongo__row__collection {
+          @include truncate;
+          flex-shrink: 0;
+          width: 128px;
+        }
+
+        .mde-minimongo__row__preview {
+          @include truncate;
+          flex-grow: 1;
+        }
       }
     }
 
