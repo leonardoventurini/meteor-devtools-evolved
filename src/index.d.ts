@@ -95,3 +95,8 @@ type MinimongoCollections = Record<string, Document[]>;
 type ViewableObject = DDPLogContent | Document | null;
 
 type MessageHandler = (message: Message<any>) => void;
+
+interface DocumentWrapper {
+  collectionName: string;
+  document: Document;
+}

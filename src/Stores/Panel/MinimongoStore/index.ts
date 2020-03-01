@@ -1,4 +1,4 @@
-import { debounce, flatten } from 'lodash';
+import { debounce, flatten, toPairs } from 'lodash';
 import { action, computed, observable } from 'mobx';
 import { CollectionStore } from './CollectionStore';
 
@@ -28,11 +28,21 @@ export class MinimongoStore {
   syncDocuments() {
     if (this.activeCollection) {
       this.activeCollectionDocuments.setCollection(
-        this.collections[this.activeCollection],
+        this.collections[this.activeCollection].map(document => ({
+          collectionName: this.activeCollection as string,
+          document,
+        })),
       );
     } else {
       this.activeCollectionDocuments.setCollection(
-        flatten(Object.values(this.collections)),
+        flatten(
+          toPairs(this.collections).map(([collectionName, documents]) =>
+            documents.map(document => ({
+              collectionName,
+              document,
+            })),
+          ),
+        ),
       );
     }
   }
