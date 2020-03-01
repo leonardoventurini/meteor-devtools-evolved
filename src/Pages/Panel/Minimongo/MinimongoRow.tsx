@@ -1,11 +1,9 @@
-import { MinimongoStore } from '@/Stores/Panel/MinimongoStore';
 import { PanelStoreConstructor } from '@/Stores/PanelStore';
 import { StringUtils } from '@/Utils/StringUtils';
 import { Tag } from '@blueprintjs/core';
 import React, { FunctionComponent } from 'react';
 
 interface Props {
-  store: MinimongoStore;
   panelStore: PanelStoreConstructor;
   collectionName: string;
   color: string;
@@ -13,7 +11,6 @@ interface Props {
 }
 
 export const MinimongoRow: FunctionComponent<Props> = ({
-  store,
   panelStore,
   document,
   collectionName,
@@ -24,8 +21,6 @@ export const MinimongoRow: FunctionComponent<Props> = ({
       className='mde-minimongo__row__collection'
       style={{ backgroundColor: color }}
       minimal
-      interactive
-      onClick={() => store.setActiveCollection(collectionName)}
     >
       {collectionName}
     </Tag>

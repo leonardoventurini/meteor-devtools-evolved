@@ -37,7 +37,6 @@ export const Minimongo: FunctionComponent<Props> = observer(({ isVisible }) => {
               collectionName={collectionName}
               color={color}
               document={document}
-              store={minimongoStore}
               panelStore={panelStore}
             />
           ),
