@@ -1,4 +1,5 @@
 import { Classes, Drawer } from '@blueprintjs/core';
+import classnames from 'classnames';
 import React, { FunctionComponent } from 'react';
 
 interface Props {
@@ -18,7 +19,7 @@ export const DrawerStackTrace: FunctionComponent<Props> = ({
       onClose={onClose}
     >
       <div className={Classes.DRAWER_BODY}>
-        <div className={Classes.DIALOG_BODY}>
+        <div className={classnames(Classes.DIALOG_BODY, 'mde-stack-trace')}>
           {activeStackTrace?.map((stack: StackTrace, index: number) => {
             const text = (
               <div>
@@ -33,7 +34,7 @@ export const DrawerStackTrace: FunctionComponent<Props> = ({
             );
 
             return (
-              <pre key={index} style={{ marginBottom: 6 }}>
+              <pre key={index}>
                 {stack?.fileName ? (
                   <a
                     href={stack.fileName.trim()}

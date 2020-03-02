@@ -33,6 +33,13 @@ pre {
   white-space: pre-wrap;
 }
 
+.mde-stack-trace {
+  pre {
+    font-size: 12px;
+    margin-bottom: 4px;
+  }
+}
+
 .mde-layout {
   display: flex;
   flex-direction: column;
