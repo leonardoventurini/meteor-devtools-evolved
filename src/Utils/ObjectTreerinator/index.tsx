@@ -1,4 +1,3 @@
-import React, { FunctionComponent } from 'react';
 import {
   isArray,
   isBoolean,
@@ -7,6 +6,7 @@ import {
   isString,
   toPairs,
 } from 'lodash';
+import React, { FunctionComponent } from 'react';
 
 import '../../Styles/ObjectTree.scss';
 import { Collapsible } from './Collapsible';
@@ -95,11 +95,15 @@ const ObjectTreeNode: FunctionComponent<{
 
   const children = toPairs(object).map(([key, child]) => {
     if (isArray(child)) {
-      return <RenderArray property={key} child={child} level={level} />;
+      return (
+        <RenderArray key={key} property={key} child={child} level={level} />
+      );
     }
 
     if (isObject(child)) {
-      return <RenderObject property={key} child={child} level={level} />;
+      return (
+        <RenderObject key={key} property={key} child={child} level={level} />
+      );
     }
 
     if (isString(child)) {
