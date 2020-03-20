@@ -9,3 +9,9 @@ const messageHandler = (event: MessageEvent) => {
 };
 
 window.addEventListener('message', messageHandler);
+
+const url = chrome.extension.getURL('/build/inject.js');
+const script = document.createElement('script');
+script.setAttribute('type', 'text/javascript');
+script.setAttribute('src', url);
+document.body.appendChild(script);

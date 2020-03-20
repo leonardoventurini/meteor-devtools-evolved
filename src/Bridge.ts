@@ -6,12 +6,6 @@ import { PanelStore } from './Stores/PanelStore';
 import { CRC32 } from './Utils/CRC32';
 import { generatePreview } from './Utils/MessageFormatter';
 
-const injectScript = (scriptUrl: string) => {
-  fetch(chrome.extension.getURL(scriptUrl))
-    .then(response => response.text())
-    .then(text => chrome.devtools.inspectedWindow.eval(text));
-};
-
 const getSize = memoize((content: string) => new Blob([content]).size);
 
 const getHash = memoize((content: string) =>
@@ -77,13 +71,7 @@ export const sendPageMessage = (message: object) => {
 export const setupBridge = () => {
   console.log('Setting up bridge...');
 
-  const INJECT_SCRIPT_PATH = '/build/inject.js';
-
   if (!chrome || !chrome.devtools) return;
 
   chromeSetup();
-
-  chrome.devtools.network.onNavigated.addListener(() => {
-    injectScript(INJECT_SCRIPT_PATH);
-  });
 };

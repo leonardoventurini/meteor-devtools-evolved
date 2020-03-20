@@ -1,4 +1,4 @@
-import { sendLogMessage } from './_Injector';
+import { sendLogMessage } from '@/Browser/Inject';
 
 type MessageCallback = (message: DDPLog) => void;
 

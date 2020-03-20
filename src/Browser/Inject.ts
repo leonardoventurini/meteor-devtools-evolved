@@ -1,8 +1,13 @@
 import { warning } from '@/Log';
 import ErrorStackParser from 'error-stack-parser';
 import { extend } from 'lodash';
-import { DDPInjector } from './DDPInjector';
-import { MinimongoInjector, updateCollections } from './MinimongoInjector';
+import { DDPInjector } from '@/Injectors/DDPInjector';
+import {
+  MinimongoInjector,
+  updateCollections,
+} from '@/Injectors/MinimongoInjector';
+
+warning('Initializing...');
 
 export const sendMessage = (eventType: EventType, data: object) => {
   window.postMessage(
@@ -85,11 +90,15 @@ if (!window.__devtools) {
         );
       };
 
-      warning(`Initialized. (Attempts: ${100 - attempts})`);
+      warning(`Initialized. Attempts: ${100 - attempts}.`);
     }
 
     if (attempts === 0) {
       clearInterval(interval);
+
+      if (!window.Meteor) {
+        warning('Unable to find Meteor.');
+      }
     }
   }, 10);
 }
