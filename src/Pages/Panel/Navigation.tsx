@@ -11,7 +11,7 @@ export const Navigation: FunctionComponent<Props> = ({
   setSelectedTabId,
   selectedTabId,
 }) => (
-  <Navbar fixedToTop>
+  <Navbar className='mde-navbar' fixedToTop>
     <Navbar.Group>
       <Navbar.Heading>
         <img src='icons/meteor-32.png' alt='Meteor DevTools Evolved' />
