@@ -1,4 +1,4 @@
-## Development
+## Setting the Environment Up
 
 1. Install dependencies for `devapp/` with `npm install`.
 
