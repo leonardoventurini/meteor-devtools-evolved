@@ -1,9 +1,10 @@
 import { PanelStoreConstructor } from '@/Stores/PanelStore';
-import { Icon, Tag, Tooltip } from '@blueprintjs/core';
+import { Colors, Icon, Tag, Tooltip } from '@blueprintjs/core';
 import classnames from 'classnames';
 import React, { FunctionComponent, memo } from 'react';
 import { DDPLogDirection } from './DDPLogDirection';
 import { DDPLogPreview } from './DDPLogPreview';
+import { sendContentMessage } from '@/Bridge';
 
 interface Props extends DDPLog {
   log: DDPLog;
@@ -67,6 +68,28 @@ export const DDPLog: FunctionComponent<Props> = memo(
               <Icon
                 icon='star-empty'
                 onClick={() => store.bookmarkStore.add(log)}
+              />
+            )}
+          </Tooltip>
+
+          <Tooltip content='Run Method' hoverOpenDelay={800} position='top'>
+            {log.parsedContent?.msg === 'method' ? (
+              <Icon
+                icon='play'
+                onClick={() => {
+                  sendContentMessage({
+                    eventType: 'ddp-run-method',
+                    data: log.parsedContent,
+                    source: 'meteor-devtools-evolved',
+                  });
+                }}
+                color={Colors.WHITE}
+              />
+            ) : (
+              <Icon
+                icon='play'
+                color={Colors.GRAY1}
+                style={{ cursor: 'default' }}
               />
             )}
           </Tooltip>

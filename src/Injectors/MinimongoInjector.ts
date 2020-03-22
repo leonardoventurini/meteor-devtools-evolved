@@ -39,7 +39,7 @@ const getCollections = () => {
 export const updateCollections = debounce(getCollections, 500);
 
 export const MinimongoInjector = () => {
-  Registry.register('minimongo-explorer', message => {
-    message.eventType === 'minimongo-get-collections' && getCollections();
+  Registry.register('minimongo-get-collections', () => {
+    getCollections();
   });
 };

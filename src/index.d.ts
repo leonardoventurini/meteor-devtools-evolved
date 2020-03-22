@@ -2,7 +2,7 @@ declare module '*.gif';
 
 interface Window {
   __devtools: boolean;
-  __meteor_devtools_receiveMessage(message: Message<any>): void;
+  __devtools_receiveMessage(message: Message<any>): void;
 }
 
 declare module Meteor {
@@ -10,8 +10,8 @@ declare module Meteor {
   const connection: any;
 }
 
-type MessageSource = 'meteor-devtools-evolved' | 'minimongo-explorer';
-type EventType = 'ddp-event' | 'minimongo-get-collections';
+type MessageSource = 'meteor-devtools-evolved';
+type EventType = 'ddp-event' | 'minimongo-get-collections' | 'ddp-run-method';
 
 interface Message<T> {
   eventType: EventType;

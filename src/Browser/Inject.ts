@@ -6,6 +6,7 @@ import {
   MinimongoInjector,
   updateCollections,
 } from '@/Injectors/MinimongoInjector';
+import { MeteorAdapter } from '@/Injectors/MeteorAdapter';
 
 warning('Initializing...');
 
@@ -49,25 +50,35 @@ export const sendLogMessage = (message: DDPLog) => {
   if (!/"msg":"(ping|pong)"/.test(message.content)) updateCollections();
 };
 
-type MessageHandler = (message: Message<void>) => void;
+type MessageHandler = (message: Message<any>) => void;
 type Registration = {
-  acceptedSource: MessageSource;
+  eventType: EventType;
   handler: MessageHandler;
 };
 
 interface IRegistry {
   subscriptions: Registration[];
-  register(source: MessageSource, handler: MessageHandler): void;
+  register(eventType: EventType, handler: MessageHandler): void;
+  run(message: Message<any>): void;
 }
 
 export const Registry: IRegistry = {
   subscriptions: [],
 
-  register(source: MessageSource, handler: MessageHandler) {
+  register(eventType: EventType, handler: MessageHandler) {
     this.subscriptions.push({
-      acceptedSource: source,
+      eventType,
       handler,
     });
+  },
+
+  run(message: Message<any>) {
+    this.subscriptions.forEach(
+      ({ eventType, handler }) =>
+        message.source === 'meteor-devtools-evolved' &&
+        eventType === message.eventType &&
+        handler(message),
+    );
   },
 };
 
@@ -82,13 +93,9 @@ if (!window.__devtools) {
 
       DDPInjector();
       MinimongoInjector();
+      MeteorAdapter();
 
-      window.__meteor_devtools_receiveMessage = (message: Message<any>) => {
-        Registry.subscriptions.forEach(
-          ({ acceptedSource, handler }) =>
-            acceptedSource === message.source && handler(message),
-        );
-      };
+      window.__devtools_receiveMessage = Registry.run.bind(Registry);
 
       warning(`Initialized. Attempts: ${100 - attempts}.`);
     }

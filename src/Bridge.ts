@@ -12,7 +12,7 @@ const getHash = memoize((content: string) =>
   padStart(new CRC32().update(content).digest(), 8, '0'),
 );
 
-const Handlers: Record<EventType, MessageHandler> = {
+const Handlers: Partial<Record<EventType, MessageHandler>> = {
   'ddp-event': (message: Message<DDPLog>) => {
     const size = getSize(message.data.content);
     const hash = getHash(message.data.content);
@@ -55,15 +55,17 @@ const chromeSetup = () => {
 
   backgroundConnection.onMessage.addListener((message: Message<any>) => {
     if (message.eventType in Handlers) {
-      Handlers[message.eventType](message);
+      const handler = Handlers[message.eventType];
+
+      if (handler) handler(message);
     }
   });
 };
 
-export const sendPageMessage = (message: object) => {
+export const sendContentMessage = (message: Message<any>) => {
   if (chrome && chrome.devtools) {
     chrome.devtools.inspectedWindow.eval(
-      `__meteor_devtools_receiveMessage(${JSON.stringify(message)})`,
+      `__devtools_receiveMessage(${JSON.stringify(message)})`,
     );
   }
 };
