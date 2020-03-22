@@ -20,4 +20,4 @@
 
 1. The code must be linted and properly formatted, that can be easily done with the right IDE -- I use JetBrains WebStorm. Perhaps some git hooks would come in handy in the future.
 2. Every feature needs to take into account the Meteor community as a whole and not the interest of a few in detriment of others.
-3. Be friendly and supportive, no one perfect and we all have limited time, especially in these difficult times.
+3. Be friendly and supportive, no one is perfect, and we all have limited time, especially in these difficult times.
