@@ -28,6 +28,7 @@ const Handlers: Partial<Record<EventType, MessageHandler>> = {
       ...message.data,
       parsedContent,
       timestampPretty: moment(message.data.timestamp).format('HH:mm:ss.SSS'),
+      timestampLong: moment(message.data.timestamp).toLocaleString(),
       size,
       sizePretty: prettyBytes(size),
       hash,

@@ -5,6 +5,7 @@ import React, { FunctionComponent, memo } from 'react';
 import { DDPLogDirection } from './DDPLogDirection';
 import { DDPLogPreview } from './DDPLogPreview';
 import { sendContentMessage } from '@/Bridge';
+import moment from 'moment';
 
 interface Props extends DDPLog {
   log: DDPLog;
@@ -23,7 +24,9 @@ export const DDPLog: FunctionComponent<Props> = memo(
     log,
     sizePretty,
     store,
+    timestamp,
     timestampPretty,
+    timestampLong,
     trace,
   }) => {
     const classes = classnames('mde-ddp__log-row', {
@@ -34,7 +37,13 @@ export const DDPLog: FunctionComponent<Props> = memo(
     return (
       <div className={classes}>
         <div className='time'>
-          <small>{timestampPretty}</small>
+          <Tooltip
+            content={timestampLong || moment(timestamp).toLocaleString()}
+            hoverOpenDelay={800}
+            position='top'
+          >
+            <small>{timestampPretty}</small>
+          </Tooltip>
         </div>
         <div className='direction'>
           <DDPLogDirection isOutbound={isOutbound} isInbound={isInbound} />

@@ -45,6 +45,7 @@ interface DDPLog {
   isOutbound?: boolean;
   timestamp?: number;
   timestampPretty?: string;
+  timestampLong?: string;
   hash?: string;
   size?: number;
   sizePretty?: string;
