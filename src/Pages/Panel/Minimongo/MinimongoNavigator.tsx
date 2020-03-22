@@ -41,7 +41,7 @@ export const MinimongoNavigator: FunctionComponent<Props> = observer(
                 <MenuItem
                   key={key}
                   icon='database'
-                  text={key}
+                  text={key.concat(` (${store.collections[key]?.length ?? 0})`)}
                   active={store.activeCollection === key}
                   onClick={() => setActiveCollection(key)}
                 />
