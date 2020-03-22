@@ -72,7 +72,7 @@ export const DDPLog: FunctionComponent<Props> = memo(
             )}
           </Tooltip>
 
-          <Tooltip content='Run Method' hoverOpenDelay={800} position='top'>
+          <Tooltip content='Replay Method' hoverOpenDelay={800} position='top'>
             {log.parsedContent?.msg === 'method' ? (
               <Icon
                 icon='play'
