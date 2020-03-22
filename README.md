@@ -25,3 +25,5 @@ You don't know what data belongs to where? You can rapidly search for anything i
 > DISCLAIMER: This work is based in part on the [Meteor DevTools](https://github.com/bakery/meteor-devtools) extension by The Bakery. Which sadly is not maintained anymore. While it is not necessarily a fork, I did use some useful knowledge and architectural decisions, and some things naturally converged into the same most practical solution. Hence the "evolved".
 
 The extension is almost entirely written in TypeScript, while some Chrome specific code being left out for practical reasons. It uses MobX to manage state, and SASS its styles. We also use components from the [Blueprint](https://github.com/palantir/blueprint) library by Palantir. Everything is glued together with Webpack.
+
+> Anyone is welcome to contribute, more info [here](CONTRIBUTING.md).
