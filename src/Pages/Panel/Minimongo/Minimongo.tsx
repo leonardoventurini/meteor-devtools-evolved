@@ -52,6 +52,15 @@ export const Minimongo: FunctionComponent<Props> = observer(({ isVisible }) => {
             disabled={!minimongoStore.collectionNames.length}
           />
 
+          {minimongoStore.activeCollection && (
+            <Button
+              icon='asterisk'
+              onClick={() => minimongoStore.setActiveCollection(null)}
+            >
+              Clear
+            </Button>
+          )}
+
           <SearchControls
             pagination={minimongoStore.activeCollectionDocuments.pagination}
           />

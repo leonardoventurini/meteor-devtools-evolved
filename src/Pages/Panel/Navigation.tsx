@@ -1,6 +1,7 @@
 import { PanelPage } from '@/Constants';
 import { Button, Navbar } from '@blueprintjs/core';
 import React, { FunctionComponent } from 'react';
+import { sendContentMessage } from '@/Bridge';
 
 interface Props {
   selectedTabId: string;
@@ -37,7 +38,16 @@ export const Navigation: FunctionComponent<Props> = ({
       <Button
         icon='database'
         text='Minimongo'
-        onClick={() => setSelectedTabId(PanelPage.MINIMONGO)}
+        onClick={() => {
+          // Fetch collection data from the page.
+          sendContentMessage({
+            eventType: 'minimongo-get-collections',
+            data: null,
+            source: 'meteor-devtools-evolved',
+          });
+
+          setSelectedTabId(PanelPage.MINIMONGO);
+        }}
         active={selectedTabId === PanelPage.MINIMONGO}
         minimal
       />

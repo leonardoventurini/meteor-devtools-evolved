@@ -19,8 +19,11 @@ export const MinimongoRow: FunctionComponent<Props> = ({
   <div key={document._id} className='mde-minimongo__row'>
     <Tag
       className='mde-minimongo__row__collection'
-      style={{ backgroundColor: color }}
+      style={{ cursor: 'pointer', backgroundColor: color }}
       minimal
+      onClick={() =>
+        panelStore.minimongoStore.setActiveCollection(collectionName)
+      }
     >
       {collectionName}
     </Tag>

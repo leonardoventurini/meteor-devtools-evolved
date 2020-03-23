@@ -166,8 +166,8 @@ pre {
         }
 
         .mde-minimongo__row__preview {
+          flex: 0 1 auto;
           @include truncate;
-          flex-grow: 1;
         }
       }
     }
