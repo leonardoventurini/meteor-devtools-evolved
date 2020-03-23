@@ -106,7 +106,7 @@ export const DDPLog: FunctionComponent<Props> = memo(
 
         {hash && (
           <div className='hash'>
-            <Tooltip content='CRC32' hoverOpenDelay={800} position='top'>
+            <Tooltip content='Copy CRC32' hoverOpenDelay={800} position='top'>
               <Tag
                 minimal
                 interactive

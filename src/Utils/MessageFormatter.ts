@@ -1,6 +1,8 @@
 import { StringUtils } from '@/Utils/StringUtils';
 import { isNumber, isString } from 'lodash';
 
+const MAX_CHARACTERS = 512;
+
 export const MessageFormatter = {
   heartbeat({ msg }: DDPLogContent) {
     return msg;
@@ -32,7 +34,7 @@ export const MessageFormatter = {
     }
 
     if (msg === 'result') {
-      return StringUtils.truncate(JSON.stringify(result));
+      return StringUtils.truncate(JSON.stringify(result), MAX_CHARACTERS);
     }
 
     return msg;
@@ -41,7 +43,7 @@ export const MessageFormatter = {
 
 const idFormat = (message: string, id?: string | number | null) => {
   if (isNumber(id) || isString(id)) {
-    return `[${id}] ${StringUtils.truncate(message)}`;
+    return `[${id}] ${StringUtils.truncate(message, MAX_CHARACTERS)}`;
   }
 
   return message;
@@ -66,5 +68,5 @@ export const generatePreview = (
     }
   }
 
-  return StringUtils.truncate(content);
+  return StringUtils.truncate(content, MAX_CHARACTERS);
 };

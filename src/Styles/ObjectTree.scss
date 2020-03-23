@@ -1,6 +1,6 @@
 div[role='tree'] {
-  font-size: 12px;
-  padding: 12px;
+  font-size: 1rem;
+  padding: 1rem;
 
   strong[role='property'] {
     color: #669eff;
@@ -30,7 +30,7 @@ div[role='tree'] {
   span[role='collapse'] {
     font-family: monospace;
     color: #808080;
-    margin-left: 4px;
+    margin-left: 0.33rem;
     cursor: pointer;
     user-select: none;
   }
@@ -38,7 +38,7 @@ div[role='tree'] {
   ul,
   ol {
     list-style: none;
-    padding-left: 12px;
+    padding-left: 1rem;
     margin: 0;
   }
 

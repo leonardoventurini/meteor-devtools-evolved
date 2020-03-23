@@ -7,7 +7,7 @@
 $navbar-height: 50px;
 $status-height: 60px;
 $background-color: #30404d;
-$min-layout-width: 920px;
+$min-layout-width: 720px;
 
 ::-webkit-scrollbar {
   width: 10px;
@@ -25,6 +25,11 @@ $min-layout-width: 920px;
   background-color: lighten($background-color, 15%);
 }
 
+html,
+body {
+  font-size: 12px !important;
+}
+
 body {
   background-color: $background-color;
   overflow-y: hidden;
@@ -37,7 +42,6 @@ pre {
 
 .mde-stack-trace {
   pre {
-    font-size: 12px;
     margin-bottom: 4px;
   }
 }
@@ -97,7 +101,22 @@ pre {
         }
 
         .content {
-          flex-grow: 1;
+          display: flex;
+          flex: 1;
+          min-width: 0;
+
+          .content-icon {
+            flex: 0 0 20px;
+          }
+
+          .content-preview {
+            flex: 0 1 auto;
+            min-width: 0;
+
+            code {
+              @include truncate;
+            }
+          }
         }
 
         .hash {
@@ -105,6 +124,8 @@ pre {
         }
 
         .interactions {
+          flex: 0 0 auto;
+
           visibility: hidden;
 
           span {
@@ -162,8 +183,6 @@ pre {
       display: flex;
       justify-content: flex-end;
       align-items: center;
-
-      min-width: $min-layout-width;
 
       .mde-layout__status__filter {
         display: flex;

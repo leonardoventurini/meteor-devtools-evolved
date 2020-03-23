@@ -14,7 +14,10 @@ export const App = () => (
 
     <button
       onClick={() => {
-        Meteor.call('echo', { echo: 'echo' });
+        Meteor.call('echo', {
+          echo:
+            'Parley gun log poop deck salmagundi gibbet prow chandler gaff boatswain. Loaded to the gunwalls Jack Ketch parrel sheet smartly gabion coffer Admiral of the Black interloper carouser. Rutters booty barque galleon pink gun Barbary Coast run a shot across the bow list marooned.',
+        });
       }}
     >
       Object

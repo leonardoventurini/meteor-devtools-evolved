@@ -8,7 +8,12 @@ interface Props {
 }
 
 const getTag = (icon: IconName, title: string) => (
-  <Tooltip content={title} hoverOpenDelay={800} position='top'>
+  <Tooltip
+    content={title}
+    hoverOpenDelay={800}
+    position='top'
+    className='content-icon'
+  >
     <Icon
       icon={icon}
       style={{
@@ -49,6 +54,7 @@ export const DDPLogPreview: FunctionComponent<Props> = ({ log, store }) => {
         onClick={() => {
           log.parsedContent && store.setActiveObject(log.parsedContent);
         }}
+        className='content-preview'
       >
         <small>
           <code>{log.preview}</code>
