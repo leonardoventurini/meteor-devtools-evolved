@@ -2,7 +2,7 @@ import { setupBridge } from '@/Bridge';
 import { PanelPage } from '@/Constants';
 import { PanelStoreProvider, usePanelStore } from '@/Stores/PanelStore';
 import { observer } from 'mobx-react-lite';
-import React, { FunctionComponent, useRef, useState } from 'react';
+import React, { FunctionComponent, useRef } from 'react';
 import { Bookmarks } from './Panel/Bookmarks/Bookmarks';
 import { DDP } from './Panel/DDP/DDP';
 import { DrawerJSON } from './Panel/DrawerJSON';
@@ -18,15 +18,9 @@ const PanelObserverComponent: FunctionComponent<Props> = observer(() => {
   const store = usePanelStore();
   const panelRef = useRef<HTMLDivElement>(null);
 
-  const defaultSelectedTabId = PanelPage.DDP;
-
-  const [selectedTabId, setSelectedTabId] = useState<string>(
-    defaultSelectedTabId,
-  );
-
   const navigationProps = {
-    selectedTabId,
-    setSelectedTabId,
+    selectedTabId: store.selectedTabId,
+    setSelectedTabId: store.setSelectedTabId.bind(store),
   };
 
   return (
@@ -44,9 +38,9 @@ const PanelObserverComponent: FunctionComponent<Props> = observer(() => {
       <Navigation {...navigationProps} />
 
       <div className='mde-layout__tab-panel' ref={panelRef}>
-        <DDP isVisible={selectedTabId === PanelPage.DDP} />
-        <Bookmarks isVisible={selectedTabId === PanelPage.BOOKMARKS} />
-        <Minimongo isVisible={selectedTabId === PanelPage.MINIMONGO} />
+        <DDP isVisible={store.selectedTabId === PanelPage.DDP} />
+        <Bookmarks isVisible={store.selectedTabId === PanelPage.BOOKMARKS} />
+        <Minimongo isVisible={store.selectedTabId === PanelPage.MINIMONGO} />
       </div>
     </div>
   );

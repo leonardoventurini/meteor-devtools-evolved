@@ -1,10 +1,12 @@
-import { action, observable, toJS } from 'mobx';
+import { action, observable } from 'mobx';
 import React, { createContext, FunctionComponent } from 'react';
 import { BookmarkStore } from './Panel/BookmarkStore';
 import { DDPStore } from './Panel/DDPStore';
 import { MinimongoStore } from './Panel/MinimongoStore';
+import { PanelPage } from '@/Constants';
 
 export class PanelStoreConstructor {
+  @observable selectedTabId: string = PanelPage.DDP;
   @observable activeObject: ViewableObject = null;
   @observable.shallow activeStackTrace: StackTrace[] | null = null;
 
@@ -24,6 +26,11 @@ export class PanelStoreConstructor {
   @action
   setActiveStackTrace(trace: StackTrace[] | null) {
     this.activeStackTrace = trace;
+  }
+
+  @action
+  setSelectedTabId(selectedTabId: string) {
+    this.selectedTabId = selectedTabId;
   }
 }
 

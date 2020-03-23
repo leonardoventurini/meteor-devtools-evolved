@@ -6,6 +6,7 @@ import { DDPLogDirection } from './DDPLogDirection';
 import { DDPLogPreview } from './DDPLogPreview';
 import { sendContentMessage } from '@/Bridge';
 import moment from 'moment';
+import { PanelPage } from '@/Constants';
 
 interface Props extends DDPLog {
   log: DDPLog;
@@ -86,6 +87,8 @@ export const DDPLog: FunctionComponent<Props> = memo(
               <Icon
                 icon='play'
                 onClick={() => {
+                  store.setSelectedTabId(PanelPage.DDP);
+
                   sendContentMessage({
                     eventType: 'ddp-run-method',
                     data: log.parsedContent,
