@@ -50,6 +50,8 @@ pre {
   display: flex;
   flex-direction: column;
 
+  position: relative;
+
   padding-top: $navbar-height;
   padding-bottom: $status-height;
   max-height: 100vh;
@@ -57,11 +59,14 @@ pre {
   min-width: $min-layout-width;
 
   .mde-navbar {
-    min-width: $min-layout-width;
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
 
     .mde-github-actions {
       & > button + button {
-        margin-left: .5rem;
+        margin-left: 0.5rem;
       }
     }
   }
