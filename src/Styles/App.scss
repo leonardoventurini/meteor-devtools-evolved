@@ -58,6 +58,12 @@ pre {
 
   .mde-navbar {
     min-width: $min-layout-width;
+
+    .mde-github-actions {
+      & > button + button {
+        margin-left: .5rem;
+      }
+    }
   }
 
   .mde-layout__tab-panel {

@@ -30,6 +30,8 @@
     }
   ],
 
+  "permissions": ["activeTab", "https://api.github.com/*"],
+
   "web_accessible_resources": ["/build/inject.js"],
 
   "content_security_policy": "script-src 'self' 'unsafe-eval' https://www.google-analytics.com; object-src 'self'",
