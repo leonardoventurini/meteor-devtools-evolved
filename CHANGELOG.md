@@ -15,6 +15,7 @@ I had to take a small hiatus from development after the initial release, but now
 - Added GitHub buttons to make receiving feedback easier.
 - Added long timestamp format on hover for logs which is useful for bookmarks.
 - Added setting persistence, which means the filters will persist between sessions.
+- Added about page with some basics and license information.
 
 ### Changed
 
