@@ -66,12 +66,12 @@ export const Navigation: FunctionComponent<Props> = observer(
           <Navbar.Group align='right' className='mde-github-actions'>
             <Button
               icon='star'
-              outlined
               onClick={() =>
                 chrome.tabs.create({
                   url: repositoryData.html_url.concat('/stargazers'),
                 })
               }
+              className='bp3-outlined'
             >
               <strong>Star</strong>
               <Tag minimal round style={{ marginLeft: '.5rem' }}>
@@ -80,12 +80,12 @@ export const Navigation: FunctionComponent<Props> = observer(
             </Button>
             <Button
               icon='issue'
-              outlined
               onClick={() =>
                 chrome.tabs.create({
                   url: repositoryData.html_url.concat('/issues'),
                 })
               }
+              className='bp3-outlined'
             >
               <strong>Issue</strong>
               <Tag minimal round style={{ marginLeft: '.5rem' }}>
