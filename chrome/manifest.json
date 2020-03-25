@@ -34,8 +34,6 @@
 
   "web_accessible_resources": ["/build/inject.js"],
 
-  "content_security_policy": "script-src 'self' 'unsafe-eval' https://www.google-analytics.com; object-src 'self'",
-
   "devtools_page": "devtools.html",
   "manifest_version": 2
 }
