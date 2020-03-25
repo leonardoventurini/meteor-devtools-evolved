@@ -32,14 +32,14 @@ export const DDP: FunctionComponent<Props> = observer(({ isVisible }) => {
       </div>
 
       <DDPStatus
-        activeFilters={pageStore.activeFilters}
+        activeFilters={store.settingStore.activeFilters}
         clearLogs={pageStore.clearLogs.bind(pageStore)}
         collectionLength={pageStore.collection.length}
         inboundBytes={pageStore.inboundBytes}
         isLoading={pageStore.isLoading}
         outboundBytes={pageStore.outboundBytes}
         pagination={pageStore.pagination}
-        setFilter={pageStore.setFilter.bind(pageStore)}
+        setFilter={store.settingStore.setFilter.bind(store.settingStore)}
       />
     </Hideable>
   );

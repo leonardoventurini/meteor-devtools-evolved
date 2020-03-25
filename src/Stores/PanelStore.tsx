@@ -4,6 +4,7 @@ import { BookmarkStore } from './Panel/BookmarkStore';
 import { DDPStore } from './Panel/DDPStore';
 import { MinimongoStore } from './Panel/MinimongoStore';
 import { PanelPage } from '@/Constants';
+import { SettingStore } from '@/Stores/Panel/SettingStore';
 
 export class PanelStoreConstructor {
   @observable selectedTabId: string = PanelPage.DDP;
@@ -13,6 +14,7 @@ export class PanelStoreConstructor {
   ddpStore = new DDPStore();
   bookmarkStore = new BookmarkStore();
   minimongoStore = new MinimongoStore();
+  settingStore = new SettingStore();
 
   constructor() {
     this.bookmarkStore.sync().catch(console.error);

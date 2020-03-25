@@ -1,21 +1,10 @@
 import { PanelDatabase } from '@/Database/PanelDatabase';
-import { FilterCriteria } from '@/Pages/Panel/DDP/FilterConstants';
-import { compact, flatten } from 'lodash';
 import { action, computed, observable } from 'mobx';
 import { Paginable } from '../Common/Paginable';
+import { PanelStore } from '@/Stores/PanelStore';
 
 export class BookmarkStore extends Paginable<Bookmark> {
   @observable.shallow bookmarkIds: (string | undefined)[] = [];
-
-  @observable.shallow activeFilterBlacklist: string[] = [];
-
-  @observable activeFilters: FilterTypeMap<boolean> = {
-    heartbeat: true,
-    subscription: true,
-    collection: true,
-    method: true,
-    connection: true,
-  };
 
   @action
   async sync() {
@@ -42,19 +31,6 @@ export class BookmarkStore extends Paginable<Bookmark> {
     }
   }
 
-  @action
-  setFilter(type: FilterType, isEnabled: boolean) {
-    this.activeFilters[type] = isEnabled;
-
-    this.activeFilterBlacklist = flatten(
-      compact(
-        Object.entries(this.activeFilters).map(([type, isEnabled]) => {
-          return isEnabled ? false : FilterCriteria[type as FilterType];
-        }),
-      ),
-    );
-  }
-
   filterFunction = (collection: Bookmark[], search: string) =>
     collection
       .filter(
@@ -71,6 +47,8 @@ export class BookmarkStore extends Paginable<Bookmark> {
 
   @computed
   get filterRegularExpression() {
-    return new RegExp(`"msg":"(${this.activeFilterBlacklist.join('|')})"`);
+    return new RegExp(
+      `"msg":"(${PanelStore.settingStore.activeFilterBlacklist.join('|')})"`,
+    );
   }
 }

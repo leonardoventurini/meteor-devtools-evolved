@@ -32,11 +32,11 @@ export const Bookmarks: FunctionComponent<Props> = observer(({ isVisible }) => {
       </div>
 
       <DDPStatus
-        activeFilters={pageStore.activeFilters}
+        activeFilters={store.settingStore.activeFilters}
         collectionLength={pageStore.collection.length}
         isLoading={pageStore.isLoading}
         pagination={pageStore.pagination}
-        setFilter={pageStore.setFilter.bind(pageStore)}
+        setFilter={store.settingStore.setFilter.bind(store.settingStore)}
       />
     </Hideable>
   );

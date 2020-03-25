@@ -1,23 +1,13 @@
-import { FilterCriteria } from '@/Pages/Panel/DDP/FilterConstants';
-import { compact, debounce, flatten } from 'lodash';
-import { action, computed, observable } from 'mobx';
+import { debounce } from 'lodash';
+import { computed, observable } from 'mobx';
 import { Paginable } from '../Common/Paginable';
+import { PanelStore } from '@/Stores/PanelStore';
 
 export class DDPStore extends Paginable<DDPLog> {
   @observable inboundBytes: number = 0;
   @observable outboundBytes: number = 0;
 
   @observable newLogs: string[] = [];
-
-  @observable.shallow activeFilterBlacklist: string[] = [];
-
-  @observable activeFilters: FilterTypeMap<boolean> = {
-    heartbeat: true,
-    subscription: true,
-    collection: true,
-    method: true,
-    connection: true,
-  };
 
   @observable isLoading: boolean = false;
 
@@ -39,19 +29,6 @@ export class DDPStore extends Paginable<DDPLog> {
     this.newLogs = [];
   }, 1000);
 
-  @action
-  setFilter(type: FilterType, isEnabled: boolean) {
-    this.activeFilters[type] = isEnabled;
-
-    this.activeFilterBlacklist = flatten(
-      compact(
-        Object.entries(this.activeFilters).map(([type, isEnabled]) => {
-          return isEnabled ? false : FilterCriteria[type as FilterType];
-        }),
-      ),
-    );
-  }
-
   filterFunction = (collection: DDPLog[], search: string) =>
     collection
       .filter(log => !this.filterRegularExpression.test(log.content))
@@ -66,6 +43,8 @@ export class DDPStore extends Paginable<DDPLog> {
 
   @computed
   get filterRegularExpression() {
-    return new RegExp(`"msg":"(${this.activeFilterBlacklist.join('|')})"`);
+    return new RegExp(
+      `"msg":"(${PanelStore.settingStore.activeFilterBlacklist.join('|')})"`,
+    );
   }
 }
