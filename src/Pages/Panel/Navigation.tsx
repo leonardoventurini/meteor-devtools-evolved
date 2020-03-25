@@ -92,6 +92,14 @@ export const Navigation: FunctionComponent<Props> = observer(
                 {repositoryData.open_issues}
               </Tag>
             </Button>
+
+            <Button
+              icon='help'
+              onClick={() => panelStore.setAboutVisible(true)}
+              className='bp3-outlined'
+            >
+              <strong>About</strong>
+            </Button>
           </Navbar.Group>
         )}
       </Navbar>

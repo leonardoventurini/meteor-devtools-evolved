@@ -9,6 +9,7 @@ import { DrawerJSON } from './Panel/DrawerJSON';
 import { DrawerStackTrace } from './Panel/DrawerStackTrace';
 import { Minimongo } from './Panel/Minimongo/Minimongo';
 import { Navigation } from './Panel/Navigation';
+import { About } from '@/Pages/Panel/About';
 
 setupBridge();
 
@@ -33,6 +34,11 @@ const PanelObserverComponent: FunctionComponent<Props> = observer(() => {
       <DrawerStackTrace
         activeStackTrace={store.activeStackTrace}
         onClose={() => store.setActiveStackTrace(null)}
+      />
+
+      <About
+        isAboutVisible={store.isAboutVisible}
+        onClose={() => store.setAboutVisible(false)}
       />
 
       <Navigation {...navigationProps} />

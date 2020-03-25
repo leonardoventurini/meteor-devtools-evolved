@@ -11,6 +11,8 @@ export class PanelStoreConstructor {
   @observable activeObject: ViewableObject = null;
   @observable.shallow activeStackTrace: StackTrace[] | null = null;
 
+  @observable isAboutVisible = false;
+
   ddpStore = new DDPStore();
   bookmarkStore = new BookmarkStore();
   minimongoStore = new MinimongoStore();
@@ -33,6 +35,11 @@ export class PanelStoreConstructor {
   @action
   setSelectedTabId(selectedTabId: string) {
     this.selectedTabId = selectedTabId;
+  }
+
+  @action
+  setAboutVisible(isAboutVisible: boolean) {
+    this.isAboutVisible = isAboutVisible;
   }
 }
 
