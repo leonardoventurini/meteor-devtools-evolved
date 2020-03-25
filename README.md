@@ -1,10 +1,12 @@
 Behold, the evolution of Meteor DevTools.
 
-You can find the Chrome Extension __[here](https://chrome.google.com/webstore/detail/meteor-devtools-evolved/ibniinmoafhgbifjojidlagmggecmpgf)__.
+You can find the Chrome Extension **[here](https://chrome.google.com/webstore/detail/meteor-devtools-evolved/ibniinmoafhgbifjojidlagmggecmpgf)**.
 
 [Harder, Better, Faster, Stronger](https://www.youtube.com/watch?v=gAjR4_CbPpQ) :rocket:
 
 Are you beginning with Meteor? Do you want to get a sense of "what is going on" or even to optimize your Meteor app? This is the tool for you.
+
+:point_right: [Changelog](CHANGELOG.md)
 
 ### Distributed Data Protocol (DDP)
 
