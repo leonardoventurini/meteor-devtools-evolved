@@ -30,7 +30,7 @@
     }
   ],
 
-  "permissions": ["activeTab", "https://api.github.com/*"],
+  "permissions": ["https://api.github.com/*"],
 
   "web_accessible_resources": ["/build/inject.js"],
 
