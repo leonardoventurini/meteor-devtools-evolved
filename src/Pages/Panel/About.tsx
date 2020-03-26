@@ -36,8 +36,16 @@ export const About: FunctionComponent<Props> = ({
             A possible Chromium issue has been around preventing some
             installations from working for a small subset of our users, if you
             have any problems please inspect the extension and report any
-            console errors. A potential workaround has been implemented, so
-            chances are you just need to ignore this warning.
+            console errors{' '}
+            <a
+              href='https://github.com/leonardoventurini/meteor-devtools-evolved/issues/2'
+              target='_blank'
+              rel='noopener noreferrer'
+            >
+              here
+            </a>
+            . A potential workaround has been implemented, so chances are you
+            just need to ignore this warning.
           </Callout>
 
           <h1>Feedback</h1>
