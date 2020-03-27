@@ -30,6 +30,11 @@ module.exports = override =>
       module: {
         rules: [
           {
+            parser: {
+              amd: false,
+            },
+          },
+          {
             test: /\.js/,
             loader: 'babel-loader',
             include: src,
