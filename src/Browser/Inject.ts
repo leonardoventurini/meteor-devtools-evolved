@@ -1,6 +1,5 @@
 import { warning } from '@/Log';
 import ErrorStackParser from 'error-stack-parser';
-import { extend } from 'lodash';
 import { DDPInjector } from '@/Injectors/DDPInjector';
 import {
   MinimongoInjector,
@@ -8,7 +7,13 @@ import {
 } from '@/Injectors/MinimongoInjector';
 import { MeteorAdapter } from '@/Injectors/MeteorAdapter';
 
-warning('Initializing...');
+const isFrame = location !== parent.location;
+
+warning(
+  isFrame
+    ? `Initializing from iframe "${location.href}"...`
+    : 'Initializing on the main page...',
+);
 
 export const sendMessage = (eventType: EventType, data: object) => {
   window.postMessage(
@@ -39,13 +44,11 @@ export const sendLogMessage = (message: DDPLog) => {
     stackTrace.splice(0, 2);
   }
 
-  sendMessage(
-    'ddp-event',
-    extend(message, {
-      trace: stackTrace,
-      host: location.host,
-    }),
-  );
+  sendMessage('ddp-event', {
+    ...message,
+    trace: stackTrace,
+    host: location.host,
+  });
 
   if (!/"msg":"(ping|pong)"/.test(message.content)) updateCollections();
 };
@@ -104,7 +107,11 @@ if (!window.__devtools) {
       clearInterval(interval);
 
       if (!window.Meteor) {
-        warning('Unable to find Meteor.');
+        warning(
+          isFrame
+            ? `Unable to find Meteor on iframe "${location.href}"`
+            : 'Unable to find Meteor on the main page.',
+        );
       }
     }
   }, 10);

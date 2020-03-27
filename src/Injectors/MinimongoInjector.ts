@@ -1,5 +1,5 @@
 import { warning } from '@/Log';
-import { debounce } from 'lodash';
+import debounce from 'lodash/debounce';
 import { Registry, sendMessage } from '@/Browser/Inject';
 
 const cleanup = (object: any) => {
