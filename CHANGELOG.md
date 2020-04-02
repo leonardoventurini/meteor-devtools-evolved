@@ -1,8 +1,10 @@
 # Change Log
 
-All notable changes to this project will be documented in this file. Duh!
+All notable changes to this project will be documented in this file.
 
-## [1.1] - COMING SOON
+> The dates refer to when it was made available in the Chrome platform.
+
+## [1.1] - 2020-04-02
 
 I had to take a small hiatus from development after the initial release, but now I am back with a few quality of life changes and additions. Also, I am attempting to fix an issue where some installations do not initialize and thus don't log the DDP messages, which also happens to be at least a quality of life change. Hope it works, as I could not reproduce the issue, but I added a bunch of logs just in case, I promise.
 
