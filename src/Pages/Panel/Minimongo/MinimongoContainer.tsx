@@ -3,6 +3,7 @@ import { FixedSizeList } from 'react-window';
 import { observer } from 'mobx-react-lite';
 import { usePanelStore } from '@/Stores/PanelStore';
 import { MinimongoRow } from '@/Pages/Panel/Minimongo/MinimongoRow';
+import { useResize } from '@/Utils/ResizeHook';
 
 interface Props {
   isVisible: boolean;
@@ -14,7 +15,10 @@ export const MinimongoContainer: FunctionComponent<Props> = observer(
 
     const store = usePanelStore();
 
-    const { activeCollectionDocuments } = store.minimongoStore;
+    const {
+      activeCollectionDocuments,
+      activeCollection,
+    } = store.minimongoStore;
 
     const [dimensions, setDimensions] = useState({
       height: 300,
@@ -28,8 +32,15 @@ export const MinimongoContainer: FunctionComponent<Props> = observer(
       });
     }, [isVisible]);
 
+    useResize(() => {
+      setDimensions({
+        width: contentRef?.current?.clientWidth ?? 300,
+        height: contentRef?.current?.clientHeight ?? 300,
+      });
+    });
+
     const Row: FunctionComponent<any> = observer(({ data, index, style }) => {
-      const { document } = data.items[index];
+      const { collectionName, color, document } = data.items[index];
 
       return (
         <MinimongoRow
@@ -37,6 +48,9 @@ export const MinimongoContainer: FunctionComponent<Props> = observer(
           key={document._id}
           document={document}
           panelStore={store}
+          collectionName={collectionName}
+          color={color}
+          isAllVisible={!activeCollection}
         />
       );
     });

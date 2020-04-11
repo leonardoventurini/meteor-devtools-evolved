@@ -5,16 +5,34 @@ import React, { CSSProperties, FunctionComponent } from 'react';
 
 interface Props {
   panelStore: PanelStoreConstructor;
+  collectionName: string;
+  color: string;
   document: Document;
   style: CSSProperties;
+  isAllVisible: boolean;
 }
 
 export const MinimongoRow: FunctionComponent<Props> = ({
+  isAllVisible,
   style,
   panelStore,
   document,
+  collectionName,
+  color,
 }) => (
-  <div key={document._id} className='minimongo-row' style={style}>
+  <div className='minimongo-row' style={style}>
+    {isAllVisible && (
+      <Tag
+        className='minimongo-row-collection'
+        style={{ cursor: 'pointer', backgroundColor: color }}
+        minimal
+        onClick={() =>
+          panelStore.minimongoStore.setActiveCollection(collectionName)
+        }
+      >
+        {collectionName}
+      </Tag>
+    )}
     <Tag
       className='minimongo-row-preview'
       minimal

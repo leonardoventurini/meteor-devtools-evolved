@@ -5,6 +5,7 @@ import { observer } from 'mobx-react-lite';
 import { usePanelStore } from '@/Stores/PanelStore';
 import { DDPStore } from '@/Stores/Panel/DDPStore';
 import { BookmarkStore } from '@/Stores/Panel/BookmarkStore';
+import { useResize } from '@/Utils/ResizeHook';
 
 interface Props {
   source: DDPStore | BookmarkStore;
@@ -28,6 +29,13 @@ export const DDPContainer: FunctionComponent<Props> = observer(
         height: contentRef?.current?.clientHeight ?? 300,
       });
     }, [isVisible]);
+
+    useResize(() => {
+      setDimensions({
+        width: contentRef?.current?.clientWidth ?? 300,
+        height: contentRef?.current?.clientHeight ?? 300,
+      });
+    });
 
     const Row: FunctionComponent<any> = observer(({ data, index, style }) => {
       const item = data.items[index];

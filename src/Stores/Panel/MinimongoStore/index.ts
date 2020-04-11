@@ -14,7 +14,15 @@ export class MinimongoStore {
 
   availableColors: string[] = [];
 
-  collectionColorMap: Record<string, string> = {};
+  @observable collectionColorMap: Record<string, string> = {};
+
+  @computed
+  get totalDocuments() {
+    return Object.values(this.collections).reduce(
+      (acc, cur) => acc + cur.length,
+      0,
+    );
+  }
 
   @computed
   get collectionNames() {

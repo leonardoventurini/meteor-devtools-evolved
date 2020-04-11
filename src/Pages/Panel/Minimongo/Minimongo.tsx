@@ -2,7 +2,7 @@ import { SearchControls } from '@/Pages/Layout/SearchControls';
 import { MinimongoNavigator } from '@/Pages/Panel/Minimongo/MinimongoNavigator';
 import { usePanelStore } from '@/Stores/PanelStore';
 import { Hideable } from '@/Utils/Hideable';
-import { Button, Menu, MenuItem, NonIdealState } from '@blueprintjs/core';
+import { Button, Icon, Menu, MenuItem, NonIdealState } from '@blueprintjs/core';
 import { observer } from 'mobx-react-lite';
 import React, { FunctionComponent, useState } from 'react';
 import { StatusBar } from '../../Layout/StatusBar';
@@ -32,16 +32,29 @@ export const Minimongo: FunctionComponent<Props> = observer(({ isVisible }) => {
         <div className='minimongo-group'>
           <div className='minimongo-sidebar'>
             <Menu>
+              <MenuItem
+                text={<strong>All ({minimongoStore.totalDocuments})</strong>}
+                active={!minimongoStore.activeCollection}
+                onClick={() => minimongoStore.setActiveCollection(null)}
+                labelElement={<Icon icon='database' />}
+              />
               {minimongoStore.filteredCollectionNames.length ? (
                 minimongoStore.filteredCollectionNames.map(key => (
                   <MenuItem
                     key={key}
-                    icon='database'
                     text={key.concat(
                       ` (${minimongoStore.collections[key]?.length ?? 0})`,
                     )}
                     active={minimongoStore.activeCollection === key}
                     onClick={() => minimongoStore.setActiveCollection(key)}
+                    labelElement={
+                      <Icon
+                        icon='database'
+                        style={{
+                          color: minimongoStore.collectionColorMap[key],
+                        }}
+                      />
+                    }
                   />
                 ))
               ) : (
