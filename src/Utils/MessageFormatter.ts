@@ -24,8 +24,8 @@ export const MessageFormatter = {
     return session ? session : msg;
   },
 
-  subscription({ msg }: DDPLogContent) {
-    return msg;
+  subscription({ name }: DDPLogContent) {
+    return name;
   },
 
   method({ msg, method, result }: DDPLogContent) {
