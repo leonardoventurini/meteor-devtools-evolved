@@ -1,4 +1,3 @@
-import { PaginationControls } from '@/Pages/Layout/PaginationControls';
 import { StatusBar } from '@/Pages/Layout/StatusBar';
 import { Spinner } from '@blueprintjs/core';
 import { isNumber } from 'lodash';
@@ -53,8 +52,6 @@ export const DDPStatus: FunctionComponent<Props> = observer(
       {isNumber(collectionLength) && (
         <CountIndicator count={collectionLength} clear={clearLogs} />
       )}
-
-      <PaginationControls pagination={pagination} />
     </StatusBar>
   ),
 );

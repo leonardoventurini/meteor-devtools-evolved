@@ -75,24 +75,17 @@ pre {
     position: relative;
 
     .mde-content {
-      display: flex;
-      flex-direction: column;
       height: calc(100vh - #{$navbar-height + $status-height});
-      padding: 10px 15px;
-
-      overflow-y: scroll;
+      padding: 0;
     }
 
     .mde-ddp {
-      flex-direction: column-reverse;
-
       .mde-ddp__log-row {
         display: flex;
         align-items: center;
         flex-direction: row;
         justify-content: space-between;
         padding: 5px 15px;
-        margin: 0 -15px;
 
         transition: background-color 0.5s ease;
 

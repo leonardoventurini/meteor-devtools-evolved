@@ -1,21 +1,22 @@
-import { PanelStoreConstructor } from '@/Stores/PanelStore';
+import { usePanelStore } from '@/Stores/PanelStore';
 import { Colors, Icon, Tag, Tooltip } from '@blueprintjs/core';
 import classnames from 'classnames';
-import React, { FunctionComponent, memo } from 'react';
+import React, { CSSProperties, FunctionComponent } from 'react';
 import { DDPLogDirection } from './DDPLogDirection';
 import { DDPLogPreview } from './DDPLogPreview';
 import { sendContentMessage } from '@/Bridge';
 import moment from 'moment';
 import { PanelPage } from '@/Constants';
+import { observer } from 'mobx-react-lite';
 
 interface Props extends DDPLog {
   log: DDPLog;
   isNew: boolean;
   isStarred: boolean;
-  store: PanelStoreConstructor;
+  style: CSSProperties;
 }
 
-export const DDPLog: FunctionComponent<Props> = memo(
+export const DDPLog: FunctionComponent<Props> = observer(
   ({
     hash,
     isInbound,
@@ -24,19 +25,21 @@ export const DDPLog: FunctionComponent<Props> = memo(
     isStarred,
     log,
     sizePretty,
-    store,
     timestamp,
     timestampPretty,
     timestampLong,
     trace,
+    style,
   }) => {
+    const store = usePanelStore();
+
     const classes = classnames('mde-ddp__log-row', {
       'mde-ddp__log-row--new': isNew,
       'mde-ddp__log-row--starred': isStarred,
     });
 
     return (
-      <div className={classes}>
+      <div className={classes} style={style}>
         <div className='time'>
           <Tooltip
             content={timestampLong || moment(timestamp).toLocaleString()}

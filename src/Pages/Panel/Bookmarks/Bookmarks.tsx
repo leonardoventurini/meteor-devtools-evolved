@@ -1,10 +1,9 @@
 import { usePanelStore } from '@/Stores/PanelStore';
 import { Hideable } from '@/Utils/Hideable';
-import { Travolta } from '@/Utils/Travolta';
 import { observer } from 'mobx-react-lite';
 import React, { FunctionComponent } from 'react';
-import { DDPLog } from '../DDP/DDPLog';
 import { DDPStatus } from '../DDP/DDPStatus/DDPStatus';
+import { DDPContainer } from '@/Pages/Panel/DDP/DDPContainer';
 
 interface Props {
   isVisible: boolean;
@@ -12,30 +11,17 @@ interface Props {
 
 export const Bookmarks: FunctionComponent<Props> = observer(({ isVisible }) => {
   const store = usePanelStore();
-  const pageStore = store.bookmarkStore;
-
-  const logs = pageStore.paginated.map(({ log }) => (
-    <DDPLog
-      key={log.id}
-      store={store}
-      log={log}
-      isNew={false}
-      isStarred={pageStore.bookmarkIds.includes(log.id)}
-      {...log}
-    />
-  ));
+  const bookmarkStore = store.bookmarkStore;
 
   return (
     <Hideable isVisible={isVisible}>
-      <div className='mde-content mde-ddp'>
-        {logs?.length ? logs : <Travolta />}
-      </div>
+      <DDPContainer isVisible={isVisible} source={bookmarkStore} />
 
       <DDPStatus
         activeFilters={store.settingStore.activeFilters}
-        collectionLength={pageStore.collection.length}
-        isLoading={pageStore.isLoading}
-        pagination={pageStore.pagination}
+        collectionLength={bookmarkStore.collection.length}
+        isLoading={bookmarkStore.isLoading}
+        pagination={bookmarkStore.pagination}
         setFilter={store.settingStore.setFilter.bind(store.settingStore)}
       />
     </Hideable>
