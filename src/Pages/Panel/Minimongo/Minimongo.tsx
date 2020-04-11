@@ -1,13 +1,12 @@
-import { PaginationControls } from '@/Pages/Layout/PaginationControls';
 import { SearchControls } from '@/Pages/Layout/SearchControls';
 import { MinimongoNavigator } from '@/Pages/Panel/Minimongo/MinimongoNavigator';
-import { MinimongoRow } from '@/Pages/Panel/Minimongo/MinimongoRow';
 import { usePanelStore } from '@/Stores/PanelStore';
 import { Hideable } from '@/Utils/Hideable';
-import { Button } from '@blueprintjs/core';
+import { Button, Menu, MenuItem, NonIdealState } from '@blueprintjs/core';
 import { observer } from 'mobx-react-lite';
 import React, { FunctionComponent, useState } from 'react';
 import { StatusBar } from '../../Layout/StatusBar';
+import { MinimongoContainer } from '@/Pages/Panel/Minimongo/MinimongoContainer';
 
 interface Props {
   isVisible: boolean;
@@ -29,18 +28,31 @@ export const Minimongo: FunctionComponent<Props> = observer(({ isVisible }) => {
 
   return (
     <Hideable isVisible={isVisible}>
-      <div className={'mde-content mde-minimongo'}>
-        {minimongoStore.activeCollectionDocuments.paginated.map(
-          ({ collectionName, color, document }) => (
-            <MinimongoRow
-              key={document._id}
-              collectionName={collectionName}
-              color={color}
-              document={document}
-              panelStore={panelStore}
-            />
-          ),
-        )}
+      <div className={'mde-content'}>
+        <div className='minimongo-group'>
+          <div className='minimongo-sidebar'>
+            <Menu>
+              {minimongoStore.filteredCollectionNames.length ? (
+                minimongoStore.filteredCollectionNames.map(key => (
+                  <MenuItem
+                    key={key}
+                    icon='database'
+                    text={key.concat(
+                      ` (${minimongoStore.collections[key]?.length ?? 0})`,
+                    )}
+                    active={minimongoStore.activeCollection === key}
+                    onClick={() => minimongoStore.setActiveCollection(key)}
+                  />
+                ))
+              ) : (
+                <div style={{ marginTop: 50, marginBottom: 50 }}>
+                  <NonIdealState icon='search' title='No Results' />
+                </div>
+              )}
+            </Menu>
+          </div>
+          <MinimongoContainer isVisible={isVisible} />
+        </div>
       </div>
 
       <StatusBar>
@@ -65,10 +77,6 @@ export const Minimongo: FunctionComponent<Props> = observer(({ isVisible }) => {
             pagination={minimongoStore.activeCollectionDocuments.pagination}
           />
         </div>
-
-        <PaginationControls
-          pagination={minimongoStore.activeCollectionDocuments.pagination}
-        />
       </StatusBar>
 
       <MinimongoNavigator

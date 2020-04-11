@@ -77,6 +77,34 @@ pre {
     .mde-content {
       height: calc(100vh - #{$navbar-height + $status-height});
       padding: 0;
+
+      .minimongo-group {
+        display: flex;
+        flex-direction: row;
+        height: 100%;
+
+        .minimongo-sidebar {
+          height: 100%;
+          width: 222px;
+          overflow-y: auto;
+        }
+
+        .minimongo-container {
+          height: 100%;
+          flex-grow: 1;
+
+          .minimongo-row {
+            display: flex;
+            align-items: center;
+            padding: 5px 15px;
+
+            .minimongo-row-preview {
+              flex: 0 1 auto;
+              @include truncate;
+            }
+          }
+        }
+      }
     }
 
     .mde-ddp {
@@ -148,30 +176,6 @@ pre {
 
         &:hover .interactions {
           visibility: visible;
-        }
-      }
-    }
-
-    .mde-minimongo {
-      .mde-minimongo__row {
-        display: flex;
-        align-items: center;
-        padding: 5px 15px;
-        margin: 0 -15px;
-
-        & > * + * {
-          margin-left: 8px;
-        }
-
-        .mde-minimongo__row__collection {
-          @include truncate;
-          flex-shrink: 0;
-          width: 128px;
-        }
-
-        .mde-minimongo__row__preview {
-          flex: 0 1 auto;
-          @include truncate;
         }
       }
     }

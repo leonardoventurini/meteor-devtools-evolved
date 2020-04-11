@@ -1,34 +1,22 @@
 import { PanelStoreConstructor } from '@/Stores/PanelStore';
 import { StringUtils } from '@/Utils/StringUtils';
 import { Tag } from '@blueprintjs/core';
-import React, { FunctionComponent } from 'react';
+import React, { CSSProperties, FunctionComponent } from 'react';
 
 interface Props {
   panelStore: PanelStoreConstructor;
-  collectionName: string;
-  color: string;
   document: Document;
+  style: CSSProperties;
 }
 
 export const MinimongoRow: FunctionComponent<Props> = ({
+  style,
   panelStore,
   document,
-  collectionName,
-  color,
 }) => (
-  <div key={document._id} className='mde-minimongo__row'>
+  <div key={document._id} className='minimongo-row' style={style}>
     <Tag
-      className='mde-minimongo__row__collection'
-      style={{ cursor: 'pointer', backgroundColor: color }}
-      minimal
-      onClick={() =>
-        panelStore.minimongoStore.setActiveCollection(collectionName)
-      }
-    >
-      {collectionName}
-    </Tag>
-    <Tag
-      className='mde-minimongo__row__preview'
+      className='minimongo-row-preview'
       minimal
       interactive
       onClick={() => panelStore.setActiveObject(document)}
