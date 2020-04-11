@@ -2,7 +2,7 @@ import { SearchControls } from '@/Pages/Layout/SearchControls';
 import { MinimongoNavigator } from '@/Pages/Panel/Minimongo/MinimongoNavigator';
 import { usePanelStore } from '@/Stores/PanelStore';
 import { Hideable } from '@/Utils/Hideable';
-import { Button, Icon, Menu, MenuItem, NonIdealState } from '@blueprintjs/core';
+import { Button, Icon, Menu, MenuItem } from '@blueprintjs/core';
 import { observer } from 'mobx-react-lite';
 import React, { FunctionComponent, useState } from 'react';
 import { StatusBar } from '../../Layout/StatusBar';
@@ -32,13 +32,7 @@ export const Minimongo: FunctionComponent<Props> = observer(({ isVisible }) => {
         <div className='minimongo-group'>
           <div className='minimongo-sidebar'>
             <Menu>
-              <MenuItem
-                text={<strong>All ({minimongoStore.totalDocuments})</strong>}
-                active={!minimongoStore.activeCollection}
-                onClick={() => minimongoStore.setActiveCollection(null)}
-                labelElement={<Icon icon='database' />}
-              />
-              {minimongoStore.filteredCollectionNames.length ? (
+              {!!minimongoStore.filteredCollectionNames.length &&
                 minimongoStore.filteredCollectionNames.map(key => (
                   <MenuItem
                     key={key}
@@ -56,12 +50,17 @@ export const Minimongo: FunctionComponent<Props> = observer(({ isVisible }) => {
                       />
                     }
                   />
-                ))
-              ) : (
-                <div style={{ marginTop: 50, marginBottom: 50 }}>
-                  <NonIdealState icon='search' title='No Results' />
-                </div>
-              )}
+                ))}
+
+              <MenuItem
+                text={
+                  <strong>
+                    All Documents ({minimongoStore.totalDocuments})
+                  </strong>
+                }
+                active={!minimongoStore.activeCollection}
+                onClick={() => minimongoStore.setActiveCollection(null)}
+              />
             </Menu>
           </div>
           <MinimongoContainer isVisible={isVisible} />
