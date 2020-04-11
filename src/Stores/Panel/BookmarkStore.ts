@@ -1,9 +1,9 @@
 import { PanelDatabase } from '@/Database/PanelDatabase';
 import { action, computed, observable } from 'mobx';
-import { Paginable } from '../Common/Paginable';
+import { Searchable } from '../Common/Searchable';
 import { PanelStore } from '@/Stores/PanelStore';
 
-export class BookmarkStore extends Paginable<Bookmark> {
+export class BookmarkStore extends Searchable<Bookmark> {
   @observable.shallow bookmarkIds: (string | undefined)[] = [];
 
   @action

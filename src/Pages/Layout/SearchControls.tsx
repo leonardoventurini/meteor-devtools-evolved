@@ -17,7 +17,7 @@ export const SearchControls: FunctionComponent<Props> = ({ pagination }) => (
 
     <small>
       <Icon icon='eye-open' style={{ marginRight: 8 }} />
-      {pagination.pageItems + ' of ' + pagination.length}
+      {pagination.length}
     </small>
   </>
 );

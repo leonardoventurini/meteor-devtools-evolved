@@ -29,23 +29,21 @@ export const DDPContainer: FunctionComponent<Props> = observer(
       });
     }, [isVisible]);
 
-    const Row: FunctionComponent<any> = observer(
-      ({ key, data, index, style }) => {
-        const item = data.items[index];
-        const log = 'log' in item ? item.log : item;
+    const Row: FunctionComponent<any> = observer(({ data, index, style }) => {
+      const item = data.items[index];
+      const log = 'log' in item ? item.log : item;
 
-        return (
-          <DDPLog
-            key={key}
-            style={style}
-            log={log}
-            isNew={'newLogs' in source && source.newLogs.includes(log.id)}
-            isStarred={store.bookmarkStore.bookmarkIds.includes(log.id)}
-            {...log}
-          />
-        );
-      },
-    );
+      return (
+        <DDPLog
+          key={log.id}
+          style={style}
+          log={log}
+          isNew={'newLogs' in source && source.newLogs.includes(log.id)}
+          isStarred={store.bookmarkStore.bookmarkIds.includes(log.id)}
+          {...log}
+        />
+      );
+    });
 
     return (
       <div className='mde-content mde-ddp' ref={contentRef}>

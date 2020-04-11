@@ -1,6 +1,6 @@
-import { Paginable } from '@/Stores/Common/Paginable';
+import { Searchable } from '@/Stores/Common/Searchable';
 
-export class CollectionStore extends Paginable<DocumentWrapper> {
+export class CollectionStore extends Searchable<DocumentWrapper> {
   filterFunction = (collection: DocumentWrapper[], search: string) =>
     collection.filter(
       document =>

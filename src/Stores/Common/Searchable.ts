@@ -6,7 +6,7 @@ import { action, computed, observable } from 'mobx';
 type BufferCallback<T> = ((buffer: T[]) => void) | null;
 type FilterFunction<T> = ((collection: T[], search: string) => T[]) | null;
 
-export abstract class Paginable<T> {
+export abstract class Searchable<T> {
   bufferCallback: BufferCallback<T> = null;
   filterFunction: FilterFunction<T> = null;
 

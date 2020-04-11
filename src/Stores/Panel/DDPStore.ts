@@ -1,9 +1,9 @@
 import { debounce } from 'lodash';
 import { computed, observable } from 'mobx';
-import { Paginable } from '../Common/Paginable';
+import { Searchable } from '../Common/Searchable';
 import { PanelStore } from '@/Stores/PanelStore';
 
-export class DDPStore extends Paginable<DDPLog> {
+export class DDPStore extends Searchable<DDPLog> {
   @observable inboundBytes: number = 0;
   @observable outboundBytes: number = 0;
 
