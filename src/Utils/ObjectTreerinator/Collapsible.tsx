@@ -11,7 +11,7 @@ export const Collapsible: FunctionComponent<Props> = ({
   object,
   level = 0,
 }) => {
-  const [isCollapsed, setIsCollapsed] = useState(level > 1);
+  const [isCollapsed, setIsCollapsed] = useState(level > 2);
 
   if (isCollapsed) {
     if (isArray(object)) {

@@ -15,7 +15,11 @@ div[role='tree'] {
   }
 
   span[role='string'] {
-    color: #c99765;
+    color: #c88953;
+  }
+
+  span[role='null'] {
+    color: #c274c2;
   }
 
   span[role='number'] {
