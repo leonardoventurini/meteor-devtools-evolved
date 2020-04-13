@@ -1,4 +1,3 @@
-import { warning } from '@/Log';
 import ErrorStackParser from 'error-stack-parser';
 import { DDPInjector } from '@/Injectors/DDPInjector';
 import {
@@ -8,12 +7,6 @@ import {
 import { MeteorAdapter } from '@/Injectors/MeteorAdapter';
 
 const isFrame = location !== parent.location;
-
-warning(
-  isFrame
-    ? `Initializing from iframe "${location.href}"...`
-    : 'Initializing on the main page...',
-);
 
 export const sendMessage = (eventType: EventType, data: object) => {
   window.postMessage(
@@ -25,6 +18,19 @@ export const sendMessage = (eventType: EventType, data: object) => {
     '*',
   );
 };
+
+const warning = (message: string) => {
+  sendMessage('console', {
+    type: 'info',
+    message,
+  } as { type: ConsoleType; message: string });
+};
+
+warning(
+  isFrame
+    ? `Initializing from iframe "${location.href}"...`
+    : 'Initializing on the main page...',
+);
 
 export const getStackTrace = (stackTraceLimit: number) => {
   const originalStackTraceLimit = Error.stackTraceLimit;

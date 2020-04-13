@@ -11,7 +11,11 @@ declare module Meteor {
 }
 
 type MessageSource = 'meteor-devtools-evolved';
-type EventType = 'ddp-event' | 'minimongo-get-collections' | 'ddp-run-method';
+type EventType =
+  | 'ddp-event'
+  | 'minimongo-get-collections'
+  | 'ddp-run-method'
+  | 'console';
 
 interface Message<T> {
   eventType: EventType;
@@ -213,3 +217,5 @@ interface Settings {
   activeFilterBlacklist: string[];
   activeFilters: FilterTypeMap<boolean>;
 }
+
+type ConsoleType = 'log' | 'info' | 'warn' | 'error';

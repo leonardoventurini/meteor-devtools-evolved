@@ -26,15 +26,28 @@ const tabRemovalListener = () => {
   });
 };
 
+const handleConsole = ({
+  data: { type, message },
+}: Message<{ type: ConsoleType; message: string }>) => {
+  if (type in console) {
+    console[type](message);
+  } else {
+    console.warn('Wrong console type.');
+  }
+};
+
 const contentListener = () => {
   chrome.runtime.onMessage.addListener((request, sender, sendResponse) => {
+    if (request?.eventType === 'console') {
+      handleConsole(request);
+      return false;
+    }
+
     const tabId = sender?.tab?.id;
 
     if (tabId && tabId in connections) {
       connections[tabId].postMessage(request);
     }
-
-    console.log(connections);
 
     return true;
   });
