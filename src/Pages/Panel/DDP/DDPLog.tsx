@@ -1,13 +1,12 @@
 import { usePanelStore } from '@/Stores/PanelStore';
 import { Colors, Icon, Tag, Tooltip } from '@blueprintjs/core';
 import classnames from 'classnames';
-import React, { CSSProperties, FunctionComponent } from 'react';
+import React, { CSSProperties, FunctionComponent, memo } from 'react';
 import { DDPLogDirection } from './DDPLogDirection';
 import { DDPLogPreview } from './DDPLogPreview';
 import { sendContentMessage } from '@/Bridge';
 import moment from 'moment';
 import { PanelPage } from '@/Constants';
-import { observer } from 'mobx-react-lite';
 
 interface Props extends DDPLog {
   log: DDPLog;
@@ -16,7 +15,7 @@ interface Props extends DDPLog {
   style: CSSProperties;
 }
 
-export const DDPLog: FunctionComponent<Props> = observer(
+export const DDPLog: FunctionComponent<Props> = memo(
   ({
     hash,
     isInbound,

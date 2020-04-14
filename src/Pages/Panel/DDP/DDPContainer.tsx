@@ -38,7 +38,7 @@ export const DDPContainer: FunctionComponent<Props> = observer(
     });
 
     const Row: FunctionComponent<any> = observer(({ data, index, style }) => {
-      const item = data.items[index];
+      const item = (data as any).items[index];
       const log = 'log' in item ? item.log : item;
 
       return (
