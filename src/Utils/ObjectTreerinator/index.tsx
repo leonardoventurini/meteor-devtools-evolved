@@ -22,8 +22,9 @@ export const ObjectTreeNode: FunctionComponent<{
   object: { [key: string]: any };
   level: number;
 }> = ({ object, level }) => {
-  if (!(object && object.constructor === Object)) {
-    throw new Error('Invalid object.');
+  if (!(typeof object === 'object' && object.constructor === Object)) {
+    console.error('Invalid Object');
+    console.debug(object);
   }
 
   const children = toPairs(object).map(([key, child]) => {

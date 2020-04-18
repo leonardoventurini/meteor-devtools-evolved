@@ -12,6 +12,7 @@ export class PanelStoreConstructor {
   @observable.shallow activeStackTrace: StackTrace[] | null = null;
 
   @observable isAboutVisible = false;
+  @observable subscriptions: Record<string, object> = {};
 
   ddpStore = new DDPStore();
   bookmarkStore = new BookmarkStore();
@@ -20,6 +21,11 @@ export class PanelStoreConstructor {
 
   constructor() {
     this.bookmarkStore.sync().catch(console.error);
+  }
+
+  @action
+  syncSubscriptions(subscriptions: Record<string, object>) {
+    this.subscriptions = subscriptions;
   }
 
   @action

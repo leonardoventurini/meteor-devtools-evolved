@@ -1,4 +1,4 @@
-import { memoize, padStart } from 'lodash';
+import { debounce, memoize, padStart } from 'lodash';
 import moment from 'moment';
 import prettyBytes from 'pretty-bytes';
 import { detectType } from './Pages/Panel/DDP/FilterConstants';
@@ -10,6 +10,16 @@ const getSize = memoize((content: string) => new Blob([content]).size);
 
 const getHash = memoize((content: string) =>
   padStart(new CRC32().update(content).digest(), 8, '0'),
+);
+
+const syncSubscriptions = debounce(
+  () =>
+    sendContentMessage({
+      eventType: 'sync-subscriptions',
+      data: null,
+      source: 'meteor-devtools-evolved',
+    }),
+  100,
 );
 
 const Handlers: Partial<Record<EventType, MessageHandler>> = {
@@ -37,10 +47,16 @@ const Handlers: Partial<Record<EventType, MessageHandler>> = {
     };
 
     PanelStore.ddpStore.pushItem(log);
+
+    syncSubscriptions();
   },
 
   'minimongo-get-collections': (message: Message<MinimongoCollections>) => {
     PanelStore.minimongoStore.setCollections(message.data);
+  },
+
+  'sync-subscriptions': (message: Message<any>) => {
+    PanelStore.syncSubscriptions(JSON.parse(message.data.subscriptions));
   },
 };
 
@@ -77,4 +93,6 @@ export const setupBridge = () => {
   if (!chrome || !chrome.devtools) return;
 
   chromeSetup();
+
+  syncSubscriptions();
 };

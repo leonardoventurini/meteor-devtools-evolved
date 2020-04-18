@@ -15,7 +15,8 @@ type EventType =
   | 'ddp-event'
   | 'minimongo-get-collections'
   | 'ddp-run-method'
-  | 'console';
+  | 'console'
+  | 'sync-subscriptions';
 
 interface Message<T> {
   eventType: EventType;
