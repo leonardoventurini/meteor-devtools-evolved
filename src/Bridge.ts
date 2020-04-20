@@ -1,10 +1,9 @@
-import { debounce, memoize, padStart } from 'lodash';
+import { memoize, padStart } from 'lodash';
 import moment from 'moment';
 import prettyBytes from 'pretty-bytes';
 import { detectType } from './Pages/Panel/DDP/FilterConstants';
 import { PanelStore } from './Stores/PanelStore';
 import { CRC32 } from './Utils/CRC32';
-import { generatePreview } from './Utils/MessageFormatter';
 
 const getSize = memoize((content: string) => new Blob([content]).size);
 
@@ -12,15 +11,12 @@ const getHash = memoize((content: string) =>
   padStart(new CRC32().update(content).digest(), 8, '0'),
 );
 
-const syncSubscriptions = debounce(
-  () =>
-    sendContentMessage({
-      eventType: 'sync-subscriptions',
-      data: null,
-      source: 'meteor-devtools-evolved',
-    }),
-  100,
-);
+const syncSubscriptions = () =>
+  sendContentMessage({
+    eventType: 'sync-subscriptions',
+    data: null,
+    source: 'meteor-devtools-evolved',
+  });
 
 const Handlers: Partial<Record<EventType, MessageHandler>> = {
   'ddp-event': (message: Message<DDPLog>) => {
@@ -28,11 +24,6 @@ const Handlers: Partial<Record<EventType, MessageHandler>> = {
     const hash = getHash(message.data.content);
     const parsedContent = JSON.parse(message.data.content);
     const filterType = detectType(parsedContent);
-    const preview = generatePreview(
-      message.data.content,
-      parsedContent,
-      filterType,
-    );
 
     const log = {
       ...message.data,
@@ -43,12 +34,13 @@ const Handlers: Partial<Record<EventType, MessageHandler>> = {
       sizePretty: prettyBytes(size),
       hash,
       filterType,
-      preview,
     };
 
-    PanelStore.ddpStore.pushItem(log);
+    if (filterType === 'subscription') {
+      syncSubscriptions();
+    }
 
-    syncSubscriptions();
+    PanelStore.ddpStore.pushItem(log);
   },
 
   'minimongo-get-collections': (message: Message<MinimongoCollections>) => {
@@ -93,6 +85,4 @@ export const setupBridge = () => {
   if (!chrome || !chrome.devtools) return;
 
   chromeSetup();
-
-  syncSubscriptions();
 };

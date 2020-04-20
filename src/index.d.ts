@@ -220,3 +220,11 @@ interface Settings {
 }
 
 type ConsoleType = 'log' | 'info' | 'warn' | 'error';
+
+interface MeteorSubscription {
+  id: string;
+  name: string;
+  params: any[];
+  inactive: boolean;
+  ready: boolean;
+}

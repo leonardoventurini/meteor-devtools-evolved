@@ -35,17 +35,17 @@ export abstract class Searchable<T> {
 
   submitLogs = debounce(
     action(() => {
-      this.collection.unshift(...this.buffer.reverse());
-
       if (this.bufferCallback) {
         this.bufferCallback(this.buffer);
       }
+
+      this.collection.unshift(...this.buffer.reverse());
 
       this.buffer = [];
 
       this.isLoading = false;
     }),
-    100,
+    200,
   );
 
   @action

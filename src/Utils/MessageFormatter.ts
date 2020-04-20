@@ -1,5 +1,6 @@
 import { StringUtils } from '@/Utils/StringUtils';
 import { isNumber, isString } from 'lodash';
+import { PanelStore } from '@/Stores/PanelStore';
 
 const MAX_CHARACTERS = 512;
 
@@ -24,8 +25,28 @@ export const MessageFormatter = {
     return session ? session : msg;
   },
 
-  subscription({ name }: DDPLogContent) {
-    return name;
+  subscription({ name, subs }: any) {
+    if (name) {
+      return `${name} initialized`;
+    }
+
+    if (!subs) {
+      return null;
+    }
+
+    const idsToNames = subs
+      .map((id: string) => {
+        const sub = PanelStore.getSubscriptionById(id);
+
+        console.log(sub);
+
+        return sub?.name;
+      })
+      .filter(Boolean);
+
+    console.log(idsToNames);
+
+    return `${idsToNames.join(', ')} ready`;
   },
 
   method({ msg, method, result }: DDPLogContent) {

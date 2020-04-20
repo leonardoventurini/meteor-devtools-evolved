@@ -1,5 +1,6 @@
 const path = require('path');
 const merge = require('webpack-merge');
+const { DefinePlugin } = require('webpack');
 const { getTypeScriptAliases } = require('./utils');
 
 const src = path.join(__dirname, '../src/');
@@ -25,7 +26,13 @@ module.exports = override =>
         publicPath: '/build/',
       },
 
-      plugins: [new CleanWebpackPlugin()],
+      plugins: [
+        new CleanWebpackPlugin(),
+
+        new DefinePlugin({
+          'process.env.MODE': JSON.stringify(override.mode),
+        }),
+      ],
 
       module: {
         rules: [

@@ -2,6 +2,7 @@ import { debounce } from 'lodash';
 import { computed, observable } from 'mobx';
 import { Searchable } from '../Common/Searchable';
 import { PanelStore } from '@/Stores/PanelStore';
+import { generatePreview } from '@/Utils/MessageFormatter';
 
 export class DDPStore extends Searchable<DDPLog> {
   @observable inboundBytes: number = 0;
@@ -12,6 +13,15 @@ export class DDPStore extends Searchable<DDPLog> {
   @observable isLoading: boolean = false;
 
   bufferCallback = (buffer: DDPLog[]) => {
+    this.buffer = buffer.map((log: DDPLog) => ({
+      ...log,
+      preview: generatePreview(
+        log.content,
+        log.parsedContent as DDPLogContent,
+        log.filterType,
+      ),
+    }));
+
     this.newLogs.push(...buffer.map(({ id }) => id));
 
     this.inboundBytes += buffer
