@@ -49,6 +49,9 @@ export const Minimongo: FunctionComponent<Props> = observer(({ isVisible }) => {
                         }}
                       />
                     }
+                    style={{
+                      marginBottom: 5,
+                    }}
                   />
                 ))}
 
