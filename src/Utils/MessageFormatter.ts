@@ -38,13 +38,9 @@ export const MessageFormatter = {
       .map((id: string) => {
         const sub = PanelStore.getSubscriptionById(id);
 
-        console.log(sub);
-
         return sub?.name;
       })
       .filter(Boolean);
-
-    console.log(idsToNames);
 
     return `${idsToNames.join(', ')} ready`;
   },
