@@ -27,7 +27,10 @@ export const MinimongoNavigator: FunctionComponent<Props> = observer(
     return (
       <Dialog
         icon='database'
-        onClose={() => setShowNavigator(false)}
+        onClose={() => {
+          setShowNavigator(false);
+          store.setSearch('');
+        }}
         title='Collections'
         isOpen={isOpen}
       >
