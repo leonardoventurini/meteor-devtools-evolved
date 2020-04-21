@@ -82,7 +82,9 @@ Bridge.register('ddp-event', (message: Message<DDPLog>) => {
       ? DateTime.fromMillis(message.data.timestamp).toFormat('HH:mm:ss.SSS')
       : '',
     timestampLong: message.data.timestamp
-      ? DateTime.fromMillis(message.data.timestamp).toLocaleString()
+      ? DateTime.fromMillis(message.data.timestamp).toLocaleString(
+          DateTime.DATETIME_FULL,
+        )
       : '',
     size,
     sizePretty: prettyBytes(size),
