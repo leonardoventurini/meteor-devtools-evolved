@@ -15,7 +15,9 @@ export const Navigation: FunctionComponent<Props> = observer(
     const panelStore = usePanelStore();
 
     useEffect(() => {
-      panelStore.settingStore.updateRepositoryData();
+      setTimeout(() => {
+        panelStore.settingStore.updateRepositoryData();
+      }, 2000);
     }, []);
 
     const { repositoryData } = panelStore.settingStore;
