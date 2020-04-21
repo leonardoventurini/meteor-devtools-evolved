@@ -81,7 +81,7 @@ export const Registry: IRegistry = {
     });
   },
 
-  run(message: Message<any>) {
+  run(message: IMessagePayload<any>) {
     this.subscriptions.forEach(
       ({ eventType, handler }) =>
         message.source === 'meteor-devtools-evolved' &&

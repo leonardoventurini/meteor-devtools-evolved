@@ -1,9 +1,9 @@
 import { PanelPage } from '@/Constants';
 import { Button, Navbar, Tag } from '@blueprintjs/core';
 import React, { FunctionComponent, useEffect } from 'react';
-import { sendContentMessage } from '@/Bridge';
 import { usePanelStore } from '@/Stores/PanelStore';
 import { observer } from 'mobx-react-lite';
+import { Bridge } from '@/Bridge';
 
 interface Props {
   selectedTabId: string;
@@ -49,10 +49,9 @@ export const Navigation: FunctionComponent<Props> = observer(
             text='Minimongo'
             onClick={() => {
               // Fetch collection data from the page.
-              sendContentMessage({
+              Bridge.sendContentMessage({
                 eventType: 'minimongo-get-collections',
                 data: null,
-                source: 'meteor-devtools-evolved',
               });
 
               setSelectedTabId(PanelPage.MINIMONGO);

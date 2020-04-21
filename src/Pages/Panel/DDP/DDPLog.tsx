@@ -4,9 +4,9 @@ import classnames from 'classnames';
 import React, { CSSProperties, FunctionComponent, memo } from 'react';
 import { DDPLogDirection } from './DDPLogDirection';
 import { DDPLogPreview } from './DDPLogPreview';
-import { sendContentMessage } from '@/Bridge';
-import moment from 'moment';
 import { PanelPage } from '@/Constants';
+import { DateTime } from 'luxon';
+import { Bridge } from '@/Bridge';
 
 interface Props extends DDPLog {
   log: DDPLog;
@@ -41,7 +41,10 @@ export const DDPLog: FunctionComponent<Props> = memo(
       <div className={classes} style={style}>
         <div className='time'>
           <Tooltip
-            content={timestampLong || moment(timestamp).toLocaleString()}
+            content={
+              timestampLong ||
+              (timestamp ? DateTime.fromMillis(timestamp).toLocaleString() : '')
+            }
             hoverOpenDelay={800}
             position='top'
           >
@@ -91,10 +94,9 @@ export const DDPLog: FunctionComponent<Props> = memo(
                 onClick={() => {
                   store.setSelectedTabId(PanelPage.DDP);
 
-                  sendContentMessage({
+                  Bridge.sendContentMessage({
                     eventType: 'ddp-run-method',
                     data: log.parsedContent,
-                    source: 'meteor-devtools-evolved',
                   });
                 }}
                 color={Colors.WHITE}

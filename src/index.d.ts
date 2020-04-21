@@ -21,6 +21,9 @@ type EventType =
 interface Message<T> {
   eventType: EventType;
   data: T;
+}
+
+interface IMessagePayload<T> extends Message<T> {
   source: MessageSource;
 }
 

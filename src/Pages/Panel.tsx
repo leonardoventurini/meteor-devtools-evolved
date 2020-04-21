@@ -1,4 +1,3 @@
-import { setupBridge } from '@/Bridge';
 import { PanelPage } from '@/Constants';
 import { PanelStoreProvider, usePanelStore } from '@/Stores/PanelStore';
 import { observer } from 'mobx-react-lite';
@@ -10,8 +9,9 @@ import { DrawerStackTrace } from './Panel/DrawerStackTrace';
 import { Minimongo } from './Panel/Minimongo/Minimongo';
 import { Navigation } from './Panel/Navigation';
 import { About } from '@/Pages/Panel/About';
+import { Bridge } from '@/Bridge';
 
-setupBridge();
+Bridge.init();
 
 interface Props {}
 
