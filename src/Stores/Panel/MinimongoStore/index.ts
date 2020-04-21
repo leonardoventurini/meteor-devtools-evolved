@@ -26,7 +26,7 @@ export class MinimongoStore {
 
   @computed
   get collectionNames() {
-    return Object.keys(this.collections);
+    return Object.keys(this.collections).sort();
   }
 
   @computed

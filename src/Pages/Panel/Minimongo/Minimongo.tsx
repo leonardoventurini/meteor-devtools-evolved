@@ -32,8 +32,8 @@ export const Minimongo: FunctionComponent<Props> = observer(({ isVisible }) => {
         <div className='minimongo-group'>
           <div className='minimongo-sidebar'>
             <Menu>
-              {!!minimongoStore.filteredCollectionNames.length &&
-                minimongoStore.filteredCollectionNames.map(key => (
+              {!!minimongoStore.collectionNames.length &&
+                minimongoStore.collectionNames.map(key => (
                   <MenuItem
                     key={key}
                     text={key.concat(
