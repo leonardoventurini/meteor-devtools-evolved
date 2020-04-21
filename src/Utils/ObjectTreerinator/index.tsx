@@ -22,7 +22,7 @@ export const ObjectTreeNode: FunctionComponent<{
   object: { [key: string]: any };
   level: number;
 }> = ({ object, level }) => {
-  if (!(typeof object === 'object' && object.constructor === Object)) {
+  if (!(typeof object === 'object' && object?.constructor === Object)) {
     console.error('Invalid Object');
     console.debug(object);
   }
