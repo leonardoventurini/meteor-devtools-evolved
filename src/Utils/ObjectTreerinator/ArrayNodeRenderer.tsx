@@ -1,10 +1,22 @@
 import React from 'react';
 import { ObjectTreeNode } from '@/Utils/ObjectTreerinator/index';
-import { isArray, isBoolean, isNil, isNumber, isString, isObject } from 'lodash';
+import {
+  isArray,
+  isBoolean,
+  isNil,
+  isNumber,
+  isObject,
+  isString,
+} from 'lodash';
 import { Collapsible } from '@/Utils/ObjectTreerinator/Collapsible';
 
 export const ArrayNodeRenderer = (child: any, level: number) => {
-  if (isNil(child)) return <span role='null'>null</span>;
+  if (isNil(child))
+    return (
+      <span role='null' style={{ marginLeft: '.33rem' }}>
+        null
+      </span>
+    );
 
   if (isString(child)) return <span role='string'>{`"${child}"`}</span>;
 
