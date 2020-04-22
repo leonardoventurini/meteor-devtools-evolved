@@ -16,6 +16,8 @@ In this release I am focusing on some quality of life changes and addressing iss
 
 - The DDP log is now a virtualized list with INFINITE scrolling and new logs come at the top.
 - Moved extension logs from top frame to background. NO MORE ANNOYING CONSOLE LOGS!!!
+- Show subscription name when ready.
+
 
 ## [1.1] - 2020-04-02
 
