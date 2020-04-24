@@ -1,11 +1,11 @@
-import React, { FunctionComponent, useEffect, useRef, useState } from 'react';
+import React, { FunctionComponent, useRef } from 'react';
 import { DDPLog } from '@/Pages/Panel/DDP/DDPLog';
 import { FixedSizeList } from 'react-window';
 import { observer } from 'mobx-react-lite';
 import { usePanelStore } from '@/Stores/PanelStore';
 import { DDPStore } from '@/Stores/Panel/DDPStore';
 import { BookmarkStore } from '@/Stores/Panel/BookmarkStore';
-import { useResize } from '@/Utils/ResizeHook';
+import { useDimensions } from '@/Utils/Hooks/Dimensions';
 
 interface Props {
   source: DDPStore | BookmarkStore;
@@ -18,24 +18,7 @@ export const DDPContainer: FunctionComponent<Props> = observer(
 
     const store = usePanelStore();
 
-    const [dimensions, setDimensions] = useState({
-      height: 300,
-      width: 300,
-    });
-
-    useEffect(() => {
-      setDimensions({
-        width: contentRef?.current?.clientWidth ?? 300,
-        height: contentRef?.current?.clientHeight ?? 300,
-      });
-    }, [isVisible]);
-
-    useResize(() => {
-      setDimensions({
-        width: contentRef?.current?.clientWidth ?? 300,
-        height: contentRef?.current?.clientHeight ?? 300,
-      });
-    });
+    const { width, height } = useDimensions(contentRef, [isVisible]);
 
     const Row: FunctionComponent<any> = observer(({ data, index, style }) => {
       const item = (data as any).items[index];
@@ -56,8 +39,8 @@ export const DDPContainer: FunctionComponent<Props> = observer(
     return (
       <div className='mde-content mde-ddp' ref={contentRef}>
         <FixedSizeList
-          height={dimensions.height}
-          width={dimensions.width}
+          height={height}
+          width={width}
           itemCount={source.filtered.length}
           itemSize={30}
           itemData={{ items: source.filtered }}
