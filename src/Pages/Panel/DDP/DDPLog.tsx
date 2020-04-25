@@ -25,6 +25,8 @@ const DDPLogWrapper = styled.div`
 
   transition: background-color 0.5s ease;
 
+  font-family: 'Iosevka Medium', monospace;
+
   &.m-new {
     background-color: #30594d;
   }
@@ -38,6 +40,7 @@ const DDPLogWrapper = styled.div`
   }
 
   .time {
+    font-size: 11px;
     font-family: monospace;
   }
 
@@ -65,25 +68,15 @@ const DDPLogWrapper = styled.div`
     font-family: monospace;
   }
 
-  .interactions {
-    flex: 0 0 auto;
-
-    visibility: hidden;
-
-    span {
-      cursor: pointer;
-    }
-
-    span + span {
-      margin-left: 8px;
-    }
-  }
-
   &:hover {
     background-color: #394b59;
   }
 
-  &:hover .interactions {
+  .menu {
+    visibility: hidden;
+  }
+
+  &:hover .menu {
     visibility: visible;
   }
 `;
@@ -134,8 +127,6 @@ export const DDPLog: FunctionComponent<Props> = memo(
           <Tag minimal>{sizePretty}</Tag>
         </div>
 
-        <DDPLogMenu log={log} store={store} />
-
         {hash && (
           <div className='hash'>
             <Tooltip content='Copy CRC32' hoverOpenDelay={800} position='top'>
@@ -151,6 +142,8 @@ export const DDPLog: FunctionComponent<Props> = memo(
             </Tooltip>
           </div>
         )}
+
+        <DDPLogMenu log={log} store={store} />
       </DDPLogWrapper>
     );
   },

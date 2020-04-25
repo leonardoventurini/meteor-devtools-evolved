@@ -4,6 +4,16 @@
 
 @import 'Utils';
 
+@font-face {
+  font-family: 'Iosevka Medium';
+  src: url('../Assets/iosevka-medium.woff');
+}
+
+@font-face {
+  font-family: 'Iosevka Medium Italic';
+  src: url('../Assets/iosevka-mediumitalic.woff');
+}
+
 $background-color: #30404d;
 
 ::-webkit-scrollbar {

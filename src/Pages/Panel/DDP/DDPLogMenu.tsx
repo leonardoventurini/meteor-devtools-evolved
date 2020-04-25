@@ -1,4 +1,4 @@
-import { Button, Icon, Menu, Popover } from '@blueprintjs/core';
+import { Icon, Menu, Popover, Tag } from '@blueprintjs/core';
 import { PanelPage } from '@/Constants';
 import { Bridge } from '@/Bridge';
 import React, { FunctionComponent, useState } from 'react';
@@ -22,7 +22,7 @@ export const DDPLogMenu: FunctionComponent<Props> = ({ store, log }) => {
         onClick={() => log.trace && store.setActiveStackTrace(log.trace)}
       />
       <Menu.Item
-        text='Bookmark'
+        text={isBookmarked ? 'Remove' : 'Save'}
         icon={isBookmarked ? 'star' : 'star-empty'}
         onClick={() =>
           store.bookmarkStore.bookmarkIds.includes(log.id)
@@ -50,14 +50,16 @@ export const DDPLogMenu: FunctionComponent<Props> = ({ store, log }) => {
   return (
     <div className='menu'>
       <Popover content={MenuElement}>
-        <Button
+        <Tag
           minimal
           onClick={() => {
             setBookmarked(store.bookmarkStore.bookmarkIds.includes(log.id));
           }}
+          round
+          interactive
         >
-          <Icon icon='menu' />
-        </Button>
+          <Icon icon='more' />
+        </Tag>
       </Popover>
     </div>
   );

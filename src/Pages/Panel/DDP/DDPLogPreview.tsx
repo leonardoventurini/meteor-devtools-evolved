@@ -19,7 +19,7 @@ const getTag = (icon: IconName, title: string) => (
       style={{
         color: '#8a9ba8',
       }}
-      iconSize={14}
+      iconSize={12}
     />
   </Tooltip>
 );

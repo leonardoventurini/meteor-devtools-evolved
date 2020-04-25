@@ -32,7 +32,7 @@ export const Subscriptions: FunctionComponent<Props> = observer(
     return (
       <Hideable isVisible={isVisible}>
         <Wrapper className='mde-content'>
-          <HTMLTable>
+          <HTMLTable condensed>
             <thead>
               <tr>
                 <th>Name</th>
