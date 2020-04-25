@@ -27,11 +27,11 @@ const DDPLogWrapper = styled.div`
   transition: background-color 0.5s ease;
 
   &.m-new {
-    background-color: #0a6640;
+    background-color: #30594d;
   }
 
   &.m-starred {
-    background-color: #0e5a8a;
+    background-color: #304066;
   }
 
   div + div {

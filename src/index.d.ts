@@ -35,6 +35,14 @@ interface StackTrace {
   fileName?: string;
 }
 
+interface DDPError {
+  isClientSafe: boolean;
+  error: number;
+  reason: string;
+  message: string;
+  errorType: string;
+}
+
 interface DDPLogContent {
   msg?: string;
   collection?: string;
@@ -43,6 +51,7 @@ interface DDPLogContent {
   method?: string;
   result?: string;
   name?: string;
+  error?: DDPError;
 }
 
 interface DDPLog {

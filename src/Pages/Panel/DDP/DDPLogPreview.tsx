@@ -52,6 +52,7 @@ export const DDPLogPreview: FunctionComponent<Props> = ({ log, store }) => {
           log.parsedContent && store.setActiveObject(log.parsedContent);
         }}
         className='content-preview'
+        intent={log?.parsedContent?.error ? 'danger' : 'none'}
       >
         <small>
           <code>{log.preview}</code>

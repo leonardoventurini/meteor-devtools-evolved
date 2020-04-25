@@ -45,9 +45,16 @@ export const MessageFormatter = {
     return `${idsToNames.join(', ')} ready`;
   },
 
-  method({ msg, method, result }: DDPLogContent) {
+  method({ msg, method, result, error }: DDPLogContent) {
     if (msg === 'method') {
       return method;
+    }
+
+    if (msg === 'result' && error) {
+      return StringUtils.truncate(
+        `${error.errorType}: ${error.message}`,
+        MAX_CHARACTERS,
+      );
     }
 
     if (msg === 'result') {
