@@ -32,17 +32,11 @@ const Layout = styled.div`
 
   min-width: ${MIN_LAYOUT_WIDTH}px;
 
-  .mde-navbar {
+  .navbar {
     position: absolute;
     top: 0;
     left: 0;
     right: 0;
-
-    .mde-github-actions {
-      & > button + button {
-        margin-left: 0.5rem;
-      }
-    }
   }
 
   .mde-layout__tab-panel {

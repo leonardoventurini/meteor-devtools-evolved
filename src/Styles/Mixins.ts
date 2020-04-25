@@ -5,3 +5,9 @@ export const truncate = () => css`
   overflow: hidden;
   text-overflow: ellipsis;
 `;
+
+export const centerItems = () => css`
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+`;
