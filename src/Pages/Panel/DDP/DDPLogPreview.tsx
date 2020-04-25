@@ -1,11 +1,6 @@
-import { PanelStoreConstructor } from '@/Stores/PanelStore';
+import { usePanelStore } from '@/Stores/PanelStore';
 import { Icon, IconName, Tag, Tooltip } from '@blueprintjs/core';
 import React, { FunctionComponent } from 'react';
-
-interface Props {
-  log: DDPLog;
-  store: PanelStoreConstructor;
-}
 
 const getTag = (icon: IconName, title: string) => (
   <Tooltip
@@ -41,21 +36,27 @@ const getTypeTag = (filterType?: FilterType | null) => {
   }
 };
 
-export const DDPLogPreview: FunctionComponent<Props> = ({ log, store }) => {
+export const DDPLogPreview: FunctionComponent<Partial<DDPLog>> = ({
+  filterType,
+  parsedContent,
+  preview,
+}) => {
+  const store = usePanelStore();
+
   return (
     <>
-      {getTypeTag(log.filterType)}
+      {getTypeTag(filterType)}
       <Tag
         interactive
         minimal
         onClick={() => {
-          log.parsedContent && store.setActiveObject(log.parsedContent);
+          parsedContent && store.setActiveObject(parsedContent);
         }}
         className='content-preview'
-        intent={log?.parsedContent?.error ? 'danger' : 'none'}
+        intent={parsedContent?.error ? 'danger' : 'none'}
       >
         <small>
-          <code>{log.preview}</code>
+          <code>{preview}</code>
         </small>
       </Tag>
     </>

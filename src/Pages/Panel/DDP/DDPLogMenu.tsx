@@ -2,14 +2,15 @@ import { Icon, Menu, Popover } from '@blueprintjs/core';
 import { PanelPage } from '@/Constants';
 import { Bridge } from '@/Bridge';
 import React, { FunctionComponent, useState } from 'react';
-import { PanelStoreConstructor } from '@/Stores/PanelStore';
+import { usePanelStore } from '@/Stores/PanelStore';
 
 interface Props {
   log: DDPLog;
-  store: PanelStoreConstructor;
 }
 
-export const DDPLogMenu: FunctionComponent<Props> = ({ store, log }) => {
+export const DDPLogMenu: FunctionComponent<Props> = ({ log }) => {
+  const store = usePanelStore();
+
   const [isBookmarked, setBookmarked] = useState(
     store.bookmarkStore.bookmarkIds.includes(log.id),
   );

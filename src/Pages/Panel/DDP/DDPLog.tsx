@@ -1,7 +1,6 @@
-import { usePanelStore } from '@/Stores/PanelStore';
 import { Tag, Tooltip } from '@blueprintjs/core';
 import classnames from 'classnames';
-import React, { CSSProperties, FunctionComponent, memo } from 'react';
+import React, { CSSProperties, FunctionComponent } from 'react';
 import { DDPLogDirection } from './DDPLogDirection';
 import { DDPLogPreview } from './DDPLogPreview';
 import { DateTime } from 'luxon';
@@ -9,11 +8,11 @@ import styled from 'styled-components';
 import { truncate } from '@/Styles/Mixins';
 import { DDPLogMenu } from '@/Pages/Panel/DDP/DDPLogMenu';
 
-interface Props extends DDPLog {
+interface Props {
   log: DDPLog;
+  style: CSSProperties;
   isNew: boolean;
   isStarred: boolean;
-  style: CSSProperties;
 }
 
 const DDPLogWrapper = styled.div`
@@ -78,70 +77,70 @@ const DDPLogWrapper = styled.div`
   }
 `;
 
-export const DDPLog: FunctionComponent<Props> = memo(
-  ({
-    hash,
-    isInbound,
-    isNew,
-    isOutbound,
-    isStarred,
-    log,
-    sizePretty,
-    timestamp,
-    timestampPretty,
-    timestampLong,
-    style,
-  }) => {
-    const store = usePanelStore();
+export const DDPLog: FunctionComponent<Props> = ({
+  log,
+  style,
+  isNew,
+  isStarred,
+}) => {
+  const classes = classnames({
+    'm-new': isNew,
+    'm-starred': isStarred,
+  });
 
-    const classes = classnames({
-      'm-new': isNew,
-      'm-starred': isStarred,
-    });
+  return (
+    <DDPLogWrapper className={classes} style={style}>
+      <div className='time'>
+        <Tooltip
+          content={
+            log.timestampLong ||
+            (log.timestamp
+              ? DateTime.fromMillis(log.timestamp).toLocaleString()
+              : '')
+          }
+          hoverOpenDelay={800}
+          position='top'
+        >
+          <small>{log.timestampPretty}</small>
+        </Tooltip>
+      </div>
+      <div className='direction'>
+        <DDPLogDirection
+          isOutbound={log.isOutbound}
+          isInbound={log.isInbound}
+        />
+      </div>
+      <div className='content'>
+        <DDPLogPreview
+          parsedContent={log.parsedContent}
+          preview={log.preview}
+          filterType={log.filterType}
+        />
+      </div>
 
-    return (
-      <DDPLogWrapper className={classes} style={style}>
-        <div className='time'>
-          <Tooltip
-            content={
-              timestampLong ||
-              (timestamp ? DateTime.fromMillis(timestamp).toLocaleString() : '')
-            }
-            hoverOpenDelay={800}
-            position='top'
-          >
-            <small>{timestampPretty}</small>
+      <div className='size'>
+        <Tag minimal>{log.sizePretty}</Tag>
+      </div>
+
+      {log.hash && (
+        <div className='hash'>
+          <Tooltip content='Copy CRC32' hoverOpenDelay={800} position='top'>
+            <Tag
+              minimal
+              interactive
+              onClick={() => {
+                navigator.clipboard
+                  .writeText(log.hash as string)
+                  .catch(console.error);
+              }}
+            >
+              {log.hash}
+            </Tag>
           </Tooltip>
         </div>
-        <div className='direction'>
-          <DDPLogDirection isOutbound={isOutbound} isInbound={isInbound} />
-        </div>
-        <div className='content'>
-          <DDPLogPreview log={log} store={store} />
-        </div>
+      )}
 
-        <div className='size'>
-          <Tag minimal>{sizePretty}</Tag>
-        </div>
-
-        {hash && (
-          <div className='hash'>
-            <Tooltip content='Copy CRC32' hoverOpenDelay={800} position='top'>
-              <Tag
-                minimal
-                interactive
-                onClick={() => {
-                  navigator.clipboard.writeText(hash).catch(console.error);
-                }}
-              >
-                {hash}
-              </Tag>
-            </Tooltip>
-          </div>
-        )}
-
-        <DDPLogMenu log={log} store={store} />
-      </DDPLogWrapper>
-    );
-  },
-);
+      <DDPLogMenu log={log} />
+    </DDPLogWrapper>
+  );
+};
