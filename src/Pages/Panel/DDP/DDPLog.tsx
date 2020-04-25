@@ -65,10 +65,6 @@ const DDPLogWrapper = styled.div`
     }
   }
 
-  .hash {
-    font-family: monospace;
-  }
-
   &:hover {
     background-color: #394b59;
   }

@@ -17,6 +17,7 @@ export const DrawerJSON: FunctionComponent<Props> = ({
       title='JSON'
       isOpen={!!viewableObject}
       onClose={onClose}
+      size='72%'
     >
       <div className={Classes.DRAWER_BODY}>
         <div className={Classes.DIALOG_BODY}>
