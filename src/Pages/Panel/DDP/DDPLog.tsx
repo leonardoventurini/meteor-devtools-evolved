@@ -1,14 +1,13 @@
 import { usePanelStore } from '@/Stores/PanelStore';
-import { Colors, Icon, Tag, Tooltip } from '@blueprintjs/core';
+import { Tag, Tooltip } from '@blueprintjs/core';
 import classnames from 'classnames';
 import React, { CSSProperties, FunctionComponent, memo } from 'react';
 import { DDPLogDirection } from './DDPLogDirection';
 import { DDPLogPreview } from './DDPLogPreview';
-import { PanelPage } from '@/Constants';
 import { DateTime } from 'luxon';
-import { Bridge } from '@/Bridge';
 import styled from 'styled-components';
 import { truncate } from '@/Styles/Mixins';
+import { DDPLogMenu } from '@/Pages/Panel/DDP/DDPLogMenu';
 
 interface Props extends DDPLog {
   log: DDPLog;
@@ -101,7 +100,6 @@ export const DDPLog: FunctionComponent<Props> = memo(
     timestamp,
     timestampPretty,
     timestampLong,
-    trace,
     style,
   }) => {
     const store = usePanelStore();
@@ -136,54 +134,7 @@ export const DDPLog: FunctionComponent<Props> = memo(
           <Tag minimal>{sizePretty}</Tag>
         </div>
 
-        <div className='interactions'>
-          <Tooltip
-            content='View Stack Trace'
-            hoverOpenDelay={800}
-            position='top'
-          >
-            <Icon
-              icon='eye-open'
-              onClick={() => trace && store.setActiveStackTrace(trace)}
-            />
-          </Tooltip>
-          <Tooltip content='Star & Keep' hoverOpenDelay={800} position='top'>
-            {isStarred ? (
-              <Icon
-                icon='star'
-                onClick={() => store.bookmarkStore.remove(log)}
-              />
-            ) : (
-              <Icon
-                icon='star-empty'
-                onClick={() => store.bookmarkStore.add(log)}
-              />
-            )}
-          </Tooltip>
-
-          <Tooltip content='Replay Method' hoverOpenDelay={800} position='top'>
-            {log.parsedContent?.msg === 'method' ? (
-              <Icon
-                icon='play'
-                onClick={() => {
-                  store.setSelectedTabId(PanelPage.DDP);
-
-                  Bridge.sendContentMessage({
-                    eventType: 'ddp-run-method',
-                    data: log.parsedContent,
-                  });
-                }}
-                color={Colors.WHITE}
-              />
-            ) : (
-              <Icon
-                icon='play'
-                color={Colors.GRAY1}
-                style={{ cursor: 'default' }}
-              />
-            )}
-          </Tooltip>
-        </div>
+        <DDPLogMenu log={log} store={store} />
 
         {hash && (
           <div className='hash'>
