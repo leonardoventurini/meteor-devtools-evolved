@@ -56,11 +56,6 @@ const PanelObserverComponent: FunctionComponent<Props> = observer(() => {
   const store = usePanelStore();
   const panelRef = useRef<HTMLDivElement>(null);
 
-  const navigationProps = {
-    selectedTabId: store.selectedTabId,
-    setSelectedTabId: store.setSelectedTabId.bind(store),
-  };
-
   return (
     <Layout>
       <DrawerJSON
@@ -78,7 +73,7 @@ const PanelObserverComponent: FunctionComponent<Props> = observer(() => {
         onClose={() => store.setAboutVisible(false)}
       />
 
-      <Navigation {...navigationProps} />
+      <Navigation />
 
       <div className='mde-layout__tab-panel' ref={panelRef}>
         <DDP isVisible={store.selectedTabId === PanelPage.DDP} />

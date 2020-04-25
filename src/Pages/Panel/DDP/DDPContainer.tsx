@@ -40,7 +40,7 @@ export const DDPContainer: FunctionComponent<Props> = observer(
           height={height}
           width={width}
           itemCount={source.filtered.length}
-          itemSize={30}
+          itemSize={28}
           itemData={{ items: source.filtered }}
         >
           {Row}
