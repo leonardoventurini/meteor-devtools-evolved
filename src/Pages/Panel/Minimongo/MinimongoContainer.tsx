@@ -1,5 +1,5 @@
-import React, { FunctionComponent, useRef } from 'react';
-import { FixedSizeList } from 'react-window';
+import React, { CSSProperties, FunctionComponent, useRef } from 'react';
+import { areEqual, FixedSizeList } from 'react-window';
 import { observer } from 'mobx-react-lite';
 import { usePanelStore } from '@/Stores/PanelStore';
 import { MinimongoRow } from '@/Pages/Panel/Minimongo/MinimongoRow';
@@ -22,21 +22,30 @@ export const MinimongoContainer: FunctionComponent<Props> = observer(
 
     const { width, height } = useDimensions(contentRef, [isVisible]);
 
-    const Row: FunctionComponent<any> = observer(({ data, index, style }) => {
-      const { collectionName, color, document } = data.items[index];
+    interface IRow {
+      data: { items: IDocumentWrapper[] };
+      index: number;
+      style: CSSProperties;
+    }
 
-      return (
-        <MinimongoRow
-          style={style}
-          key={document._id}
-          document={document}
-          panelStore={store}
-          collectionName={collectionName}
-          color={color}
-          isAllVisible={!activeCollection}
-        />
-      );
-    });
+    const Row: FunctionComponent<any> = React.memo(
+      ({ data, index, style }: IRow) => {
+        const { collectionName, color, document } = data.items![index];
+
+        return (
+          <MinimongoRow
+            style={style}
+            key={document._id}
+            document={document}
+            panelStore={store}
+            collectionName={collectionName}
+            color={color}
+            isAllVisible={!activeCollection}
+          />
+        );
+      },
+      areEqual,
+    );
 
     return (
       <div className='minimongo-container' ref={contentRef}>

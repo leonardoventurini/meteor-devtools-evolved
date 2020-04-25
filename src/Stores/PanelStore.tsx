@@ -12,7 +12,7 @@ export class PanelStoreConstructor {
   @observable.shallow activeStackTrace: StackTrace[] | null = null;
 
   @observable isAboutVisible = false;
-  @observable subscriptions: Record<string, MeteorSubscription> = {};
+  @observable subscriptions: Record<string, IMeteorSubscription> = {};
 
   ddpStore = new DDPStore();
   bookmarkStore = new BookmarkStore();
@@ -24,7 +24,7 @@ export class PanelStoreConstructor {
   }
 
   @action
-  syncSubscriptions(subscriptions: Record<string, MeteorSubscription>) {
+  syncSubscriptions(subscriptions: Record<string, IMeteorSubscription>) {
     this.subscriptions = subscriptions;
   }
 

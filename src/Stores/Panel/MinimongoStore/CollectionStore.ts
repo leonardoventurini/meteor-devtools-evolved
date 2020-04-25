@@ -1,7 +1,7 @@
 import { Searchable } from '@/Stores/Common/Searchable';
 
-export class CollectionStore extends Searchable<DocumentWrapper> {
-  filterFunction = (collection: DocumentWrapper[], search: string) =>
+export class CollectionStore extends Searchable<IDocumentWrapper> {
+  filterFunction = (collection: IDocumentWrapper[], search: string) =>
     collection.filter(
       document =>
         !search ||

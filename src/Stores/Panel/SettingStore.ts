@@ -3,10 +3,10 @@ import { PanelDatabase } from '@/Database/PanelDatabase';
 import { assign, compact, flatten, omit } from 'lodash';
 import { FilterCriteria } from '@/Pages/Panel/DDP/FilterConstants';
 
-export class SettingStore implements Settings {
+export class SettingStore implements ISettings {
   hydrated: boolean = false;
 
-  @observable repositoryData: GitHubRepository | null = null;
+  @observable repositoryData: IGitHubRepository | null = null;
 
   @observable activeFilterBlacklist: string[] = [];
 
@@ -29,9 +29,9 @@ export class SettingStore implements Settings {
 
     reaction(
       () => toJS(this),
-      (data: Settings) => {
+      (data: ISettings) => {
         if (this.hydrated) {
-          PanelDatabase.saveSettings(omit(data, ['hydrated']) as Settings)
+          PanelDatabase.saveSettings(omit(data, ['hydrated']) as ISettings)
             .then(() => {
               console.log('Settings updated.');
             })
@@ -42,7 +42,7 @@ export class SettingStore implements Settings {
   }
 
   @action
-  setRepositoryData(repositoryData: GitHubRepository) {
+  setRepositoryData(repositoryData: IGitHubRepository) {
     this.repositoryData = repositoryData;
   }
 

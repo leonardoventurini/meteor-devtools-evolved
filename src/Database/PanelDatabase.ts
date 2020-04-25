@@ -44,7 +44,7 @@ class Database extends Dexie {
     return (await this.data.get('settings')) ?? {};
   }
 
-  async saveSettings(settings: Settings) {
+  async saveSettings(settings: ISettings) {
     if (await this.data.get('settings')) {
       return this.data.update('settings', settings);
     } else {

@@ -105,23 +105,23 @@ interface Pagination {
   prev(): void;
 }
 
-interface Document extends Record<string, any> {
+interface IDocument extends Record<string, any> {
   _id: string;
 }
 
-type MinimongoCollections = Record<string, Document[]>;
+type MinimongoCollections = Record<string, IDocument[]>;
 
 type ViewableObject = object | null;
 
 type MessageHandler = (message: Message<any>) => void;
 
-interface DocumentWrapper {
+interface IDocumentWrapper {
   collectionName: string;
   color: string;
-  document: Document;
+  document: IDocument;
 }
 
-interface GitHubRepository {
+interface IGitHubRepository {
   id: number;
   node_id: string;
   name: string;
@@ -225,15 +225,15 @@ interface GitHubRepository {
   subscribers_count: number;
 }
 
-interface Settings {
-  repositoryData: GitHubRepository | null;
+interface ISettings {
+  repositoryData: IGitHubRepository | null;
   activeFilterBlacklist: string[];
   activeFilters: FilterTypeMap<boolean>;
 }
 
 type ConsoleType = 'log' | 'info' | 'warn' | 'error';
 
-interface MeteorSubscription {
+interface IMeteorSubscription {
   id: string;
   name: string;
   params: any[];

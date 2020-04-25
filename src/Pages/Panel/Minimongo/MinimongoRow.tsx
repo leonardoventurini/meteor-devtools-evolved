@@ -7,7 +7,7 @@ interface Props {
   panelStore: PanelStoreConstructor;
   collectionName: string;
   color: string;
-  document: Document;
+  document: IDocument;
   style: CSSProperties;
   isAllVisible: boolean;
 }
