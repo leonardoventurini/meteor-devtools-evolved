@@ -6,6 +6,8 @@ import { HTMLTable, Icon, Tag } from '@blueprintjs/core';
 import styled from 'styled-components';
 import { sortBy } from 'lodash';
 import { StatusBar } from '@/Pages/Layout/StatusBar';
+import { useInterval } from '@/Utils/Hooks/Interval';
+import { syncSubscriptions } from '@/Bridge';
 
 interface Props {
   isVisible: boolean;
@@ -19,6 +21,8 @@ const Wrapper = styled.div`
 
 export const Subscriptions: FunctionComponent<Props> = observer(
   ({ isVisible }) => {
+    useInterval(() => isVisible && syncSubscriptions(), 5000);
+
     const panelStore = usePanelStore();
     const subscriptions = sortBy(
       Object.values(panelStore.subscriptions),

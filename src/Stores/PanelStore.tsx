@@ -1,11 +1,10 @@
-import { action, computed, observable, toJS } from 'mobx';
+import { action, observable, toJS } from 'mobx';
 import React, { createContext, FunctionComponent } from 'react';
 import { BookmarkStore } from './Panel/BookmarkStore';
 import { DDPStore } from './Panel/DDPStore';
 import { MinimongoStore } from './Panel/MinimongoStore';
 import { PanelPage } from '@/Constants';
 import { SettingStore } from '@/Stores/Panel/SettingStore';
-import { inDevelopmentOnly } from '@/Utils';
 
 export class PanelStoreConstructor {
   @observable selectedTabId: string = PanelPage.DDP;
@@ -27,12 +26,6 @@ export class PanelStoreConstructor {
   @action
   syncSubscriptions(subscriptions: Record<string, MeteorSubscription>) {
     this.subscriptions = subscriptions;
-
-    console.log(this.subscriptions);
-
-    inDevelopmentOnly(() => {
-      console.table(toJS(this.subscriptions));
-    });
   }
 
   @action

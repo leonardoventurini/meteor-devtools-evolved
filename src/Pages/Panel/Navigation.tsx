@@ -3,7 +3,7 @@ import { Button, Navbar, Tag } from '@blueprintjs/core';
 import React, { FunctionComponent, useEffect } from 'react';
 import { usePanelStore } from '@/Stores/PanelStore';
 import { observer } from 'mobx-react-lite';
-import { Bridge } from '@/Bridge';
+import { Bridge, syncSubscriptions } from '@/Bridge';
 
 interface Props {
   selectedTabId: string;
@@ -67,6 +67,7 @@ export const Navigation: FunctionComponent<Props> = observer(
             icon='feed-subscribed'
             text='Subscriptions'
             onClick={() => {
+              syncSubscriptions();
               setSelectedTabId(PanelPage.SUBSCRIPTIONS);
             }}
             active={selectedTabId === PanelPage.SUBSCRIPTIONS}

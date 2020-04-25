@@ -11,7 +11,7 @@ const getHash = memoize((content: string) =>
   padStart(new CRC32().update(content).digest(), 8, '0'),
 );
 
-const syncSubscriptions = () =>
+export const syncSubscriptions = () =>
   Bridge.sendContentMessage({
     eventType: 'sync-subscriptions',
     data: null,
