@@ -7,6 +7,8 @@ import { DDPLogPreview } from './DDPLogPreview';
 import { PanelPage } from '@/Constants';
 import { DateTime } from 'luxon';
 import { Bridge } from '@/Bridge';
+import styled from 'styled-components';
+import { truncate } from '@/Styles/Mixins';
 
 interface Props extends DDPLog {
   log: DDPLog;
@@ -14,6 +16,78 @@ interface Props extends DDPLog {
   isStarred: boolean;
   style: CSSProperties;
 }
+
+const DDPLogWrapper = styled.div`
+  display: flex;
+  align-items: center;
+  flex-direction: row;
+  justify-content: space-between;
+  padding: 5px 15px;
+
+  transition: background-color 0.5s ease;
+
+  &.m-new {
+    background-color: #0a6640;
+  }
+
+  &.m-starred {
+    background-color: #0e5a8a;
+  }
+
+  div + div {
+    margin-left: 10px;
+  }
+
+  .time {
+    font-family: monospace;
+  }
+
+  .content {
+    display: flex;
+    flex: 1;
+    align-items: center;
+    min-width: 0;
+
+    .content-icon {
+      margin-right: 10px;
+    }
+
+    .content-preview {
+      flex: 0 1 auto;
+      min-width: 0;
+
+      code {
+        ${truncate}
+      }
+    }
+  }
+
+  .hash {
+    font-family: monospace;
+  }
+
+  .interactions {
+    flex: 0 0 auto;
+
+    visibility: hidden;
+
+    span {
+      cursor: pointer;
+    }
+
+    span + span {
+      margin-left: 8px;
+    }
+  }
+
+  &:hover {
+    background-color: #394b59;
+  }
+
+  &:hover .interactions {
+    visibility: visible;
+  }
+`;
 
 export const DDPLog: FunctionComponent<Props> = memo(
   ({
@@ -32,13 +106,13 @@ export const DDPLog: FunctionComponent<Props> = memo(
   }) => {
     const store = usePanelStore();
 
-    const classes = classnames('mde-ddp__log-row', {
-      'mde-ddp__log-row--new': isNew,
-      'mde-ddp__log-row--starred': isStarred,
+    const classes = classnames({
+      'm-new': isNew,
+      'm-starred': isStarred,
     });
 
     return (
-      <div className={classes} style={style}>
+      <DDPLogWrapper className={classes} style={style}>
         <div className='time'>
           <Tooltip
             content={
@@ -126,7 +200,7 @@ export const DDPLog: FunctionComponent<Props> = memo(
             </Tooltip>
           </div>
         )}
-      </div>
+      </DDPLogWrapper>
     );
   },
 );

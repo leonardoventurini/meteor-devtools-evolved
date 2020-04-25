@@ -16,7 +16,7 @@ export const FilterControls: FunctionComponent<Props> = ({
   pagination,
   children,
 }) => (
-  <div className='mde-layout__status__filter'>
+  <div className='filter-controls'>
     {children}
 
     <Popover

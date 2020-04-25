@@ -11,8 +11,40 @@ import { About } from '@/Pages/Panel/About';
 import { Bridge } from '@/Bridge';
 import { PanelPage } from '@/Constants';
 import { Subscriptions } from '@/Pages/Panel/Subscriptions/Subscriptions';
+import styled from 'styled-components';
+import {
+  MIN_LAYOUT_WIDTH,
+  NAVBAR_HEIGHT,
+  STATUS_HEIGHT,
+} from '@/Styles/Constants';
 
 Bridge.init();
+
+const Layout = styled.div`
+  display: flex;
+  flex-direction: column;
+
+  position: relative;
+
+  padding-top: ${NAVBAR_HEIGHT}px;
+  padding-bottom: ${STATUS_HEIGHT}px;
+  max-height: 100vh;
+
+  min-width: ${MIN_LAYOUT_WIDTH}px;
+
+  .mde-navbar {
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+
+    .mde-github-actions {
+      & > button + button {
+        margin-left: 0.5rem;
+      }
+    }
+  }
+`;
 
 interface Props {}
 
@@ -26,7 +58,7 @@ const PanelObserverComponent: FunctionComponent<Props> = observer(() => {
   };
 
   return (
-    <div className='mde-layout'>
+    <Layout>
       <DrawerJSON
         viewableObject={store.activeObject}
         onClose={() => store.setActiveObject(null)}
@@ -52,7 +84,7 @@ const PanelObserverComponent: FunctionComponent<Props> = observer(() => {
           isVisible={store.selectedTabId === PanelPage.SUBSCRIPTIONS}
         />
       </div>
-    </div>
+    </Layout>
   );
 });
 

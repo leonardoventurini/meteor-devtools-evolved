@@ -71,7 +71,7 @@ export const Minimongo: FunctionComponent<Props> = observer(({ isVisible }) => {
       </div>
 
       <StatusBar>
-        <div className='mde-layout__status__filter'>
+        <div className='filter-controls'>
           <Button
             icon={minimongoStore.activeCollection ? 'database' : 'asterisk'}
             text={minimongoStore.activeCollection || 'Everything'}

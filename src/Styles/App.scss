@@ -47,180 +47,51 @@ pre {
   }
 }
 
-.mde-layout {
-  display: flex;
-  flex-direction: column;
-
+.mde-layout__tab-panel {
   position: relative;
 
-  padding-top: $navbar-height;
-  padding-bottom: $status-height;
-  max-height: 100vh;
+  .mde-content {
+    height: calc(100vh - #{$navbar-height + $status-height});
+    padding: 0;
 
-  min-width: $min-layout-width;
+    .minimongo-group {
+      display: flex;
+      flex-direction: row;
+      height: 100%;
 
-  .mde-navbar {
-    position: absolute;
-    top: 0;
-    left: 0;
-    right: 0;
-
-    .mde-github-actions {
-      & > button + button {
-        margin-left: 0.5rem;
-      }
-    }
-  }
-
-  .mde-layout__tab-panel {
-    position: relative;
-
-    .mde-content {
-      height: calc(100vh - #{$navbar-height + $status-height});
-      padding: 0;
-
-      .minimongo-group {
-        display: flex;
-        flex-direction: row;
+      .minimongo-sidebar {
         height: 100%;
-
-        .minimongo-sidebar {
-          height: 100%;
-          width: 222px;
-          overflow-y: auto;
-          flex-shrink: 0;
-          flex-grow: 0;
-        }
-
-        .minimongo-container {
-          height: 100%;
-          min-width: 0;
-          flex-grow: 1;
-          flex-shrink: 1;
-
-          .minimongo-row {
-            display: flex;
-            align-items: center;
-            padding: 5px 15px;
-
-            & > * + * {
-              margin-left: 8px;
-            }
-
-            .minimongo-row-collection {
-              @include truncate;
-              flex-shrink: 0;
-              width: 128px;
-            }
-
-            .minimongo-row-preview {
-              flex: 0 1 auto;
-              @include truncate;
-            }
-          }
-        }
+        width: 222px;
+        overflow-y: auto;
+        flex-shrink: 0;
+        flex-grow: 0;
       }
-    }
 
-    .mde-ddp {
-      .mde-ddp__log-row {
-        display: flex;
-        align-items: center;
-        flex-direction: row;
-        justify-content: space-between;
-        padding: 5px 15px;
+      .minimongo-container {
+        height: 100%;
+        min-width: 0;
+        flex-grow: 1;
+        flex-shrink: 1;
 
-        transition: background-color 0.5s ease;
-
-        &.mde-ddp__log-row--new {
-          background-color: adjust_color($background-color, $green: 25);
-        }
-
-        &.mde-ddp__log-row--starred {
-          background-color: adjust_color($background-color, $blue: 25);
-        }
-
-        div + div {
-          margin-left: 10px;
-        }
-
-        .time {
-          font-family: monospace;
-        }
-
-        .content {
+        .minimongo-row {
           display: flex;
-          flex: 1;
           align-items: center;
-          min-width: 0;
+          padding: 5px 15px;
 
-          .content-icon {
-            margin-right: 10px;
-          }
-
-          .content-preview {
-            flex: 0 1 auto;
-            min-width: 0;
-
-            code {
-              @include truncate;
-            }
-          }
-        }
-
-        .hash {
-          font-family: monospace;
-        }
-
-        .interactions {
-          flex: 0 0 auto;
-
-          visibility: hidden;
-
-          span {
-            cursor: pointer;
-          }
-
-          span + span {
+          & > * + * {
             margin-left: 8px;
           }
-        }
 
-        &:hover {
-          background-color: #394b59;
-        }
+          .minimongo-row-collection {
+            @include truncate;
+            flex-shrink: 0;
+            width: 128px;
+          }
 
-        &:hover .interactions {
-          visibility: visible;
-        }
-      }
-    }
-
-    .mde-layout__status {
-      background-color: $background-color;
-      position: absolute;
-      bottom: -$status-height;
-      left: 0;
-      right: 0;
-
-      padding: 15px;
-
-      display: flex;
-      justify-content: flex-end;
-      align-items: center;
-
-      .mde-layout__status__filter {
-        display: flex;
-        flex-direction: row;
-        align-items: center;
-        margin-right: auto;
-
-        label {
-          margin-bottom: 0;
-        }
-
-        & > * + * {
-          margin-left: 8px;
+          .minimongo-row-preview {
+            flex: 0 1 auto;
+            @include truncate;
+          }
         }
       }
     }
