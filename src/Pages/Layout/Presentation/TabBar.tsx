@@ -1,8 +1,8 @@
 import React, { FunctionComponent, useState } from 'react';
 import styled from 'styled-components';
-import { Icon, IconName } from '@blueprintjs/core';
+import { IconName } from '@blueprintjs/core';
 import classnames from 'classnames';
-import { centerItems } from '@/Styles/Mixins';
+import { Button } from './Button';
 
 const TabBarWrapper = styled.div`
   display: flex;
@@ -13,18 +13,6 @@ const TabBarWrapper = styled.div`
   background-color: #202b33;
 
   button.tab {
-    ${centerItems};
-
-    background: transparent;
-    border: none;
-    color: #eee;
-    font-size: 12px;
-    cursor: pointer;
-
-    .icon {
-      margin-right: 4px;
-    }
-
     &.active {
       background-color: #394b59;
     }
@@ -36,17 +24,6 @@ const TabBarWrapper = styled.div`
     margin-left: auto;
 
     button.menu-item {
-      ${centerItems};
-
-      cursor: pointer;
-      background: transparent;
-      border: none;
-      color: #eee;
-
-      .icon {
-        margin-right: 4px;
-      }
-
       &:hover {
         background-color: #394b59;
       }
@@ -80,7 +57,7 @@ export const TabBar: FunctionComponent<Props> = ({ tabs, menu, onChange }) => {
   return (
     <TabBarWrapper>
       {tabs.map(tab => (
-        <button
+        <Button
           key={tab.key}
           onClick={() => {
             setKey(tab.key);
@@ -90,19 +67,23 @@ export const TabBar: FunctionComponent<Props> = ({ tabs, menu, onChange }) => {
           className={classnames('tab', {
             active: activeKey === tab.key,
           })}
+          icon={tab.icon}
         >
-          <Icon icon={tab.icon} className='icon' iconSize={12} />
           {tab.content}
-        </button>
+        </Button>
       ))}
 
       <div className='right-menu'>
         {menu &&
           menu.map(item => (
-            <button key={item.key} className='menu-item' onClick={item.handler}>
-              <Icon icon={item.icon} className='icon' iconSize={12} />
+            <Button
+              key={item.key}
+              className='menu-item'
+              onClick={item.handler}
+              icon={item.icon}
+            >
               {item.content}
-            </button>
+            </Button>
           ))}
       </div>
     </TabBarWrapper>
