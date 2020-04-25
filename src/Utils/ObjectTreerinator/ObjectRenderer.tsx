@@ -13,7 +13,7 @@ export const ObjectRenderer: FunctionComponent<Props> = ({
   level,
 }) => (
   <li key={property}>
-    <strong role='property'>{property}</strong>
+    <span role='collapsible-property'>{property}</span>
     <ObjectTreeNode object={child} level={level + 1} />
   </li>
 );

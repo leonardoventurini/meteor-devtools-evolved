@@ -41,7 +41,7 @@ export const Collapsible: FunctionComponent<Props> = ({
     <>
       {level > 1 && (
         <span role='collapse' onClick={() => setIsCollapsed(true)}>
-          [-]
+          {isArray(object) ? '[-]' : '{-}'}
         </span>
       )}
       {children}

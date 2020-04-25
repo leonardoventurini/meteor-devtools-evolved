@@ -41,7 +41,7 @@ const DDPLogWrapper = styled.div`
 
   .time {
     font-size: 11px;
-    font-family: monospace;
+    font-family: inherit;
   }
 
   .content {
@@ -59,6 +59,7 @@ const DDPLogWrapper = styled.div`
       min-width: 0;
 
       code {
+        font-family: 'Iosevka Medium', monospace;
         ${truncate}
       }
     }

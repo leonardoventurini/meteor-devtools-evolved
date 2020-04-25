@@ -11,13 +11,16 @@ In this release I am focusing on some quality of life changes and addressing iss
 ### Added
 
 - Minimongo sidebar navigation with document counts.
+- Add Iosevka as primary font as it is more space efficient.
+- Subscriptions tab listing all current subscriptions in real-time (ish).
 
 ### Changed
 
 - The DDP log is now a virtualized list with INFINITE scrolling and new logs come at the top.
 - Moved extension logs from top frame to background. NO MORE ANNOYING CONSOLE LOGS!!!
 - Show subscription name when ready.
-
+- Logs now have their interaction menu as a popover.
+- More space-efficient tabs.
 
 ## [1.1] - 2020-04-02
 
