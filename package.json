@@ -55,7 +55,6 @@
   "dependencies": {
     "@blueprintjs/core": "^3.24.0",
     "@blueprintjs/icons": "^3.14.0",
-    "@blueprintjs/table": "^3.8.4",
     "classnames": "^2.2.6",
     "dexie": "^2.0.4",
     "error-stack-parser": "^2.0.6",

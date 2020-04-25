@@ -1,14 +1,10 @@
 @import '~normalize.css/normalize.css';
 @import '~@blueprintjs/core/lib/css/blueprint.css';
 @import '~@blueprintjs/icons/lib/css/blueprint-icons.css';
-@import '~@blueprintjs/table/lib/css/table.css';
 
 @import 'Utils';
 
-$navbar-height: 50px;
-$status-height: 60px;
 $background-color: #30404d;
-$min-layout-width: 720px;
 
 ::-webkit-scrollbar {
   width: 10px;
@@ -41,58 +37,55 @@ pre {
   white-space: pre-wrap;
 }
 
+.truncated {
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
 .mde-stack-trace {
   pre {
     margin-bottom: 4px;
   }
 }
 
-.mde-layout__tab-panel {
-  position: relative;
+.minimongo-group {
+  display: flex;
+  flex-direction: row;
+  height: 100%;
 
-  .mde-content {
-    height: calc(100vh - #{$navbar-height + $status-height});
-    padding: 0;
+  .minimongo-sidebar {
+    height: 100%;
+    width: 222px;
+    overflow-y: auto;
+    flex-shrink: 0;
+    flex-grow: 0;
+  }
 
-    .minimongo-group {
+  .minimongo-container {
+    height: 100%;
+    min-width: 0;
+    flex-grow: 1;
+    flex-shrink: 1;
+
+    .minimongo-row {
       display: flex;
-      flex-direction: row;
-      height: 100%;
+      align-items: center;
+      padding: 5px 15px;
 
-      .minimongo-sidebar {
-        height: 100%;
-        width: 222px;
-        overflow-y: auto;
-        flex-shrink: 0;
-        flex-grow: 0;
+      & > * + * {
+        margin-left: 8px;
       }
 
-      .minimongo-container {
-        height: 100%;
-        min-width: 0;
-        flex-grow: 1;
-        flex-shrink: 1;
+      .minimongo-row-collection {
+        @include truncate;
+        flex-shrink: 0;
+        width: 128px;
+      }
 
-        .minimongo-row {
-          display: flex;
-          align-items: center;
-          padding: 5px 15px;
-
-          & > * + * {
-            margin-left: 8px;
-          }
-
-          .minimongo-row-collection {
-            @include truncate;
-            flex-shrink: 0;
-            width: 128px;
-          }
-
-          .minimongo-row-preview {
-            flex: 0 1 auto;
-            @include truncate;
-          }
-        }
+      .minimongo-row-preview {
+        flex: 0 1 auto;
+        @include truncate;
       }
     }
   }

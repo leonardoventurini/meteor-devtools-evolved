@@ -2,11 +2,22 @@ import { usePanelStore } from '@/Stores/PanelStore';
 import { Hideable } from '@/Utils/Hideable';
 import { observer } from 'mobx-react-lite';
 import React, { FunctionComponent } from 'react';
-import { Cell, Column, Table } from '@blueprintjs/table';
+import { HTMLTable, Tag } from '@blueprintjs/core';
+import styled from 'styled-components';
 
 interface Props {
   isVisible: boolean;
 }
+
+const Wrapper = styled.div`
+  table {
+    width: 100%;
+
+    .truncated {
+      max-width: 160px;
+    }
+  }
+`;
 
 export const Subscriptions: FunctionComponent<Props> = observer(
   ({ isVisible }) => {
@@ -17,39 +28,38 @@ export const Subscriptions: FunctionComponent<Props> = observer(
 
     return (
       <Hideable isVisible={isVisible}>
-        <Table numRows={subscriptions.length}>
-          <Column
-            key='name'
-            name='Name'
-            cellRenderer={(index: number) => (
-              <Cell>{subscriptions[index].name}</Cell>
-            )}
-          />
-
-          <Column
-            key='params'
-            name='Params'
-            cellRenderer={(index: number) => (
-              <Cell>{JSON.stringify(subscriptions[index].params)}</Cell>
-            )}
-          />
-
-          <Column
-            key='inactive'
-            name='Inactive'
-            cellRenderer={(index: number) => (
-              <Cell>{JSON.stringify(subscriptions[index].inactive)}</Cell>
-            )}
-          />
-
-          <Column
-            key='ready'
-            name='Ready'
-            cellRenderer={(index: number) => (
-              <Cell>{JSON.stringify(subscriptions[index].ready)}</Cell>
-            )}
-          />
-        </Table>
+        <Wrapper className='mde-content'>
+          <HTMLTable>
+            <thead>
+              <tr>
+                <th>Name</th>
+                <th>Params</th>
+                <th>Inactive</th>
+                <th>Ready</th>
+              </tr>
+            </thead>
+            <tbody>
+              {subscriptions.map(subscription => (
+                <tr key={subscription.id}>
+                  <td>
+                    <Tag minimal>{subscription.name}</Tag>
+                  </td>
+                  <td>
+                    <Tag minimal style={{ maxWidth: 160 }}>
+                      {JSON.stringify(subscription.params)}
+                    </Tag>
+                  </td>
+                  <td>
+                    <Tag minimal>{JSON.stringify(subscription.inactive)}</Tag>
+                  </td>
+                  <td>
+                    <Tag minimal>{JSON.stringify(subscription.ready)}</Tag>
+                  </td>
+                </tr>
+              ))}
+            </tbody>
+          </HTMLTable>
+        </Wrapper>
       </Hideable>
     );
   },

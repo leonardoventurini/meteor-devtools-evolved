@@ -44,6 +44,16 @@ const Layout = styled.div`
       }
     }
   }
+
+  .mde-layout__tab-panel {
+    position: relative;
+
+    .mde-content {
+      height: calc(100vh - ${NAVBAR_HEIGHT + STATUS_HEIGHT}px);
+      padding: 0;
+      overflow-y: auto;
+    }
+  }
 `;
 
 interface Props {}
