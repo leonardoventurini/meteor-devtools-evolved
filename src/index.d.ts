@@ -102,7 +102,7 @@ interface Document extends Record<string, any> {
 
 type MinimongoCollections = Record<string, Document[]>;
 
-type ViewableObject = DDPLogContent | Document | null;
+type ViewableObject = object | null;
 
 type MessageHandler = (message: Message<any>) => void;
 

@@ -5,7 +5,8 @@ import { BACKGROUND_COLOR, STATUS_HEIGHT } from '@/Styles/Constants';
 const StatusBarWrapper = styled.div`
   background-color: ${BACKGROUND_COLOR};
   position: absolute;
-  bottom: -${STATUS_HEIGHT};
+  height: ${STATUS_HEIGHT}px;
+  bottom: -${STATUS_HEIGHT}px;
   left: 0;
   right: 0;
 

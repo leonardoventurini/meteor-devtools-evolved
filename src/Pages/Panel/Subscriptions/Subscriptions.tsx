@@ -2,8 +2,10 @@ import { usePanelStore } from '@/Stores/PanelStore';
 import { Hideable } from '@/Utils/Hideable';
 import { observer } from 'mobx-react-lite';
 import React, { FunctionComponent } from 'react';
-import { HTMLTable, Tag } from '@blueprintjs/core';
+import { HTMLTable, Icon, Tag } from '@blueprintjs/core';
 import styled from 'styled-components';
+import { sortBy } from 'lodash';
+import { StatusBar } from '@/Pages/Layout/StatusBar';
 
 interface Props {
   isVisible: boolean;
@@ -12,19 +14,16 @@ interface Props {
 const Wrapper = styled.div`
   table {
     width: 100%;
-
-    .truncated {
-      max-width: 160px;
-    }
   }
 `;
 
 export const Subscriptions: FunctionComponent<Props> = observer(
   ({ isVisible }) => {
     const panelStore = usePanelStore();
-    const subscriptions = Object.values(panelStore.subscriptions);
-
-    console.log({ subscriptions });
+    const subscriptions = sortBy(
+      Object.values(panelStore.subscriptions),
+      'name',
+    );
 
     return (
       <Hideable isVisible={isVisible}>
@@ -45,7 +44,16 @@ export const Subscriptions: FunctionComponent<Props> = observer(
                     <Tag minimal>{subscription.name}</Tag>
                   </td>
                   <td>
-                    <Tag minimal style={{ maxWidth: 160 }}>
+                    <Tag
+                      interactive
+                      minimal
+                      style={{ maxWidth: 160 }}
+                      onClick={() =>
+                        panelStore.setActiveObject({
+                          params: subscription.params,
+                        })
+                      }
+                    >
                       {JSON.stringify(subscription.params)}
                     </Tag>
                   </td>
@@ -60,6 +68,17 @@ export const Subscriptions: FunctionComponent<Props> = observer(
             </tbody>
           </HTMLTable>
         </Wrapper>
+
+        <StatusBar>
+          <Tag minimal round>
+            <Icon
+              icon='feed-subscribed'
+              iconSize={12}
+              style={{ marginRight: 8 }}
+            />
+            {subscriptions.length}
+          </Tag>
+        </StatusBar>
       </Hideable>
     );
   },
