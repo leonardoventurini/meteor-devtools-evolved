@@ -1,4 +1,4 @@
-import { action, observable, toJS } from 'mobx';
+import { action, computed, observable, toJS } from 'mobx';
 import React, { createContext, FunctionComponent } from 'react';
 import { BookmarkStore } from './Panel/BookmarkStore';
 import { DDPStore } from './Panel/DDPStore';

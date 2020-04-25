@@ -17,12 +17,9 @@ const getTag = (icon: IconName, title: string) => (
     <Icon
       icon={icon}
       style={{
-        marginRight: 10,
-        marginBottom: 1,
-
         color: '#8a9ba8',
       }}
-      iconSize={12}
+      iconSize={14}
     />
   </Tooltip>
 );

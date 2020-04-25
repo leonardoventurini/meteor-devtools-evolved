@@ -60,6 +60,17 @@ export const Navigation: FunctionComponent<Props> = observer(
             }}
             active={selectedTabId === PanelPage.MINIMONGO}
             minimal
+            style={{ marginRight: 4 }}
+          />
+
+          <Button
+            icon='feed-subscribed'
+            text='Subscriptions'
+            onClick={() => {
+              setSelectedTabId(PanelPage.SUBSCRIPTIONS);
+            }}
+            active={selectedTabId === PanelPage.SUBSCRIPTIONS}
+            minimal
           />
         </Navbar.Group>
 

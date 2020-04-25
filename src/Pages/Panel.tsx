@@ -1,4 +1,3 @@
-import { PanelPage } from '@/Constants';
 import { PanelStoreProvider, usePanelStore } from '@/Stores/PanelStore';
 import { observer } from 'mobx-react-lite';
 import React, { FunctionComponent, useRef } from 'react';
@@ -10,6 +9,8 @@ import { Minimongo } from './Panel/Minimongo/Minimongo';
 import { Navigation } from './Panel/Navigation';
 import { About } from '@/Pages/Panel/About';
 import { Bridge } from '@/Bridge';
+import { PanelPage } from '@/Constants';
+import { Subscriptions } from '@/Pages/Panel/Subscriptions/Subscriptions';
 
 Bridge.init();
 
@@ -47,6 +48,9 @@ const PanelObserverComponent: FunctionComponent<Props> = observer(() => {
         <DDP isVisible={store.selectedTabId === PanelPage.DDP} />
         <Bookmarks isVisible={store.selectedTabId === PanelPage.BOOKMARKS} />
         <Minimongo isVisible={store.selectedTabId === PanelPage.MINIMONGO} />
+        <Subscriptions
+          isVisible={store.selectedTabId === PanelPage.SUBSCRIPTIONS}
+        />
       </div>
     </div>
   );

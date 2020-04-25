@@ -48,6 +48,7 @@ export class DDPStore extends Searchable<DDPLog> {
           log.content
             .toLowerCase()
             .concat(log.hash ?? '')
+            .concat(log.preview ?? '')
             .includes(search.toLowerCase()),
       );
 

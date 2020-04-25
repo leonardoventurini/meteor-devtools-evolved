@@ -14,8 +14,11 @@ export const FilterControls: FunctionComponent<Props> = ({
   activeFilters,
   setFilter,
   pagination,
+  children,
 }) => (
   <div className='mde-layout__status__filter'>
+    {children}
+
     <Popover
       content={
         <DDPFilterMenu setFilter={setFilter} activeFilters={activeFilters} />
