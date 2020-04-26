@@ -1,12 +1,14 @@
-import { SearchControls } from '@/Pages/Layout/SearchControls';
 import { MinimongoNavigator } from '@/Pages/Panel/Minimongo/MinimongoNavigator';
 import { usePanelStore } from '@/Stores/PanelStore';
 import { Hideable } from '@/Utils/Hideable';
-import { Button, Icon, Menu, MenuItem } from '@blueprintjs/core';
+import { Icon, Menu, MenuItem } from '@blueprintjs/core';
 import { observer } from 'mobx-react-lite';
-import React, { FunctionComponent, useState } from 'react';
-import { StatusBar } from '../../Layout/StatusBar';
+import React, { FormEvent, FunctionComponent, useState } from 'react';
 import { MinimongoContainer } from '@/Pages/Panel/Minimongo/MinimongoContainer';
+import { StatusBar } from '@/Components/StatusBar/StatusBar';
+import { Button } from '@/Components/Button';
+import { Field } from '@/Components/StatusBar/Field';
+import { Search } from '@/Components/StatusBar/Search';
 
 interface Props {
   isVisible: boolean;
@@ -71,13 +73,14 @@ export const Minimongo: FunctionComponent<Props> = observer(({ isVisible }) => {
       </div>
 
       <StatusBar>
-        <div className='filter-controls'>
+        <div className='left-group'>
           <Button
             icon={minimongoStore.activeCollection ? 'database' : 'asterisk'}
-            text={minimongoStore.activeCollection || 'Everything'}
             onClick={() => setShowNavigator(true)}
             disabled={!minimongoStore.collectionNames.length}
-          />
+          >
+            {minimongoStore.activeCollection || 'Everything'}
+          </Button>
 
           {minimongoStore.activeCollection && (
             <Button
@@ -88,9 +91,19 @@ export const Minimongo: FunctionComponent<Props> = observer(({ isVisible }) => {
             </Button>
           )}
 
-          <SearchControls
-            pagination={minimongoStore.activeCollectionDocuments.pagination}
+          <Search
+            icon='search'
+            placeholder='Search...'
+            onChange={(event: FormEvent<HTMLInputElement>) =>
+              minimongoStore.activeCollectionDocuments.pagination.setSearch(
+                event.currentTarget.value,
+              )
+            }
           />
+
+          <Field icon='eye-open'>
+            {minimongoStore.activeCollectionDocuments.pagination.length}
+          </Field>
         </div>
       </StatusBar>
 

@@ -7,17 +7,6 @@ interface Props {
 
 export const SearchControls: FunctionComponent<Props> = ({ pagination }) => (
   <>
-    <InputGroup
-      leftIcon='search'
-      placeholder='Search...'
-      onChange={(event: FormEvent<HTMLInputElement>) =>
-        pagination.setSearch(event.currentTarget.value)
-      }
-    />
 
-    <small>
-      <Icon icon='eye-open' style={{ marginRight: 8 }} />
-      {pagination.length}
-    </small>
   </>
 );

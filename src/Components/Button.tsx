@@ -32,8 +32,12 @@ const ButtonWrapper = styled.button`
     }
   }
 
-  &:hover {
+  &:hover:not([disabled]) {
     background-color: rgba(0, 0, 0, 0.2);
+  }
+
+  &[disabled] {
+    cursor: not-allowed;
   }
 `;
 
