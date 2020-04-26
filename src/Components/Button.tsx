@@ -9,6 +9,8 @@ const ButtonWrapper = styled.button`
   ${centerItems};
 
   cursor: pointer;
+  position: relative;
+  overflow: hidden;
   background: transparent;
   border: none;
   color: #eee;
@@ -39,11 +41,54 @@ const ButtonWrapper = styled.button`
   &[disabled] {
     cursor: not-allowed;
   }
+
+  &.shine {
+    &:before {
+      content: '';
+      display: block;
+      position: absolute;
+      background: rgba(255, 255, 255, 0.5);
+      width: 60px;
+      height: 100%;
+      left: 0;
+      top: 0;
+      opacity: 0.5;
+      filter: blur(30px);
+      transform: translateX(-100px) skewX(-15deg);
+    }
+
+    &:after {
+      content: '';
+      display: block;
+      position: absolute;
+      background: rgba(255, 255, 255, 0.2);
+      width: 30px;
+      height: 100%;
+      left: 30px;
+      top: 0;
+      opacity: 0;
+      filter: blur(5px);
+      transform: translateX(-100px) skewX(-15deg);
+    }
+
+    &:hover:before {
+      transform: translateX(300px) skewX(-15deg);
+      opacity: 0.6;
+      transition: 1.5s;
+    }
+
+    &:hover:after {
+      transform: translateX(300px) skewX(-15deg);
+      opacity: 1;
+      transition: 1.5s;
+    }
+  }
 `;
 
 interface Props extends ButtonHTMLAttributes<HTMLButtonElement> {
   icon?: IconName;
   intent?: 'warning';
+  shine?: boolean;
 }
 
 export const Button: FunctionComponent<Props> = ({
@@ -51,10 +96,12 @@ export const Button: FunctionComponent<Props> = ({
   children,
   intent,
   className,
+  shine,
   ...rest
 }) => {
   const classes = classnames(
     {
+      shine,
       warning: intent === 'warning',
     },
     className,

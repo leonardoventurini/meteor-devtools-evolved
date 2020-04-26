@@ -88,6 +88,7 @@ export const Navigation: FunctionComponent = observer(() => {
         </>
       ),
       icon: 'star',
+      shine: true,
       handler: () =>
         chrome.tabs.create({
           url: repositoryData.html_url.concat('/stargazers'),

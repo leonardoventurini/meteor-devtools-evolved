@@ -6,21 +6,26 @@ All notable changes to this project will be documented in this file.
 
 ## [1.2] - COMING SOON
 
-In this release I am focusing on some quality of life changes and addressing issues reported by the community.
+In this release I am focusing on some quality of life changes and addressing issues reported by the community. I tried to make the design simpler and more efficient as well.
 
 ### Added
 
-- Minimongo sidebar navigation with document counts.
-- Add Iosevka as primary font as it is more space efficient.
-- Subscriptions tab listing all current subscriptions in real-time (ish).
+- Minimongo sidebar navigation ordered alphabetically and with counts.
+- Add the Iosevka font as it is more space efficient in certain scenarios.
+- Subscriptions tab listing all current subscriptions in real-time-ish.
 
 ### Changed
 
 - The DDP log is now a virtualized list with INFINITE scrolling and new logs come at the top.
 - Moved extension logs from top frame to background. NO MORE ANNOYING CONSOLE LOGS!!!
-- Show subscription name when ready.
-- Logs now have their interaction menu as a popover.
-- More space-efficient tabs.
+- Logs now have their interaction menu as a popover in order to be more space efficient.
+- More space-efficient tabs and status bars.
+
+### Fixed
+
+- Small fixes and improvements in Treerinator (JSON Viewer).
+- Show subscription name when ready as well.
+- Fixed GitHub stats now persisting as they should.
 
 ## [1.1] - 2020-04-02
 

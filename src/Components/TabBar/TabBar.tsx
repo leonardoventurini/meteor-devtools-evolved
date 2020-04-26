@@ -46,6 +46,7 @@ export interface ITab {
   key: string;
   content: JSX.Element | string;
   icon: IconName;
+  shine?: boolean;
   handler?: () => void;
 }
 
@@ -53,6 +54,7 @@ export interface IMenuItem {
   key: string;
   content: JSX.Element | string;
   icon: IconName;
+  shine?: boolean;
   handler: () => void;
 }
 
@@ -79,6 +81,7 @@ export const TabBar: FunctionComponent<Props> = ({ tabs, menu, onChange }) => {
             active: activeKey === tab.key,
           })}
           icon={tab.icon}
+          shine={tab.shine}
         >
           {tab.content}
         </Button>
@@ -92,6 +95,7 @@ export const TabBar: FunctionComponent<Props> = ({ tabs, menu, onChange }) => {
               className='menu-item'
               onClick={item.handler}
               icon={item.icon}
+              shine={item.shine}
             >
               {item.content}
             </Button>

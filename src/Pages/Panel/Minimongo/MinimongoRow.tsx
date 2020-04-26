@@ -2,6 +2,15 @@ import { PanelStoreConstructor } from '@/Stores/PanelStore';
 import { StringUtils } from '@/Utils/StringUtils';
 import { Tag } from '@blueprintjs/core';
 import React, { CSSProperties, FunctionComponent } from 'react';
+import styled from 'styled-components';
+
+const Wrapper = styled.div`
+  &,
+  & code {
+    font-family: 'Iosevka Medium', monospace;
+    font-size: 12px;
+  }
+`;
 
 interface Props {
   panelStore: PanelStoreConstructor;
@@ -20,7 +29,7 @@ export const MinimongoRow: FunctionComponent<Props> = ({
   collectionName,
   color,
 }) => (
-  <div className='minimongo-row' style={style}>
+  <Wrapper className='minimongo-row' style={style}>
     {isAllVisible && (
       <Tag
         className='minimongo-row-collection'
@@ -41,5 +50,5 @@ export const MinimongoRow: FunctionComponent<Props> = ({
     >
       <code>{StringUtils.truncate(JSON.stringify(document), 256)}</code>
     </Tag>
-  </div>
+  </Wrapper>
 );
