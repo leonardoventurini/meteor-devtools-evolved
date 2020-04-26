@@ -2,29 +2,36 @@ import React, { FunctionComponent } from 'react';
 import styled from 'styled-components';
 import { NAVBAR_HEIGHT } from '@/Styles/Constants';
 import { lighten } from 'polished';
+import { centerItems } from '@/Styles/Mixins';
 
 const backgroundColor = '#202b33';
 
-const StatusBarWrapper = styled.div`
+const Wrapper = styled.div`
   display: flex;
   box-sizing: border-box;
   flex-direction: row;
   height: ${NAVBAR_HEIGHT}px;
   width: 100%;
-  border-bottom: 1px solid ${lighten(0.1, backgroundColor)};
+  border-top: 1px solid ${lighten(0.1, backgroundColor)};
 
   background-color: ${backgroundColor};
 
-  .right-menu {
-    display: flex;
-    flex-direction: row;
-    margin-left: auto;
+  button {
+    height: 100%;
+    flex: 1 1 auto;
 
-    button.menu-item {
-      &:hover {
-        background-color: ${lighten(0.05, backgroundColor)};
-      }
+    &:hover {
+      background-color: ${lighten(0.05, backgroundColor)};
     }
+  }
+
+  .left-group,
+  .right-group {
+    ${centerItems};
+  }
+
+  .right-group {
+    margin-left: auto;
   }
 
   & > * + * {
@@ -33,5 +40,5 @@ const StatusBarWrapper = styled.div`
 `;
 
 export const StatusBar: FunctionComponent = ({ children }) => (
-  <StatusBarWrapper>{children}</StatusBarWrapper>
+  <Wrapper>{children}</Wrapper>
 );

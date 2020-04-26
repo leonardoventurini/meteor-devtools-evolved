@@ -2,7 +2,7 @@ import React, { FunctionComponent, useState } from 'react';
 import styled from 'styled-components';
 import { IconName } from '@blueprintjs/core';
 import classnames from 'classnames';
-import { Button } from './Button';
+import { Button } from '../Button';
 import { lighten } from 'polished';
 import { NAVBAR_HEIGHT } from '@/Styles/Constants';
 

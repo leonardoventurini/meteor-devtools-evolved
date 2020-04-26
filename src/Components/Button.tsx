@@ -2,6 +2,7 @@ import React, { ButtonHTMLAttributes, FunctionComponent } from 'react';
 import styled from 'styled-components';
 import { Icon, IconName } from '@blueprintjs/core';
 import { centerItems } from '@/Styles/Mixins';
+import { lighten } from 'polished';
 
 const ButtonWrapper = styled.button`
   ${centerItems};
