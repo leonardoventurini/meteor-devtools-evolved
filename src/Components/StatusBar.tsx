@@ -20,6 +20,10 @@ const Wrapper = styled.div`
   button {
     height: 100%;
     flex: 1 1 auto;
+
+    &:hover {
+      background-color: ${lighten(0.05, backgroundColor)};
+    }
   }
 
   .left-group,
