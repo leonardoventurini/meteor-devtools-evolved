@@ -3,7 +3,7 @@ import React, { FunctionComponent, useEffect } from 'react';
 import { usePanelStore } from '@/Stores/PanelStore';
 import { observer } from 'mobx-react-lite';
 import { Bridge, syncSubscriptions } from '@/Bridge';
-import { IMenuItem, ITab, TabBar } from '@/Pages/Layout/Presentation/TabBar';
+import { IMenuItem, ITab, TabBar } from '@/Components/TabBar/TabBar';
 import { Tag } from '@blueprintjs/core';
 
 export const Navigation: FunctionComponent = observer(() => {
