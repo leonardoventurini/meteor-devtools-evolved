@@ -1,4 +1,4 @@
-import { Callout, Classes, Drawer } from '@blueprintjs/core';
+import { Classes, Drawer } from '@blueprintjs/core';
 import React, { FunctionComponent } from 'react';
 
 interface Props {
@@ -11,7 +11,13 @@ export const About: FunctionComponent<Props> = ({
   onClose,
 }) => {
   return (
-    <Drawer icon='help' title='About' isOpen={isAboutVisible} onClose={onClose}>
+    <Drawer
+      icon='help'
+      title='About'
+      isOpen={isAboutVisible}
+      onClose={onClose}
+      size='72%'
+    >
       <div className={Classes.DRAWER_BODY}>
         <div className={Classes.DIALOG_BODY}>
           <h1>Basics</h1>

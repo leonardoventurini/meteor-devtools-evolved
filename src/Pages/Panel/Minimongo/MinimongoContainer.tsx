@@ -53,7 +53,7 @@ export const MinimongoContainer: FunctionComponent<Props> = observer(
           height={height}
           width={width}
           itemCount={activeCollectionDocuments.filtered.length}
-          itemSize={30}
+          itemSize={28}
           itemData={{ items: activeCollectionDocuments.filtered }}
         >
           {Row}

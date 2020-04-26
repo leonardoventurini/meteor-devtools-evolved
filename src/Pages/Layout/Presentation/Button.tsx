@@ -11,6 +11,7 @@ const ButtonWrapper = styled.button`
   border: none;
   color: #eee;
   font-size: 1rem;
+  padding: 0 8px;
 
   .icon + span {
     margin-left: 4px;

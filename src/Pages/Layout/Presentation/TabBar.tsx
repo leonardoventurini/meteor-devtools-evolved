@@ -3,18 +3,28 @@ import styled from 'styled-components';
 import { IconName } from '@blueprintjs/core';
 import classnames from 'classnames';
 import { Button } from './Button';
+import { lighten } from 'polished';
+import { NAVBAR_HEIGHT } from '@/Styles/Constants';
+
+const backgroundColor = '#202b33';
 
 const TabBarWrapper = styled.div`
   display: flex;
+  box-sizing: border-box;
   flex-direction: row;
-  height: 28px;
+  height: ${NAVBAR_HEIGHT}px;
   width: 100%;
+  border-bottom: 1px solid ${lighten(0.1, backgroundColor)};
 
-  background-color: #202b33;
+  background-color: ${backgroundColor};
 
   button.tab {
     &.active {
-      background-color: #394b59;
+      background-color: ${lighten(0.1, backgroundColor)};
+    }
+
+    &:hover:not(.active) {
+      background-color: ${lighten(0.05, backgroundColor)};
     }
   }
 
@@ -25,7 +35,7 @@ const TabBarWrapper = styled.div`
 
     button.menu-item {
       &:hover {
-        background-color: #394b59;
+        background-color: ${lighten(0.05, backgroundColor)};
       }
     }
   }

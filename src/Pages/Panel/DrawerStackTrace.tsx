@@ -17,6 +17,7 @@ export const DrawerStackTrace: FunctionComponent<Props> = ({
       title='Stack Trace'
       isOpen={!!activeStackTrace}
       onClose={onClose}
+      size='72%'
     >
       <div className={Classes.DRAWER_BODY}>
         <div className={classnames(Classes.DIALOG_BODY, 'mde-stack-trace')}>
