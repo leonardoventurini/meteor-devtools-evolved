@@ -1,7 +1,7 @@
 import { MinimongoNavigator } from '@/Pages/Panel/Minimongo/MinimongoNavigator';
 import { usePanelStore } from '@/Stores/PanelStore';
 import { Hideable } from '@/Utils/Hideable';
-import { Icon, Menu, MenuItem } from '@blueprintjs/core';
+import { Menu, MenuItem } from '@blueprintjs/core';
 import { observer } from 'mobx-react-lite';
 import React, { FunctionComponent } from 'react';
 import { MinimongoContainer } from '@/Pages/Panel/Minimongo/MinimongoContainer';
@@ -23,6 +23,8 @@ const Wrapper = styled.div`
     overflow-y: auto;
     flex-shrink: 0;
     flex-grow: 0;
+
+    font-size: 11px;
   }
 
   .container {
@@ -80,14 +82,6 @@ export const Minimongo: FunctionComponent<Props> = observer(({ isVisible }) => {
                     )}
                     active={minimongoStore.activeCollection === key}
                     onClick={() => minimongoStore.setActiveCollection(key)}
-                    labelElement={
-                      <Icon
-                        icon='database'
-                        style={{
-                          color: minimongoStore.collectionColorMap[key],
-                        }}
-                      />
-                    }
                     style={{
                       marginBottom: 5,
                     }}

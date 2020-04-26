@@ -1,4 +1,3 @@
-import { PanelStoreConstructor } from '@/Stores/PanelStore';
 import { StringUtils } from '@/Utils/StringUtils';
 import { Tag } from '@blueprintjs/core';
 import React, { CSSProperties, FunctionComponent } from 'react';
@@ -13,42 +12,26 @@ const Wrapper = styled.div`
 `;
 
 interface Props {
-  panelStore: PanelStoreConstructor;
-  collectionName: string;
-  color: string;
   document: IDocument;
   style: CSSProperties;
-  isAllVisible: boolean;
+  onClick: () => void;
 }
 
 export const MinimongoRow: FunctionComponent<Props> = ({
-  isAllVisible,
   style,
-  panelStore,
+  onClick,
   document,
-  collectionName,
-  color,
-}) => (
-  <Wrapper className='row' style={style}>
-    {isAllVisible && (
+}) => {
+  return (
+    <Wrapper className='row' style={style}>
       <Tag
-        className='row-collection'
-        style={{ cursor: 'pointer', backgroundColor: color }}
+        className='row-preview'
         minimal
-        onClick={() =>
-          panelStore.minimongoStore.setActiveCollection(collectionName)
-        }
+        interactive
+        onClick={() => onClick()}
       >
-        {collectionName}
+        <code>{StringUtils.truncate(JSON.stringify(document), 256)}</code>
       </Tag>
-    )}
-    <Tag
-      className='row-preview'
-      minimal
-      interactive
-      onClick={() => panelStore.setActiveObject(document)}
-    >
-      <code>{StringUtils.truncate(JSON.stringify(document), 256)}</code>
-    </Tag>
-  </Wrapper>
-);
+    </Wrapper>
+  );
+};

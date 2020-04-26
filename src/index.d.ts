@@ -117,7 +117,6 @@ type MessageHandler = (message: Message<any>) => void;
 
 interface IDocumentWrapper {
   collectionName: string;
-  color: string;
   document: IDocument;
 }
 
