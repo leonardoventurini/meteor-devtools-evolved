@@ -1,17 +1,16 @@
-import { Icon, Spinner } from '@blueprintjs/core';
+import { Spinner } from '@blueprintjs/core';
 import { isNumber } from 'lodash';
 import { observer } from 'mobx-react-lite';
 import React, { FormEvent, FunctionComponent } from 'react';
-import { CountIndicator } from '@/Components/CountIndicator';
-import { InboundBytesIndicator } from '@/Components/InboundBytesIndicator';
-import { OutboundBytesIndicator } from '@/Components/OutboundBytesIndicator';
 import { usePanelStore } from '@/Stores/PanelStore';
 import { StatusBar } from '@/Components/StatusBar/StatusBar';
 import { DDPFilterMenu } from '@/Pages/Panel/DDP/DDPFilterMenu';
 import { Position } from '@blueprintjs/core/lib/esm/common/position';
 import { Search } from '@/Components/StatusBar/Search';
 import { PopoverButton } from '@/Components/PopoverButton';
-import { STATUS_HEIGHT } from '@/Styles/Constants';
+import { Button } from '@/Components/Button';
+import prettyBytes from 'pretty-bytes';
+import { Field } from '@/Components/StatusBar/Field';
 
 export const DDPStatus: FunctionComponent = observer(() => {
   const store = usePanelStore();
@@ -48,29 +47,28 @@ export const DDPStatus: FunctionComponent = observer(() => {
           }
         />
 
-        <small>
-          <Icon icon='eye-open' style={{ marginRight: 8 }} />
-          {pagination.length}
-        </small>
+        <Field icon='eye-open'>{pagination.length}</Field>
       </div>
 
       <div className='right-group'>
         {isLoading && (
-          <div style={{ marginRight: 8 }}>
-            <Spinner size={16} intent='warning' />
-          </div>
+          <Field>
+            <Spinner size={12} intent='warning' />
+          </Field>
         )}
 
         {!!inboundBytes && (
-          <InboundBytesIndicator inboundBytes={inboundBytes} />
+          <Field icon='cloud-download'>{prettyBytes(inboundBytes)}</Field>
         )}
 
         {!!outboundBytes && (
-          <OutboundBytesIndicator outboundBytes={outboundBytes} />
+          <Field icon='cloud-upload'>{prettyBytes(outboundBytes)}</Field>
         )}
 
         {isNumber(collectionLength) && (
-          <CountIndicator count={collectionLength} clear={clearLogs} />
+          <Button intent='warning' onClick={clearLogs} icon='inbox'>
+            {collectionLength}
+          </Button>
         )}
       </div>
     </StatusBar>
