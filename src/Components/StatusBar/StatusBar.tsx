@@ -7,6 +7,7 @@ import { centerItems } from '@/Styles/Mixins';
 const backgroundColor = '#202b33';
 
 const Wrapper = styled.div`
+  user-select: none;
   display: flex;
   box-sizing: border-box;
   flex-direction: row;
@@ -19,10 +20,6 @@ const Wrapper = styled.div`
   button {
     height: 100%;
     flex: 1 1 auto;
-
-    &:hover {
-      background-color: ${lighten(0.05, backgroundColor)};
-    }
   }
 
   .left-group,

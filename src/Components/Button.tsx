@@ -22,6 +22,18 @@ const ButtonWrapper = styled.button`
   &.warning {
     background-color: rgba(217, 130, 43, 0.25);
     color: #ffb366;
+
+    &:hover {
+      background-color: rgba(217, 130, 43, 0.25);
+    }
+
+    &:active {
+      background-color: rgba(217, 130, 43, 0.1);
+    }
+  }
+
+  &:hover {
+    background-color: rgba(0, 0, 0, 0.2);
   }
 `;
 
@@ -34,11 +46,15 @@ export const Button: FunctionComponent<Props> = ({
   icon,
   children,
   intent,
+  className,
   ...rest
 }) => {
-  const classes = classnames({
-    warning: intent === 'warning',
-  });
+  const classes = classnames(
+    {
+      warning: intent === 'warning',
+    },
+    className,
+  );
 
   return (
     <ButtonWrapper className={classes} {...rest}>

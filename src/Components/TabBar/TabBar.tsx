@@ -9,6 +9,7 @@ import { NAVBAR_HEIGHT } from '@/Styles/Constants';
 const backgroundColor = '#202b33';
 
 const TabBarWrapper = styled.div`
+  user-select: none;
   display: flex;
   box-sizing: border-box;
   flex-direction: row;

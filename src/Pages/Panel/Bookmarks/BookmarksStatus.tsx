@@ -1,5 +1,3 @@
-import { Button, Icon, Popover } from '@blueprintjs/core';
-import { isNumber } from 'lodash';
 import { observer } from 'mobx-react-lite';
 import React, { FormEvent, FunctionComponent } from 'react';
 
@@ -8,7 +6,10 @@ import { StatusBar } from '@/Components/StatusBar/StatusBar';
 import { DDPFilterMenu } from '@/Pages/Panel/DDP/DDPFilterMenu';
 import { Position } from '@blueprintjs/core/lib/esm/common/position';
 import { Search } from '@/Components/StatusBar/Search';
-import { CountIndicator } from '@/Components/CountIndicator';
+import { PopoverButton } from '@/Components/PopoverButton';
+import { Field } from '@/Components/StatusBar/Field';
+import { exists } from '@/Utils';
+import { Button } from '@/Components/Button';
 
 export const BookmarksStatus: FunctionComponent = observer(() => {
   const store = usePanelStore();
@@ -16,14 +17,15 @@ export const BookmarksStatus: FunctionComponent = observer(() => {
 
   const activeFilters = store.settingStore.activeFilters;
   const setFilter = store.settingStore.setFilter.bind(store.settingStore);
-  const clearLogs = bookmarkStore.clearLogs.bind(bookmarkStore);
   const collectionLength = bookmarkStore.collection.length;
   const { pagination } = bookmarkStore;
 
   return (
     <StatusBar>
-      <div className='filter-controls'>
-        <Popover
+      <div className='left-group'>
+        <PopoverButton
+          icon='filter'
+          height={28}
           content={
             <DDPFilterMenu
               setFilter={setFilter}
@@ -32,8 +34,8 @@ export const BookmarksStatus: FunctionComponent = observer(() => {
           }
           position={Position.RIGHT_TOP}
         >
-          <Button icon='filter' text='Filter' />
-        </Popover>
+          Filter
+        </PopoverButton>
 
         <Search
           icon='search'
@@ -43,15 +45,16 @@ export const BookmarksStatus: FunctionComponent = observer(() => {
           }
         />
 
-        <small>
-          <Icon icon='eye-open' style={{ marginRight: 8 }} />
-          {pagination.length}
-        </small>
+        <Field icon='eye-open'>{pagination.length}</Field>
       </div>
 
-      {isNumber(collectionLength) && (
-        <CountIndicator count={collectionLength} clear={clearLogs} />
-      )}
+      <div className='right-group'>
+        {exists(collectionLength) && (
+          <Field intent='warning' icon='inbox'>
+            {collectionLength}
+          </Field>
+        )}
+      </div>
     </StatusBar>
   );
 });
