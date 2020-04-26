@@ -48,7 +48,7 @@ export const MinimongoContainer: FunctionComponent<Props> = observer(
     );
 
     return (
-      <div className='minimongo-container' ref={contentRef}>
+      <div className='container' ref={contentRef}>
         <FixedSizeList
           height={height}
           width={width}

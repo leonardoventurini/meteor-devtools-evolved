@@ -4,17 +4,14 @@ import { action, computed, observable } from 'mobx';
 import { CollectionStore } from './CollectionStore';
 
 export class MinimongoStore {
-  @observable collections: MinimongoCollections = {};
-
-  @observable activeCollection: string | null = null;
-
-  @observable search: string = '';
-
   activeCollectionDocuments = new CollectionStore();
-
   availableColors: string[] = [];
 
+  @observable collections: MinimongoCollections = {};
+  @observable activeCollection: string | null = null;
+  @observable search: string = '';
   @observable collectionColorMap: Record<string, string> = {};
+  @observable isNavigatorVisible = false;
 
   @computed
   get totalDocuments() {
@@ -108,4 +105,9 @@ export class MinimongoStore {
     action((search: string) => (this.search = search)),
     250,
   );
+
+  @action
+  setNavigatorVisible(isVisible: boolean) {
+    this.isNavigatorVisible = isVisible;
+  }
 }

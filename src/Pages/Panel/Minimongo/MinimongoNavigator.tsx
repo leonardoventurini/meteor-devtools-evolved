@@ -1,4 +1,3 @@
-import { MinimongoStore } from '@/Stores/Panel/MinimongoStore';
 import {
   Button,
   Classes,
@@ -10,75 +9,72 @@ import {
 } from '@blueprintjs/core';
 import { observer } from 'mobx-react-lite';
 import React, { FormEvent, FunctionComponent } from 'react';
+import { usePanelStore } from '@/Stores/PanelStore';
 
-interface Props {
-  store: MinimongoStore;
-  isOpen: boolean;
-  setShowNavigator(showNavigator: boolean): void;
-}
+export const MinimongoNavigator: FunctionComponent = observer(({}) => {
+  const { minimongoStore } = usePanelStore();
 
-export const MinimongoNavigator: FunctionComponent<Props> = observer(
-  ({ store, isOpen, setShowNavigator }) => {
-    const setActiveCollection = (collectionName: string | null) => {
-      store.setActiveCollection(collectionName);
-      setShowNavigator(false);
-    };
+  const setActiveCollection = (collectionName: string | null) => {
+    minimongoStore.setActiveCollection(collectionName);
+    minimongoStore.setNavigatorVisible(false);
+  };
 
-    return (
-      <Dialog
-        icon='database'
-        onClose={() => {
-          setShowNavigator(false);
-          store.setSearch('');
-        }}
-        title='Collections'
-        isOpen={isOpen}
+  return (
+    <Dialog
+      icon='database'
+      onClose={() => {
+        minimongoStore.setNavigatorVisible(false);
+        minimongoStore.setSearch('');
+      }}
+      title='Collections'
+      isOpen={minimongoStore.isNavigatorVisible}
+    >
+      <div
+        className={Classes.DIALOG_BODY}
+        style={{ height: '50vh', overflowY: 'scroll' }}
       >
-        <div
-          className={Classes.DIALOG_BODY}
-          style={{ height: '50vh', overflowY: 'scroll' }}
-        >
-          <Menu>
-            {store.filteredCollectionNames.length ? (
-              store.filteredCollectionNames.map(key => (
-                <MenuItem
-                  key={key}
-                  icon='database'
-                  text={key.concat(` (${store.collections[key]?.length ?? 0})`)}
-                  active={store.activeCollection === key}
-                  onClick={() => setActiveCollection(key)}
-                />
-              ))
-            ) : (
-              <div style={{ marginTop: 50, marginBottom: 50 }}>
-                <NonIdealState icon='search' title='No Results' />
-              </div>
-            )}
-          </Menu>
-        </div>
-        <div className={Classes.DIALOG_FOOTER}>
-          <div style={{ display: 'flex' }}>
-            <div style={{ flexGrow: 1, marginRight: 8 }}>
-              <InputGroup
-                leftIcon='search'
-                placeholder='Search...'
-                className={Classes.FILL}
-                onChange={(event: FormEvent<HTMLInputElement>) =>
-                  store.setSearch(event.currentTarget.value)
-                }
+        <Menu>
+          {minimongoStore.filteredCollectionNames.length ? (
+            minimongoStore.filteredCollectionNames.map(key => (
+              <MenuItem
+                key={key}
+                icon='database'
+                text={key.concat(
+                  ` (${minimongoStore.collections[key]?.length ?? 0})`,
+                )}
+                active={minimongoStore.activeCollection === key}
+                onClick={() => setActiveCollection(key)}
               />
+            ))
+          ) : (
+            <div style={{ marginTop: 50, marginBottom: 50 }}>
+              <NonIdealState icon='search' title='No Results' />
             </div>
-
-            <Button
-              icon='asterisk'
-              onClick={() => setActiveCollection(null)}
-              active={store.activeCollection === null}
-            >
-              Everything
-            </Button>
+          )}
+        </Menu>
+      </div>
+      <div className={Classes.DIALOG_FOOTER}>
+        <div style={{ display: 'flex' }}>
+          <div style={{ flexGrow: 1, marginRight: 8 }}>
+            <InputGroup
+              leftIcon='search'
+              placeholder='Search...'
+              className={Classes.FILL}
+              onChange={(event: FormEvent<HTMLInputElement>) =>
+                minimongoStore.setSearch(event.currentTarget.value)
+              }
+            />
           </div>
+
+          <Button
+            icon='asterisk'
+            onClick={() => setActiveCollection(null)}
+            active={minimongoStore.activeCollection === null}
+          >
+            Everything
+          </Button>
         </div>
-      </Dialog>
-    );
-  },
-);
+      </div>
+    </Dialog>
+  );
+});

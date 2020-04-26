@@ -29,10 +29,10 @@ export const MinimongoRow: FunctionComponent<Props> = ({
   collectionName,
   color,
 }) => (
-  <Wrapper className='minimongo-row' style={style}>
+  <Wrapper className='row' style={style}>
     {isAllVisible && (
       <Tag
-        className='minimongo-row-collection'
+        className='row-collection'
         style={{ cursor: 'pointer', backgroundColor: color }}
         minimal
         onClick={() =>
@@ -43,7 +43,7 @@ export const MinimongoRow: FunctionComponent<Props> = ({
       </Tag>
     )}
     <Tag
-      className='minimongo-row-preview'
+      className='row-preview'
       minimal
       interactive
       onClick={() => panelStore.setActiveObject(document)}

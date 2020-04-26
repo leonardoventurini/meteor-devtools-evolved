@@ -3,22 +3,59 @@ import { usePanelStore } from '@/Stores/PanelStore';
 import { Hideable } from '@/Utils/Hideable';
 import { Icon, Menu, MenuItem } from '@blueprintjs/core';
 import { observer } from 'mobx-react-lite';
-import React, { FormEvent, FunctionComponent, useState } from 'react';
+import React, { FunctionComponent } from 'react';
 import { MinimongoContainer } from '@/Pages/Panel/Minimongo/MinimongoContainer';
-import { StatusBar } from '@/Components/StatusBar';
-import { Button } from '@/Components/Button';
-import { Field } from '@/Components/Field';
-import { TextInput } from '@/Components/TextInput';
+import styled from 'styled-components';
+import { MinimongoStatus } from '@/Pages/Panel/Minimongo/MinimongoStatus';
 
 interface Props {
   isVisible: boolean;
 }
 
-export const Minimongo: FunctionComponent<Props> = observer(({ isVisible }) => {
-  const [showNavigator, setShowNavigator] = useState(false);
+const Wrapper = styled.div`
+  display: flex;
+  flex-direction: row;
+  height: 100%;
 
-  const panelStore = usePanelStore();
-  const { minimongoStore } = panelStore;
+  .sidebar {
+    height: 100%;
+    width: 222px;
+    overflow-y: auto;
+    flex-shrink: 0;
+    flex-grow: 0;
+  }
+
+  .container {
+    height: 100%;
+    min-width: 0;
+    flex-grow: 1;
+    flex-shrink: 1;
+
+    .row {
+      display: flex;
+      align-items: center;
+      padding: 5px 15px;
+
+      & > * + * {
+        margin-left: 8px;
+      }
+
+      .row-collection {
+        @include truncate;
+        flex-shrink: 0;
+        width: 128px;
+      }
+
+      .row-preview {
+        flex: 0 1 auto;
+        @include truncate;
+      }
+    }
+  }
+`;
+
+export const Minimongo: FunctionComponent<Props> = observer(({ isVisible }) => {
+  const { minimongoStore } = usePanelStore();
 
   const isActiveCollectionMissing =
     minimongoStore.activeCollection &&
@@ -31,8 +68,8 @@ export const Minimongo: FunctionComponent<Props> = observer(({ isVisible }) => {
   return (
     <Hideable isVisible={isVisible}>
       <div className={'mde-content'}>
-        <div className='minimongo-group'>
-          <div className='minimongo-sidebar'>
+        <Wrapper>
+          <div className='sidebar'>
             <Menu>
               {!!minimongoStore.collectionNames.length &&
                 minimongoStore.collectionNames.map(key => (
@@ -69,49 +106,12 @@ export const Minimongo: FunctionComponent<Props> = observer(({ isVisible }) => {
             </Menu>
           </div>
           <MinimongoContainer isVisible={isVisible} />
-        </div>
+        </Wrapper>
       </div>
 
-      <StatusBar>
-        <div className='left-group'>
-          <Button
-            icon={minimongoStore.activeCollection ? 'database' : 'asterisk'}
-            onClick={() => setShowNavigator(true)}
-            disabled={!minimongoStore.collectionNames.length}
-          >
-            {minimongoStore.activeCollection || 'Everything'}
-          </Button>
+      <MinimongoStatus />
 
-          {minimongoStore.activeCollection && (
-            <Button
-              icon='asterisk'
-              onClick={() => minimongoStore.setActiveCollection(null)}
-            >
-              Clear
-            </Button>
-          )}
-
-          <TextInput
-            icon='search'
-            placeholder='Search...'
-            onChange={(event: FormEvent<HTMLInputElement>) =>
-              minimongoStore.activeCollectionDocuments.pagination.setSearch(
-                event.currentTarget.value,
-              )
-            }
-          />
-
-          <Field icon='eye-open'>
-            {minimongoStore.activeCollectionDocuments.pagination.length}
-          </Field>
-        </div>
-      </StatusBar>
-
-      <MinimongoNavigator
-        store={minimongoStore}
-        isOpen={showNavigator}
-        setShowNavigator={setShowNavigator}
-      />
+      <MinimongoNavigator />
     </Hideable>
   );
 });
