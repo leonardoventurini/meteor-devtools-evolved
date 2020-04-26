@@ -2,12 +2,13 @@ import { usePanelStore } from '@/Stores/PanelStore';
 import { Hideable } from '@/Utils/Hideable';
 import { observer } from 'mobx-react-lite';
 import React, { FunctionComponent } from 'react';
-import { HTMLTable, Icon, Tag } from '@blueprintjs/core';
+import { HTMLTable, Tag } from '@blueprintjs/core';
 import styled from 'styled-components';
 import { sortBy } from 'lodash';
-import { StatusBar } from '@/Pages/Layout/StatusBar';
 import { useInterval } from '@/Utils/Hooks/Interval';
 import { syncSubscriptions } from '@/Bridge';
+import { StatusBar } from '@/Components/StatusBar/StatusBar';
+import { Field } from '@/Components/StatusBar/Field';
 
 interface Props {
   isVisible: boolean;
@@ -74,14 +75,9 @@ export const Subscriptions: FunctionComponent<Props> = observer(
         </Wrapper>
 
         <StatusBar>
-          <Tag minimal round>
-            <Icon
-              icon='feed-subscribed'
-              iconSize={12}
-              style={{ marginRight: 8 }}
-            />
-            {subscriptions.length}
-          </Tag>
+          <div className='right-group'>
+            <Field icon='feed-subscribed'>{subscriptions.length}</Field>
+          </div>
         </StatusBar>
       </Hideable>
     );
