@@ -7,8 +7,8 @@ import styled from 'styled-components';
 import { sortBy } from 'lodash';
 import { useInterval } from '@/Utils/Hooks/Interval';
 import { syncSubscriptions } from '@/Bridge';
-import { StatusBar } from '@/Components/StatusBar/StatusBar';
-import { Field } from '@/Components/StatusBar/Field';
+import { StatusBar } from '@/Components/StatusBar';
+import { Field } from '@/Components/Field';
 
 interface Props {
   isVisible: boolean;

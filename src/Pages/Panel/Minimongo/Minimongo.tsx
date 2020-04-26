@@ -5,10 +5,10 @@ import { Icon, Menu, MenuItem } from '@blueprintjs/core';
 import { observer } from 'mobx-react-lite';
 import React, { FormEvent, FunctionComponent, useState } from 'react';
 import { MinimongoContainer } from '@/Pages/Panel/Minimongo/MinimongoContainer';
-import { StatusBar } from '@/Components/StatusBar/StatusBar';
+import { StatusBar } from '@/Components/StatusBar';
 import { Button } from '@/Components/Button';
-import { Field } from '@/Components/StatusBar/Field';
-import { Search } from '@/Components/StatusBar/Search';
+import { Field } from '@/Components/Field';
+import { TextInput } from '@/Components/TextInput';
 
 interface Props {
   isVisible: boolean;
@@ -91,7 +91,7 @@ export const Minimongo: FunctionComponent<Props> = observer(({ isVisible }) => {
             </Button>
           )}
 
-          <Search
+          <TextInput
             icon='search'
             placeholder='Search...'
             onChange={(event: FormEvent<HTMLInputElement>) =>

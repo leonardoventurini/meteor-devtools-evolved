@@ -30,7 +30,7 @@ interface Props extends InputHTMLAttributes<HTMLInputElement> {
   icon?: IconName;
 }
 
-export const Search: FunctionComponent<Props> = ({ icon, ...rest }) => (
+export const TextInput: FunctionComponent<Props> = ({ icon, ...rest }) => (
   <Wrapper>
     <Icon icon={icon} iconSize={12} className='icon' />
     <input type='text' {...rest} />

@@ -2,12 +2,12 @@ import { observer } from 'mobx-react-lite';
 import React, { FormEvent, FunctionComponent } from 'react';
 
 import { usePanelStore } from '@/Stores/PanelStore';
-import { StatusBar } from '@/Components/StatusBar/StatusBar';
+import { StatusBar } from '@/Components/StatusBar';
 import { DDPFilterMenu } from '@/Pages/Panel/DDP/DDPFilterMenu';
 import { Position } from '@blueprintjs/core/lib/esm/common/position';
-import { Search } from '@/Components/StatusBar/Search';
+import { TextInput } from '@/Components/TextInput';
 import { PopoverButton } from '@/Components/PopoverButton';
-import { Field } from '@/Components/StatusBar/Field';
+import { Field } from '@/Components/Field';
 import { exists } from '@/Utils';
 import { Button } from '@/Components/Button';
 
@@ -37,7 +37,7 @@ export const BookmarksStatus: FunctionComponent = observer(() => {
           Filter
         </PopoverButton>
 
-        <Search
+        <TextInput
           icon='search'
           placeholder='Search...'
           onChange={(event: FormEvent<HTMLInputElement>) =>
