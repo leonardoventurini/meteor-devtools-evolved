@@ -1,5 +1,5 @@
 import { debounce } from 'lodash';
-import { computed, observable } from 'mobx';
+import { action, computed, observable } from 'mobx';
 import { Searchable } from '../Common/Searchable';
 import { PanelStore } from '@/Stores/PanelStore';
 import { generatePreview } from '@/Utils/MessageFormatter';
@@ -51,6 +51,13 @@ export class DDPStore extends Searchable<DDPLog> {
             .concat(log.preview ?? '')
             .includes(search.toLowerCase()),
       );
+
+  @action
+  clearLogs() {
+    this.collection = [];
+    this.inboundBytes = 0;
+    this.outboundBytes = 0;
+  }
 
   @computed
   get filterRegularExpression() {

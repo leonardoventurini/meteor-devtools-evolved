@@ -48,11 +48,6 @@ export abstract class Searchable<T> {
     200,
   );
 
-  @action
-  clearLogs() {
-    this.collection = [];
-  }
-
   setSearch = debounce(
     action((search: string) => {
       this.search = search;

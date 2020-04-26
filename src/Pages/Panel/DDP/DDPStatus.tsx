@@ -18,7 +18,6 @@ export const DDPStatus: FunctionComponent = observer(() => {
 
   const activeFilters = store.settingStore.activeFilters;
   const setFilter = store.settingStore.setFilter.bind(store.settingStore);
-  const clearLogs = ddpStore.clearLogs.bind(ddpStore);
   const collectionLength = ddpStore.collection.length;
   const { inboundBytes, outboundBytes, isLoading, pagination } = ddpStore;
 
@@ -66,7 +65,11 @@ export const DDPStatus: FunctionComponent = observer(() => {
         )}
 
         {isNumber(collectionLength) && (
-          <Button intent='warning' onClick={clearLogs} icon='inbox'>
+          <Button
+            intent='warning'
+            onClick={() => ddpStore.clearLogs()}
+            icon='inbox'
+          >
             {collectionLength}
           </Button>
         )}

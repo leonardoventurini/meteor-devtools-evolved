@@ -34,7 +34,7 @@ const ButtonWrapper = styled.button`
     }
   }
 
-  &:hover:not([disabled]) {
+  &:hover:not([disabled], .warning) {
     background-color: rgba(0, 0, 0, 0.2);
   }
 
