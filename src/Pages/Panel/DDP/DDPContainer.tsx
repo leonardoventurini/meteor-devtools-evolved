@@ -6,6 +6,7 @@ import { DDPStore } from '@/Stores/Panel/DDPStore';
 import { BookmarkStore } from '@/Stores/Panel/BookmarkStore';
 import { useDimensions } from '@/Utils/Hooks/Dimensions';
 import { usePanelStore } from '@/Stores/PanelStore';
+import { Travolta } from '@/Utils/Travolta';
 
 interface Props {
   source: DDPStore | BookmarkStore;
@@ -34,17 +35,21 @@ export const DDPContainer: FunctionComponent<Props> = observer(
       );
     });
 
+    const list = (
+      <FixedSizeList
+        height={height}
+        width={width}
+        itemCount={source.filtered.length}
+        itemSize={28}
+        itemData={{ items: source.filtered }}
+      >
+        {Row}
+      </FixedSizeList>
+    );
+
     return (
       <div className='mde-content mde-ddp' ref={contentRef}>
-        <FixedSizeList
-          height={height}
-          width={width}
-          itemCount={source.filtered.length}
-          itemSize={28}
-          itemData={{ items: source.filtered }}
-        >
-          {Row}
-        </FixedSizeList>
+        {source.filtered.length ? list : <Travolta />}
       </div>
     );
   },
