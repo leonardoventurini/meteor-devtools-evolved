@@ -89,6 +89,7 @@ interface Props extends ButtonHTMLAttributes<HTMLButtonElement> {
   icon?: IconName;
   intent?: 'warning';
   shine?: boolean;
+  active?: boolean;
 }
 
 export const Button: FunctionComponent<Props> = ({
@@ -97,11 +98,13 @@ export const Button: FunctionComponent<Props> = ({
   intent,
   className,
   shine,
+  active,
   ...rest
 }) => {
   const classes = classnames(
     {
       shine,
+      active,
       warning: intent === 'warning',
     },
     className,

@@ -27,7 +27,6 @@ $background-color: #30404d;
 }
 
 ::-webkit-scrollbar-thumb {
-  border-radius: 4px;
   -webkit-box-shadow: none;
   background-color: lighten($background-color, 15%);
 }

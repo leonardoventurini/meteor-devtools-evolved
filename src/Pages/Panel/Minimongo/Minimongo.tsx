@@ -1,12 +1,13 @@
 import { MinimongoNavigator } from '@/Pages/Panel/Minimongo/MinimongoNavigator';
 import { usePanelStore } from '@/Stores/PanelStore';
 import { Hideable } from '@/Utils/Hideable';
-import { Menu, MenuItem } from '@blueprintjs/core';
 import { observer } from 'mobx-react-lite';
 import React, { FunctionComponent } from 'react';
 import { MinimongoContainer } from '@/Pages/Panel/Minimongo/MinimongoContainer';
 import styled from 'styled-components';
 import { MinimongoStatus } from '@/Pages/Panel/Minimongo/MinimongoStatus';
+import { Button } from '@/Components/Button';
+import { truncate } from '@/Styles/Mixins';
 
 interface Props {
   isVisible: boolean;
@@ -18,13 +19,35 @@ const Wrapper = styled.div`
   height: 100%;
 
   .sidebar {
+    display: flex;
     height: 100%;
     width: 222px;
     overflow-y: auto;
-    flex-shrink: 0;
-    flex-grow: 0;
-
     font-size: 11px;
+
+    nav {
+      display: flex;
+      flex: 1;
+      flex-direction: column;
+      width: 100%;
+
+      button {
+        flex: 0 0 24px;
+        width: 100%;
+
+        &.active {
+          background: rgba(255, 255, 255, 0.15);
+        }
+
+        &:hover:not(.active) {
+          background: rgba(255, 255, 255, 0.1);
+        }
+
+        span {
+          ${truncate};
+        }
+      }
+    }
   }
 
   .container {
@@ -40,17 +63,6 @@ const Wrapper = styled.div`
 
       & > * + * {
         margin-left: 8px;
-      }
-
-      .row-collection {
-        @include truncate;
-        flex-shrink: 0;
-        width: 128px;
-      }
-
-      .row-preview {
-        flex: 0 1 auto;
-        @include truncate;
       }
     }
   }
@@ -72,32 +84,27 @@ export const Minimongo: FunctionComponent<Props> = observer(({ isVisible }) => {
       <div className={'mde-content'}>
         <Wrapper>
           <div className='sidebar'>
-            <Menu>
+            <nav>
               {!!minimongoStore.collectionNames.length &&
                 minimongoStore.collectionNames.map(key => (
-                  <MenuItem
+                  <Button
                     key={key}
-                    text={key.concat(
-                      ` (${minimongoStore.collections[key]?.length ?? 0})`,
-                    )}
                     active={minimongoStore.activeCollection === key}
                     onClick={() => minimongoStore.setActiveCollection(key)}
-                    style={{
-                      marginBottom: 5,
-                    }}
-                  />
+                  >
+                    {key.concat(
+                      ` (${minimongoStore.collections[key]?.length ?? 0})`,
+                    )}
+                  </Button>
                 ))}
 
-              <MenuItem
-                text={
-                  <strong>
-                    All Documents ({minimongoStore.totalDocuments})
-                  </strong>
-                }
+              <Button
                 active={!minimongoStore.activeCollection}
                 onClick={() => minimongoStore.setActiveCollection(null)}
-              />
-            </Menu>
+              >
+                <strong>All Documents ({minimongoStore.totalDocuments})</strong>
+              </Button>
+            </nav>
           </div>
           <MinimongoContainer isVisible={isVisible} />
         </Wrapper>

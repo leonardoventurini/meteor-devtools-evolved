@@ -15,7 +15,10 @@ export const MinimongoContainer: FunctionComponent<Props> = observer(
 
     const store = usePanelStore();
 
-    const { activeCollectionDocuments } = store.minimongoStore;
+    const {
+      activeCollectionDocuments,
+      activeCollection,
+    } = store.minimongoStore;
 
     const { width, height } = useDimensions(contentRef, [isVisible]);
 
@@ -27,7 +30,7 @@ export const MinimongoContainer: FunctionComponent<Props> = observer(
 
     const Row: FunctionComponent<any> = React.memo(
       ({ data, index, style }: IRow) => {
-        const { document } = data.items![index];
+        const { document, collectionName } = data.items![index];
 
         return (
           <MinimongoRow
@@ -35,6 +38,11 @@ export const MinimongoContainer: FunctionComponent<Props> = observer(
             key={document._id}
             document={document}
             onClick={() => store.setActiveObject(document)}
+            onCollectionClick={() =>
+              store.minimongoStore.setActiveCollection(collectionName)
+            }
+            collectionName={collectionName}
+            isAllVisible={!activeCollection}
           />
         );
       },
