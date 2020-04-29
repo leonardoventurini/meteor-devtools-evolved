@@ -25,7 +25,7 @@ In this release I am focusing on some quality of life changes and addressing iss
 
 - Small fixes and improvements in Treerinator (JSON Viewer).
 - Show subscription name when ready as well.
-- Fixed GitHub stats now persisting as they should.
+- Fixed GitHub stats not persisting as they should.
 
 ## [1.1] - 2020-04-02
 
