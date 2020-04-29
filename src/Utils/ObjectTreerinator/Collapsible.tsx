@@ -1,5 +1,5 @@
 import React, { FunctionComponent, useState } from 'react';
-import { isArray, isObject } from 'lodash';
+import { isArray, isEmpty, isObject } from 'lodash';
 
 interface Props {
   object: any;
@@ -13,38 +13,56 @@ export const Collapsible: FunctionComponent<Props> = ({
 }) => {
   const [isCollapsed, setIsCollapsed] = useState(level > 2);
 
-  if (isCollapsed) {
-    if (isArray(object)) {
-      const length = (object as any[]).length;
+  if (isArray(object)) {
+    const isArrayEmpty = isEmpty(object);
 
+    if (isCollapsed || isArrayEmpty) {
       return (
         <span
           role='expand'
-          onClick={() => length && setIsCollapsed(false)}
-        >{`[${length}]`}</span>
+          onClick={() => !isArrayEmpty && setIsCollapsed(false)}
+        >{`[${object.length}]`}</span>
       );
     }
 
-    if (isObject(object)) {
-      const length = Object.keys(object).length;
-
-      return (
-        <span
-          role='expand'
-          onClick={() => length && setIsCollapsed(false)}
-        >{`{${length}}`}</span>
-      );
-    }
+    return (
+      <>
+        {level > 1 && (
+          <span role='collapse' onClick={() => setIsCollapsed(true)}>
+            {'[-]'}
+          </span>
+        )}
+        {children}
+      </>
+    );
   }
 
-  return (
-    <>
-      {level > 1 && (
-        <span role='collapse' onClick={() => setIsCollapsed(true)}>
-          {isArray(object) ? '[-]' : '{-}'}
-        </span>
-      )}
-      {children}
-    </>
-  );
+  if (isObject(object)) {
+    const isObjectEmpty = isEmpty(object);
+
+    if (isCollapsed) {
+      return (
+        <span
+          role='expand'
+          onClick={() => !isObjectEmpty && setIsCollapsed(false)}
+        >{`{${Object.keys(object).length}}`}</span>
+      );
+    }
+
+    return (
+      <>
+        {level > 1 && (
+          <span role='collapse' onClick={() => setIsCollapsed(true)}>
+            {'{-}'}
+          </span>
+        )}
+        {children}
+      </>
+    );
+  }
+
+  console.error('Not a valid collapsible value.');
+  console.trace(object);
+
+  return null;
 };
