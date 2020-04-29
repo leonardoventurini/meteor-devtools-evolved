@@ -27,6 +27,16 @@ export const About: FunctionComponent<Props> = ({
           </p>
 
           <p>
+            <a
+              href='https://github.com/leonardoventurini/meteor-devtools-evolved/blob/development/CHANGELOG.md'
+              target='_blank'
+              rel='noopener noreferrer'
+            >
+              Change Log
+            </a>
+          </p>
+
+          <p>
             The extension initializes with the page content, which means you
             have to refresh the page after installation, also it needs the
             devtools panel to be opened at least once in the current tab for any

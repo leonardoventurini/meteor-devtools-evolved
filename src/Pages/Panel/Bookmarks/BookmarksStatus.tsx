@@ -9,7 +9,6 @@ import { TextInput } from '@/Components/TextInput';
 import { PopoverButton } from '@/Components/PopoverButton';
 import { Field } from '@/Components/Field';
 import { exists } from '@/Utils';
-import { Button } from '@/Components/Button';
 
 export const BookmarksStatus: FunctionComponent = observer(() => {
   const store = usePanelStore();

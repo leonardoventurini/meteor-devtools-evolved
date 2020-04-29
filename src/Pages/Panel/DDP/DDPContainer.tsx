@@ -6,7 +6,6 @@ import { DDPStore } from '@/Stores/Panel/DDPStore';
 import { BookmarkStore } from '@/Stores/Panel/BookmarkStore';
 import { useDimensions } from '@/Utils/Hooks/Dimensions';
 import { usePanelStore } from '@/Stores/PanelStore';
-import { Travolta } from '@/Utils/Travolta';
 
 interface Props {
   source: DDPStore | BookmarkStore;
@@ -49,7 +48,7 @@ export const DDPContainer: FunctionComponent<Props> = observer(
 
     return (
       <div className='mde-content mde-ddp' ref={contentRef}>
-        {source.filtered.length ? list : <Travolta />}
+        {source.filtered.length ? list : null}
       </div>
     );
   },
