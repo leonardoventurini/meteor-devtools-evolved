@@ -16,6 +16,10 @@
 
    > Open a Pull Request from your fork to our repo once it is done or need a review.
 
+## Environment Commands
+
+If you use Linux you can run `source .envrc` for some useful commands like `@setup` or `@start`.
+
 ## Guidelines & Objectives
 
 1. The code must be linted and properly formatted, that can be easily done with the right IDE -- I use JetBrains WebStorm. Perhaps some git hooks would come in handy in the future.
