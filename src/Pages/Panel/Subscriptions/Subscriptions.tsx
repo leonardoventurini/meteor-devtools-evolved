@@ -31,7 +31,7 @@ export const Subscriptions: FunctionComponent<Props> = observer(
     return (
       <Hideable isVisible={isVisible}>
         <Wrapper className='mde-content'>
-          <HTMLTable condensed>
+          <HTMLTable condensed interactive>
             <thead>
               <tr>
                 <th>Name</th>
@@ -42,21 +42,19 @@ export const Subscriptions: FunctionComponent<Props> = observer(
             </thead>
             <tbody>
               {subscriptions.map(subscription => (
-                <tr key={subscription.id}>
+                <tr
+                  key={subscription.id}
+                  onClick={() =>
+                    panelStore.setActiveObject({
+                      params: subscription.params,
+                    })
+                  }
+                >
                   <td>
                     <Tag minimal>{subscription.name}</Tag>
                   </td>
                   <td>
-                    <Tag
-                      interactive
-                      minimal
-                      style={{ maxWidth: 160 }}
-                      onClick={() =>
-                        panelStore.setActiveObject({
-                          params: subscription.params,
-                        })
-                      }
-                    >
+                    <Tag minimal style={{ maxWidth: 160 }}>
                       {JSON.stringify(subscription.params)}
                     </Tag>
                   </td>
