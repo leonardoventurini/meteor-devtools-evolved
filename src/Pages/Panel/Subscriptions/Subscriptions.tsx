@@ -1,7 +1,7 @@
 import { usePanelStore } from '@/Stores/PanelStore';
 import { Hideable } from '@/Utils/Hideable';
 import { observer } from 'mobx-react-lite';
-import React, { FunctionComponent } from 'react';
+import React, { FormEvent, FunctionComponent } from 'react';
 import { HTMLTable, Tag } from '@blueprintjs/core';
 import styled from 'styled-components';
 import { sortBy } from 'lodash';
@@ -9,6 +9,7 @@ import { useInterval } from '@/Utils/Hooks/Interval';
 import { syncSubscriptions } from '@/Bridge';
 import { StatusBar } from '@/Components/StatusBar';
 import { Field } from '@/Components/Field';
+import { TextInput } from '@/Components/TextInput';
 
 interface Props {
   isVisible: boolean;
@@ -25,10 +26,7 @@ export const Subscriptions: FunctionComponent<Props> = observer(
     useInterval(() => isVisible && syncSubscriptions(), 5000);
 
     const panelStore = usePanelStore();
-    const subscriptions = sortBy(
-      Object.values(panelStore.subscriptions),
-      'name',
-    );
+    const subscriptions = sortBy(panelStore.subscriptionStore.filtered, 'name');
 
     return (
       <Hideable isVisible={isVisible}>
@@ -75,6 +73,16 @@ export const Subscriptions: FunctionComponent<Props> = observer(
         </Wrapper>
 
         <StatusBar>
+          <TextInput
+            icon='search'
+            placeholder='Search...'
+            onChange={(event: FormEvent<HTMLInputElement>) =>
+              panelStore.subscriptionStore.pagination.setSearch(
+                event.currentTarget.value,
+              )
+            }
+          />
+
           <div className='right-group'>
             <Field icon='feed-subscribed'>{subscriptions.length}</Field>
           </div>

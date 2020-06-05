@@ -5,6 +5,7 @@ import { DDPStore } from './Panel/DDPStore';
 import { MinimongoStore } from './Panel/MinimongoStore';
 import { PanelPage } from '@/Constants';
 import { SettingStore } from '@/Stores/Panel/SettingStore';
+import { SubscriptionStore } from '@/Stores/Panel/SubscriptionStore';
 
 export class PanelStoreConstructor {
   @observable selectedTabId: string = PanelPage.DDP;
@@ -17,6 +18,7 @@ export class PanelStoreConstructor {
   ddpStore = new DDPStore();
   bookmarkStore = new BookmarkStore();
   minimongoStore = new MinimongoStore();
+  subscriptionStore = new SubscriptionStore();
   settingStore = new SettingStore();
 
   constructor() {
@@ -24,8 +26,8 @@ export class PanelStoreConstructor {
   }
 
   @action
-  syncSubscriptions(subscriptions: Record<string, IMeteorSubscription>) {
-    this.subscriptions = subscriptions;
+  syncSubscriptions(subscriptions: Record<MeteorID, IMeteorSubscription>) {
+    this.subscriptionStore.setCollection(Object.values(subscriptions));
   }
 
   @action
