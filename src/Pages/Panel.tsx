@@ -46,6 +46,7 @@ const Layout = styled.div`
       height: calc(100vh - ${NAVBAR_HEIGHT + STATUS_HEIGHT}px);
       padding: 0;
       overflow-y: auto;
+      overflow-x: hidden;
     }
   }
 `;
