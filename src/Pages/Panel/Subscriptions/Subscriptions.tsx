@@ -36,7 +36,7 @@ export const Subscriptions: FunctionComponent<Props> = observer(
               <tr>
                 <th>Name</th>
                 <th>Params</th>
-                <th>Inactive</th>
+                <th>Active</th>
                 <th>Ready</th>
               </tr>
             </thead>
@@ -59,10 +59,20 @@ export const Subscriptions: FunctionComponent<Props> = observer(
                     </Tag>
                   </td>
                   <td>
-                    <Tag minimal>{JSON.stringify(subscription.inactive)}</Tag>
+                    <Tag
+                      minimal
+                      intent={subscription.inactive ? 'warning' : 'success'}
+                    >
+                      {JSON.stringify(!subscription.inactive)}
+                    </Tag>
                   </td>
                   <td>
-                    <Tag minimal>{JSON.stringify(subscription.ready)}</Tag>
+                    <Tag
+                      minimal
+                      intent={subscription.ready ? 'success' : 'warning'}
+                    >
+                      {JSON.stringify(subscription.ready)}
+                    </Tag>
                   </td>
                 </tr>
               ))}
