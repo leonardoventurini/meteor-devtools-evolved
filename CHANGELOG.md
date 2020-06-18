@@ -4,7 +4,20 @@ All notable changes to this project will be documented in this file.
 
 > The dates refer to when it was made available in the Chrome platform.
 
-## [1.2] - COMING SOON
+## [1.3] - COMING SOON
+
+## Added
+
+- Meteor `gitCommitHash` is now shown in the status bar.
+- Community Slack button (with VFX!!)
+- Added subscription search.
+
+## Changed
+
+- Subscriptions are clickable and open the params object viewer.
+- Improved naming for the extension global variables to avoid collisions.
+
+## [1.2] - 2020-04-29
 
 In this release I am focusing on some quality of life changes and addressing issues reported by the community. I tried to make the design simpler and more efficient as well.
 
