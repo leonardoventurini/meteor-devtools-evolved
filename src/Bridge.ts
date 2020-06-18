@@ -109,3 +109,9 @@ Bridge.register(
 Bridge.register('sync-subscriptions', (message: Message<any>) => {
   PanelStore.syncSubscriptions(JSON.parse(message.data.subscriptions));
 });
+
+Bridge.register('stats', (message: Message<any>) => {
+  console.log(message.data);
+
+  PanelStore.setGitCommitHash(message.data.gitCommitHash);
+});

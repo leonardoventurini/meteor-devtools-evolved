@@ -17,6 +17,8 @@ export class PanelStoreConstructor {
   @observable isAboutVisible = false;
   @observable subscriptions: Record<string, IMeteorSubscription> = {};
 
+  @observable gitCommitHash?: string | null = null;
+
   ddpStore = new DDPStore();
   bookmarkStore = new BookmarkStore();
   minimongoStore = new MinimongoStore();
@@ -58,6 +60,11 @@ export class PanelStoreConstructor {
     const subs = toJS(this.subscriptions);
 
     return id in subs ? subs[id] : null;
+  }
+
+  @action
+  setGitCommitHash(hash: string) {
+    this.gitCommitHash = hash;
   }
 }
 

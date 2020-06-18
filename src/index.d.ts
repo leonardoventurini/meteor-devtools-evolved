@@ -9,6 +9,7 @@ interface Window {
 
 declare module Meteor {
   const connection: any;
+  const gitCommitHash: string | undefined | null;
 }
 
 type MessageSource = 'meteor-devtools-evolved';
@@ -17,7 +18,8 @@ type EventType =
   | 'minimongo-get-collections'
   | 'ddp-run-method'
   | 'console'
-  | 'sync-subscriptions';
+  | 'sync-subscriptions'
+  | 'stats';
 
 interface Message<T> {
   eventType: EventType;
