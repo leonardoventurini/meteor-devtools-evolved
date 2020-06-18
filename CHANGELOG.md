@@ -16,6 +16,11 @@ All notable changes to this project will be documented in this file.
 
 - Subscriptions are clickable and open the params object viewer.
 - Improved naming for the extension global variables to avoid collisions.
+- Removed horizontal scroll constraint, but making it more responsive is too much work for now.
+
+## Fixed
+
+- Fixed horizontal scroll showing when resizing.
 
 ## [1.2] - 2020-04-29
 
