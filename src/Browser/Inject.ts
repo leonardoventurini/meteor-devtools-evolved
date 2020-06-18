@@ -91,20 +91,22 @@ export const Registry: IRegistry = {
   },
 };
 
-if (!window.__devtools) {
+if (!window.__meteor_devtools_evolved) {
   let attempts = 100;
 
   const interval = window.setInterval(() => {
     --attempts;
 
-    if (typeof Meteor === 'object' && !window.__devtools) {
-      window.__devtools = true;
+    if (typeof Meteor === 'object' && !window.__meteor_devtools_evolved) {
+      window.__meteor_devtools_evolved = true;
 
       DDPInjector();
       MinimongoInjector();
       MeteorAdapter();
 
-      window.__devtools_receiveMessage = Registry.run.bind(Registry);
+      window.__meteor_devtools_evolved_receiveMessage = Registry.run.bind(
+        Registry,
+      );
 
       warning(`Initialized. Attempts: ${100 - attempts}.`);
     }

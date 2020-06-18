@@ -40,7 +40,7 @@ export const Bridge = new (class {
 
     if (chrome && chrome.devtools) {
       chrome.devtools.inspectedWindow.eval(
-        `__devtools_receiveMessage(${JSON.stringify(payload)})`,
+        `__meteor_devtools_evolved_receiveMessage(${JSON.stringify(payload)})`,
       );
     }
   }

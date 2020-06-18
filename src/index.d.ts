@@ -3,12 +3,11 @@ declare module '*.gif';
 type MeteorID = string;
 
 interface Window {
-  __devtools: boolean;
-  __devtools_receiveMessage(message: Message<any>): void;
+  __meteor_devtools_evolved: boolean;
+  __meteor_devtools_evolved_receiveMessage(message: Message<any>): void;
 }
 
 declare module Meteor {
-  let __devtools: boolean;
   const connection: any;
 }
 
