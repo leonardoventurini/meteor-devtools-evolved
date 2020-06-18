@@ -13,4 +13,10 @@ export const MeteorAdapter = () => {
       subscriptions: getSubscriptions(),
     });
   });
+
+  Registry.register('stats', () => {
+    sendMessage('stats', {
+      gitCommitHash: Meteor.gitCommitHash,
+    });
+  });
 };

@@ -17,6 +17,12 @@ export const syncSubscriptions = () =>
     data: null,
   });
 
+export const syncStats = () =>
+  Bridge.sendContentMessage({
+    eventType: 'stats',
+    data: null,
+  });
+
 export const Bridge = new (class {
   private handlers: Partial<Record<EventType, MessageHandler>> = {};
 
@@ -66,6 +72,8 @@ export const Bridge = new (class {
     if (!chrome || !chrome.devtools) return;
 
     this.chrome();
+
+    syncStats();
   }
 })();
 

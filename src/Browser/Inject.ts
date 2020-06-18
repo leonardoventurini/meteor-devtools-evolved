@@ -108,10 +108,6 @@ if (!window.__meteor_devtools_evolved) {
         Registry,
       );
 
-      sendMessage('stats', {
-        gitCommitHash: Meteor.gitCommitHash,
-      });
-
       warning(`Initialized. Attempts: ${100 - attempts}.`);
     }
 

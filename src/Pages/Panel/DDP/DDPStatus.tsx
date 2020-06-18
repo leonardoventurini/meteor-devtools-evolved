@@ -1,4 +1,4 @@
-import { Spinner } from '@blueprintjs/core';
+import { Spinner, Tag, Tooltip } from '@blueprintjs/core';
 import { isNumber } from 'lodash';
 import { observer } from 'mobx-react-lite';
 import React, { FormEvent, FunctionComponent } from 'react';
@@ -11,6 +11,7 @@ import { PopoverButton } from '@/Components/PopoverButton';
 import { Button } from '@/Components/Button';
 import prettyBytes from 'pretty-bytes';
 import { Field } from '@/Components/Field';
+import { StringUtils } from '@/Utils/StringUtils';
 
 export const DDPStatus: FunctionComponent = observer(() => {
   const store = usePanelStore();
@@ -55,6 +56,25 @@ export const DDPStatus: FunctionComponent = observer(() => {
             <Spinner size={12} intent='warning' />
           </Field>
         )}
+
+        {store.gitCommitHash ? (
+          <Tooltip
+            content='Git Commit Hash'
+            hoverOpenDelay={800}
+            position='top'
+          >
+            <Tag
+              minimal
+              interactive
+              onClick={() => {
+                StringUtils.toClipboard(store.gitCommitHash as string);
+              }}
+              style={{ marginRight: 4 }}
+            >
+              {store.gitCommitHash.slice(0, 8)}
+            </Tag>
+          </Tooltip>
+        ) : null}
 
         {!!inboundBytes && (
           <Field icon='cloud-download'>{prettyBytes(inboundBytes)}</Field>

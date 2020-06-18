@@ -7,6 +7,7 @@ import { DateTime } from 'luxon';
 import styled from 'styled-components';
 import { truncate } from '@/Styles/Mixins';
 import { DDPLogMenu } from '@/Pages/Panel/DDP/DDPLogMenu';
+import { StringUtils } from '@/Utils/StringUtils';
 
 interface Props {
   log: DDPLog;
@@ -129,9 +130,7 @@ export const DDPLog: FunctionComponent<Props> = ({
               minimal
               interactive
               onClick={() => {
-                navigator.clipboard
-                  .writeText(log.hash as string)
-                  .catch(console.error);
+                StringUtils.toClipboard(log.hash as string);
               }}
             >
               {log.hash}

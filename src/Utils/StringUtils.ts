@@ -27,4 +27,15 @@ export namespace StringUtils {
 
     return `rgb(${rgb})`;
   };
+
+  export const toClipboard = (
+    data: string,
+    mimeType: string = 'text/plain',
+  ) => {
+    document.oncopy = function(event: ClipboardEvent) {
+      event.clipboardData?.setData(mimeType, data);
+      event.preventDefault();
+    };
+    document.execCommand('copy', false);
+  };
 }
