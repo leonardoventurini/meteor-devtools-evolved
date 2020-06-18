@@ -9,6 +9,8 @@ import { SubscriptionStore } from '@/Stores/Panel/SubscriptionStore';
 
 export class PanelStoreConstructor {
   @observable selectedTabId: string = PanelPage.DDP;
+
+  @observable activeObjectTitle: string | null = null;
   @observable activeObject: ViewableObject = null;
   @observable.shallow activeStackTrace: StackTrace[] | null = null;
 
@@ -31,8 +33,9 @@ export class PanelStoreConstructor {
   }
 
   @action
-  setActiveObject(viewableObject: ViewableObject) {
+  setActiveObject(viewableObject: ViewableObject, title: string | null = null) {
     this.activeObject = viewableObject;
+    this.activeObjectTitle = title;
   }
 
   @action

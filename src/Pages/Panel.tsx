@@ -60,8 +60,11 @@ const PanelObserverComponent: FunctionComponent<Props> = observer(() => {
   return (
     <Layout>
       <DrawerJSON
+        title={store.activeObjectTitle}
         viewableObject={store.activeObject}
-        onClose={() => store.setActiveObject(null)}
+        onClose={() => {
+          store.setActiveObject(null, null);
+        }}
       />
 
       <DrawerStackTrace

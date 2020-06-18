@@ -45,9 +45,12 @@ export const Subscriptions: FunctionComponent<Props> = observer(
                 <tr
                   key={subscription.id}
                   onClick={() =>
-                    panelStore.setActiveObject({
-                      params: subscription.params,
-                    })
+                    panelStore.setActiveObject(
+                      {
+                        params: subscription.params,
+                      },
+                      subscription.name,
+                    )
                   }
                 >
                   <td>
