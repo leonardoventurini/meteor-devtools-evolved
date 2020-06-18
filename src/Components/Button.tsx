@@ -4,6 +4,7 @@ import { Icon, IconName } from '@blueprintjs/core';
 import { centerItems } from '@/Styles/Mixins';
 import classnames from 'classnames';
 import { exists } from '@/Utils';
+import { isString } from 'lodash';
 
 const ButtonWrapper = styled.button`
   ${centerItems};
@@ -86,7 +87,7 @@ const ButtonWrapper = styled.button`
 `;
 
 interface Props extends ButtonHTMLAttributes<HTMLButtonElement> {
-  icon?: IconName;
+  icon?: IconName | JSX.Element;
   intent?: 'warning';
   shine?: boolean;
   active?: boolean;
@@ -112,7 +113,12 @@ export const Button: FunctionComponent<Props> = ({
 
   return (
     <ButtonWrapper className={classes} {...rest}>
-      {icon && <Icon icon={icon} className='icon' iconSize={12} />}
+      {icon &&
+        (isString(icon) ? (
+          <Icon icon={icon} className='icon' iconSize={12} />
+        ) : (
+          icon
+        ))}
       {exists(children) && <span>{children}</span>}
     </ButtonWrapper>
   );

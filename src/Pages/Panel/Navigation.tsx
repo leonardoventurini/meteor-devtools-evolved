@@ -54,8 +54,19 @@ export const Navigation: FunctionComponent = observer(() => {
     {
       key: 'about',
       content: 'About',
-      icon: 'help',
+      icon: <i className='fas fa-question-circle' style={{ marginRight: 4 }} />,
       handler: () => panelStore.setAboutVisible(true),
+    },
+    {
+      key: 'community',
+      content: 'Community',
+      icon: <i className='fab fa-slack' style={{ marginRight: 4 }} />,
+      handler: () =>
+        chrome.tabs.create({
+          url:
+            'https://join.slack.com/t/meteor-community/shared_invite/zt-a9lwcfb7-~UwR3Ng6whEqRxcP5rORZw',
+        }),
+      shine: true,
     },
   ];
 
@@ -70,7 +81,9 @@ export const Navigation: FunctionComponent = observer(() => {
           </Tag>
         </>
       ),
-      icon: 'issue',
+      icon: (
+        <i className='fas fa-exclamation-circle' style={{ marginRight: 4 }} />
+      ),
       handler: () =>
         chrome.tabs.create({
           url: repositoryData.html_url.concat('/issues'),
