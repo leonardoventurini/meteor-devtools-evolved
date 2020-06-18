@@ -4,7 +4,7 @@ import { FixedSizeList } from 'react-window';
 import { observer } from 'mobx-react-lite';
 import { DDPStore } from '@/Stores/Panel/DDPStore';
 import { BookmarkStore } from '@/Stores/Panel/BookmarkStore';
-import { useDimensions } from '@/Utils/Hooks/Dimensions';
+import { useDimensions } from '@/Utils/Hooks/useDimensions';
 import { usePanelStore } from '@/Stores/PanelStore';
 
 interface Props {

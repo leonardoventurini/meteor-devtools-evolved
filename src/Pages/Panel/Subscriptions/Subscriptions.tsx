@@ -5,7 +5,7 @@ import React, { FormEvent, FunctionComponent } from 'react';
 import { HTMLTable, Tag } from '@blueprintjs/core';
 import styled from 'styled-components';
 import { sortBy } from 'lodash';
-import { useInterval } from '@/Utils/Hooks/Interval';
+import { useInterval } from '@/Utils/Hooks/useInterval';
 import { syncSubscriptions } from '@/Bridge';
 import { StatusBar } from '@/Components/StatusBar';
 import { Field } from '@/Components/Field';

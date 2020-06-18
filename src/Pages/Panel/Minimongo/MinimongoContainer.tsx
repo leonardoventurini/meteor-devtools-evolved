@@ -3,7 +3,7 @@ import { areEqual, FixedSizeList } from 'react-window';
 import { observer } from 'mobx-react-lite';
 import { usePanelStore } from '@/Stores/PanelStore';
 import { MinimongoRow } from '@/Pages/Panel/Minimongo/MinimongoRow';
-import { useDimensions } from '@/Utils/Hooks/Dimensions';
+import { useDimensions } from '@/Utils/Hooks/useDimensions';
 
 interface Props {
   isVisible: boolean;

@@ -1,5 +1,5 @@
 import { RefObject, useEffect, useState } from 'react';
-import { useResize } from '@/Utils/ResizeHook';
+import { useResize } from '@/Utils/Hooks/useResize';
 
 export const useDimensions = (ref: RefObject<HTMLElement>, deps: any[]) => {
   const [dimensions, setDimensions] = useState({
