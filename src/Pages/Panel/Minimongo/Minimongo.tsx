@@ -8,6 +8,7 @@ import styled from 'styled-components';
 import { MinimongoStatus } from '@/Pages/Panel/Minimongo/MinimongoStatus';
 import { Button } from '@/Components/Button';
 import { truncate } from '@/Styles/Mixins';
+import { StringUtils } from '@/Utils/StringUtils';
 
 interface Props {
   isVisible: boolean;
@@ -24,6 +25,7 @@ const Wrapper = styled.div`
     width: 222px;
     overflow-y: auto;
     font-size: 11px;
+    font-family: 'Iosevka Medium', monospace;
 
     nav {
       display: flex;
@@ -32,7 +34,7 @@ const Wrapper = styled.div`
       width: 100%;
 
       button {
-        flex: 0 0 24px;
+        flex: 0 0 20px;
         width: 100%;
 
         &.active {
@@ -92,7 +94,7 @@ export const Minimongo: FunctionComponent<Props> = observer(({ isVisible }) => {
                     active={minimongoStore.activeCollection === key}
                     onClick={() => minimongoStore.setActiveCollection(key)}
                   >
-                    {key.concat(
+                    {StringUtils.truncate(key, 24).concat(
                       ` (${minimongoStore.collections[key]?.length ?? 0})`,
                     )}
                   </Button>
@@ -102,7 +104,7 @@ export const Minimongo: FunctionComponent<Props> = observer(({ isVisible }) => {
                 active={!minimongoStore.activeCollection}
                 onClick={() => minimongoStore.setActiveCollection(null)}
               >
-                <strong>All Documents ({minimongoStore.totalDocuments})</strong>
+                All Documents ({minimongoStore.totalDocuments})
               </Button>
             </nav>
           </div>

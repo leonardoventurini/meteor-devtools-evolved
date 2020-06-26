@@ -1,4 +1,4 @@
-import { isString } from 'lodash';
+import { isString, memoize } from 'lodash';
 
 export namespace StringUtils {
   export const truncate = (str: string, max: number = 40) => {
@@ -38,4 +38,6 @@ export namespace StringUtils {
     };
     document.execCommand('copy', false);
   };
+
+  export const getSize = memoize((content: string) => new Blob([content]).size);
 }

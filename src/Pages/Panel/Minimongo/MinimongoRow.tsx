@@ -24,8 +24,7 @@ const Wrapper = styled.div`
 `;
 
 interface Props {
-  document: IDocument;
-  collectionName: string;
+  item: IDocumentWrapper;
   style: CSSProperties;
   onClick: () => void;
   onCollectionClick: () => void;
@@ -33,11 +32,10 @@ interface Props {
 }
 
 export const MinimongoRow: FunctionComponent<Props> = ({
+  item,
   style,
   onClick,
   onCollectionClick,
-  document,
-  collectionName,
   isAllVisible,
 }) => {
   return (
@@ -49,11 +47,11 @@ export const MinimongoRow: FunctionComponent<Props> = ({
           minimal
           onClick={() => onCollectionClick()}
         >
-          {collectionName}
+          {item.collectionName}
         </Tag>
       )}
       <Tag className='preview' minimal interactive onClick={() => onClick()}>
-        <code>{StringUtils.truncate(JSON.stringify(document), 256)}</code>
+        <code>{StringUtils.truncate(item._string, 256)}</code>
       </Tag>
     </Wrapper>
   );

@@ -121,6 +121,8 @@ type MessageHandler = (message: Message<any>) => void;
 interface IDocumentWrapper {
   collectionName: string;
   document: IDocument;
+  _string: string;
+  _size: number;
 }
 
 interface IGitHubRepository {

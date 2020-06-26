@@ -11,6 +11,7 @@ All notable changes to this project will be documented in this file.
 - Meteor `gitCommitHash` is now shown in the status bar.
 - Community Slack button (with VFX!!)
 - Added subscription search.
+- Estimate Minimongo collection byte size.
 
 ## Changed
 

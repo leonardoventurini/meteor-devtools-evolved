@@ -30,18 +30,17 @@ export const MinimongoContainer: FunctionComponent<Props> = observer(
 
     const Row: FunctionComponent<any> = React.memo(
       ({ data, index, style }: IRow) => {
-        const { document, collectionName } = data.items![index];
+        const item = data.items![index];
 
         return (
           <MinimongoRow
             style={style}
-            key={document._id}
-            document={document}
+            key={item.document._id}
+            item={item}
             onClick={() => store.setActiveObject(document)}
             onCollectionClick={() =>
-              store.minimongoStore.setActiveCollection(collectionName)
+              store.minimongoStore.setActiveCollection(item.collectionName)
             }
-            collectionName={collectionName}
             isAllVisible={!activeCollection}
           />
         );

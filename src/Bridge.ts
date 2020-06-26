@@ -4,8 +4,7 @@ import { detectType } from '@/Pages/Panel/DDP/FilterConstants';
 import prettyBytes from 'pretty-bytes';
 import { PanelStore } from '@/Stores/PanelStore';
 import { DateTime } from 'luxon';
-
-const getSize = memoize((content: string) => new Blob([content]).size);
+import { StringUtils } from '@/Utils/StringUtils';
 
 const getHash = memoize((content: string) =>
   padStart(new CRC32().update(content).digest(), 8, '0'),
@@ -78,7 +77,7 @@ export const Bridge = new (class {
 })();
 
 Bridge.register('ddp-event', (message: Message<DDPLog>) => {
-  const size = getSize(message.data.content);
+  const size = StringUtils.getSize(message.data.content);
   const hash = getHash(message.data.content);
   const parsedContent = JSON.parse(message.data.content);
   const filterType = detectType(parsedContent);

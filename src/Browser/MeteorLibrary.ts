@@ -1,6 +1,6 @@
-import { getCircularReplacer } from '@/Browser/Utils';
 import mapValues from 'lodash/mapValues';
 import omit from 'lodash/omit';
+import { JSONUtils } from '@/Utils/JSONUtils';
 
 export const getSubscriptions = () => {
   const payload = mapValues(
@@ -8,5 +8,5 @@ export const getSubscriptions = () => {
     (value: any) => omit(value, ['connection']),
   );
 
-  return JSON.stringify(payload, getCircularReplacer());
+  return JSONUtils.stringify(payload);
 };

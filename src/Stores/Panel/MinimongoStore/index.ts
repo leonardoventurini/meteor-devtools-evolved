@@ -1,6 +1,8 @@
-import { debounce, flatten, toPairs } from 'lodash';
+import { debounce } from 'lodash';
 import { action, computed, observable } from 'mobx';
 import { CollectionStore } from './CollectionStore';
+import { JSONUtils } from '@/Utils/JSONUtils';
+import { StringUtils } from '@/Utils/StringUtils';
 
 export class MinimongoStore {
   activeCollectionDocuments = new CollectionStore();
@@ -32,24 +34,44 @@ export class MinimongoStore {
     );
   }
 
+  @computed
+  get currentSize() {
+    return this.activeCollectionDocuments.collection.reduce(
+      (acc: number, cur: IDocumentWrapper) => acc + cur._size,
+      0,
+    );
+  }
+
   @action
   syncDocuments() {
     if (this.activeCollection) {
       this.activeCollectionDocuments.setCollection(
-        this.collections[this.activeCollection].map(document => ({
-          collectionName: this.activeCollection as string,
-          document,
-        })),
+        this.collections[this.activeCollection].map(document => {
+          const _string = JSONUtils.stringify(document);
+
+          return {
+            collectionName: this.activeCollection as string,
+            document,
+            _string,
+            _size: StringUtils.getSize(_string),
+          };
+        }),
       );
     } else {
       this.activeCollectionDocuments.setCollection(
-        flatten(
-          toPairs(this.collections).map(([collectionName, documents]) => {
-            return documents.map(document => ({
-              collectionName,
-              document,
-            }));
-          }),
+        Object.entries(this.collections).flatMap(
+          ([collectionName, documents]) => {
+            return documents.map(document => {
+              const _string = JSONUtils.stringify(document);
+
+              return {
+                collectionName,
+                document,
+                _string: JSONUtils.stringify(document),
+                _size: StringUtils.getSize(_string),
+              };
+            });
+          },
         ),
       );
     }
