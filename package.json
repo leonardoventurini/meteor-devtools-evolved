@@ -59,7 +59,7 @@
     "classnames": "^2.2.6",
     "dexie": "^2.0.4",
     "error-stack-parser": "^2.0.6",
-    "lodash": "^4.17.15",
+    "lodash": "^4.17.19",
     "luxon": "^1.23.0",
     "mobx": "^5.15.4",
     "mobx-react-lite": "^1.5.2",
