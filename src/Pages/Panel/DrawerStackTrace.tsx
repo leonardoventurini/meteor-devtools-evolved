@@ -10,48 +10,46 @@ interface Props {
 export const DrawerStackTrace: FunctionComponent<Props> = ({
   activeStackTrace,
   onClose,
-}) => {
-  return (
-    <Drawer
-      icon='document'
-      title='Stack Trace'
-      isOpen={!!activeStackTrace}
-      onClose={onClose}
-      size='72%'
-    >
-      <div className={Classes.DRAWER_BODY}>
-        <div className={classnames(Classes.DIALOG_BODY, 'mde-stack-trace')}>
-          {activeStackTrace?.map((stack: StackTrace, index: number) => {
-            const text = (
-              <div>
-                <em>{stack?.functionName?.trim() ?? 'Anonymous'}</em>
-                {'@'}
-                <span>
-                  {stack?.columnNumber && stack?.columnNumber}
-                  {stack?.columnNumber && stack?.lineNumber ? ':' : null}
-                  {stack?.lineNumber && stack?.lineNumber}
-                </span>
-              </div>
-            );
+}) => (
+  <Drawer
+    icon='document'
+    title='Stack Trace'
+    isOpen={!!activeStackTrace}
+    onClose={onClose}
+    size='72%'
+  >
+    <div className={Classes.DRAWER_BODY}>
+      <div className={classnames(Classes.DIALOG_BODY, 'mde-stack-trace')}>
+        {activeStackTrace?.map((stack: StackTrace, index: number) => {
+          const text = (
+            <div>
+              <em>{stack?.callee?.trim() || 'Anonymous'}</em>
+              {stack.column && stack.line && '@'}
+              <span>
+                {stack?.column && stack?.column}
+                {stack?.column && stack?.line ? ':' : null}
+                {stack?.line && stack?.line}
+              </span>
+            </div>
+          );
 
-            return (
-              <pre key={index}>
-                {stack?.fileName ? (
-                  <a
-                    href={stack.fileName.trim()}
-                    target='_blank'
-                    rel='noopener noreferrer'
-                  >
-                    {text}
-                  </a>
-                ) : (
-                  text
-                )}
-              </pre>
-            );
-          })}
-        </div>
+          return (
+            <pre key={index}>
+              {stack?.file ? (
+                <a
+                  href={stack.file.trim()}
+                  target='_blank'
+                  rel='noopener noreferrer'
+                >
+                  {text}
+                </a>
+              ) : (
+                text
+              )}
+            </pre>
+          );
+        })}
       </div>
-    </Drawer>
-  );
-};
+    </div>
+  </Drawer>
+);

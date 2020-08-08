@@ -1,4 +1,4 @@
-import ErrorStackParser from 'error-stack-parser';
+import StackTracey from 'stacktracey';
 import { DDPInjector } from '@/Injectors/DDPInjector';
 import {
   MinimongoInjector,
@@ -32,19 +32,19 @@ warning(
     : 'Initializing on the main page...',
 );
 
-export const getStackTrace = (stackTraceLimit: number) => {
+const getStackTrace = (stackTraceLimit: number) => {
   const originalStackTraceLimit = Error.stackTraceLimit;
 
   try {
-    Error.stackTraceLimit = stackTraceLimit ?? 15;
-    return ErrorStackParser.parse(new Error());
+    Error.stackTraceLimit = stackTraceLimit;
+    return new StackTracey(new Error());
   } finally {
     Error.stackTraceLimit = originalStackTraceLimit;
   }
 };
 
 export const sendLogMessage = (message: DDPLog) => {
-  const stackTrace = getStackTrace(15);
+  const stackTrace = getStackTrace(15).items;
 
   if (stackTrace && stackTrace.length) {
     stackTrace.splice(0, 2);

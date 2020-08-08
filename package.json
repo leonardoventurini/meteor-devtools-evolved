@@ -58,7 +58,6 @@
     "@fortawesome/fontawesome-free": "^5.13.0",
     "classnames": "^2.2.6",
     "dexie": "^2.0.4",
-    "error-stack-parser": "^2.0.6",
     "lodash": "^4.17.15",
     "luxon": "^1.23.0",
     "mobx": "^5.15.4",
@@ -71,6 +70,7 @@
     "react-dom": "^16.13.1",
     "react-window": "^1.8.5",
     "react-window-infinite-loader": "^1.0.5",
+    "stacktracey": "^2.0.14",
     "styled-components": "^5.1.0"
   }
 }
