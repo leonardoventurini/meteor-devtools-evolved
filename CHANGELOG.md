@@ -4,7 +4,17 @@ All notable changes to this project will be documented in this file.
 
 > The dates refer to when it was made available in the Chrome platform.
 
-## [1.3] - COMING SOON
+## [1.4] - COMING SOON
+
+## Changed
+
+- Make stack trace and bookmark buttons more accessible.
+
+## Fixed
+
+- Fix `error-stack-parser` global pollution interacting badly with some websites.
+
+## [1.3] - 2020-06-17
 
 ## Added
 
