@@ -71,6 +71,10 @@ const DDPLogWrapper = styled.div`
 
   .menu {
     visibility: hidden;
+
+    .bp3-icon + .bp3-icon {
+      margin-left: 8px;
+    }
   }
 
   &:hover .menu {
@@ -119,6 +123,8 @@ export const DDPLog: FunctionComponent<Props> = ({
         />
       </div>
 
+      <DDPLogMenu log={log} />
+
       <div className='size'>
         <Tag minimal>{log.sizePretty}</Tag>
       </div>
@@ -138,8 +144,6 @@ export const DDPLog: FunctionComponent<Props> = ({
           </Tooltip>
         </div>
       )}
-
-      <DDPLogMenu log={log} />
     </DDPLogWrapper>
   );
 };

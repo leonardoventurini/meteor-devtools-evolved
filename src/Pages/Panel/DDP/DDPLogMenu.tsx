@@ -11,29 +11,28 @@ interface Props {
 export const DDPLogMenu: FunctionComponent<Props> = ({ log }) => {
   const store = usePanelStore();
 
-  const [isBookmarked, setBookmarked] = useState(
-    store.bookmarkStore.bookmarkIds.includes(log.id),
-  );
-
-  const MenuElement = (
-    <Menu>
-      <Menu.Item
-        text='Stacktrace'
+  return (
+    <div className='menu'>
+      <Icon
         icon='eye-open'
         onClick={() => log.trace && store.setActiveStackTrace(log.trace)}
+        style={{ cursor: 'pointer' }}
       />
-      <Menu.Item
-        text={isBookmarked ? 'Remove' : 'Save'}
-        icon={isBookmarked ? 'star' : 'star-empty'}
+      <Icon
+        icon={
+          store.bookmarkStore.bookmarkIds.includes(log.id)
+            ? 'star'
+            : 'star-empty'
+        }
         onClick={() =>
           store.bookmarkStore.bookmarkIds.includes(log.id)
             ? store.bookmarkStore.remove(log)
             : store.bookmarkStore.add(log)
         }
+        style={{ cursor: 'pointer' }}
       />
       {log.parsedContent?.msg === 'method' && (
-        <Menu.Item
-          text='Replay'
+        <Icon
           icon='play'
           onClick={() => {
             store.setSelectedTabId(PanelPage.DDP);
@@ -43,22 +42,9 @@ export const DDPLogMenu: FunctionComponent<Props> = ({ log }) => {
               data: log.parsedContent,
             });
           }}
-        />
-      )}
-    </Menu>
-  );
-
-  return (
-    <div className='menu'>
-      <Popover content={MenuElement}>
-        <Icon
-          icon='more'
-          onClick={() => {
-            setBookmarked(store.bookmarkStore.bookmarkIds.includes(log.id));
-          }}
           style={{ cursor: 'pointer' }}
         />
-      </Popover>
+      )}
     </div>
   );
 };
