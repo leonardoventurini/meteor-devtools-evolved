@@ -34,7 +34,7 @@ $background-color: #30404d;
 
 html,
 body {
-  font-size: 12px !important;
+  font-size: 12px;
 }
 
 body {
@@ -55,5 +55,13 @@ pre {
 .mde-stack-trace {
   pre {
     margin-bottom: 4px;
+  }
+}
+
+.bp3-menu-item {
+  i.fas,
+  i.fab {
+    margin-top: 2px;
+    font-size: 16px;
   }
 }

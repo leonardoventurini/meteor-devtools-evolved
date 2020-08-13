@@ -1,10 +1,11 @@
 import React, { FunctionComponent, useState } from 'react';
 import styled from 'styled-components';
-import { IconName } from '@blueprintjs/core';
+import { IconName, Menu, MenuItem, Popover, Position } from '@blueprintjs/core';
 import classnames from 'classnames';
 import { Button } from './Button';
 import { lighten } from 'polished';
 import { NAVBAR_HEIGHT } from '@/Styles/Constants';
+import { useBreakpoints } from '@/Utils/Hooks/useBreakpoints';
 
 const backgroundColor = '#202b33';
 
@@ -52,7 +53,7 @@ export interface ITab {
 
 export interface IMenuItem {
   key: string;
-  content: JSX.Element | string;
+  content?: JSX.Element | string;
   icon: IconName | JSX.Element;
   shine?: boolean;
   handler: () => void;
@@ -66,6 +67,40 @@ interface Props {
 
 export const TabBar: FunctionComponent<Props> = ({ tabs, menu, onChange }) => {
   const [activeKey, setKey] = useState(tabs[0].key);
+
+  const { sm } = useBreakpoints();
+
+  const rightMenu = sm ? (
+    <Popover
+      content={
+        <Menu>
+          {menu?.map(item => (
+            <MenuItem
+              key={item.key}
+              icon={item.icon}
+              text={item.content}
+              onClick={item.handler}
+            />
+          ))}
+        </Menu>
+      }
+      position={Position.BOTTOM_LEFT}
+    >
+      <Button icon='menu' style={{ height: 28 }} />
+    </Popover>
+  ) : (
+    menu?.map(item => (
+      <Button
+        key={item.key}
+        className='menu-item'
+        onClick={item.handler}
+        icon={item.icon}
+        shine={item.shine}
+      >
+        {item.content}
+      </Button>
+    ))
+  );
 
   return (
     <TabBarWrapper>
@@ -87,20 +122,7 @@ export const TabBar: FunctionComponent<Props> = ({ tabs, menu, onChange }) => {
         </Button>
       ))}
 
-      <div className='right-menu'>
-        {menu &&
-          menu.map(item => (
-            <Button
-              key={item.key}
-              className='menu-item'
-              onClick={item.handler}
-              icon={item.icon}
-              shine={item.shine}
-            >
-              {item.content}
-            </Button>
-          ))}
-      </div>
+      <div className='right-menu'>{rightMenu}</div>
     </TabBarWrapper>
   );
 };

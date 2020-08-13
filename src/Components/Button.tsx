@@ -3,7 +3,6 @@ import styled from 'styled-components';
 import { Icon, IconName } from '@blueprintjs/core';
 import { centerItems } from '@/Styles/Mixins';
 import classnames from 'classnames';
-import { exists } from '@/Utils';
 import { isString } from 'lodash';
 
 const ButtonWrapper = styled.button`
@@ -119,7 +118,7 @@ export const Button: FunctionComponent<Props> = ({
         ) : (
           icon
         ))}
-      {exists(children) && <span>{children}</span>}
+      {children && <span>{children}</span>}
     </ButtonWrapper>
   );
 };
