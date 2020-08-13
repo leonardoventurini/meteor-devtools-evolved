@@ -9,6 +9,7 @@ All notable changes to this project will be documented in this file.
 ## Changed
 
 - Make stack trace and bookmark buttons more accessible.
+- Make right menu more responsive.
 
 ## Fixed
 
