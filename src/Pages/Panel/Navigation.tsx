@@ -54,7 +54,7 @@ export const Navigation: FunctionComponent = observer(() => {
     {
       key: 'community',
       content: 'Community',
-      icon: <i className='fab fa-slack fa-fw' />,
+      icon: 'chat',
       handler: () =>
         chrome.tabs.create({
           url:
@@ -65,7 +65,7 @@ export const Navigation: FunctionComponent = observer(() => {
     {
       key: 'about',
       content: 'About',
-      icon: <i className='fas fa-question-circle fa-fw' />,
+      icon: 'info-sign',
       handler: () => panelStore.setAboutVisible(true),
     },
   ];
@@ -81,7 +81,7 @@ export const Navigation: FunctionComponent = observer(() => {
           </Tag>
         </>
       ),
-      icon: <i className='fas fa-exclamation-circle fa-fw' />,
+      icon: 'issue',
       handler: () =>
         chrome.tabs.create({
           url: repositoryData.html_url.concat('/issues'),
