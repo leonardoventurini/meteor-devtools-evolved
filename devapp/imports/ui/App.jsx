@@ -1,7 +1,10 @@
-import React from 'react';
+import React, { useEffect, useRef, useState } from 'react';
 import { useTracker } from 'meteor/react-meteor-data';
 
 export const App = () => {
+  const [isSpamming, setSpamming] = useState(false);
+  const spammerRef = useRef(0);
+
   const r1to100 = useTracker(() => {
     const handle = Meteor.subscribe('random1to100');
     return !handle.ready();
@@ -52,9 +55,30 @@ export const App = () => {
     return !handle.ready();
   }, []);
 
+  useEffect(() => {
+    if (isSpamming && !spammerRef.current) {
+      spammerRef.current = setInterval(() => {
+        Meteor.call('echo', 'Echo');
+      }, 100);
+    } else {
+      if (spammerRef.current) {
+        clearInterval(spammerRef.current);
+        spammerRef.current = 0;
+      }
+    }
+  }, [isSpamming]);
+
   return (
     <div>
       <h1>Welcome to Meteor!</h1>
+
+      <button
+        onClick={() => {
+          setSpamming(!isSpamming);
+        }}
+      >
+        {isSpamming ? 'Spam [On]' : 'Spam [Off]'}
+      </button>
 
       <button
         onClick={() => {
