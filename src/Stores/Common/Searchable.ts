@@ -10,6 +10,9 @@ export abstract class Searchable<T> {
   bufferCallback: BufferCallback<T> = null;
   filterFunction: FilterFunction<T> = null;
 
+  lastPush: number = 0;
+  loadingTimeout: number = 0;
+
   buffer: T[] = [];
 
   @observable.shallow collection: T[] = [];
@@ -24,6 +27,8 @@ export abstract class Searchable<T> {
   }
 
   pushItem(log: T) {
+    this.lastPush = Date.now();
+
     if (!this.isLoading) {
       this.isLoading = true;
     }
@@ -31,22 +36,32 @@ export abstract class Searchable<T> {
     this.buffer.push(log);
 
     this.submitLogs();
+
+    this.setLoadingState(false);
   }
 
   submitLogs = debounce(
     action(() => {
-      if (this.bufferCallback) {
-        this.bufferCallback(this.buffer);
-      }
-
-      this.collection.unshift(...this.buffer.reverse());
-
-      this.buffer = [];
-
-      this.isLoading = false;
+      this._submitLogs();
     }),
-    200,
+    100,
+    {
+      maxWait: 1000,
+    },
   );
+
+  @action
+  _submitLogs() {
+    if (this.bufferCallback) {
+      this.bufferCallback(this.buffer);
+    }
+
+    console.log('submitted');
+
+    this.collection.unshift(...this.buffer.reverse());
+
+    this.buffer = [];
+  }
 
   setSearch = debounce(
     action((search: string) => {
@@ -55,6 +70,21 @@ export abstract class Searchable<T> {
     }),
     250,
   );
+
+  setLoadingState(isLoading: boolean) {
+    if (this.loadingTimeout) {
+      clearTimeout(this.loadingTimeout);
+      console.log('clear:timeout');
+    }
+
+    this.loadingTimeout = setTimeout(
+      action(() => {
+        this.isLoading = isLoading;
+        console.log('loading:false');
+      }),
+      250,
+    );
+  }
 
   @action
   setCurrentPage(currentPage: number) {
