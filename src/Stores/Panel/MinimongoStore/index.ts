@@ -1,5 +1,5 @@
 import { debounce, mapValues } from 'lodash';
-import { action, computed, observable, toJS } from 'mobx';
+import { action, computed, observable } from 'mobx';
 import { CollectionStore } from './CollectionStore';
 import { JSONUtils } from '@/Utils/JSONUtils';
 import { StringUtils } from '@/Utils/StringUtils';
@@ -37,11 +37,16 @@ export class MinimongoStore {
   }
 
   @computed
-  get currentSize() {
-    return this.activeCollectionDocuments.collection.reduce(
-      (acc: number, cur: IDocumentWrapper) => acc + cur._size,
+  get totalSize() {
+    return Object.entries(this.collectionMetadata).reduce(
+      (sum, [collectionName, metadata]) => sum + metadata.collectionSize,
       0,
     );
+  }
+
+  @action
+  getMetadata(collectionName: string) {
+    return this.collectionMetadata?.[collectionName];
   }
 
   @action
@@ -85,8 +90,6 @@ export class MinimongoStore {
     });
 
     this.computeCollectionSizes();
-
-    console.log(toJS(this.collectionMetadata));
 
     this.syncDocuments();
   }

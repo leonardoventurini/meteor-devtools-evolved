@@ -83,6 +83,12 @@ const ButtonWrapper = styled.button`
       transition: 1.5s;
     }
   }
+
+  span.subtitle {
+    font-size: 10px;
+    color: #ccc;
+    margin-left: auto;
+  }
 `;
 
 interface Props extends ButtonHTMLAttributes<HTMLButtonElement> {
@@ -90,6 +96,7 @@ interface Props extends ButtonHTMLAttributes<HTMLButtonElement> {
   intent?: 'warning';
   shine?: boolean;
   active?: boolean;
+  subtitle?: string;
 }
 
 export const Button: FunctionComponent<Props> = ({
@@ -99,6 +106,7 @@ export const Button: FunctionComponent<Props> = ({
   className,
   shine,
   active,
+  subtitle,
   ...rest
 }) => {
   const classes = classnames(
@@ -119,6 +127,9 @@ export const Button: FunctionComponent<Props> = ({
           icon
         ))}
       {(children || isNumber(children)) && <span>{children}</span>}
+      {(subtitle || isNumber(subtitle)) && (
+        <span className='subtitle'>{subtitle}</span>
+      )}
     </ButtonWrapper>
   );
 };

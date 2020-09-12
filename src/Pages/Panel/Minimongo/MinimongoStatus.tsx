@@ -5,7 +5,6 @@ import { TextInput } from '@/Components/TextInput';
 import { Field } from '@/Components/Field';
 import { observer } from 'mobx-react-lite';
 import { usePanelStore } from '@/Stores/PanelStore';
-import prettyBytes from 'pretty-bytes';
 
 export const MinimongoStatus: FunctionComponent = observer(() => {
   const { minimongoStore } = usePanelStore();
@@ -43,10 +42,6 @@ export const MinimongoStatus: FunctionComponent = observer(() => {
         <Field icon='eye-open'>
           {minimongoStore.activeCollectionDocuments.pagination.length}
         </Field>
-      </div>
-
-      <div className='right-group'>
-        <Field>{prettyBytes(minimongoStore.currentSize)}</Field>
       </div>
     </StatusBar>
   );

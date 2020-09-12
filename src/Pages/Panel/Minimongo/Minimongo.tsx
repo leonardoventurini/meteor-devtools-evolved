@@ -9,6 +9,7 @@ import { MinimongoStatus } from '@/Pages/Panel/Minimongo/MinimongoStatus';
 import { Button } from '@/Components/Button';
 import { truncate } from '@/Styles/Mixins';
 import { StringUtils } from '@/Utils/StringUtils';
+import prettyBytes from 'pretty-bytes';
 
 interface Props {
   isVisible: boolean;
@@ -93,6 +94,9 @@ export const Minimongo: FunctionComponent<Props> = observer(({ isVisible }) => {
                     key={key}
                     active={minimongoStore.activeCollection === key}
                     onClick={() => minimongoStore.setActiveCollection(key)}
+                    subtitle={
+                      minimongoStore.getMetadata(key)?.collectionSizePretty
+                    }
                   >
                     {StringUtils.truncate(key, 24).concat(
                       ` (${minimongoStore.collections[key]?.length ?? 0})`,
@@ -103,6 +107,7 @@ export const Minimongo: FunctionComponent<Props> = observer(({ isVisible }) => {
               <Button
                 active={!minimongoStore.activeCollection}
                 onClick={() => minimongoStore.setActiveCollection(null)}
+                subtitle={prettyBytes(minimongoStore.totalSize)}
               >
                 All Documents ({minimongoStore.totalDocuments})
               </Button>
