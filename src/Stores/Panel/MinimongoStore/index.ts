@@ -1,13 +1,15 @@
-import { debounce } from 'lodash';
-import { action, computed, observable } from 'mobx';
+import { debounce, mapValues } from 'lodash';
+import { action, computed, observable, toJS } from 'mobx';
 import { CollectionStore } from './CollectionStore';
 import { JSONUtils } from '@/Utils/JSONUtils';
 import { StringUtils } from '@/Utils/StringUtils';
+import prettyBytes from 'pretty-bytes';
 
 export class MinimongoStore {
   activeCollectionDocuments = new CollectionStore();
 
   @observable collections: MinimongoCollections = {};
+  @observable collectionMetadata: ICollectionMetadata = {};
   @observable activeCollection: string | null = null;
   @observable search: string = '';
   @observable collectionColorMap: Record<string, string> = {};
@@ -43,43 +45,48 @@ export class MinimongoStore {
   }
 
   @action
-  syncDocuments() {
-    if (this.activeCollection) {
-      this.activeCollectionDocuments.setCollection(
-        this.collections[this.activeCollection].map(document => {
-          const _string = JSONUtils.stringify(document);
-
-          return {
-            collectionName: this.activeCollection as string,
-            document,
-            _string,
-            _size: StringUtils.getSize(_string),
-          };
-        }),
+  computeCollectionSizes() {
+    Object.keys(this.collections).forEach(collectionName => {
+      const collectionSize = this.collections[collectionName].reduce(
+        (acc: number, cur: IDocumentWrapper) => acc + cur._size,
+        0,
       );
-    } else {
-      this.activeCollectionDocuments.setCollection(
-        Object.entries(this.collections).flatMap(
-          ([collectionName, documents]) => {
-            return documents.map(document => {
-              const _string = JSONUtils.stringify(document);
 
-              return {
-                collectionName,
-                document,
-                _string: JSONUtils.stringify(document),
-                _size: StringUtils.getSize(_string),
-              };
-            });
-          },
-        ),
-      );
-    }
+      this.collectionMetadata[collectionName] = {
+        collectionSize,
+        collectionSizePretty: prettyBytes(collectionSize),
+      };
+    });
   }
 
   @action
-  setCollections(collections: MinimongoCollections) {
-    this.collections = collections;
+  syncDocuments() {
+    if (this.activeCollection) {
+      return this.activeCollectionDocuments.setCollection(
+        this.collections[this.activeCollection],
+      );
+    }
+
+    this.activeCollectionDocuments.setCollection(
+      Object.entries(this.collections).flatMap(
+        ([collectionName, documents]) => {
+          return documents;
+        },
+      ),
+    );
+  }
+
+  @action
+  setCollections(collections: RawCollections) {
+    this.collections = mapValues(collections, (collection, collectionName) => {
+      return collection.map(document =>
+        MinimongoStore.wrapDocument(document, collectionName),
+      );
+    });
+
+    this.computeCollectionSizes();
+
+    console.log(toJS(this.collectionMetadata));
 
     this.syncDocuments();
   }
@@ -99,5 +106,19 @@ export class MinimongoStore {
   @action
   setNavigatorVisible(isVisible: boolean) {
     this.isNavigatorVisible = isVisible;
+  }
+
+  static wrapDocument(
+    document: IDocument,
+    collectionName: string,
+  ): IDocumentWrapper {
+    const _string = JSONUtils.stringify(document);
+
+    return {
+      collectionName,
+      document,
+      _string,
+      _size: StringUtils.getSize(_string),
+    };
   }
 }

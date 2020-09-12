@@ -119,7 +119,8 @@ interface IDocument extends Record<string, any> {
   _id: string;
 }
 
-type MinimongoCollections = Record<string, IDocument[]>;
+type MinimongoCollections = Record<string, IDocumentWrapper[]>;
+type RawCollections = Record<string, IDocument[]>;
 
 type ViewableObject = object | null;
 
@@ -250,4 +251,11 @@ interface IMeteorSubscription {
   params: any[];
   inactive: boolean;
   ready: boolean;
+}
+
+interface ICollectionMetadata {
+  [key: string]: {
+    collectionSize: number;
+    collectionSizePretty: string;
+  }
 }
