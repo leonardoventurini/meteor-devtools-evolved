@@ -4,12 +4,13 @@ All notable changes to this project will be documented in this file.
 
 > The dates refer to when it was made available in the Chrome platform.
 
-## [1.4] - COMING SOON
+## [1.4] - 2020-07-21
 
 ## Changed
 
 - Make stack trace and bookmark buttons more accessible.
 - Make right menu more responsive.
+- Estimated collection size is always visible for all collections.
 
 ## Fixed
 

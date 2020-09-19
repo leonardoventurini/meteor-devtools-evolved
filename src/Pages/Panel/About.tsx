@@ -37,16 +37,6 @@ export const About: FunctionComponent<Props> = ({
           </p>
 
           <p>
-            <a
-              href='https://github.com/leonardoventurini/meteor-devtools-evolved/blob/development/ROADMAP.md'
-              target='_blank'
-              rel='noopener noreferrer'
-            >
-              Roadmap
-            </a>
-          </p>
-
-          <p>
             The extension initializes with the page content, which means you
             have to refresh the page after installation, also it needs the
             devtools panel to be opened at least once in the current tab for any
