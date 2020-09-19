@@ -7,8 +7,6 @@ import { MinimongoContainer } from '@/Pages/Panel/Minimongo/MinimongoContainer';
 import styled from 'styled-components';
 import { MinimongoStatus } from '@/Pages/Panel/Minimongo/MinimongoStatus';
 import { Button } from '@/Components/Button';
-import { truncate } from '@/Styles/Mixins';
-import { StringUtils } from '@/Utils/StringUtils';
 import prettyBytes from 'pretty-bytes';
 
 interface Props {
@@ -44,10 +42,6 @@ const Wrapper = styled.div`
 
         &:hover:not(.active) {
           background: rgba(255, 255, 255, 0.1);
-        }
-
-        span {
-          ${truncate};
         }
       }
     }
@@ -94,22 +88,23 @@ export const Minimongo: FunctionComponent<Props> = observer(({ isVisible }) => {
                     key={key}
                     active={minimongoStore.activeCollection === key}
                     onClick={() => minimongoStore.setActiveCollection(key)}
-                    subtitle={
+                    subtitle={`${
                       minimongoStore.getMetadata(key)?.collectionSizePretty
-                    }
+                    } (${minimongoStore.collections[key]?.length ?? 0})`}
+                    title={key}
                   >
-                    {StringUtils.truncate(key, 24).concat(
-                      ` (${minimongoStore.collections[key]?.length ?? 0})`,
-                    )}
+                    {key}
                   </Button>
                 ))}
 
               <Button
                 active={!minimongoStore.activeCollection}
                 onClick={() => minimongoStore.setActiveCollection(null)}
-                subtitle={prettyBytes(minimongoStore.totalSize)}
+                subtitle={`${prettyBytes(minimongoStore.totalSize)} (${
+                  minimongoStore.totalDocuments
+                })`}
               >
-                All Documents ({minimongoStore.totalDocuments})
+                All Documents
               </Button>
             </nav>
           </div>

@@ -1,7 +1,7 @@
 import React, { ButtonHTMLAttributes, FunctionComponent } from 'react';
 import styled from 'styled-components';
 import { Icon, IconName } from '@blueprintjs/core';
-import { centerItems } from '@/Styles/Mixins';
+import { centerItems, truncate } from '@/Styles/Mixins';
 import classnames from 'classnames';
 import { isNumber, isString } from 'lodash';
 
@@ -84,10 +84,25 @@ const ButtonWrapper = styled.button`
     }
   }
 
-  span.subtitle {
-    font-size: 10px;
-    color: #ccc;
-    margin-left: auto;
+  .button-wrapper {
+    display: flex;
+    align-items: center;
+    width: 100%;
+
+    span.content {
+      flex-grow: 1;
+      ${truncate};
+      text-align: left;
+    }
+
+    span.subtitle {
+      flex-shrink: 0;
+      flex-grow: 1;
+      font-size: 10px;
+      color: #ccc;
+      margin-left: auto;
+      text-align: right;
+    }
   }
 `;
 
@@ -120,16 +135,20 @@ export const Button: FunctionComponent<Props> = ({
 
   return (
     <ButtonWrapper className={classes} {...rest}>
-      {icon &&
-        (isString(icon) ? (
-          <Icon icon={icon} className='icon' iconSize={12} />
-        ) : (
-          icon
-        ))}
-      {(children || isNumber(children)) && <span>{children}</span>}
-      {(subtitle || isNumber(subtitle)) && (
-        <span className='subtitle'>{subtitle}</span>
-      )}
+      <div className='button-wrapper'>
+        {icon &&
+          (isString(icon) ? (
+            <Icon icon={icon} className='icon' iconSize={12} />
+          ) : (
+            icon
+          ))}
+        {(children || isNumber(children)) && (
+          <span className='content'>{children}</span>
+        )}
+        {(subtitle || isNumber(subtitle)) && (
+          <span className='subtitle'>{subtitle}</span>
+        )}
+      </div>
     </ButtonWrapper>
   );
 };
