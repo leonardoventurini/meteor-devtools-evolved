@@ -16,8 +16,12 @@ interface Props {
 }
 
 const Wrapper = styled.div`
-  table {
+  overflow-y: auto !important;
+
+  table,
+  tbody {
     width: 100%;
+    max-width: 100%;
   }
 `
 
@@ -57,7 +61,7 @@ export const Subscriptions: FunctionComponent<Props> = observer(
                     <Tag minimal>{subscription.name}</Tag>
                   </td>
                   <td>
-                    <Tag minimal style={{ maxWidth: 160 }}>
+                    <Tag style={{ maxWidth: '50vw' }} minimal>
                       {JSON.stringify(subscription.params)}
                     </Tag>
                   </td>

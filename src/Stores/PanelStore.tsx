@@ -1,5 +1,5 @@
-import { action, observable, toJS } from 'mobx'
-import React, { createContext, FunctionComponent } from 'react'
+import { action, makeObservable, observable, toJS } from 'mobx'
+import React, { createContext, FunctionComponent, useContext } from 'react'
 import { BookmarkStore } from './Panel/BookmarkStore'
 import { DDPStore } from './Panel/DDPStore'
 import { MinimongoStore } from './Panel/MinimongoStore'
@@ -26,6 +26,8 @@ export class PanelStoreConstructor {
   settingStore = new SettingStore()
 
   constructor() {
+    makeObservable(this)
+
     this.bookmarkStore.sync().catch(console.error)
   }
 
@@ -79,7 +81,7 @@ export const PanelStoreProvider: FunctionComponent = ({ children }) => (
 )
 
 export const usePanelStore = () => {
-  const store = React.useContext(PanelStoreContext)
+  const store = useContext(PanelStoreContext)
 
   if (!store) {
     throw new Error('Must be used within a provider.')

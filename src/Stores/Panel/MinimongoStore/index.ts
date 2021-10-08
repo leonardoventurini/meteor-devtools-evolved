@@ -1,5 +1,5 @@
 import { debounce, mapValues } from 'lodash'
-import { action, computed, observable } from 'mobx'
+import { action, computed, makeObservable, observable } from 'mobx'
 import { CollectionStore } from './CollectionStore'
 import { JSONUtils } from '@/Utils/JSONUtils'
 import { StringUtils } from '@/Utils/StringUtils'
@@ -14,6 +14,10 @@ export class MinimongoStore {
   @observable search: string = ''
   @observable collectionColorMap: Record<string, string> = {}
   @observable isNavigatorVisible = false
+
+  constructor() {
+    makeObservable(this)
+  }
 
   @computed
   get totalDocuments() {

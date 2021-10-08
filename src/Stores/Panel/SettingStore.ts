@@ -1,4 +1,4 @@
-import { action, observable, reaction, toJS } from 'mobx'
+import { action, makeObservable, observable, reaction, toJS } from 'mobx'
 import { PanelDatabase } from '@/Database/PanelDatabase'
 import { assign, compact, flatten, omit } from 'lodash'
 import { FilterCriteria } from '@/Pages/Panel/DDP/FilterConstants'
@@ -19,6 +19,8 @@ export class SettingStore implements ISettings {
   }
 
   constructor() {
+    makeObservable(this)
+
     PanelDatabase.getSettings().then(settings => {
       assign(this, settings)
 

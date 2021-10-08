@@ -1,9 +1,14 @@
 import { PanelDatabase } from '@/Database/PanelDatabase'
-import { action, computed, observable } from 'mobx'
+import { action, computed, makeObservable, observable } from 'mobx'
 import { Searchable } from '../Common/Searchable'
 import { PanelStore } from '@/Stores/PanelStore'
 
 export class BookmarkStore extends Searchable<Bookmark> {
+  constructor() {
+    super()
+    makeObservable(this)
+  }
+
   @observable.shallow bookmarkIds: (string | undefined)[] = []
 
   @action

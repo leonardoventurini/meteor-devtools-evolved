@@ -1,5 +1,5 @@
 import { debounce } from 'lodash'
-import { action, computed, observable } from 'mobx'
+import { action, computed, makeObservable, observable } from 'mobx'
 import { Searchable } from '../Common/Searchable'
 import { PanelStore } from '@/Stores/PanelStore'
 import { generatePreview } from '@/Utils/MessageFormatter'
@@ -9,6 +9,11 @@ export class DDPStore extends Searchable<DDPLog> {
   @observable outboundBytes: number = 0
 
   @observable newLogs: string[] = []
+
+  constructor() {
+    super()
+    makeObservable(this)
+  }
 
   bufferCallback = (buffer: DDPLog[]) => {
     this.buffer = buffer.map((log: DDPLog) => ({

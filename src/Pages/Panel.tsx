@@ -45,15 +45,12 @@ const Layout = styled.div`
     .mde-content {
       height: calc(100vh - ${NAVBAR_HEIGHT + STATUS_HEIGHT}px);
       padding: 0;
-      overflow-y: auto;
-      overflow-x: hidden;
+      overflow: hidden;
     }
   }
 `
 
-interface Props {}
-
-const PanelObserverComponent: FunctionComponent<Props> = observer(() => {
+const PanelObserverComponent: FunctionComponent = observer(() => {
   const store = usePanelStore()
   const panelRef = useRef<HTMLDivElement>(null)
 

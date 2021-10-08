@@ -7,11 +7,11 @@ import {
   MenuItem,
   NonIdealState,
 } from '@blueprintjs/core'
-import { observer } from 'mobx-react-lite'
 import React, { FormEvent, FunctionComponent } from 'react'
 import { usePanelStore } from '@/Stores/PanelStore'
+import { observer } from 'mobx-react-lite'
 
-export const MinimongoNavigator: FunctionComponent = observer(({}) => {
+export const MinimongoNavigator: FunctionComponent = observer(() => {
   const { minimongoStore } = usePanelStore()
 
   const setActiveCollection = (collectionName: string | null) => {
