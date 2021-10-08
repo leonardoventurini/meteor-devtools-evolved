@@ -13,7 +13,6 @@ const Wrapper = styled.div`
   flex-direction: row;
   height: ${NAVBAR_HEIGHT}px;
   width: 100%;
-  border-top: 1px solid ${lighten(0.1, backgroundColor)};
 
   background-color: ${backgroundColor};
 

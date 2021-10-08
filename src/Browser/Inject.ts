@@ -1,9 +1,6 @@
 import StackTracey from 'stacktracey'
 import { DDPInjector } from '@/Injectors/DDPInjector'
-import {
-  MinimongoInjector,
-  updateCollections,
-} from '@/Injectors/MinimongoInjector'
+import { MinimongoInjector, updateCollections } from '@/Injectors/MinimongoInjector'
 import { MeteorAdapter } from '@/Injectors/MeteorAdapter'
 
 const isFrame = location !== parent.location
@@ -56,7 +53,7 @@ export const sendLogMessage = (message: DDPLog) => {
     host: location.host,
   })
 
-  if (!/"msg":"(ping|pong)"/.test(message.content)) updateCollections()
+  if (message.content !== '{"msg":"ping"}' && message.content !== '{"msg":"pong"}') updateCollections()
 }
 
 type MessageHandler = (message: Message<any>) => void
@@ -67,7 +64,9 @@ type Registration = {
 
 interface IRegistry {
   subscriptions: Registration[]
+
   register(eventType: EventType, handler: MessageHandler): void
+
   run(message: Message<any>): void
 }
 
