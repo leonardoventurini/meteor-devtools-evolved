@@ -1,16 +1,16 @@
-import { MinimongoNavigator } from '@/Pages/Panel/Minimongo/MinimongoNavigator';
-import { usePanelStore } from '@/Stores/PanelStore';
-import { Hideable } from '@/Utils/Hideable';
-import { observer } from 'mobx-react-lite';
-import React, { FunctionComponent } from 'react';
-import { MinimongoContainer } from '@/Pages/Panel/Minimongo/MinimongoContainer';
-import styled from 'styled-components';
-import { MinimongoStatus } from '@/Pages/Panel/Minimongo/MinimongoStatus';
-import { Button } from '@/Components/Button';
-import prettyBytes from 'pretty-bytes';
+import { MinimongoNavigator } from '@/Pages/Panel/Minimongo/MinimongoNavigator'
+import { usePanelStore } from '@/Stores/PanelStore'
+import { Hideable } from '@/Utils/Hideable'
+import { observer } from 'mobx-react-lite'
+import React, { FunctionComponent } from 'react'
+import { MinimongoContainer } from '@/Pages/Panel/Minimongo/MinimongoContainer'
+import styled from 'styled-components'
+import { MinimongoStatus } from '@/Pages/Panel/Minimongo/MinimongoStatus'
+import { Button } from '@/Components/Button'
+import prettyBytes from 'pretty-bytes'
 
 interface Props {
-  isVisible: boolean;
+  isVisible: boolean
 }
 
 const Wrapper = styled.div`
@@ -63,17 +63,17 @@ const Wrapper = styled.div`
       }
     }
   }
-`;
+`
 
 export const Minimongo: FunctionComponent<Props> = observer(({ isVisible }) => {
-  const { minimongoStore } = usePanelStore();
+  const { minimongoStore } = usePanelStore()
 
   const isActiveCollectionMissing =
     minimongoStore.activeCollection &&
-    !(minimongoStore.activeCollection in minimongoStore.collections);
+    !(minimongoStore.activeCollection in minimongoStore.collections)
 
   if (isActiveCollectionMissing) {
-    minimongoStore.setActiveCollection(null);
+    minimongoStore.setActiveCollection(null)
   }
 
   return (
@@ -116,5 +116,5 @@ export const Minimongo: FunctionComponent<Props> = observer(({ isVisible }) => {
 
       <MinimongoNavigator />
     </Hideable>
-  );
-});
+  )
+})

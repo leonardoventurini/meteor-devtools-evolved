@@ -1,9 +1,9 @@
-import React, { ButtonHTMLAttributes, FunctionComponent } from 'react';
-import styled from 'styled-components';
-import { Icon, IconName } from '@blueprintjs/core';
-import { centerItems, truncate } from '@/Styles/Mixins';
-import classnames from 'classnames';
-import { isNumber, isString } from 'lodash';
+import React, { ButtonHTMLAttributes, FunctionComponent } from 'react'
+import styled from 'styled-components'
+import { Icon, IconName } from '@blueprintjs/core'
+import { centerItems, truncate } from '@/Styles/Mixins'
+import classnames from 'classnames'
+import { isNumber, isString } from 'lodash'
 
 const ButtonWrapper = styled.button`
   ${centerItems};
@@ -104,14 +104,14 @@ const ButtonWrapper = styled.button`
       text-align: right;
     }
   }
-`;
+`
 
 interface Props extends ButtonHTMLAttributes<HTMLButtonElement> {
-  icon?: IconName | JSX.Element;
-  intent?: 'warning';
-  shine?: boolean;
-  active?: boolean;
-  subtitle?: string;
+  icon?: IconName | JSX.Element
+  intent?: 'warning'
+  shine?: boolean
+  active?: boolean
+  subtitle?: string
 }
 
 export const Button: FunctionComponent<Props> = ({
@@ -131,7 +131,7 @@ export const Button: FunctionComponent<Props> = ({
       warning: intent === 'warning',
     },
     className,
-  );
+  )
 
   return (
     <ButtonWrapper className={classes} {...rest}>
@@ -150,5 +150,5 @@ export const Button: FunctionComponent<Props> = ({
         )}
       </div>
     </ButtonWrapper>
-  );
-};
+  )
+}

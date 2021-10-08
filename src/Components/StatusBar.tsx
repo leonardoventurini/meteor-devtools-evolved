@@ -1,10 +1,10 @@
-import React, { FunctionComponent } from 'react';
-import styled from 'styled-components';
-import { NAVBAR_HEIGHT } from '@/Styles/Constants';
-import { lighten } from 'polished';
-import { centerItems } from '@/Styles/Mixins';
+import React, { FunctionComponent } from 'react'
+import styled from 'styled-components'
+import { NAVBAR_HEIGHT } from '@/Styles/Constants'
+import { lighten } from 'polished'
+import { centerItems } from '@/Styles/Mixins'
 
-const backgroundColor = '#202b33';
+const backgroundColor = '#202b33'
 
 const Wrapper = styled.div`
   user-select: none;
@@ -38,8 +38,8 @@ const Wrapper = styled.div`
   & > * + * {
     margin-left: 8px;
   }
-`;
+`
 
 export const StatusBar: FunctionComponent = ({ children }) => (
   <Wrapper>{children}</Wrapper>
-);
+)

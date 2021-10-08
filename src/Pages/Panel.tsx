@@ -1,24 +1,24 @@
-import { PanelStoreProvider, usePanelStore } from '@/Stores/PanelStore';
-import { observer } from 'mobx-react-lite';
-import React, { FunctionComponent, useRef } from 'react';
-import { Bookmarks } from './Panel/Bookmarks/Bookmarks';
-import { DDP } from './Panel/DDP/DDP';
-import { DrawerJSON } from './Panel/DrawerJSON';
-import { DrawerStackTrace } from './Panel/DrawerStackTrace';
-import { Minimongo } from './Panel/Minimongo/Minimongo';
-import { Navigation } from './Panel/Navigation';
-import { About } from '@/Pages/Panel/About';
-import { Bridge } from '@/Bridge';
-import { PanelPage } from '@/Constants';
-import { Subscriptions } from '@/Pages/Panel/Subscriptions/Subscriptions';
-import styled from 'styled-components';
+import { PanelStoreProvider, usePanelStore } from '@/Stores/PanelStore'
+import { observer } from 'mobx-react-lite'
+import React, { FunctionComponent, useRef } from 'react'
+import { Bookmarks } from './Panel/Bookmarks/Bookmarks'
+import { DDP } from './Panel/DDP/DDP'
+import { DrawerJSON } from './Panel/DrawerJSON'
+import { DrawerStackTrace } from './Panel/DrawerStackTrace'
+import { Minimongo } from './Panel/Minimongo/Minimongo'
+import { Navigation } from './Panel/Navigation'
+import { About } from '@/Pages/Panel/About'
+import { Bridge } from '@/Bridge'
+import { PanelPage } from '@/Constants'
+import { Subscriptions } from '@/Pages/Panel/Subscriptions/Subscriptions'
+import styled from 'styled-components'
 import {
   MIN_LAYOUT_WIDTH,
   NAVBAR_HEIGHT,
   STATUS_HEIGHT,
-} from '@/Styles/Constants';
+} from '@/Styles/Constants'
 
-Bridge.init();
+Bridge.init()
 
 const Layout = styled.div`
   display: flex;
@@ -49,13 +49,13 @@ const Layout = styled.div`
       overflow-x: hidden;
     }
   }
-`;
+`
 
 interface Props {}
 
 const PanelObserverComponent: FunctionComponent<Props> = observer(() => {
-  const store = usePanelStore();
-  const panelRef = useRef<HTMLDivElement>(null);
+  const store = usePanelStore()
+  const panelRef = useRef<HTMLDivElement>(null)
 
   return (
     <Layout>
@@ -63,7 +63,7 @@ const PanelObserverComponent: FunctionComponent<Props> = observer(() => {
         title={store.activeObjectTitle}
         viewableObject={store.activeObject}
         onClose={() => {
-          store.setActiveObject(null, null);
+          store.setActiveObject(null, null)
         }}
       />
 
@@ -88,11 +88,11 @@ const PanelObserverComponent: FunctionComponent<Props> = observer(() => {
         />
       </div>
     </Layout>
-  );
-});
+  )
+})
 
 export const Panel = () => (
   <PanelStoreProvider>
     <PanelObserverComponent />
   </PanelStoreProvider>
-);
+)

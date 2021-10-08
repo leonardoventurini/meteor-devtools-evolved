@@ -1,10 +1,10 @@
-import React, { FunctionComponent } from 'react';
-import { IconName, IPopoverProps, Popover } from '@blueprintjs/core';
-import { Button } from '@/Components/Button';
-import styled from 'styled-components';
+import React, { FunctionComponent } from 'react'
+import { IconName, IPopoverProps, Popover } from '@blueprintjs/core'
+import { Button } from '@/Components/Button'
+import styled from 'styled-components'
 
 interface WrapperProps {
-  height: number;
+  height: number
 }
 
 const Wrapper = styled.span`
@@ -12,11 +12,11 @@ const Wrapper = styled.span`
     display: inline-block;
     height: ${(props: WrapperProps) => props.height}px;
   }
-`;
+`
 
 interface Props extends IPopoverProps {
-  icon: IconName;
-  height?: number;
+  icon: IconName
+  height?: number
 }
 
 export const PopoverButton: FunctionComponent<Props> = ({
@@ -32,4 +32,4 @@ export const PopoverButton: FunctionComponent<Props> = ({
       </Button>
     </Popover>
   </Wrapper>
-);
+)

@@ -1,32 +1,32 @@
-import { usePanelStore } from '@/Stores/PanelStore';
-import { Hideable } from '@/Utils/Hideable';
-import { observer } from 'mobx-react-lite';
-import React, { FormEvent, FunctionComponent } from 'react';
-import { HTMLTable, Tag } from '@blueprintjs/core';
-import styled from 'styled-components';
-import { sortBy } from 'lodash';
-import { useInterval } from '@/Utils/Hooks/useInterval';
-import { syncSubscriptions } from '@/Bridge';
-import { StatusBar } from '@/Components/StatusBar';
-import { Field } from '@/Components/Field';
-import { TextInput } from '@/Components/TextInput';
+import { usePanelStore } from '@/Stores/PanelStore'
+import { Hideable } from '@/Utils/Hideable'
+import { observer } from 'mobx-react-lite'
+import React, { FormEvent, FunctionComponent } from 'react'
+import { HTMLTable, Tag } from '@blueprintjs/core'
+import styled from 'styled-components'
+import { sortBy } from 'lodash'
+import { useInterval } from '@/Utils/Hooks/useInterval'
+import { syncSubscriptions } from '@/Bridge'
+import { StatusBar } from '@/Components/StatusBar'
+import { Field } from '@/Components/Field'
+import { TextInput } from '@/Components/TextInput'
 
 interface Props {
-  isVisible: boolean;
+  isVisible: boolean
 }
 
 const Wrapper = styled.div`
   table {
     width: 100%;
   }
-`;
+`
 
 export const Subscriptions: FunctionComponent<Props> = observer(
   ({ isVisible }) => {
-    useInterval(() => isVisible && syncSubscriptions(), 5000);
+    useInterval(() => isVisible && syncSubscriptions(), 5000)
 
-    const panelStore = usePanelStore();
-    const subscriptions = sortBy(panelStore.subscriptionStore.filtered, 'name');
+    const panelStore = usePanelStore()
+    const subscriptions = sortBy(panelStore.subscriptionStore.filtered, 'name')
 
     return (
       <Hideable isVisible={isVisible}>
@@ -99,6 +99,6 @@ export const Subscriptions: FunctionComponent<Props> = observer(
           </div>
         </StatusBar>
       </Hideable>
-    );
+    )
   },
-);
+)

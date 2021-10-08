@@ -1,6 +1,6 @@
-const base = require('./base');
+const base = require('./base')
 
-const TerserPlugin = require('terser-webpack-plugin');
+const TerserPlugin = require('terser-webpack-plugin')
 
 module.exports = base({
   mode: 'production',
@@ -9,4 +9,4 @@ module.exports = base({
     minimize: true,
     minimizer: [new TerserPlugin()],
   },
-});
+})

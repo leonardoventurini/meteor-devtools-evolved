@@ -1,11 +1,11 @@
-import { Switch } from '@blueprintjs/core';
-import { observer } from 'mobx-react-lite';
-import React, { FormEvent, FunctionComponent } from 'react';
-import { FilterCriteria } from './FilterConstants';
+import { Switch } from '@blueprintjs/core'
+import { observer } from 'mobx-react-lite'
+import React, { FormEvent, FunctionComponent } from 'react'
+import { FilterCriteria } from './FilterConstants'
 
 interface Props {
-  activeFilters: FilterTypeMap<boolean>;
-  setFilter: (filter: FilterType, isEnabled: boolean) => void;
+  activeFilters: FilterTypeMap<boolean>
+  setFilter: (filter: FilterType, isEnabled: boolean) => void
 }
 
 export const DDPFilterMenu: FunctionComponent<Props> = observer(
@@ -19,8 +19,8 @@ export const DDPFilterMenu: FunctionComponent<Props> = observer(
           setFilter(filter as FilterType, event.currentTarget.checked)
         }
       />
-    ));
+    ))
 
-    return <div style={{ padding: 10 }}>{filters}</div>;
+    return <div style={{ padding: 10 }}>{filters}</div>
   },
-);
+)

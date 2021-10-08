@@ -1,13 +1,13 @@
-import React, { FunctionComponent, useState } from 'react';
-import styled from 'styled-components';
-import { IconName, Menu, MenuItem, Popover, Position } from '@blueprintjs/core';
-import classnames from 'classnames';
-import { Button } from './Button';
-import { lighten } from 'polished';
-import { NAVBAR_HEIGHT } from '@/Styles/Constants';
-import { useBreakpoints } from '@/Utils/Hooks/useBreakpoints';
+import React, { FunctionComponent, useState } from 'react'
+import styled from 'styled-components'
+import { IconName, Menu, MenuItem, Popover, Position } from '@blueprintjs/core'
+import classnames from 'classnames'
+import { Button } from './Button'
+import { lighten } from 'polished'
+import { NAVBAR_HEIGHT } from '@/Styles/Constants'
+import { useBreakpoints } from '@/Utils/Hooks/useBreakpoints'
 
-const backgroundColor = '#202b33';
+const backgroundColor = '#202b33'
 
 const TabBarWrapper = styled.div`
   user-select: none;
@@ -41,34 +41,34 @@ const TabBarWrapper = styled.div`
       }
     }
   }
-`;
+`
 
 export interface ITab {
-  key: string;
-  content: JSX.Element | string;
-  icon: IconName;
-  shine?: boolean;
-  handler?: () => void;
+  key: string
+  content: JSX.Element | string
+  icon: IconName
+  shine?: boolean
+  handler?: () => void
 }
 
 export interface IMenuItem {
-  key: string;
-  content?: JSX.Element | string;
-  icon: IconName | JSX.Element;
-  shine?: boolean;
-  handler: () => void;
+  key: string
+  content?: JSX.Element | string
+  icon: IconName | JSX.Element
+  shine?: boolean
+  handler: () => void
 }
 
 interface Props {
-  tabs: ITab[];
-  menu?: IMenuItem[];
-  onChange?: (key: string) => void;
+  tabs: ITab[]
+  menu?: IMenuItem[]
+  onChange?: (key: string) => void
 }
 
 export const TabBar: FunctionComponent<Props> = ({ tabs, menu, onChange }) => {
-  const [activeKey, setKey] = useState(tabs[0].key);
+  const [activeKey, setKey] = useState(tabs[0].key)
 
-  const { sm } = useBreakpoints();
+  const { sm } = useBreakpoints()
 
   const rightMenu = sm ? (
     <Popover
@@ -100,7 +100,7 @@ export const TabBar: FunctionComponent<Props> = ({ tabs, menu, onChange }) => {
         {item.content}
       </Button>
     ))
-  );
+  )
 
   return (
     <TabBarWrapper>
@@ -108,9 +108,9 @@ export const TabBar: FunctionComponent<Props> = ({ tabs, menu, onChange }) => {
         <Button
           key={tab.key}
           onClick={() => {
-            setKey(tab.key);
-            onChange && onChange(tab.key);
-            tab.handler && tab.handler();
+            setKey(tab.key)
+            onChange && onChange(tab.key)
+            tab.handler && tab.handler()
           }}
           className={classnames('tab', {
             active: activeKey === tab.key,
@@ -124,5 +124,5 @@ export const TabBar: FunctionComponent<Props> = ({ tabs, menu, onChange }) => {
 
       <div className='right-menu'>{rightMenu}</div>
     </TabBarWrapper>
-  );
-};
+  )
+}

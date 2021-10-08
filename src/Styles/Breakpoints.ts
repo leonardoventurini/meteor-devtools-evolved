@@ -1,7 +1,7 @@
-import { css, FlattenSimpleInterpolation } from 'styled-components';
-import { mapValues } from 'lodash';
+import { css, FlattenSimpleInterpolation } from 'styled-components'
+import { mapValues } from 'lodash'
 
-type BreakpointLabel = 'xs' | 'sm' | 'md' | 'lg' | 'xl';
+type BreakpointLabel = 'xs' | 'sm' | 'md' | 'lg' | 'xl'
 
 export const Breakpoints: Record<BreakpointLabel, number> = {
   xs: 0,
@@ -9,7 +9,7 @@ export const Breakpoints: Record<BreakpointLabel, number> = {
   md: 960,
   lg: 1280,
   xl: 1920,
-};
+}
 
 export const respond = mapValues(
   Breakpoints,
@@ -19,4 +19,4 @@ export const respond = mapValues(
         ${content};
       }
     `,
-);
+)

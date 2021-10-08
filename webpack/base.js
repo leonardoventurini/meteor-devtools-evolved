@@ -1,13 +1,13 @@
-const path = require('path');
-const merge = require('webpack-merge');
-const { DefinePlugin } = require('webpack');
-const { getTypeScriptAliases } = require('./utils');
+const path = require('path')
+const { merge } = require('webpack-merge')
+const { DefinePlugin } = require('webpack')
+const { getTypeScriptAliases } = require('./utils')
 
-const src = path.join(__dirname, '../src/');
+const src = path.join(__dirname, '../src/')
 
-const { CleanWebpackPlugin } = require('clean-webpack-plugin');
+const { CleanWebpackPlugin } = require('clean-webpack-plugin')
 
-const aliases = getTypeScriptAliases();
+const aliases = getTypeScriptAliases()
 
 module.exports = override =>
   merge(
@@ -21,7 +21,7 @@ module.exports = override =>
       },
 
       output: {
-        filename: '[name].js',
+        chunkFilename: '[name].js',
         path: path.join(__dirname, '../chrome/build/'),
         publicPath: '/build/',
       },
@@ -43,17 +43,17 @@ module.exports = override =>
           },
           {
             test: /\.js/,
-            loader: 'babel-loader',
+            use: 'babel-loader',
             include: src,
           },
-          { test: /\.tsx?$/, loader: 'ts-loader' },
+          { test: /\.tsx?$/, use: 'ts-loader' },
           {
             test: /\.css$/,
-            loader: 'style-loader!css-loader!postcss-loader',
+            use: ['style-loader', 'css-loader', 'postcss-loader'],
           },
           {
             test: /\.scss$/,
-            loaders: ['style-loader', 'css-loader', 'sass-loader'],
+            use: ['style-loader', 'css-loader', 'sass-loader'],
           },
           {
             test: /\.(woff(2)?|ttf|eot|svg)(\?v=\d+\.\d+\.\d+)?$/,
@@ -107,4 +107,4 @@ module.exports = override =>
       },
     },
     override,
-  );
+  )

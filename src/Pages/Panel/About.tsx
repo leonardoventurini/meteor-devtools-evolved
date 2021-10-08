@@ -1,9 +1,9 @@
-import { Classes, Drawer } from '@blueprintjs/core';
-import React, { FunctionComponent } from 'react';
+import { Classes, Drawer } from '@blueprintjs/core'
+import React, { FunctionComponent } from 'react'
 
 interface Props {
-  isAboutVisible: boolean;
-  onClose(): void;
+  isAboutVisible: boolean
+  onClose(): void
 }
 
 export const About: FunctionComponent<Props> = ({
@@ -128,5 +128,5 @@ export const About: FunctionComponent<Props> = ({
         </div>
       </div>
     </Drawer>
-  );
-};
+  )
+}

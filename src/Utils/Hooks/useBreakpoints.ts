@@ -1,12 +1,12 @@
-import { useRef } from 'react';
-import { useDimensions } from '@/Utils/Hooks/useDimensions';
+import { useRef } from 'react'
+import { useDimensions } from '@/Utils/Hooks/useDimensions'
 
-type Breakpoint = 'xs' | 'sm' | 'md' | 'lg' | 'xl';
+type Breakpoint = 'xs' | 'sm' | 'md' | 'lg' | 'xl'
 
 export const useBreakpoints = () => {
-  const ref = useRef(document.body);
+  const ref = useRef(document.body)
 
-  const { width } = useDimensions(ref, []);
+  const { width } = useDimensions(ref, [])
 
   const breakpoints: { [key in Breakpoint]: boolean } = {
     xs: width <= 360,
@@ -14,7 +14,7 @@ export const useBreakpoints = () => {
     md: width <= 1280,
     lg: width <= 1920,
     xl: width > 1920,
-  };
+  }
 
-  return breakpoints;
-};
+  return breakpoints
+}

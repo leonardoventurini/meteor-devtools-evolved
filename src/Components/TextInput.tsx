@@ -1,7 +1,7 @@
-import React, { FunctionComponent, InputHTMLAttributes } from 'react';
-import styled from 'styled-components';
-import { Icon, IconName } from '@blueprintjs/core';
-import { centerItems } from '@/Styles/Mixins';
+import React, { FunctionComponent, InputHTMLAttributes } from 'react'
+import styled from 'styled-components'
+import { Icon, IconName } from '@blueprintjs/core'
+import { centerItems } from '@/Styles/Mixins'
 
 const Wrapper = styled.div`
   ${centerItems};
@@ -24,10 +24,10 @@ const Wrapper = styled.div`
       color: #aaa;
     }
   }
-`;
+`
 
 interface Props extends InputHTMLAttributes<HTMLInputElement> {
-  icon?: IconName;
+  icon?: IconName
 }
 
 export const TextInput: FunctionComponent<Props> = ({ icon, ...rest }) => (
@@ -35,4 +35,4 @@ export const TextInput: FunctionComponent<Props> = ({ icon, ...rest }) => (
     <Icon icon={icon} iconSize={12} className='icon' />
     <input type='text' {...rest} />
   </Wrapper>
-);
+)

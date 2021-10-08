@@ -6,25 +6,25 @@ import {
   Menu,
   MenuItem,
   NonIdealState,
-} from '@blueprintjs/core';
-import { observer } from 'mobx-react-lite';
-import React, { FormEvent, FunctionComponent } from 'react';
-import { usePanelStore } from '@/Stores/PanelStore';
+} from '@blueprintjs/core'
+import { observer } from 'mobx-react-lite'
+import React, { FormEvent, FunctionComponent } from 'react'
+import { usePanelStore } from '@/Stores/PanelStore'
 
 export const MinimongoNavigator: FunctionComponent = observer(({}) => {
-  const { minimongoStore } = usePanelStore();
+  const { minimongoStore } = usePanelStore()
 
   const setActiveCollection = (collectionName: string | null) => {
-    minimongoStore.setActiveCollection(collectionName);
-    minimongoStore.setNavigatorVisible(false);
-  };
+    minimongoStore.setActiveCollection(collectionName)
+    minimongoStore.setNavigatorVisible(false)
+  }
 
   return (
     <Dialog
       icon='database'
       onClose={() => {
-        minimongoStore.setNavigatorVisible(false);
-        minimongoStore.setSearch('');
+        minimongoStore.setNavigatorVisible(false)
+        minimongoStore.setSearch('')
       }}
       title='Collections'
       isOpen={minimongoStore.isNavigatorVisible}
@@ -76,5 +76,5 @@ export const MinimongoNavigator: FunctionComponent = observer(({}) => {
         </div>
       </div>
     </Dialog>
-  );
-});
+  )
+})

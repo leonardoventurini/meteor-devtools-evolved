@@ -1,17 +1,17 @@
-import { usePanelStore } from '@/Stores/PanelStore';
-import { Hideable } from '@/Utils/Hideable';
-import { observer } from 'mobx-react-lite';
-import React, { FunctionComponent } from 'react';
-import { DDPStatus } from './DDPStatus';
-import { DDPContainer } from '@/Pages/Panel/DDP/DDPContainer';
+import { usePanelStore } from '@/Stores/PanelStore'
+import { Hideable } from '@/Utils/Hideable'
+import { observer } from 'mobx-react-lite'
+import React, { FunctionComponent } from 'react'
+import { DDPStatus } from './DDPStatus'
+import { DDPContainer } from '@/Pages/Panel/DDP/DDPContainer'
 
 interface Props {
-  isVisible: boolean;
+  isVisible: boolean
 }
 
 export const DDP: FunctionComponent<Props> = observer(({ isVisible }) => {
-  const store = usePanelStore();
-  const ddpStore = store.ddpStore;
+  const store = usePanelStore()
+  const ddpStore = store.ddpStore
 
   return (
     <Hideable isVisible={isVisible}>
@@ -19,5 +19,5 @@ export const DDP: FunctionComponent<Props> = observer(({ isVisible }) => {
 
       <DDPStatus />
     </Hideable>
-  );
-});
+  )
+})

@@ -1,10 +1,10 @@
-import { Classes, Drawer } from '@blueprintjs/core';
-import classnames from 'classnames';
-import React, { FunctionComponent } from 'react';
+import { Classes, Drawer } from '@blueprintjs/core'
+import classnames from 'classnames'
+import React, { FunctionComponent } from 'react'
 
 interface Props {
-  activeStackTrace: StackTrace[] | null;
-  onClose(): void;
+  activeStackTrace: StackTrace[] | null
+  onClose(): void
 }
 
 export const DrawerStackTrace: FunctionComponent<Props> = ({
@@ -31,7 +31,7 @@ export const DrawerStackTrace: FunctionComponent<Props> = ({
                 {stack?.line && stack?.line}
               </span>
             </div>
-          );
+          )
 
           return (
             <pre key={index}>
@@ -47,9 +47,9 @@ export const DrawerStackTrace: FunctionComponent<Props> = ({
                 text
               )}
             </pre>
-          );
+          )
         })}
       </div>
     </div>
   </Drawer>
-);
+)

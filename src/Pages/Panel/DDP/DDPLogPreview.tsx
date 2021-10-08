@@ -1,6 +1,6 @@
-import { usePanelStore } from '@/Stores/PanelStore';
-import { Icon, IconName, Tag, Tooltip } from '@blueprintjs/core';
-import React, { FunctionComponent } from 'react';
+import { usePanelStore } from '@/Stores/PanelStore'
+import { Icon, IconName, Tag, Tooltip } from '@blueprintjs/core'
+import React, { FunctionComponent } from 'react'
 
 const getTag = (icon: IconName, title: string) => (
   <Tooltip
@@ -17,31 +17,31 @@ const getTag = (icon: IconName, title: string) => (
       iconSize={12}
     />
   </Tooltip>
-);
+)
 
 const getTypeTag = (filterType?: FilterType | null) => {
   switch (filterType) {
     case 'heartbeat':
-      return getTag('heart', 'Heartbeat');
+      return getTag('heart', 'Heartbeat')
     case 'connection':
-      return getTag('globe-network', 'Connection');
+      return getTag('globe-network', 'Connection')
     case 'collection':
-      return getTag('database', 'Collection');
+      return getTag('database', 'Collection')
     case 'subscription':
-      return getTag('feed-subscribed', 'Subscription');
+      return getTag('feed-subscribed', 'Subscription')
     case 'method':
-      return getTag('derive-column', 'Method');
+      return getTag('derive-column', 'Method')
     default:
-      return getTag('warning-sign', 'Unknown');
+      return getTag('warning-sign', 'Unknown')
   }
-};
+}
 
 export const DDPLogPreview: FunctionComponent<Partial<DDPLog>> = ({
   filterType,
   parsedContent,
   preview,
 }) => {
-  const store = usePanelStore();
+  const store = usePanelStore()
 
   return (
     <>
@@ -50,7 +50,7 @@ export const DDPLogPreview: FunctionComponent<Partial<DDPLog>> = ({
         interactive
         minimal
         onClick={() => {
-          parsedContent && store.setActiveObject(parsedContent);
+          parsedContent && store.setActiveObject(parsedContent)
         }}
         className='content-preview'
         intent={parsedContent?.error ? 'danger' : 'none'}
@@ -60,5 +60,5 @@ export const DDPLogPreview: FunctionComponent<Partial<DDPLog>> = ({
         </small>
       </Tag>
     </>
-  );
-};
+  )
+}

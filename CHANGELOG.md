@@ -4,6 +4,10 @@ All notable changes to this project will be documented in this file.
 
 > The dates refer to when it was made available in the Chrome platform.
 
+## [1.5] - 2021-10-00
+
+- Upgrade dependencies to latest.
+
 ## [1.4] - 2020-07-21
 
 ## Changed

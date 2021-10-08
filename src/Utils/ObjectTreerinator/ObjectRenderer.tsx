@@ -1,10 +1,10 @@
-import React, { FunctionComponent } from 'react';
-import { ObjectTreeNode } from '@/Utils/ObjectTreerinator/index';
+import React, { FunctionComponent } from 'react'
+import { ObjectTreeNode } from '@/Utils/ObjectTreerinator/index'
 
 interface Props {
-  property: string;
-  child: object;
-  level: number;
+  property: string
+  child: object
+  level: number
 }
 
 export const ObjectRenderer: FunctionComponent<Props> = ({
@@ -16,4 +16,4 @@ export const ObjectRenderer: FunctionComponent<Props> = ({
     <span role='collapsible-property'>{property}</span>
     <ObjectTreeNode object={child} level={level + 1} />
   </li>
-);
+)

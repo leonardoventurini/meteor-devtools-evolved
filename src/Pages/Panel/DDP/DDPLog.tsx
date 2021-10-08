@@ -1,19 +1,19 @@
-import { Tag, Tooltip } from '@blueprintjs/core';
-import classnames from 'classnames';
-import React, { CSSProperties, FunctionComponent } from 'react';
-import { DDPLogDirection } from './DDPLogDirection';
-import { DDPLogPreview } from './DDPLogPreview';
-import { DateTime } from 'luxon';
-import styled from 'styled-components';
-import { truncate } from '@/Styles/Mixins';
-import { DDPLogMenu } from '@/Pages/Panel/DDP/DDPLogMenu';
-import { StringUtils } from '@/Utils/StringUtils';
+import { Tag, Tooltip } from '@blueprintjs/core'
+import classnames from 'classnames'
+import React, { CSSProperties, FunctionComponent } from 'react'
+import { DDPLogDirection } from './DDPLogDirection'
+import { DDPLogPreview } from './DDPLogPreview'
+import { DateTime } from 'luxon'
+import styled from 'styled-components'
+import { truncate } from '@/Styles/Mixins'
+import { DDPLogMenu } from '@/Pages/Panel/DDP/DDPLogMenu'
+import { StringUtils } from '@/Utils/StringUtils'
 
 interface Props {
-  log: DDPLog;
-  style: CSSProperties;
-  isNew: boolean;
-  isStarred: boolean;
+  log: DDPLog
+  style: CSSProperties
+  isNew: boolean
+  isStarred: boolean
 }
 
 const DDPLogWrapper = styled.div`
@@ -80,7 +80,7 @@ const DDPLogWrapper = styled.div`
   &:hover .menu {
     visibility: visible;
   }
-`;
+`
 
 export const DDPLog: FunctionComponent<Props> = ({
   log,
@@ -91,7 +91,7 @@ export const DDPLog: FunctionComponent<Props> = ({
   const classes = classnames({
     'm-new': isNew,
     'm-starred': isStarred,
-  });
+  })
 
   return (
     <DDPLogWrapper className={classes} style={style}>
@@ -136,7 +136,7 @@ export const DDPLog: FunctionComponent<Props> = ({
               minimal
               interactive
               onClick={() => {
-                StringUtils.toClipboard(log.hash as string);
+                StringUtils.toClipboard(log.hash as string)
               }}
             >
               {log.hash}
@@ -145,5 +145,5 @@ export const DDPLog: FunctionComponent<Props> = ({
         </div>
       )}
     </DDPLogWrapper>
-  );
-};
+  )
+}

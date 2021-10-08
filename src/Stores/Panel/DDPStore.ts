@@ -1,16 +1,14 @@
-import { debounce } from 'lodash';
-import { action, computed, observable } from 'mobx';
-import { Searchable } from '../Common/Searchable';
-import { PanelStore } from '@/Stores/PanelStore';
-import { generatePreview } from '@/Utils/MessageFormatter';
+import { debounce } from 'lodash'
+import { action, computed, observable } from 'mobx'
+import { Searchable } from '../Common/Searchable'
+import { PanelStore } from '@/Stores/PanelStore'
+import { generatePreview } from '@/Utils/MessageFormatter'
 
 export class DDPStore extends Searchable<DDPLog> {
-  @observable inboundBytes: number = 0;
-  @observable outboundBytes: number = 0;
+  @observable inboundBytes: number = 0
+  @observable outboundBytes: number = 0
 
-  @observable newLogs: string[] = [];
-
-  @observable isLoading: boolean = false;
+  @observable newLogs: string[] = []
 
   bufferCallback = (buffer: DDPLog[]) => {
     this.buffer = buffer.map((log: DDPLog) => ({
@@ -20,24 +18,24 @@ export class DDPStore extends Searchable<DDPLog> {
         log.parsedContent as DDPLogContent,
         log.filterType,
       ),
-    }));
+    }))
 
-    this.newLogs.push(...buffer.map(({ id }) => id));
+    this.newLogs.push(...buffer.map(({ id }) => id))
 
     this.inboundBytes += buffer
       .filter(log => log.isInbound)
-      .reduce((sum, log) => sum + (log.size ?? 0), 0);
+      .reduce((sum, log) => sum + (log.size ?? 0), 0)
 
     this.outboundBytes += buffer
       .filter(log => log.isOutbound)
-      .reduce((sum, log) => sum + (log.size ?? 0), 0);
+      .reduce((sum, log) => sum + (log.size ?? 0), 0)
 
-    this.clearNewLogs();
-  };
+    this.clearNewLogs()
+  }
 
   clearNewLogs = debounce(() => {
-    this.newLogs = [];
-  }, 1000);
+    this.newLogs = []
+  }, 1000)
 
   filterFunction = (collection: DDPLog[], search: string) =>
     collection
@@ -50,19 +48,19 @@ export class DDPStore extends Searchable<DDPLog> {
             .concat(log.hash ?? '')
             .concat(log.preview ?? '')
             .includes(search.toLowerCase()),
-      );
+      )
 
   @action
   clearLogs() {
-    this.collection = [];
-    this.inboundBytes = 0;
-    this.outboundBytes = 0;
+    this.collection = []
+    this.inboundBytes = 0
+    this.outboundBytes = 0
   }
 
   @computed
   get filterRegularExpression() {
     return new RegExp(
       `"msg":"(${PanelStore.settingStore.activeFilterBlacklist.join('|')})"`,
-    );
+    )
   }
 }

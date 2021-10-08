@@ -1,9 +1,9 @@
-import React, { FunctionComponent, useState } from 'react';
-import { isArray, isEmpty, isObject } from 'lodash';
+import React, { FunctionComponent, useState } from 'react'
+import { isArray, isEmpty, isObject } from 'lodash'
 
 interface Props {
-  object: any;
-  level?: number;
+  object: any
+  level?: number
 }
 
 export const Collapsible: FunctionComponent<Props> = ({
@@ -11,10 +11,10 @@ export const Collapsible: FunctionComponent<Props> = ({
   object,
   level = 0,
 }) => {
-  const [isCollapsed, setIsCollapsed] = useState(level > 2);
+  const [isCollapsed, setIsCollapsed] = useState(level > 2)
 
   if (isArray(object)) {
-    const isArrayEmpty = isEmpty(object);
+    const isArrayEmpty = isEmpty(object)
 
     if (isCollapsed || isArrayEmpty) {
       return (
@@ -22,7 +22,7 @@ export const Collapsible: FunctionComponent<Props> = ({
           role='expand'
           onClick={() => !isArrayEmpty && setIsCollapsed(false)}
         >{`[${object.length}]`}</span>
-      );
+      )
     }
 
     return (
@@ -34,11 +34,11 @@ export const Collapsible: FunctionComponent<Props> = ({
         )}
         {children}
       </>
-    );
+    )
   }
 
   if (isObject(object)) {
-    const isObjectEmpty = isEmpty(object);
+    const isObjectEmpty = isEmpty(object)
 
     if (isCollapsed) {
       return (
@@ -46,7 +46,7 @@ export const Collapsible: FunctionComponent<Props> = ({
           role='expand'
           onClick={() => !isObjectEmpty && setIsCollapsed(false)}
         >{`{${Object.keys(object).length}}`}</span>
-      );
+      )
     }
 
     return (
@@ -58,11 +58,11 @@ export const Collapsible: FunctionComponent<Props> = ({
         )}
         {children}
       </>
-    );
+    )
   }
 
-  console.error('Not a valid collapsible value.');
-  console.trace(object);
+  console.error('Not a valid collapsible value.')
+  console.trace(object)
 
-  return null;
-};
+  return null
+}

@@ -1,21 +1,21 @@
-import { PanelPage } from '@/Constants';
-import React, { FunctionComponent, useEffect } from 'react';
-import { usePanelStore } from '@/Stores/PanelStore';
-import { observer } from 'mobx-react-lite';
-import { Bridge, syncSubscriptions } from '@/Bridge';
-import { IMenuItem, ITab, TabBar } from '@/Components/TabBar';
-import { Tag } from '@blueprintjs/core';
+import { PanelPage } from '@/Constants'
+import React, { FunctionComponent, useEffect } from 'react'
+import { usePanelStore } from '@/Stores/PanelStore'
+import { observer } from 'mobx-react-lite'
+import { Bridge, syncSubscriptions } from '@/Bridge'
+import { IMenuItem, ITab, TabBar } from '@/Components/TabBar'
+import { Tag } from '@blueprintjs/core'
 
 export const Navigation: FunctionComponent = observer(() => {
-  const panelStore = usePanelStore();
+  const panelStore = usePanelStore()
 
   useEffect(() => {
     setTimeout(() => {
-      panelStore.settingStore.updateRepositoryData();
-    }, 2000);
-  }, []);
+      panelStore.settingStore.updateRepositoryData()
+    }, 2000)
+  }, [])
 
-  const { repositoryData } = panelStore.settingStore;
+  const { repositoryData } = panelStore.settingStore
 
   const tabs: ITab[] = [
     {
@@ -37,7 +37,7 @@ export const Navigation: FunctionComponent = observer(() => {
         Bridge.sendContentMessage({
           eventType: 'minimongo-get-collections',
           data: null,
-        });
+        })
       },
     },
     {
@@ -45,10 +45,10 @@ export const Navigation: FunctionComponent = observer(() => {
       content: 'Subscriptions',
       icon: 'feed-subscribed',
       handler: () => {
-        syncSubscriptions();
+        syncSubscriptions()
       },
     },
-  ];
+  ]
 
   const menu: IMenuItem[] = [
     {
@@ -57,8 +57,7 @@ export const Navigation: FunctionComponent = observer(() => {
       icon: 'chat',
       handler: () =>
         chrome.tabs.create({
-          url:
-            'https://join.slack.com/t/meteor-community/shared_invite/zt-a9lwcfb7-~UwR3Ng6whEqRxcP5rORZw',
+          url: 'https://join.slack.com/t/meteor-community/shared_invite/zt-a9lwcfb7-~UwR3Ng6whEqRxcP5rORZw',
         }),
       shine: true,
     },
@@ -68,7 +67,7 @@ export const Navigation: FunctionComponent = observer(() => {
       icon: 'info-sign',
       handler: () => panelStore.setAboutVisible(true),
     },
-  ];
+  ]
 
   if (repositoryData) {
     menu.unshift({
@@ -86,7 +85,7 @@ export const Navigation: FunctionComponent = observer(() => {
         chrome.tabs.create({
           url: repositoryData.html_url.concat('/issues'),
         }),
-    });
+    })
 
     menu.unshift({
       key: 'star',
@@ -104,7 +103,7 @@ export const Navigation: FunctionComponent = observer(() => {
         chrome.tabs.create({
           url: repositoryData.html_url.concat('/stargazers'),
         }),
-    });
+    })
   }
 
   return (
@@ -115,5 +114,5 @@ export const Navigation: FunctionComponent = observer(() => {
         onChange={key => panelStore.setSelectedTabId(key)}
       />
     </div>
-  );
-});
+  )
+})

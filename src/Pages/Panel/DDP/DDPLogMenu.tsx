@@ -1,15 +1,15 @@
-import { Icon, Menu, Popover } from '@blueprintjs/core';
-import { PanelPage } from '@/Constants';
-import { Bridge } from '@/Bridge';
-import React, { FunctionComponent, useState } from 'react';
-import { usePanelStore } from '@/Stores/PanelStore';
+import { Icon, Menu, Popover } from '@blueprintjs/core'
+import { PanelPage } from '@/Constants'
+import { Bridge } from '@/Bridge'
+import React, { FunctionComponent, useState } from 'react'
+import { usePanelStore } from '@/Stores/PanelStore'
 
 interface Props {
-  log: DDPLog;
+  log: DDPLog
 }
 
 export const DDPLogMenu: FunctionComponent<Props> = ({ log }) => {
-  const store = usePanelStore();
+  const store = usePanelStore()
 
   return (
     <div className='menu'>
@@ -35,16 +35,16 @@ export const DDPLogMenu: FunctionComponent<Props> = ({ log }) => {
         <Icon
           icon='play'
           onClick={() => {
-            store.setSelectedTabId(PanelPage.DDP);
+            store.setSelectedTabId(PanelPage.DDP)
 
             Bridge.sendContentMessage({
               eventType: 'ddp-run-method',
               data: log.parsedContent,
-            });
+            })
           }}
           style={{ cursor: 'pointer' }}
         />
       )}
     </div>
-  );
-};
+  )
+}

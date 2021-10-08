@@ -1,12 +1,12 @@
-import { StringUtils } from '@/Utils/StringUtils';
-import { isNumber, isString } from 'lodash';
-import { PanelStore } from '@/Stores/PanelStore';
+import { StringUtils } from '@/Utils/StringUtils'
+import { isNumber, isString } from 'lodash'
+import { PanelStore } from '@/Stores/PanelStore'
 
-const MAX_CHARACTERS = 512;
+const MAX_CHARACTERS = 512
 
 export const MessageFormatter = {
   heartbeat({ msg }: DDPLogContent) {
-    return msg;
+    return msg
   },
 
   collection({ msg, collection }: DDPLogContent) {
@@ -14,64 +14,64 @@ export const MessageFormatter = {
       added: 'to',
       removed: 'from',
       changed: 'at',
-    };
+    }
 
     if (msg && msg in prepMap) {
-      return `${msg} ${prepMap[msg]} ${collection}`;
+      return `${msg} ${prepMap[msg]} ${collection}`
     }
   },
 
   connection({ msg, session }: DDPLogContent) {
-    return session ? session : msg;
+    return session ? session : msg
   },
 
   subscription({ name, subs }: any) {
     if (name) {
-      return `${name} initialized`;
+      return `${name} initialized`
     }
 
     if (!subs) {
-      return null;
+      return null
     }
 
     const idsToNames = subs
       .map((id: string) => {
-        const sub = PanelStore.getSubscriptionById(id);
+        const sub = PanelStore.getSubscriptionById(id)
 
-        return sub?.name;
+        return sub?.name
       })
-      .filter(Boolean);
+      .filter(Boolean)
 
-    return `${idsToNames.join(', ')} ready`;
+    return `${idsToNames.join(', ')} ready`
   },
 
   method({ msg, method, result, error }: DDPLogContent) {
     if (msg === 'method') {
-      return method;
+      return method
     }
 
     if (msg === 'result' && error) {
       return StringUtils.truncate(
         `${error.errorType}: ${error.message}`,
         MAX_CHARACTERS,
-      );
+      )
     }
 
     if (msg === 'result') {
-      return StringUtils.truncate(JSON.stringify(result), MAX_CHARACTERS);
+      return StringUtils.truncate(JSON.stringify(result), MAX_CHARACTERS)
     }
 
-    return msg;
+    return msg
   },
-};
+}
 
 const idFormat = (message: string, id?: string | number | null) => {
   if (isNumber(id) || isString(id)) {
-    return `[${id}] ${StringUtils.truncate(message, MAX_CHARACTERS)}`;
+    return `[${id}] ${StringUtils.truncate(message, MAX_CHARACTERS)}`
   }
 
-  return message;
-};
+  return message
+}
 
 export const generatePreview = (
   content: string,
@@ -81,16 +81,16 @@ export const generatePreview = (
   if (parsedContent && filterType) {
     const message = (() => {
       if (filterType in MessageFormatter) {
-        return MessageFormatter[filterType](parsedContent);
+        return MessageFormatter[filterType](parsedContent)
       }
 
-      return null;
-    })();
+      return null
+    })()
 
     if (message) {
-      return idFormat(message, parsedContent.id);
+      return idFormat(message, parsedContent.id)
     }
   }
 
-  return StringUtils.truncate(content, MAX_CHARACTERS);
-};
+  return StringUtils.truncate(content, MAX_CHARACTERS)
+}

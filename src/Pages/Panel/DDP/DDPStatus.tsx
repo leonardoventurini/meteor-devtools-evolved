@@ -1,26 +1,26 @@
-import { Spinner, Tag, Tooltip } from '@blueprintjs/core';
-import { isNumber } from 'lodash';
-import { observer } from 'mobx-react-lite';
-import React, { FormEvent, FunctionComponent } from 'react';
-import { usePanelStore } from '@/Stores/PanelStore';
-import { StatusBar } from '@/Components/StatusBar';
-import { DDPFilterMenu } from '@/Pages/Panel/DDP/DDPFilterMenu';
-import { Position } from '@blueprintjs/core/lib/esm/common/position';
-import { TextInput } from '@/Components/TextInput';
-import { PopoverButton } from '@/Components/PopoverButton';
-import { Button } from '@/Components/Button';
-import prettyBytes from 'pretty-bytes';
-import { Field } from '@/Components/Field';
-import { StringUtils } from '@/Utils/StringUtils';
+import { Spinner, Tag, Tooltip } from '@blueprintjs/core'
+import { isNumber } from 'lodash'
+import { observer } from 'mobx-react-lite'
+import React, { FormEvent, FunctionComponent } from 'react'
+import { usePanelStore } from '@/Stores/PanelStore'
+import { StatusBar } from '@/Components/StatusBar'
+import { DDPFilterMenu } from '@/Pages/Panel/DDP/DDPFilterMenu'
+import { Position } from '@blueprintjs/core/lib/esm/common/position'
+import { TextInput } from '@/Components/TextInput'
+import { PopoverButton } from '@/Components/PopoverButton'
+import { Button } from '@/Components/Button'
+import prettyBytes from 'pretty-bytes'
+import { Field } from '@/Components/Field'
+import { StringUtils } from '@/Utils/StringUtils'
 
 export const DDPStatus: FunctionComponent = observer(() => {
-  const store = usePanelStore();
-  const { ddpStore } = store;
+  const store = usePanelStore()
+  const { ddpStore } = store
 
-  const activeFilters = store.settingStore.activeFilters;
-  const setFilter = store.settingStore.setFilter.bind(store.settingStore);
-  const collectionLength = ddpStore.collection.length;
-  const { inboundBytes, outboundBytes, isLoading, pagination } = ddpStore;
+  const activeFilters = store.settingStore.activeFilters
+  const setFilter = store.settingStore.setFilter.bind(store.settingStore)
+  const collectionLength = ddpStore.collection.length
+  const { inboundBytes, outboundBytes, isLoading, pagination } = ddpStore
 
   return (
     <StatusBar>
@@ -67,7 +67,7 @@ export const DDPStatus: FunctionComponent = observer(() => {
               minimal
               interactive
               onClick={() => {
-                StringUtils.toClipboard(store.gitCommitHash as string);
+                StringUtils.toClipboard(store.gitCommitHash as string)
               }}
               style={{ marginRight: 4 }}
             >
@@ -95,5 +95,5 @@ export const DDPStatus: FunctionComponent = observer(() => {
         )}
       </div>
     </StatusBar>
-  );
-});
+  )
+})

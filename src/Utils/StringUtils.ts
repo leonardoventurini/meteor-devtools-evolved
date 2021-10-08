@@ -1,11 +1,11 @@
-import { isString, memoize } from 'lodash';
+import { isString, memoize } from 'lodash'
 
 export namespace StringUtils {
   export const truncate = (str: string, max: number = 40) => {
     return isString(str) && str.length > max
       ? str.slice(0, max).concat('...')
-      : str;
-  };
+      : str
+  }
 
   /**
    * Five levels of brightness from 1 to 5.
@@ -16,28 +16,28 @@ export namespace StringUtils {
     if (brightness < 1 || brightness > 5)
       throw new Error(
         'Only five brightness levels, from 1 to 5, are acceptable.',
-      );
+      )
 
-    const variance = 255 / 5;
+    const variance = 255 / 5
 
     const getByte = () =>
-      Math.round(variance * (brightness - 1) + Math.random() * variance);
+      Math.round(variance * (brightness - 1) + Math.random() * variance)
 
-    const rgb = [0, 0, 0].map(getByte).join(',');
+    const rgb = [0, 0, 0].map(getByte).join(',')
 
-    return `rgb(${rgb})`;
-  };
+    return `rgb(${rgb})`
+  }
 
   export const toClipboard = (
     data: string,
     mimeType: string = 'text/plain',
   ) => {
-    document.oncopy = function(event: ClipboardEvent) {
-      event.clipboardData?.setData(mimeType, data);
-      event.preventDefault();
-    };
-    document.execCommand('copy', false);
-  };
+    document.oncopy = function (event: ClipboardEvent) {
+      event.clipboardData?.setData(mimeType, data)
+      event.preventDefault()
+    }
+    document.execCommand('copy', false)
+  }
 
-  export const getSize = memoize((content: string) => new Blob([content]).size);
+  export const getSize = memoize((content: string) => new Blob([content]).size)
 }

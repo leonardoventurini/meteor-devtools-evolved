@@ -1,11 +1,11 @@
-import React, { FunctionComponent } from 'react';
-import { Collapsible } from '@/Utils/ObjectTreerinator/Collapsible';
-import { ArrayNodeRenderer } from '@/Utils/ObjectTreerinator/ArrayNodeRenderer';
+import React, { FunctionComponent } from 'react'
+import { Collapsible } from '@/Utils/ObjectTreerinator/Collapsible'
+import { ArrayNodeRenderer } from '@/Utils/ObjectTreerinator/ArrayNodeRenderer'
 
 interface Props {
-  property: string;
-  child: any[];
-  level: number;
+  property: string
+  child: any[]
+  level: number
 }
 
 export const ArrayRenderer: FunctionComponent<Props> = ({
@@ -27,4 +27,4 @@ export const ArrayRenderer: FunctionComponent<Props> = ({
       </ol>
     </Collapsible>
   </li>
-);
+)

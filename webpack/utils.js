@@ -1,10 +1,10 @@
-const { resolve } = require('path');
-const { toPairs } = require('lodash');
+const { resolve } = require('path')
+const { toPairs } = require('lodash')
 
 const getTypeScriptAliases = () => {
-  const { paths } = require('../tsconfig').compilerOptions;
+  const { paths } = require('../tsconfig').compilerOptions
 
-  console.log(toPairs(paths));
+  console.log(toPairs(paths))
 
   return toPairs(paths).reduce(
     (acc, [key, item]) => ({
@@ -16,7 +16,7 @@ const getTypeScriptAliases = () => {
       ),
     }),
     {},
-  );
-};
+  )
+}
 
-module.exports = { getTypeScriptAliases };
+module.exports = { getTypeScriptAliases }

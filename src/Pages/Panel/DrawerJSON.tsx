@@ -1,11 +1,11 @@
-import { ObjectTreerinator } from '@/Utils/ObjectTreerinator';
-import { Classes, Drawer } from '@blueprintjs/core';
-import React, { FunctionComponent } from 'react';
+import { ObjectTreerinator } from '@/Utils/ObjectTreerinator'
+import { Classes, Drawer } from '@blueprintjs/core'
+import React, { FunctionComponent } from 'react'
 
 interface Props {
-  title: string | null;
-  viewableObject: ViewableObject;
-  onClose(): void;
+  title: string | null
+  viewableObject: ViewableObject
+  onClose(): void
 }
 
 export const DrawerJSON: FunctionComponent<Props> = ({
@@ -27,5 +27,5 @@ export const DrawerJSON: FunctionComponent<Props> = ({
         </div>
       </div>
     </Drawer>
-  );
-};
+  )
+}
