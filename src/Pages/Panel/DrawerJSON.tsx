@@ -1,6 +1,8 @@
 import { ObjectTreerinator } from '@/Utils/ObjectTreerinator'
-import { Classes, Drawer } from '@blueprintjs/core'
+import { Button, Classes, Drawer } from '@blueprintjs/core'
 import React, { FunctionComponent } from 'react'
+import { StringUtils } from '@/Utils/StringUtils'
+import { Popover2 } from '@blueprintjs/popover2'
 
 interface Props {
   title: string | null
@@ -25,6 +27,22 @@ export const DrawerJSON: FunctionComponent<Props> = ({
         <div className={Classes.DIALOG_BODY}>
           {!!viewableObject && <ObjectTreerinator object={viewableObject} />}
         </div>
+      </div>
+      <div className={Classes.DRAWER_FOOTER}>
+        <Popover2
+          position='top'
+          content={<div style={{ padding: '0.5rem' }}>Copied</div>}
+        >
+          <Button
+            onClick={() =>
+              StringUtils.toClipboard(JSON.stringify(viewableObject, null, 2))
+            }
+            icon='clipboard'
+            minimal
+          >
+            Copy
+          </Button>
+        </Popover2>
       </div>
     </Drawer>
   )

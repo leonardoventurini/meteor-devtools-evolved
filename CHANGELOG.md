@@ -6,7 +6,16 @@ All notable changes to this project will be documented in this file.
 
 ## [1.5] - 2021-10-00
 
+## Changed
+
 - Upgrade dependencies to latest.
+- Add copy JSON button to minimongo drawer.
+- Improved minimongo tracking performance and responsiveness.
+- By default JSON documents are expanded up to 5 levels now.
+
+## Fixed
+
+- Fix stack trace error issue caused by a third party library affecting some users.
 
 ## [1.4] - 2020-07-21
 
