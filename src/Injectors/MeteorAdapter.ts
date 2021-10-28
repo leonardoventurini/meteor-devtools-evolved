@@ -29,7 +29,13 @@ export const MeteorAdapter = () => {
       prototype[key] = function (...args) {
         const startMs = performance.now()
         const result = original.apply(this, args)
-        console.log(key, JSON.stringify(args), performance.now() - startMs)
+
+        sendMessage('meteor-data-performance', {
+          key,
+          args: JSON.stringify(args),
+          runtime: performance.now() - startMs,
+        })
+
         return result
       }
     }

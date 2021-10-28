@@ -20,6 +20,7 @@ type EventType =
   | 'console'
   | 'sync-subscriptions'
   | 'stats'
+  | 'meteor-data-performance'
 
 interface Message<T> {
   eventType: EventType

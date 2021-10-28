@@ -1,6 +1,6 @@
 import { warning } from '@/Log'
-import debounce from 'lodash/debounce'
 import { Registry, sendMessage } from '@/Browser/Inject'
+import { throttle } from 'lodash'
 
 const cleanup = (object: any) => {
   Object.keys(object).forEach((key: string) => {
@@ -25,7 +25,9 @@ const getCollections = () => {
   const data = Object.values(collections).reduce(
     (acc: object, collection: any) =>
       Object.assign(acc, {
-        [collection.name]: collection.find().fetch().map(cleanup),
+        [collection.name]: Array.from(collection._docs._map.values()).map(
+          cleanup,
+        ),
       }),
     {},
   )
@@ -33,7 +35,10 @@ const getCollections = () => {
   sendMessage('minimongo-get-collections', data)
 }
 
-export const updateCollections = debounce(getCollections, 500)
+export const updateCollections = throttle(getCollections, 100, {
+  leading: true,
+  trailing: true,
+})
 
 export const MinimongoInjector = () => {
   Registry.register('minimongo-get-collections', () => {

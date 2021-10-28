@@ -42,18 +42,19 @@ const getStackTrace = (stackTraceLimit: number) => {
 
     if (!error.stack) return []
 
-    return error?.stack?.split('\n').map(trace => {
-      const matches = PARENTHESIS_REGEX.exec(trace)
+    return error?.stack
+      ?.split('\n')
+      .map(trace => {
+        const matches = PARENTHESIS_REGEX.exec(trace)
 
-      console.log(matches)
+        if (!matches) return null
 
-      if (!matches) return null
-
-      return {
-        callee: matches?.[1],
-        url: matches?.[2],
-      }
-    })
+        return {
+          callee: matches?.[1],
+          url: matches?.[2],
+        }
+      })
+      .filter(Boolean)
   } finally {
     Error.stackTraceLimit = originalStackTraceLimit
   }
@@ -61,8 +62,6 @@ const getStackTrace = (stackTraceLimit: number) => {
 
 export const sendLogMessage = (message: DDPLog) => {
   const stackTrace = getStackTrace(15)
-
-  console.log(stackTrace)
 
   if (stackTrace && stackTrace.length) {
     stackTrace.splice(0, 2)
