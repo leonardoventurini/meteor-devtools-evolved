@@ -4,6 +4,7 @@ import React, { FunctionComponent } from 'react'
 
 interface Props {
   activeStackTrace: StackTrace[] | null
+
   onClose(): void
 }
 

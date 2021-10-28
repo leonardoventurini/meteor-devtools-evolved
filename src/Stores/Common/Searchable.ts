@@ -74,7 +74,6 @@ export abstract class Searchable<T> {
   setLoadingState(isLoading: boolean) {
     if (this.loadingTimeout) {
       clearTimeout(this.loadingTimeout)
-      console.log('clear:timeout')
     }
 
     this.loadingTimeout = setTimeout(

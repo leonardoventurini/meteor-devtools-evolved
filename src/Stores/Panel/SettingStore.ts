@@ -56,6 +56,11 @@ export class SettingStore implements ISettings {
       .then(response => response.json())
       .then(data => {
         if (data) {
+          if (!data.stargazers_count || !data.open_issues_count) {
+            console.log('Not updating repository data', data)
+            return
+          }
+
           this.setRepositoryData(data)
         }
       })

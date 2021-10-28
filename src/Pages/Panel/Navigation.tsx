@@ -5,6 +5,7 @@ import { observer } from 'mobx-react-lite'
 import { Bridge, syncSubscriptions } from '@/Bridge'
 import { IMenuItem, ITab, TabBar } from '@/Components/TabBar'
 import { Tag } from '@blueprintjs/core'
+import { isNumber } from 'lodash'
 
 export const Navigation: FunctionComponent = observer(() => {
   const panelStore = usePanelStore()
@@ -75,9 +76,11 @@ export const Navigation: FunctionComponent = observer(() => {
       content: (
         <>
           <strong>Issue</strong>
-          <Tag minimal round style={{ marginLeft: '.5rem' }}>
-            {repositoryData.open_issues}
-          </Tag>
+          {isNumber(repositoryData.open_issues_count) ? (
+            <Tag minimal round style={{ marginLeft: '.5rem' }}>
+              {repositoryData.open_issues_count}
+            </Tag>
+          ) : null}
         </>
       ),
       icon: 'issue',
@@ -92,9 +95,11 @@ export const Navigation: FunctionComponent = observer(() => {
       content: (
         <>
           <strong>Star</strong>
-          <Tag minimal round style={{ marginLeft: '.5rem' }}>
-            {repositoryData.stargazers_count}
-          </Tag>
+          {isNumber(repositoryData.stargazers_count) ? (
+            <Tag minimal round style={{ marginLeft: '.5rem' }}>
+              {repositoryData.stargazers_count}
+            </Tag>
+          ) : null}
         </>
       ),
       icon: 'star',
