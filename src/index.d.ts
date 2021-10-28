@@ -30,19 +30,9 @@ interface IMessagePayload<T> extends Message<T> {
   source: MessageSource
 }
 
-declare interface StackTrace extends Location {
-  beforeParse: string
+declare interface StackTrace {
+  url: string
   callee: string
-  calleeShort: string
-  column: number
-  line: number
-  file: string
-  fileName: string
-  fileRelative: string
-  fileShort: string
-  index: boolean
-  native: boolean
-  thirdParty: boolean
 }
 
 interface DDPError {

@@ -8,7 +8,7 @@ const injectOutboundInterceptor = (callback: MessageCallback) => {
   const send = Meteor.connection._stream.send
 
   Meteor.connection._stream.send = function (...args: any[]) {
-    send.call(this, ...args)
+    send.apply(this, args)
 
     callback({
       id: generateId(),

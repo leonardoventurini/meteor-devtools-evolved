@@ -1,9 +1,13 @@
-import StackTracey from 'stacktracey'
 import { DDPInjector } from '@/Injectors/DDPInjector'
-import { MinimongoInjector, updateCollections } from '@/Injectors/MinimongoInjector'
+import {
+  MinimongoInjector,
+  updateCollections,
+} from '@/Injectors/MinimongoInjector'
 import { MeteorAdapter } from '@/Injectors/MeteorAdapter'
 
 const isFrame = location !== parent.location
+
+const PARENTHESIS_REGEX = /(\S*) \(([^)]+)\)/
 
 export const sendMessage = (eventType: EventType, data: object) => {
   window.postMessage(
@@ -34,14 +38,31 @@ const getStackTrace = (stackTraceLimit: number) => {
 
   try {
     Error.stackTraceLimit = stackTraceLimit
-    return new StackTracey(new Error())
+    const error = new Error()
+
+    if (!error.stack) return []
+
+    return error?.stack?.split('\n').map(trace => {
+      const matches = PARENTHESIS_REGEX.exec(trace)
+
+      console.log(matches)
+
+      if (!matches) return null
+
+      return {
+        callee: matches?.[1],
+        url: matches?.[2],
+      }
+    })
   } finally {
     Error.stackTraceLimit = originalStackTraceLimit
   }
 }
 
 export const sendLogMessage = (message: DDPLog) => {
-  const stackTrace = getStackTrace(15).items
+  const stackTrace = getStackTrace(15)
+
+  console.log(stackTrace)
 
   if (stackTrace && stackTrace.length) {
     stackTrace.splice(0, 2)
@@ -53,7 +74,11 @@ export const sendLogMessage = (message: DDPLog) => {
     host: location.host,
   })
 
-  if (message.content !== '{"msg":"ping"}' && message.content !== '{"msg":"pong"}') updateCollections()
+  if (
+    message.content !== '{"msg":"ping"}' &&
+    message.content !== '{"msg":"pong"}'
+  )
+    updateCollections()
 }
 
 type MessageHandler = (message: Message<any>) => void

@@ -1,10 +1,7 @@
 {
-  "include": [
-    "src/*.d.ts",
-    "src/**/*.ts",
-    "src/**/*.tsx"
-  ],
+  "include": ["src/*.d.ts", "src/**/*.ts", "src/**/*.tsx"],
   "compilerOptions": {
+    "noImplicitAny": false,
     "target": "ES2019",
     "module": "commonjs",
     "moduleResolution": "node",
@@ -17,9 +14,7 @@
     "baseUrl": "./",
     "importHelpers": true,
     "paths": {
-      "@/*": [
-        "src/*"
-      ]
+      "@/*": ["src/*"]
     }
   }
 }

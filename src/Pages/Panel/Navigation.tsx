@@ -67,6 +67,7 @@ export const Navigation: FunctionComponent = observer(() => {
       content: 'About',
       icon: 'info-sign',
       handler: () => panelStore.setAboutVisible(true),
+      shine: true,
     },
   ]
 
@@ -88,6 +89,7 @@ export const Navigation: FunctionComponent = observer(() => {
         chrome.tabs.create({
           url: repositoryData.html_url.concat('/issues'),
         }),
+      shine: true,
     })
 
     menu.unshift({

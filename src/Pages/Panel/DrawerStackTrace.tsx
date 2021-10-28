@@ -1,4 +1,5 @@
 import { Classes, Drawer } from '@blueprintjs/core'
+import { Tooltip2 } from '@blueprintjs/popover2'
 import classnames from 'classnames'
 import React, { FunctionComponent } from 'react'
 
@@ -25,25 +26,21 @@ export const DrawerStackTrace: FunctionComponent<Props> = ({
           const text = (
             <div>
               <em>{stack?.callee?.trim() || 'Anonymous'}</em>
-              {stack.column && stack.line && '@'}
-              <span>
-                {stack?.column && stack?.column}
-                {stack?.column && stack?.line ? ':' : null}
-                {stack?.line && stack?.line}
-              </span>
             </div>
           )
 
           return (
             <pre key={index}>
-              {stack?.file ? (
-                <a
-                  href={stack.file.trim()}
-                  target='_blank'
-                  rel='noopener noreferrer'
-                >
-                  {text}
-                </a>
+              {stack?.url ? (
+                <Tooltip2 content={stack.url.trim()}>
+                  <a
+                    href={stack.url.trim()}
+                    target='_blank'
+                    rel='noopener noreferrer'
+                  >
+                    {text}
+                  </a>
+                </Tooltip2>
               ) : (
                 text
               )}
