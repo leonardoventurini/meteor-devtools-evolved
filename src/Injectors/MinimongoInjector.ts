@@ -25,9 +25,9 @@ const getCollections = () => {
   const data = Object.values(collections).reduce(
     (acc: object, collection: any) =>
       Object.assign(acc, {
-        [collection.name]: Array.from(collection._docs._map.values()).map(
-          cleanup,
-        ),
+        [collection.name]: Array.from(
+          collection._docs._map?.values?.() ?? [],
+        ).map(cleanup),
       }),
     {},
   )
