@@ -6,6 +6,10 @@ All notable changes to this project will be documented in this file.
 
 ## [1.5] - 2021-10-00
 
+## Added
+
+- The browser action of the extension opens Meteor Cloud.
+
 ## Changed
 
 - Upgrade dependencies to latest.

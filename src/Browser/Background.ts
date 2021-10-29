@@ -26,6 +26,14 @@ const tabRemovalListener = () => {
   })
 }
 
+chrome.browserAction.onClicked.addListener(() => {
+  chrome.tabs
+    .create({
+      url: 'http://cloud.meteor.com/',
+    })
+    .catch(console.error)
+})
+
 const handleConsole = ({
   data: { type, message },
 }: Message<{ type: ConsoleType; message: string }>) => {
