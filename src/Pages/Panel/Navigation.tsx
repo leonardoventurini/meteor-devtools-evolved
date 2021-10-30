@@ -49,6 +49,11 @@ export const Navigation: FunctionComponent = observer(() => {
         syncSubscriptions()
       },
     },
+    {
+      key: PanelPage.PERFORMANCE,
+      content: 'Performance',
+      icon: 'lightning',
+    },
   ]
 
   const menu: IMenuItem[] = [

@@ -17,6 +17,7 @@ import {
   NAVBAR_HEIGHT,
   STATUS_HEIGHT,
 } from '@/Styles/Constants'
+import { Performance } from '@/Pages/Panel/Performance/Performance'
 
 Bridge.init()
 
@@ -80,6 +81,9 @@ const PanelObserverComponent: FunctionComponent = observer(() => {
         <DDP isVisible={store.selectedTabId === PanelPage.DDP} />
         <Bookmarks isVisible={store.selectedTabId === PanelPage.BOOKMARKS} />
         <Minimongo isVisible={store.selectedTabId === PanelPage.MINIMONGO} />
+        <Performance
+          isVisible={store.selectedTabId === PanelPage.PERFORMANCE}
+        />
         <Subscriptions
           isVisible={store.selectedTabId === PanelPage.SUBSCRIPTIONS}
         />
