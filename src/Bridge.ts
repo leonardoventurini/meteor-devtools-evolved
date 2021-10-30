@@ -90,8 +90,8 @@ Bridge.register('ddp-event', (message: Message<DDPLog>) => {
       : '',
     timestampLong: message.data.timestamp
       ? DateTime.fromMillis(message.data.timestamp).toLocaleString(
-        DateTime.DATETIME_FULL,
-      )
+          DateTime.DATETIME_FULL,
+        )
       : '',
     size,
     sizePretty: prettyBytes(size),
@@ -121,4 +121,8 @@ Bridge.register('stats', (message: Message<any>) => {
   console.log(message.data)
 
   PanelStore.setGitCommitHash(message.data.gitCommitHash)
+})
+
+Bridge.register('meteor-data-performance', (message: Message<CallData>) => {
+  PanelStore.performanceStore.push(message.data)
 })

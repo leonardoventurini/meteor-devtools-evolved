@@ -33,6 +33,9 @@ warning(
     : 'Initializing on the main page...',
 )
 
+/**
+ * @todo Do nothing here, and run any stack trace processing logic inside the extension, so if any errors happen it happens in the sandbox console.
+ */
 const getStackTrace = (stackTraceLimit: number) => {
   const originalStackTraceLimit = Error.stackTraceLimit
 

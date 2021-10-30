@@ -6,6 +6,7 @@ import { MinimongoStore } from './Panel/MinimongoStore'
 import { PanelPage } from '@/Constants'
 import { SettingStore } from '@/Stores/Panel/SettingStore'
 import { SubscriptionStore } from '@/Stores/Panel/SubscriptionStore'
+import { PerformanceStore } from './Panel/PerformanceStore'
 
 export class PanelStoreConstructor {
   @observable selectedTabId: string = PanelPage.DDP
@@ -24,6 +25,7 @@ export class PanelStoreConstructor {
   minimongoStore = new MinimongoStore()
   subscriptionStore = new SubscriptionStore()
   settingStore = new SettingStore()
+  performanceStore = new PerformanceStore()
 
   constructor() {
     makeObservable(this)

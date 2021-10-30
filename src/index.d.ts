@@ -250,3 +250,10 @@ interface ICollectionMetadata {
     collectionSizePretty: string
   }
 }
+
+type CallData = {
+  collectionName: string
+  key: string
+  args: string
+  runtime: number
+}

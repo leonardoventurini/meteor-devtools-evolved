@@ -31,6 +31,7 @@ export const MeteorAdapter = () => {
         const result = original.apply(this, args)
 
         sendMessage('meteor-data-performance', {
+          collectionName: this._name,
           key,
           args: JSON.stringify(args),
           runtime: performance.now() - startMs,
