@@ -1,15 +1,17 @@
 import { warning } from '@/Log'
 import { Registry, sendMessage } from '@/Browser/Inject'
-import { throttle } from 'lodash'
+import { cloneDeep, throttle } from 'lodash'
 
 const cleanup = (object: any) => {
-  Object.keys(object).forEach((key: string) => {
-    if (object[key] instanceof Date) {
-      object[key] = object[key].toString()
+  const clonedObject = cloneDeep(object)
+
+  Object.keys(clonedObject).forEach((key: string) => {
+    if (clonedObject[key] instanceof Date) {
+      clonedObject[key] = clonedObject[key].toString()
     }
   })
 
-  return object
+  return clonedObject
 }
 
 const getCollections = () => {
