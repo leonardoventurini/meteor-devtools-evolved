@@ -1,7 +1,7 @@
 import { Spinner, Tag, Tooltip } from '@blueprintjs/core'
 import { isNumber } from 'lodash'
 import { observer } from 'mobx-react-lite'
-import React, { FormEvent, FunctionComponent } from 'react'
+import React, { FormEvent, FunctionComponent, useCallback } from 'react'
 import { usePanelStore } from '@/Stores/PanelStore'
 import { StatusBar } from '@/Components/StatusBar'
 import { DDPFilterMenu } from '@/Pages/Panel/DDP/DDPFilterMenu'
@@ -15,10 +15,13 @@ import { StringUtils } from '@/Utils/StringUtils'
 
 export const DDPStatus: FunctionComponent = observer(() => {
   const store = usePanelStore()
-  const { ddpStore } = store
+  const { ddpStore, settingStore } = store
 
-  const activeFilters = store.settingStore.activeFilters
-  const setFilter = store.settingStore.setFilter.bind(store.settingStore)
+  const activeFilters = settingStore.activeFilters
+  const setFilter = useCallback(
+    (type, isEnabled) => settingStore.setFilter(type, isEnabled),
+    [settingStore],
+  )
   const collectionLength = ddpStore.collection.length
   const { inboundBytes, outboundBytes, isLoading, pagination } = ddpStore
 

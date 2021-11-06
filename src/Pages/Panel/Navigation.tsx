@@ -6,9 +6,11 @@ import { Bridge, syncSubscriptions } from '@/Bridge'
 import { IMenuItem, ITab, TabBar } from '@/Components/TabBar'
 import { Tag } from '@blueprintjs/core'
 import { isNumber } from 'lodash'
+import { useAnalytics } from '@/Utils/Hooks/useAnalytics'
 
 export const Navigation: FunctionComponent = observer(() => {
   const panelStore = usePanelStore()
+  const analytics = useAnalytics()
 
   useEffect(() => {
     setTimeout(() => {
@@ -61,17 +63,23 @@ export const Navigation: FunctionComponent = observer(() => {
       key: 'community',
       content: 'Community',
       icon: 'chat',
-      handler: () =>
+      handler: () => {
         chrome.tabs.create({
           url: 'https://join.slack.com/t/meteor-community/shared_invite/zt-a9lwcfb7-~UwR3Ng6whEqRxcP5rORZw',
-        }),
+        })
+
+        analytics?.event('navigation', 'click', { label: 'community-slack' })
+      },
       shine: true,
     },
     {
       key: 'about',
       content: 'About',
       icon: 'info-sign',
-      handler: () => panelStore.setAboutVisible(true),
+      handler: () => {
+        panelStore.setAboutVisible(true)
+        analytics?.event('navigation', 'click', { label: 'about' })
+      },
       shine: true,
     },
   ]
@@ -90,10 +98,13 @@ export const Navigation: FunctionComponent = observer(() => {
         </>
       ),
       icon: 'issue',
-      handler: () =>
+      handler: () => {
         chrome.tabs.create({
           url: repositoryData.html_url.concat('/issues'),
-        }),
+        })
+
+        analytics?.event('navigation', 'click', { label: 'issues' })
+      },
       shine: true,
     })
 
@@ -111,10 +122,13 @@ export const Navigation: FunctionComponent = observer(() => {
       ),
       icon: 'star',
       shine: true,
-      handler: () =>
+      handler: () => {
         chrome.tabs.create({
           url: repositoryData.html_url.concat('/stargazers'),
-        }),
+        })
+
+        analytics?.event('navigation', 'click', { label: 'star' })
+      },
     })
   }
 

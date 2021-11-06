@@ -1,26 +1,26 @@
 {
-  "include": [
-    "src/*.d.ts",
-    "src/**/*.ts",
-    "src/**/*.tsx"
-  ],
   "compilerOptions": {
+    "strict": false,
     "noImplicitAny": false,
-    "target": "ES2019",
+    "target": "ES6",
     "module": "commonjs",
     "moduleResolution": "node",
     "experimentalDecorators": true,
     "emitDecoratorMetadata": true,
+    "useDefineForClassFields": true,
     "sourceMap": true,
-    "strict": false,
     "esModuleInterop": true,
     "jsx": "react",
     "baseUrl": "./",
-    "importHelpers": true,
     "paths": {
       "@/*": [
         "src/*"
       ]
     }
-  }
+  },
+  "include": [
+    "src/*.d.ts",
+    "src/**/*.ts",
+    "src/**/*.tsx"
+  ]
 }

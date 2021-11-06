@@ -1,5 +1,5 @@
 import { observer } from 'mobx-react-lite'
-import React, { FormEvent, FunctionComponent } from 'react'
+import React, { FormEvent, FunctionComponent, useCallback } from 'react'
 
 import { usePanelStore } from '@/Stores/PanelStore'
 import { StatusBar } from '@/Components/StatusBar'
@@ -12,10 +12,13 @@ import { exists } from '@/Utils'
 
 export const BookmarksStatus: FunctionComponent = observer(() => {
   const store = usePanelStore()
-  const { bookmarkStore } = store
+  const { bookmarkStore, settingStore } = store
 
   const activeFilters = store.settingStore.activeFilters
-  const setFilter = store.settingStore.setFilter.bind(store.settingStore)
+  const setFilter = useCallback(
+    (type, isEnabled) => settingStore.setFilter(type, isEnabled),
+    [settingStore],
+  )
   const collectionLength = bookmarkStore.collection.length
   const { pagination } = bookmarkStore
 

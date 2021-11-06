@@ -1,10 +1,17 @@
-import { action, makeObservable, observable, reaction, toJS } from 'mobx'
+import {
+  action,
+  makeObservable,
+  observable,
+  reaction,
+  runInAction,
+  toJS,
+} from 'mobx'
 import { PanelDatabase } from '@/Database/PanelDatabase'
 import { assign, compact, flatten, omit } from 'lodash'
 import { FilterCriteria } from '@/Pages/Panel/DDP/FilterConstants'
 
 export class SettingStore implements ISettings {
-  hydrated: boolean = false
+  hydrated = false
 
   @observable repositoryData: IGitHubRepository | null = null
 
@@ -48,7 +55,6 @@ export class SettingStore implements ISettings {
     this.repositoryData = repositoryData
   }
 
-  @action
   updateRepositoryData() {
     fetch(
       'https://api.github.com/repos/leonardoventurini/meteor-devtools-evolved',
@@ -61,7 +67,9 @@ export class SettingStore implements ISettings {
             return
           }
 
-          this.setRepositoryData(data)
+          runInAction(() => {
+            this.setRepositoryData(data)
+          })
         }
       })
       .catch(console.error)

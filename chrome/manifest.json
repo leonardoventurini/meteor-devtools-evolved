@@ -17,31 +17,23 @@
   },
   "content_scripts": [
     {
-      "matches": [
-        "<all_urls>"
-      ],
-      "js": [
-        "build/content.js"
-      ],
+      "matches": ["<all_urls>"],
+      "js": ["build/content.js"],
       "run_at": "document_end",
       "all_frames": true
     }
   ],
   "host_permissions": [
     "https://api.github.com/*",
-    "*://*/*"
+    "https://www.google-analytics.com/*"
   ],
   "content_security_policy": {
     "extension_pages": "script-src 'self'; object-src 'self'"
   },
   "web_accessible_resources": [
     {
-      "resources": [
-        "/build/inject.js"
-      ],
-      "matches": [
-        "*://*/*"
-      ]
+      "resources": ["/build/inject.js"],
+      "matches": ["*://*/*"]
     }
   ],
   "devtools_page": "devtools.html",

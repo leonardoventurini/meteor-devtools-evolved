@@ -8,6 +8,7 @@ All notable changes to this project will be documented in this file.
 
 ## Added
 
+- Google Analytics for improving the extension.
 - The browser action of the extension opens Meteor Cloud.
 
 ## Changed
@@ -16,7 +17,7 @@ All notable changes to this project will be documented in this file.
 - Add copy JSON button to minimongo drawer.
 - Improved minimongo tracking performance and responsiveness.
 - By default JSON documents are expanded up to 5 levels now.
-- Remove Iosevka font.
+- Remove Iosevka font, the default monospaced font from OS.
 
 ## Fixed
 

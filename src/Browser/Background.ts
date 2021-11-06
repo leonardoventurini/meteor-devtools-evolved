@@ -26,7 +26,7 @@ const tabRemovalListener = () => {
   })
 }
 
-chrome.browserAction.onClicked.addListener(() => {
+chrome.action.onClicked.addListener(() => {
   chrome.tabs
     .create({
       url: 'http://cloud.meteor.com/',
