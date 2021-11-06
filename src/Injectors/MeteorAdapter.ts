@@ -1,6 +1,7 @@
 import { Registry, sendMessage } from '@/Browser/Inject'
 import { getSubscriptions } from '@/Browser/MeteorLibrary'
 import { isFunction } from 'lodash'
+import { JSONUtils } from '@/Utils/JSONUtils'
 
 export const MeteorAdapter = () => {
   Registry.register('ddp-run-method', (message: Message<any>) => {
@@ -33,7 +34,7 @@ export const MeteorAdapter = () => {
         sendMessage('meteor-data-performance', {
           collectionName: this._name,
           key,
-          args: JSON.stringify(args),
+          args: JSON.stringify(args, JSONUtils.getCircularReplacer()),
           runtime: performance.now() - startMs,
         })
 
