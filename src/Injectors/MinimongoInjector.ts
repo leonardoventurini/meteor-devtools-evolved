@@ -34,7 +34,7 @@ const getCollections = () => {
     {},
   )
 
-  sendMessage('minimongo-get-collections', data)
+  sendMessage('minimongo-get-collections', data as any)
 }
 
 export const updateCollections = throttle(getCollections, 100, {

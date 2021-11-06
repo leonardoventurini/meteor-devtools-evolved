@@ -7,7 +7,7 @@ import { truncate } from '@/Styles/Mixins'
 const Wrapper = styled.div`
   &,
   & code {
-    font-family: 'Iosevka Medium', monospace;
+    font-family: monospace;
     font-size: 12px;
   }
 

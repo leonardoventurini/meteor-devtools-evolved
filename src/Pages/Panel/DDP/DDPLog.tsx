@@ -25,8 +25,6 @@ const DDPLogWrapper = styled.div`
 
   transition: background-color 0.5s ease;
 
-  font-family: 'Iosevka Medium', monospace;
-
   &.m-new {
     background-color: #30594d;
   }
@@ -59,7 +57,7 @@ const DDPLogWrapper = styled.div`
       min-width: 0;
 
       code {
-        font-family: 'Iosevka Medium', monospace;
+        font-family: monospace;
         ${truncate}
       }
     }

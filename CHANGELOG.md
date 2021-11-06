@@ -16,6 +16,7 @@ All notable changes to this project will be documented in this file.
 - Add copy JSON button to minimongo drawer.
 - Improved minimongo tracking performance and responsiveness.
 - By default JSON documents are expanded up to 5 levels now.
+- Remove Iosevka font.
 
 ## Fixed
 

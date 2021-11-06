@@ -24,7 +24,7 @@ const Wrapper = styled.div`
     width: 222px;
     overflow-y: auto;
     font-size: 11px;
-    font-family: 'Iosevka Medium', monospace;
+    font-family: monospace;
 
     nav {
       display: flex;

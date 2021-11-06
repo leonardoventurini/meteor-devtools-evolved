@@ -19,7 +19,7 @@ import { NullRenderer } from '@/Utils/ObjectTreerinator/NullRenderer'
 import styled from 'styled-components'
 
 const TreeWrapper = styled.div`
-  font-family: 'Iosevka Medium', monospace;
+  font-family: monospace;
   font-size: 12px;
   padding: 1rem;
 
