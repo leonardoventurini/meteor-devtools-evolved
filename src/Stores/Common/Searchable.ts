@@ -1,7 +1,7 @@
 import { DEFAULT_OFFSET } from '@/Constants'
 import { calculatePagination } from '@/Utils/Pagination'
 import { debounce } from 'lodash'
-import { action, computed, observable } from 'mobx'
+import { action, computed, observable, runInAction } from 'mobx'
 
 type BufferCallback<T> = ((buffer: T[]) => void) | null
 type FilterFunction<T> = ((collection: T[], search: string) => T[]) | null
@@ -30,7 +30,9 @@ export abstract class Searchable<T> {
     this.lastPush = Date.now()
 
     if (!this.isLoading) {
-      this.isLoading = true
+      runInAction(() => {
+        this.isLoading = true
+      })
     }
 
     this.buffer.push(log)

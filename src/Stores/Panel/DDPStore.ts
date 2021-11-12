@@ -1,5 +1,5 @@
 import { debounce } from 'lodash'
-import { action, computed, makeObservable, observable } from 'mobx'
+import { action, computed, makeObservable, observable, runInAction } from 'mobx'
 import { Searchable } from '../Common/Searchable'
 import { PanelStore } from '@/Stores/PanelStore'
 import { generatePreview } from '@/Utils/MessageFormatter'
@@ -39,7 +39,9 @@ export class DDPStore extends Searchable<DDPLog> {
   }
 
   clearNewLogs = debounce(() => {
-    this.newLogs = []
+    runInAction(() => {
+      this.newLogs = []
+    })
   }, 1000)
 
   filterFunction = (collection: DDPLog[], search: string) =>
