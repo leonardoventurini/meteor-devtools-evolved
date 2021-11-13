@@ -9,8 +9,7 @@
     "devtools"
   ],
   "scripts": {
-    "start": "npx concurrently -n ext,app 'webpack --config webpack/chrome.dev.js' 'npm run devapp'",
-    "devapp": "cd devapp && npm start",
+    "devapp": "cd devapp && npm run start",
     "build": "webpack --config webpack/chrome.prod.js"
   },
   "author": "Leonardo Venturini",
@@ -39,6 +38,10 @@
     "clean-webpack-plugin": "^4.0.0",
     "concurrently": "^6.3.0",
     "css-loader": "^6.3.0",
+    "d3-collection": "^1.0.7",
+    "d3-hierarchy": "^3.0.1",
+    "d3-selection": "^3.0.0",
+    "d3-shape": "^3.0.1",
     "dexie": "3.0.3",
     "file-loader": "^6.2.0",
     "lodash": "4.17.21",
