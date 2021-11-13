@@ -3,8 +3,11 @@ import React, { FunctionComponent } from 'react'
 
 interface Props {
   isAboutVisible: boolean
+
   onClose(): void
 }
+
+const YEAR = new Date().getFullYear()
 
 export const About: FunctionComponent<Props> = ({
   isAboutVisible,
@@ -98,7 +101,16 @@ export const About: FunctionComponent<Props> = ({
 
           <p>The MIT License (MIT)</p>
 
-          <p>Copyright (c) 2020 Leonardo Venturini</p>
+          <p>
+            Copyright (c) {YEAR}{' '}
+            <a
+              href='https://leonardoventurini.tech'
+              target='_blank'
+              rel='noopener noreferrer'
+            >
+              Leonardo Venturini
+            </a>
+          </p>
 
           <p>
             Permission is hereby granted, free of charge, to any person
