@@ -1,6 +1,8 @@
 import { isString, memoize } from 'lodash'
 
 export namespace StringUtils {
+  export const classPrefix = 'mde'
+
   export const truncate = (str: string, max: number = 40) => {
     return isString(str) && str.length > max
       ? str.slice(0, max).concat('...')
@@ -28,10 +30,7 @@ export namespace StringUtils {
     return `rgb(${rgb})`
   }
 
-  export const toClipboard = (
-    data: string,
-    mimeType: string = 'text/plain',
-  ) => {
+  export const toClipboard = (data: string, mimeType = 'text/plain') => {
     document.oncopy = function (event: ClipboardEvent) {
       event.clipboardData?.setData(mimeType, data)
       event.preventDefault()
@@ -40,4 +39,8 @@ export namespace StringUtils {
   }
 
   export const getSize = memoize((content: string) => new Blob([content]).size)
+
+  export function getPrefixedClass(className) {
+    return `${classPrefix}-${className}`
+  }
 }
