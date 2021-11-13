@@ -1,0 +1,114 @@
+.mde.mde-Mask {
+  position: fixed;
+  left: 0;
+  right: 0;
+  top: 0;
+  bottom: 0;
+  background-color: #cdcdcd;
+  opacity: 0.5;
+}
+
+.mde.mde-RootContainer {
+  position: absolute;
+  z-index: 99999;
+  top: 0;
+  font-family: 'Open Sans', sans-serif;
+  font-size: 12px;
+  font-weight: 400;
+  width: 960px;
+  height: 700px;
+  margin: 10px;
+}
+
+.mde.mde-RootContainer .mde-Main {
+  float: left;
+  width: 950px;
+}
+
+.mde.mde-RootContainer .mde-Pills,
+.mde.mde-RootContainer .mde-Sequence {
+  width: 800px;
+  height: 70px;
+}
+
+.mde.mde-RootContainer .mde-Sequence text {
+  font-weight: 600;
+  fill: #fff;
+}
+
+.mde.mde-RootContainer .mde-Chart {
+  position: relative;
+}
+
+.mde.mde-RootContainer .mde-Chart path {
+  stroke: #fff;
+}
+
+.mde.mde-RootContainer .mde-Explanation {
+  position: absolute;
+  top: 260px;
+  left: 405px;
+  width: 140px;
+  text-align: center;
+  color: #000;
+  z-index: -1;
+}
+
+.mde.mde-RootContainer .mde-Percentage {
+  font-size: 2.5em;
+}
+
+.mde.mde-RootContainer .mde-Bytes {
+  font-size: 2em;
+  font-weight: bold;
+}
+
+.mde.mde-RootContainer .mde-Pills .mde-Pill {
+  display: inline-block;
+  border: 2px solid black;
+  width: 176px;
+  margin-right: 5px;
+  border-radius: 15px;
+}
+
+.mde.mde-RootContainer .mde-Pills,
+.mde.mde-RootContainer .mde-Trail {
+  position: absolute;
+  font-family: 'Open Sans', sans-serif;
+  font-size: 12px;
+  left: 0;
+  min-width: 180px;
+  font-weight: bold;
+}
+
+.mde.mde-RootContainer .mde-Trail {
+  top: 100px;
+}
+
+.mde.mde-RootContainer .mde-Pills .mde-Pill,
+.mde.mde-RootContainer .mde-Trail .mde-TrailSegment {
+  height: 40px;
+  text-align: center;
+  vertical-align: middle;
+  line-height: 40px;
+  margin-bottom: 5px;
+}
+
+.mde.mde-RootContainer .mde-Pills .mde-Pill {
+  cursor: pointer;
+  background-color: rgba(171, 171, 171, 0.3);
+}
+
+.mde.mde-RootContainer .mde-Pills .mde-Pill:hover {
+  background-color: rgba(171, 171, 171, 0.8);
+}
+
+
+.mde.mde-RootContainer .mde-Pills .mde-Pill.mde-Active {
+  background-color: rgba(171, 171, 171, 1);
+}
+
+.mde.mde-RootContainer .mde-Trail .mde-TrailSegment {
+  border-radius: 3px;
+  border: 2px dotted black;
+}
