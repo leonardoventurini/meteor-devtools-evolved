@@ -16,5 +16,8 @@
       "server": "server/main.js"
     },
     "testModule": "tests/main.js"
+  },
+  "devDependencies": {
+    "@types/meteor": "^1.4.84"
   }
 }

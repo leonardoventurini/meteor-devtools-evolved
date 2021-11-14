@@ -9,24 +9,6 @@ const typePackage = 'package'
 const typeBundle = 'bundle'
 export const methodNameStats = `/__${packageName}/stats`
 
-if (Meteor.isProduction) {
-  console.warn(
-    [
-      `=> The "${packageName}" package is currently enabled. Visit your`,
-      'application in a web browser to view the client bundle analysis and',
-      "'meteor remove' the package before building/deploying the final bundle.",
-    ].join(' '),
-  )
-} else {
-  console.warn(
-    [
-      '=> In order to provide accurate measurements using minified bundles,',
-      `the "${packageName}" package requires running 'meteor --production'`,
-      'to simulate production bundling.',
-    ].join(' '),
-  )
-}
-
 function getStatBundles() {
   const statFileFilter = f =>
     f.type === 'json' &&
