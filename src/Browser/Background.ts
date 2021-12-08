@@ -29,7 +29,7 @@ const tabRemovalListener = () => {
 chrome.action.onClicked.addListener(() => {
   chrome.tabs
     .create({
-      url: 'http://cloud.meteor.com/',
+      url: 'http://cloud.meteor.com/?utm_source=chrome_extension&utm_medium=extension&utm_campaign=meteor_devtools_evolved',
     })
     .catch(console.error)
 })
