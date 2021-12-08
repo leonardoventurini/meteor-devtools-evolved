@@ -32,7 +32,9 @@ export class SettingStore implements ISettings {
       assign(this, settings)
 
       setTimeout(() => {
-        this.hydrated = true
+        runInAction(() => {
+          this.hydrated = true
+        })
       }, 1000)
     })
 
@@ -55,6 +57,7 @@ export class SettingStore implements ISettings {
     this.repositoryData = repositoryData
   }
 
+  @action
   updateRepositoryData() {
     fetch(
       'https://api.github.com/repos/leonardoventurini/meteor-devtools-evolved',

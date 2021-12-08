@@ -1,6 +1,6 @@
 import React, { ButtonHTMLAttributes, FunctionComponent } from 'react'
 import styled from 'styled-components'
-import { Icon, IconName } from '@blueprintjs/core'
+import { Icon, IconName, Intent } from '@blueprintjs/core'
 import { centerItems, truncate } from '@/Styles/Mixins'
 import classnames from 'classnames'
 import { isNumber, isString } from 'lodash'
@@ -108,7 +108,7 @@ const ButtonWrapper = styled.button`
 
 interface Props extends ButtonHTMLAttributes<HTMLButtonElement> {
   icon?: IconName | JSX.Element
-  intent?: 'warning'
+  intent?: Intent
   shine?: boolean
   active?: boolean
   subtitle?: string

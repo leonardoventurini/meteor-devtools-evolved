@@ -269,8 +269,6 @@ export class Analytics {
         return Promise.reject(new Error(response as string))
       })
       .then((json: any) => {
-        console.log(json)
-
         if (this.globalDebug) {
           if (json.hitParsingResult[0].valid) {
             return { clientId: payload.cid }

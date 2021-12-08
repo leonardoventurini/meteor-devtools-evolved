@@ -82,6 +82,12 @@ export const Navigation: FunctionComponent = observer(() => {
       },
       shine: true,
     },
+    {
+      key: 'reload',
+      content: 'Reload',
+      icon: 'refresh',
+      handler: () => location.reload(),
+    },
   ]
 
   if (repositoryData) {
