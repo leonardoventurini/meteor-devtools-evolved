@@ -1,6 +1,7 @@
 import { warning } from '@/Log'
 import { Registry, sendMessage } from '@/Browser/Inject'
-import { cloneDeep, throttle } from 'lodash'
+import cloneDeep from 'lodash.clonedeep'
+import throttle from 'lodash.throttle'
 
 const cleanup = (object: any) => {
   const clonedObject = cloneDeep(object)
