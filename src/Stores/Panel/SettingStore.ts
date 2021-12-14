@@ -29,7 +29,9 @@ export class SettingStore implements ISettings {
     makeObservable(this)
 
     PanelDatabase.getSettings().then(settings => {
-      assign(this, settings)
+      runInAction(() => {
+        assign(this, settings)
+      })
 
       setTimeout(() => {
         runInAction(() => {

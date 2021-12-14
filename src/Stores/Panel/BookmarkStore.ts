@@ -1,5 +1,5 @@
 import { PanelDatabase } from '@/Database/PanelDatabase'
-import { action, computed, makeObservable, observable } from 'mobx'
+import { action, computed, makeObservable, observable, runInAction } from 'mobx'
 import { Searchable } from '../Common/Searchable'
 import { PanelStore } from '@/Stores/PanelStore'
 
@@ -11,10 +11,15 @@ export class BookmarkStore extends Searchable<Bookmark> {
 
   @observable.shallow bookmarkIds: (string | undefined)[] = []
 
-  @action
   async sync() {
-    this.collection = await PanelDatabase.getAll()
-    this.bookmarkIds = this.collection.map((bookmark: Bookmark) => bookmark.id)
+    const collection = await PanelDatabase.getAll()
+
+    runInAction(() => {
+      this.collection = collection
+      this.bookmarkIds = this.collection.map(
+        (bookmark: Bookmark) => bookmark.id,
+      )
+    })
   }
 
   @action
@@ -31,8 +36,10 @@ export class BookmarkStore extends Searchable<Bookmark> {
     const bookmark = await PanelDatabase.get(key)
 
     if (bookmark) {
-      this.collection.push(bookmark)
-      this.bookmarkIds.push(bookmark.log.id)
+      runInAction(() => {
+        this.collection.push(bookmark)
+        this.bookmarkIds.push(bookmark.log.id)
+      })
     }
   }
 
