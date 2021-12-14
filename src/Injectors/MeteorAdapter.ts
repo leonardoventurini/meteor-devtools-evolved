@@ -28,14 +28,14 @@ export const MeteorAdapter = () => {
     if (isFunction(val)) {
       const original = prototype[key]
       prototype[key] = function (...args) {
-        const startMs = performance.now()
+        const startMs = Date.now()
         const result = original.apply(this, args)
 
         sendMessage('meteor-data-performance', {
           collectionName: this._name,
           key,
           args: JSON.stringify(args, JSONUtils.getCircularReplacer()),
-          runtime: performance.now() - startMs,
+          runtime: Date.now() - startMs,
         })
 
         return result
