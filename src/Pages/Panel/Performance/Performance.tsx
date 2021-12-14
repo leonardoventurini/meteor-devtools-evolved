@@ -4,6 +4,8 @@ import { HTMLTable, Tag } from '@blueprintjs/core'
 import { usePanelStore } from '@/Stores/PanelStore'
 import { observer } from 'mobx-react-lite'
 import styled from 'styled-components'
+import { StatusBar } from '@/Components/StatusBar'
+import { Button } from '@/Components/Button'
 
 type Props = { isVisible: boolean }
 
@@ -31,7 +33,9 @@ export const Performance = observer(
                 <th>Collection</th>
                 <th>Method</th>
                 <th>Arguments</th>
-                <th>Total Time</th>
+                <th>Total</th>
+                <th>Average</th>
+                <th>Calls</th>
               </tr>
             </thead>
             <tbody>
@@ -49,13 +53,31 @@ export const Performance = observer(
                     </Tag>
                   </td>
                   <td>
-                    <Tag minimal>{data.runtime.toFixed(3)}</Tag>
+                    <Tag minimal>{Math.round(data.runtime)} ms</Tag>
+                  </td>
+                  <td>
+                    <Tag minimal>{data.averageRuntime.toFixed(3)} ms</Tag>
+                  </td>
+                  <td>
+                    <Tag minimal>{data.calls}x</Tag>
                   </td>
                 </tr>
               ))}
             </tbody>
           </HTMLTable>
         </Wrapper>
+
+        <StatusBar>
+          <div className='right-group'>
+            <Button
+              intent='warning'
+              onClick={() => panelStore.performanceStore.clear()}
+              icon='inbox'
+            >
+              {panelStore.performanceStore.callMap.size ?? 0}
+            </Button>
+          </div>
+        </StatusBar>
       </Hideable>
     )
   },

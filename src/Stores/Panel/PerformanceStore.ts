@@ -7,7 +7,9 @@ type AccCallData = {
   method: string
   args: string
   runtime: number
+  averageRuntime: number
   updatedAt: number
+  calls: number
 }
 
 export class PerformanceStore<T> {
@@ -27,7 +29,9 @@ export class PerformanceStore<T> {
         'args',
         'method',
         'collectionName',
-      ]).reverse()
+      ])
+        .reverse()
+        .slice(0, 100)
     }),
     250,
     {
@@ -41,13 +45,17 @@ export class PerformanceStore<T> {
     if (this.callMap.has(key)) {
       const existingData = this.callMap.get(key)
 
+      const runtime = (existingData?.runtime ?? 0) + data.runtime
+
       this.callMap.set(key, {
         collectionName: data.collectionName,
         key,
         method: data.key,
         args: data.args,
-        runtime: (existingData?.runtime ?? 0) + data.runtime,
+        runtime,
+        averageRuntime: runtime / existingData.calls,
         updatedAt: Date.now(),
+        calls: existingData.calls + 1,
       })
     } else {
       this.callMap.set(key, {
@@ -56,16 +64,18 @@ export class PerformanceStore<T> {
         method: data.key,
         args: data.args,
         runtime: data?.runtime,
+        averageRuntime: data?.runtime,
         updatedAt: Date.now(),
+        calls: 1,
       })
     }
 
     this.updateRenderData()
   }
 
-  /**
-   * @todo
-   *
-   * - Implement garbage collection, removing entries which the updatedAt did not change after 30 seconds after the size of the map reaches a certain size.
-   */
+  @action
+  clear() {
+    this.callMap.clear()
+    this.renderData = []
+  }
 }
