@@ -1,6 +1,6 @@
 import { Registry, sendMessage } from '@/Browser/Inject'
 import { getSubscriptions } from '@/Browser/MeteorLibrary'
-import { isFunction } from 'lodash'
+import isFunction from 'lodash/isFunction'
 import { JSONUtils } from '@/Utils/JSONUtils'
 
 export const MeteorAdapter = () => {
@@ -25,7 +25,12 @@ export const MeteorAdapter = () => {
   const prototype = Mongo.Collection.prototype
 
   Object.entries(prototype).forEach(([key, val]) => {
-    if (isFunction(val)) {
+    if (
+      ['find', 'findOne', 'insert', 'update', 'upsert', 'remove'].includes(
+        key,
+      ) &&
+      isFunction(val)
+    ) {
       const original = prototype[key]
       prototype[key] = function (...args) {
         const startMs = Date.now()
