@@ -23,6 +23,10 @@ const Wrapper = styled.div`
     width: 100%;
     max-width: 100%;
   }
+
+  tbody {
+    font-family: monospace;
+  }
 `
 
 export const Subscriptions: FunctionComponent<Props> = observer(
@@ -38,6 +42,7 @@ export const Subscriptions: FunctionComponent<Props> = observer(
           <HTMLTable condensed interactive>
             <thead>
               <tr>
+                <th>ID</th>
                 <th>Name</th>
                 <th>Params</th>
                 <th>Active</th>
@@ -53,10 +58,13 @@ export const Subscriptions: FunctionComponent<Props> = observer(
                       {
                         params: subscription.params,
                       },
-                      subscription.name,
+                      `${subscription.name} [${subscription.id}]`,
                     )
                   }
                 >
+                  <td>
+                    <Tag minimal>{subscription.id}</Tag>
+                  </td>
                   <td>
                     <Tag minimal>{subscription.name}</Tag>
                   </td>
