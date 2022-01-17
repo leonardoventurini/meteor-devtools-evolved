@@ -5,7 +5,13 @@ import {
 } from '@/Injectors/MinimongoInjector'
 import { MeteorAdapter } from '@/Injectors/MeteorAdapter'
 
-const isFrame = location !== parent.location
+const isFrame = (function () {
+  try {
+    return window.self !== window.top
+  } catch (e) {
+    return true
+  }
+})()
 
 const PARENTHESIS_REGEX = /(\S*) \(([^)]+)\)/
 
@@ -116,36 +122,39 @@ export const Registry: IRegistry = {
     )
   },
 }
+;(function () {
+  if (!window.__meteor_devtools_evolved) {
+    if (isFrame) return false
 
-if (!window.__meteor_devtools_evolved) {
-  let attempts = 100
+    let attempts = 100
 
-  const interval = window.setInterval(() => {
-    --attempts
+    const interval = window.setInterval(() => {
+      --attempts
 
-    if (typeof Meteor === 'object' && !window.__meteor_devtools_evolved) {
-      window.__meteor_devtools_evolved = true
+      if (typeof Meteor === 'object' && !window.__meteor_devtools_evolved) {
+        window.__meteor_devtools_evolved = true
 
-      DDPInjector()
-      MinimongoInjector()
-      MeteorAdapter()
+        DDPInjector()
+        MinimongoInjector()
+        MeteorAdapter()
 
-      window.__meteor_devtools_evolved_receiveMessage =
-        Registry.run.bind(Registry)
+        window.__meteor_devtools_evolved_receiveMessage =
+          Registry.run.bind(Registry)
 
-      warning(`Initialized. Attempts: ${100 - attempts}.`)
-    }
-
-    if (attempts === 0) {
-      clearInterval(interval)
-
-      if (!window.Meteor) {
-        warning(
-          isFrame
-            ? `Unable to find Meteor on iframe "${location.href}"`
-            : 'Unable to find Meteor on the main page.',
-        )
+        warning(`Initialized. Attempts: ${100 - attempts}.`)
       }
-    }
-  }, 10)
-}
+
+      if (attempts === 0) {
+        clearInterval(interval)
+
+        if (!window.Meteor) {
+          warning(
+            isFrame
+              ? `Unable to find Meteor on iframe "${location.href}"`
+              : 'Unable to find Meteor on the main page.',
+          )
+        }
+      }
+    }, 10)
+  }
+})()
