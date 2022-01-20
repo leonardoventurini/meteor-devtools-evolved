@@ -27,6 +27,14 @@ const Wrapper = styled.div`
   tbody {
     font-family: monospace;
   }
+
+  table,
+  tbody,
+  tr,
+  td,
+  td span {
+    font-size: 11px !important;
+  }
 `
 
 export const Subscriptions: FunctionComponent<Props> = observer(

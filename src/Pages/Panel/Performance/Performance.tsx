@@ -17,6 +17,14 @@ const Wrapper = styled.div`
     width: 100%;
     max-width: 100%;
   }
+
+  table,
+  tbody,
+  tr,
+  td,
+  td span {
+    font-size: 11px !important;
+  }
 `
 
 export const Performance = observer(
