@@ -33,12 +33,6 @@ const warning = (message: string) => {
   } as { type: ConsoleType; message: string })
 }
 
-warning(
-  isFrame
-    ? `Initializing from iframe "${location.href}"...`
-    : 'Initializing on the main page...',
-)
-
 /**
  * @todo Do nothing here, and run any stack trace processing logic inside the extension, so if any errors happen it happens in the sandbox console.
  */
@@ -125,6 +119,12 @@ export const Registry: IRegistry = {
 ;(function () {
   if (!window.__meteor_devtools_evolved) {
     if (isFrame) return false
+
+    warning(
+      isFrame
+        ? `Initializing from iframe "${location.href}"...`
+        : 'Initializing on the main page...',
+    )
 
     let attempts = 100
 

@@ -7,12 +7,12 @@ const generateId = () => (Date.now() + Math.random()).toString(36)
 const injectOutboundInterceptor = (callback: MessageCallback) => {
   const send = Meteor.connection._stream.send
 
-  Meteor.connection._stream.send = function (...args: any[]) {
+  Meteor.connection._stream.send = function (...args) {
     send.apply(this, args)
 
     callback({
       id: generateId(),
-      content: arguments[0],
+      content: args[0],
       isOutbound: true,
       timestamp: Date.now(),
     })
@@ -20,10 +20,10 @@ const injectOutboundInterceptor = (callback: MessageCallback) => {
 }
 
 const injectInboundInterceptor = (callback: MessageCallback) => {
-  Meteor.connection._stream.on('message', function () {
+  Meteor.connection._stream.on('message', (...args) => {
     callback({
       id: generateId(),
-      content: arguments[0],
+      content: args[0],
       isInbound: true,
       timestamp: Date.now(),
     })

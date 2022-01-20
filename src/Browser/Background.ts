@@ -1,17 +1,25 @@
-interface Connection {
-  [key: string]: chrome.runtime.Port
+type Connection = Map<number, chrome.runtime.Port>
+
+interface Window {
+  connections: Connection
 }
 
-const connections: Connection = {}
+const connections: Connection = new Map()
+
+self.connections = connections
 
 const panelListener = () => {
   chrome.runtime.onConnect.addListener(port => {
+    console.debug('runtime.onConnect', port)
+
     port.onMessage.addListener(request => {
+      console.debug('port.onMessage', request)
+
       if (request.name === 'init') {
-        connections[request.tabId] = port
+        connections.set(request.tabId, port)
 
         port.onDisconnect.addListener(() => {
-          delete connections[request.tabId]
+          connections.delete(request.tabId)
         })
       }
     })
@@ -20,13 +28,17 @@ const panelListener = () => {
 
 const tabRemovalListener = () => {
   chrome.tabs.onRemoved.addListener(tabId => {
-    if (connections[tabId]) {
-      delete connections[tabId]
+    console.debug('tabs.onRemoved', tabId)
+
+    if (connections.has(tabId)) {
+      connections.delete(tabId)
     }
   })
 }
 
-chrome.action.onClicked.addListener(() => {
+chrome.action.onClicked.addListener(e => {
+  console.debug('action.onClicked', e)
+
   chrome.tabs
     .create({
       url: 'http://cloud.meteor.com/?utm_source=chrome_extension&utm_medium=extension&utm_campaign=meteor_devtools_evolved',
@@ -46,6 +58,8 @@ const handleConsole = ({
 
 const contentListener = () => {
   chrome.runtime.onMessage.addListener((request, sender, sendResponse) => {
+    console.debug('runtime.onMessage', request)
+
     if (request?.eventType === 'console') {
       handleConsole(request)
       return false
@@ -53,8 +67,8 @@ const contentListener = () => {
 
     const tabId = sender?.tab?.id
 
-    if (tabId && tabId in connections) {
-      connections[tabId].postMessage(request)
+    if (tabId && connections.has(tabId)) {
+      connections.get(tabId).postMessage(request)
     }
 
     return true
