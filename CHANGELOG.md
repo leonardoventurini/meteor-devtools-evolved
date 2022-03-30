@@ -10,6 +10,7 @@ All notable changes to this project will be documented in this file.
 
 - Google Analytics for improving the extension.
 - The browser action of the extension opens Meteor Cloud.
+- Add subscription duration, so we know how long specific subscriptions take.
 
 ## Changed
 
@@ -18,6 +19,7 @@ All notable changes to this project will be documented in this file.
 - Improved minimongo tracking performance and responsiveness.
 - By default JSON documents are expanded up to 5 levels now.
 - Remove Iosevka font, the default monospaced font from OS.
+- Now the extension is loaded slightly earlier, so we don't miss initial Meteor activity.
 
 ## Fixed
 
