@@ -5,9 +5,8 @@ import { PanelStore } from '@/Stores/PanelStore'
 import { generatePreview } from '@/Utils/MessageFormatter'
 
 export class DDPStore extends Searchable<DDPLog> {
-  @observable inboundBytes: number = 0
-  @observable outboundBytes: number = 0
-
+  @observable inboundBytes = 0
+  @observable outboundBytes = 0
   @observable newLogs: string[] = []
 
   constructor() {

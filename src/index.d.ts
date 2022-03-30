@@ -4,10 +4,11 @@ type MeteorID = string
 
 interface Window {
   __meteor_devtools_evolved: boolean
+
   __meteor_devtools_evolved_receiveMessage(message: Message<any>): void
 }
 
-declare module Meteor {
+declare namespace Meteor {
   const connection: any
   const gitCommitHash: string | undefined | null
 }
@@ -53,6 +54,7 @@ interface DDPLogContent {
   result?: string
   name?: string
   error?: DDPError
+  subs?: string[]
 }
 
 interface DDPLog {
@@ -100,9 +102,13 @@ interface Pagination {
   readonly hasNextPage: boolean
   readonly hasPreviousPage: boolean
   readonly pageItems: number
+
   setSearch(search: string): void
+
   setCurrentPage(page: number): void
+
   next(): void
+
   prev(): void
 }
 

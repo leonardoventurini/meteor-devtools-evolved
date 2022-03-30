@@ -116,7 +116,8 @@ export const Registry: IRegistry = {
     )
   },
 }
-;(function () {
+
+export function injectAll() {
   if (!window.__meteor_devtools_evolved) {
     if (isFrame) return false
 
@@ -127,8 +128,9 @@ export const Registry: IRegistry = {
     )
 
     let attempts = 100
+    let interval = null
 
-    const interval = window.setInterval(() => {
+    function inject() {
       --attempts
 
       if (typeof Meteor === 'object' && !window.__meteor_devtools_evolved) {
@@ -155,6 +157,12 @@ export const Registry: IRegistry = {
           )
         }
       }
-    }, 10)
+    }
+
+    inject()
+
+    interval = window.setInterval(inject, 10)
   }
-})()
+}
+
+injectAll()

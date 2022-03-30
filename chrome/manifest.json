@@ -17,9 +17,13 @@
   },
   "content_scripts": [
     {
-      "matches": ["<all_urls>"],
-      "js": ["build/content.js"],
-      "run_at": "document_end",
+      "matches": [
+        "<all_urls>"
+      ],
+      "js": [
+        "build/content.js"
+      ],
+      "run_at": "document_start",
       "all_frames": true
     }
   ],
@@ -32,8 +36,12 @@
   },
   "web_accessible_resources": [
     {
-      "resources": ["/build/inject.js"],
-      "matches": ["*://*/*"]
+      "resources": [
+        "/build/inject.js"
+      ],
+      "matches": [
+        "*://*/*"
+      ]
     }
   ],
   "devtools_page": "devtools.html",
