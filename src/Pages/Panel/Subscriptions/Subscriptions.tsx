@@ -77,7 +77,7 @@ export const Subscriptions: FunctionComponent<Props> = observer(
                     <Tag minimal>{subscription.name}</Tag>
                   </td>
                   <td>
-                    <Tag style={{ maxWidth: '50vw' }} minimal>
+                    <Tag style={{ maxWidth: '30vw' }} minimal>
                       {JSON.stringify(subscription.params)}
                     </Tag>
                   </td>
