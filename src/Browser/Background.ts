@@ -1,7 +1,11 @@
+import { defer } from 'lodash'
+
 type Connection = Map<number, chrome.runtime.Port>
 
-interface Window {
-  connections: Connection
+declare global {
+  interface Window {
+    connections: Connection
+  }
 }
 
 const connections: Connection = new Map()
@@ -58,20 +62,22 @@ const handleConsole = ({
 
 const contentListener = () => {
   chrome.runtime.onMessage.addListener((request, sender, sendResponse) => {
-    console.debug('runtime.onMessage', request)
+    defer(() => {
+      console.debug('runtime.onMessage', request)
 
-    if (request?.eventType === 'console') {
-      handleConsole(request)
-      return false
-    }
+      if (request?.eventType === 'console') {
+        handleConsole(request)
+        return
+      }
 
-    const tabId = sender?.tab?.id
+      const tabId = sender?.tab?.id
 
-    if (tabId && connections.has(tabId)) {
-      connections.get(tabId).postMessage(request)
-    }
+      if (tabId && connections.has(tabId)) {
+        connections.get(tabId).postMessage(request)
+      }
+    })
 
-    return true
+    sendResponse()
   })
 }
 
