@@ -55,50 +55,61 @@ export const Subscriptions: FunctionComponent<Props> = observer(
                 <th>Params</th>
                 <th>Active</th>
                 <th>Ready</th>
+                <th>Duration</th>
               </tr>
             </thead>
             <tbody>
-              {subscriptions.map(subscription => (
-                <tr
-                  key={subscription.id}
-                  onClick={() =>
-                    panelStore.setActiveObject(
-                      {
-                        params: subscription.params,
-                      },
-                      `${subscription.name} [${subscription.id}]`,
-                    )
-                  }
-                >
-                  <td>
-                    <Tag minimal>{subscription.id}</Tag>
-                  </td>
-                  <td>
-                    <Tag minimal>{subscription.name}</Tag>
-                  </td>
-                  <td>
-                    <Tag style={{ maxWidth: '30vw' }} minimal>
-                      {JSON.stringify(subscription.params)}
-                    </Tag>
-                  </td>
-                  <td>
-                    <Tag
-                      minimal
-                      intent={subscription.inactive ? 'warning' : 'success'}
-                    >
-                      {JSON.stringify(!subscription.inactive)}
-                    </Tag>
-                  </td>
-                  <td>
-                    <Tag
-                      minimal
-                      intent={subscription.ready ? 'success' : 'warning'}
-                    >
-                      {JSON.stringify(subscription.ready)}
-                    </Tag>
-                  </td>
-                </tr>
-              ))}
+              {subscriptions.map(subscription => {
+                const duration =
+                  panelStore.ddpStore.getSubscriptionDuration(subscription)
+
+                return (
+                  <tr
+                    key={subscription.id}
+                    onClick={() =>
+                      panelStore.setActiveObject(
+                        {
+                          params: subscription.params,
+                        },
+                        `${subscription.name} [${subscription.id}]`,
+                      )
+                    }
+                  >
+                    <td>
+                      <Tag minimal>{subscription.id}</Tag>
+                    </td>
+                    <td>
+                      <Tag style={{ maxWidth: '25vw' }} minimal>
+                        {subscription.name}
+                      </Tag>
+                    </td>
+                    <td>
+                      <Tag style={{ maxWidth: '25vw' }} minimal>
+                        {JSON.stringify(subscription.params)}
+                      </Tag>
+                    </td>
+                    <td>
+                      <Tag
+                        minimal
+                        intent={subscription.inactive ? 'warning' : 'success'}
+                      >
+                        {JSON.stringify(!subscription.inactive)}
+                      </Tag>
+                    </td>
+                    <td>
+                      <Tag
+                        minimal
+                        intent={subscription.ready ? 'success' : 'warning'}
+                      >
+                        {JSON.stringify(subscription.ready)}
+                      </Tag>
+                    </td>
+                    <td>
+                      <Tag minimal>{duration}</Tag>
+                    </td>
+                  </tr>
+                )
+              })}
             </tbody>
           </HTMLTable>
         </Wrapper>

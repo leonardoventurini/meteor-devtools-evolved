@@ -69,4 +69,38 @@ export class DDPStore extends Searchable<DDPLog> {
       `"msg":"(${PanelStore.settingStore.activeFilterBlacklist.join('|')})"`,
     )
   }
+
+  @computed
+  get subscriptionLogs() {
+    return this.collection.filter(
+      log =>
+        log.parsedContent.msg === 'ready' || log.parsedContent.msg === 'sub',
+    )
+  }
+
+  getSubscriptionInit(subscription) {
+    return this.subscriptionLogs.find(
+      log => log.parsedContent.id === subscription.id,
+    )
+  }
+
+  getSubscriptionReady(subscription) {
+    return this.subscriptionLogs.find(log =>
+      log.parsedContent.subs?.includes?.(subscription.id),
+    )
+  }
+
+  getSubscriptionDuration(subscription) {
+    const initLog = this.getSubscriptionInit(subscription)
+    const readyLog = this.getSubscriptionReady(subscription)
+
+    if (initLog && readyLog)
+      return `${readyLog.timestamp - initLog.timestamp}ms`
+
+    if (readyLog) return `???`
+
+    if (initLog) return `waiting`
+
+    return 'NA'
+  }
 }
