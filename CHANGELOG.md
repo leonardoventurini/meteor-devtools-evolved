@@ -4,13 +4,14 @@ All notable changes to this project will be documented in this file.
 
 > The dates refer to when it was made available in the Chrome platform.
 
-## [1.5] - 2021-10-00
+## [1.5] - 2022-04-14
 
 ## Added
 
 - Google Analytics for improving the extension.
 - The browser action of the extension opens Meteor Cloud.
 - Add subscription duration, so we know how long specific subscriptions take.
+- Performance tab which measures Minimongo calls.
 
 ## Changed
 
