@@ -1,6 +1,5 @@
 import { StringUtils } from '@/Utils/StringUtils'
 import { isNumber, isString } from 'lodash'
-import { PanelStore } from '@/Stores/PanelStore'
 
 const MAX_CHARACTERS = 512
 
@@ -25,24 +24,26 @@ export const MessageFormatter = {
     return session ? session : msg
   },
 
-  subscription({ name, subs }: any) {
-    if (name) {
-      return `${name} initialized`
+  subscription({ msg, id, name, subs }: any) {
+    if (msg === 'unsub') {
+      return `${id} stopping`
     }
 
-    if (!subs) {
-      return null
+    if (msg === 'nosub') {
+      return `${id} stopped`
     }
 
-    const idsToNames = subs
-      .map((id: string) => {
-        const sub = PanelStore.getSubscriptionById(id)
+    if (msg === 'sub') {
+      return `${name} initializing`
+    }
 
-        return sub?.name
-      })
-      .filter(Boolean)
+    if (msg === 'ready') {
+      const idsToNames = subs.map((id: string) => id).filter(Boolean)
 
-    return `${idsToNames.join(', ')} ready`
+      return `[${idsToNames.join(', ')}] ready`
+    }
+
+    return null
   },
 
   method({ msg, method, result, error }: DDPLogContent) {
