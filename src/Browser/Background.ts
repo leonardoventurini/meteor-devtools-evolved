@@ -8,6 +8,8 @@ declare global {
   }
 }
 
+const Cache = new Map<number, string[]>()
+
 const connections: Connection = new Map()
 
 self.connections = connections
@@ -21,6 +23,13 @@ const panelListener = () => {
 
       if (request.name === 'init') {
         connections.set(request.tabId, port)
+
+        // Pick things from cache and send it to the panel.
+        if (Cache.has(request.tabId)) {
+          Cache.get(request.tabId).forEach(message => {
+            port.postMessage(message)
+          })
+        }
 
         port.onDisconnect.addListener(() => {
           connections.delete(request.tabId)
@@ -36,6 +45,7 @@ const tabRemovalListener = () => {
 
     if (connections.has(tabId)) {
       connections.delete(tabId)
+      Cache.delete(tabId)
     }
   })
 }
@@ -50,11 +60,12 @@ chrome.action.onClicked.addListener(e => {
     .catch(console.error)
 })
 
-const handleConsole = ({
-  data: { type, message },
-}: Message<{ type: ConsoleType; message: string }>) => {
+const handleConsole = (
+  tabId: number,
+  { data: { type, message } }: Message<{ type: ConsoleType; message: string }>,
+) => {
   if (type in console) {
-    console[type](message)
+    console[type](`[${tabId}]`, message)
   } else {
     console.warn('Wrong console type.')
   }
@@ -63,16 +74,28 @@ const handleConsole = ({
 const contentListener = () => {
   chrome.runtime.onMessage.addListener((request, sender, sendResponse) => {
     defer(() => {
-      console.debug('runtime.onMessage', request)
+      const tabId = sender?.tab?.id
+
+      if (!tabId) return
 
       if (request?.eventType === 'console') {
-        handleConsole(request)
+        handleConsole(tabId, request)
         return
       }
 
-      const tabId = sender?.tab?.id
+      if (Cache.has(tabId)) {
+        const entry = Cache.get(tabId)
 
-      if (tabId && connections.has(tabId)) {
+        if (entry.length >= 10000) {
+          entry.shift()
+        }
+
+        entry.push(request)
+      } else {
+        Cache.set(tabId, [request])
+      }
+
+      if (connections.has(tabId)) {
         connections.get(tabId).postMessage(request)
       }
     })
