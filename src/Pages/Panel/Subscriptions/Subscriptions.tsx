@@ -42,7 +42,11 @@ export const Subscriptions: FunctionComponent<Props> = observer(
     useInterval(() => isVisible && syncSubscriptions(), 5000)
 
     const panelStore = usePanelStore()
-    const subscriptions = sortBy(panelStore.subscriptionStore.filtered, 'name')
+
+    const subscriptions = sortBy(
+      panelStore.subscriptionStore.subsWithMeta,
+      'meta.init.timestamp',
+    )
 
     return (
       <Hideable isVisible={isVisible}>

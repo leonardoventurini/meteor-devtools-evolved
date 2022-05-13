@@ -103,4 +103,13 @@ export class DDPStore extends Searchable<DDPLog> {
 
     return 'NA'
   }
+
+  getSubscriptionMeta(subscription) {
+    return {
+      meta: {
+        init: this.getSubscriptionInit(subscription),
+        ready: this.getSubscriptionReady(subscription),
+      },
+    }
+  }
 }

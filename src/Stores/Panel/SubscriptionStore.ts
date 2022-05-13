@@ -1,5 +1,6 @@
 import { Searchable } from '@/Stores/Common/Searchable'
-import { makeObservable } from 'mobx'
+import { computed, makeObservable } from 'mobx'
+import { PanelStore } from '@/Stores/PanelStore'
 
 export class SubscriptionStore extends Searchable<IMeteorSubscription> {
   constructor() {
@@ -13,4 +14,12 @@ export class SubscriptionStore extends Searchable<IMeteorSubscription> {
         !search ||
         JSON.stringify(document).toLowerCase().includes(search.toLowerCase()),
     )
+
+  @computed
+  get subsWithMeta() {
+    return this.filtered.map(sub => ({
+      ...sub,
+      ...PanelStore.ddpStore.getSubscriptionMeta(sub),
+    }))
+  }
 }
