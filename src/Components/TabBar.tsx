@@ -39,6 +39,10 @@ const TabBarWrapper = styled.div`
       &:hover {
         background-color: ${lighten(0.05, backgroundColor)};
       }
+
+      .bp3-icon {
+        margin-bottom: 2px;
+      }
     }
   }
 `
@@ -68,9 +72,9 @@ interface Props {
 export const TabBar: FunctionComponent<Props> = ({ tabs, menu, onChange }) => {
   const [activeKey, setKey] = useState(tabs[0].key)
 
-  const { sm } = useBreakpoints()
+  const { navigationCollapse } = useBreakpoints()
 
-  const rightMenu = sm ? (
+  const rightMenu = navigationCollapse ? (
     <Popover
       content={
         <Menu>

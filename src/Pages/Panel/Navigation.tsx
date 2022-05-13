@@ -90,6 +90,20 @@ export const Navigation: FunctionComponent = observer(() => {
     },
   ]
 
+  menu.unshift({
+    key: 'cloud',
+    content: (
+      <>
+        <strong>Meteor</strong> Cloud
+      </>
+    ),
+    icon: 'cloud',
+    shine: true,
+    handler: () => {
+      panelStore.setSponsorVisible(true)
+    },
+  })
+
   if (repositoryData) {
     menu.unshift({
       key: 'issue',

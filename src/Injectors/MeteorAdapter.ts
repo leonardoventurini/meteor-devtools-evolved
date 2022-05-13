@@ -32,6 +32,7 @@ export const MeteorAdapter = () => {
       isFunction(val)
     ) {
       const original = prototype[key]
+
       prototype[key] = function (...args) {
         const startMs = Date.now()
         const result = original.apply(this, args)

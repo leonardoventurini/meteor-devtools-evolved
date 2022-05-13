@@ -1,7 +1,7 @@
 import { useRef } from 'react'
 import { useDimensions } from '@/Utils/Hooks/useDimensions'
 
-type Breakpoint = 'xs' | 'sm' | 'md' | 'lg' | 'xl'
+type Breakpoint = 'xs' | 'sm' | 'md' | 'lg' | 'xl' | 'navigationCollapse'
 
 export const useBreakpoints = () => {
   const ref = useRef(document.body)
@@ -14,6 +14,7 @@ export const useBreakpoints = () => {
     md: width <= 1280,
     lg: width <= 1920,
     xl: width > 1920,
+    navigationCollapse: width <= 980,
   }
 
   return breakpoints
