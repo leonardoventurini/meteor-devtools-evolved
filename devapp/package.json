@@ -2,10 +2,10 @@
   "name": "devapp",
   "private": true,
   "scripts": {
-    "start": "meteor run --port=5000 --exclude-archs=web.browser.legacy,web.cordova"
+    "start": "meteor run --port=2100 --exclude-archs=web.browser.legacy,web.cordova"
   },
   "dependencies": {
-    "@babel/runtime": "^7.7.6",
+    "@babel/runtime": "^7.17.9",
     "meteor-node-stubs": "^1.0.0",
     "react": "^16.9.0",
     "react-dom": "^16.9.0"
