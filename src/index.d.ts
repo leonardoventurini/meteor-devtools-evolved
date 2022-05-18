@@ -22,6 +22,7 @@ type EventType =
   | 'sync-subscriptions'
   | 'stats'
   | 'meteor-data-performance'
+  | 'cache:clear'
 
 interface Message<T> {
   eventType: EventType

@@ -48,7 +48,6 @@
     "luxon": "2.3.0",
     "mobx": "6.4.0",
     "mobx-react-lite": "3.3.0",
-    "node-sass": "^7.0.1",
     "normalize.css": "8.0.1",
     "polished": "4.1.4",
     "pretty-bytes": "6.0.0",
@@ -58,6 +57,7 @@
     "react-singleton-hook": "^3.2.1",
     "react-window": "1.8.6",
     "react-window-infinite-loader": "1.0.7",
+    "sass": "^1.51.0",
     "sass-loader": "^12.1.0",
     "style-loader": "^3.3.0",
     "styled-components": "5.3.3",
@@ -69,5 +69,9 @@
     "webpack": "^5.58.1",
     "webpack-cli": "^4.9.0",
     "webpack-merge": "^5.8.0"
+  },
+  "volta": {
+    "node": "14.19.3",
+    "yarn": "1.22.18"
   }
 }

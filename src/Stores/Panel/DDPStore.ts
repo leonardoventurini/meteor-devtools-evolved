@@ -3,6 +3,7 @@ import { action, computed, makeObservable, observable, runInAction } from 'mobx'
 import { Searchable } from '../Common/Searchable'
 import { PanelStore } from '@/Stores/PanelStore'
 import { generatePreview } from '@/Utils/MessageFormatter'
+import { clearCache } from '@/Bridge'
 
 export class DDPStore extends Searchable<DDPLog> {
   @observable inboundBytes = 0
@@ -61,6 +62,8 @@ export class DDPStore extends Searchable<DDPLog> {
     this.collection = []
     this.inboundBytes = 0
     this.outboundBytes = 0
+
+    clearCache()
   }
 
   @computed

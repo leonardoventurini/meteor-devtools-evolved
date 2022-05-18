@@ -6,9 +6,8 @@ import { PanelStore } from '@/Stores/PanelStore'
 import { DateTime } from 'luxon'
 import { StringUtils } from '@/Utils/StringUtils'
 
-const getHash = memoize((content: string) =>
-  padStart(new CRC32().update(content).digest(), 8, '0'),
-)
+const getHash = (content: string) =>
+  padStart(new CRC32().update(content).digest(), 8, '0')
 
 export const syncSubscriptions = () =>
   Bridge.sendContentMessage({
@@ -19,6 +18,12 @@ export const syncSubscriptions = () =>
 export const syncStats = () =>
   Bridge.sendContentMessage({
     eventType: 'stats',
+    data: null,
+  })
+
+export const clearCache = () =>
+  Bridge.sendContentMessage({
+    eventType: 'cache:clear',
     data: null,
   })
 

@@ -78,6 +78,13 @@ const contentListener = () => {
 
       if (!tabId) return
 
+      // The message event has to from the panel to the content and then through here.
+      if (request?.eventType === 'cache:clear') {
+        console.debug('clear cache')
+        Cache.delete(tabId)
+        return
+      }
+
       if (request?.eventType === 'console') {
         handleConsole(tabId, request)
         return

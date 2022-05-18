@@ -22,6 +22,10 @@ export const MeteorAdapter = () => {
     })
   })
 
+  Registry.register('cache:clear', () => {
+    sendMessage('cache:clear', {})
+  })
+
   const prototype = Mongo.Collection.prototype
 
   Object.entries(prototype).forEach(([key, val]) => {
