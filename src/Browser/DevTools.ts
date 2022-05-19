@@ -1,5 +1,1 @@
-chrome.devtools.panels.create(
-  'Meteor',
-  'icons/meteor-16.png',
-  'devtools-panel.html',
-)
+chrome.devtools.panels.create('☄️ Meteor', '', 'devtools-panel.html')
