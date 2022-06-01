@@ -148,7 +148,7 @@ export const Navigation: FunctionComponent = observer(() => {
   }
 
   return (
-    <div className='navbar'>
+    <div className='mde-navbar'>
       <TabBar
         tabs={tabs}
         menu={menu}

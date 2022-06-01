@@ -25,6 +25,7 @@ export const Sponsor: FunctionComponent<Props> = ({
             src={MeteorCloudOffer}
             alt='Meteor Cloud Offer'
             style={{ width: '100%' }}
+            className='mb-4'
           />
           <p>
             ✅ Do you have a Meteor app, but you’re looking for a better hosting

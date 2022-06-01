@@ -35,7 +35,7 @@ const Layout = styled.div`
 
   min-width: ${MIN_LAYOUT_WIDTH}px;
 
-  .navbar {
+  .mde-navbar {
     position: absolute;
     top: 0;
     left: 0;

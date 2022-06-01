@@ -5,6 +5,7 @@ import { Options } from './Pages/Options'
 import { Panel } from './Pages/Panel'
 import { Popup } from './Pages/Popup'
 
+import './Styles/Tailwind.css'
 import './Styles/App.scss'
 
 FocusStyleManager.onlyShowFocusOnTabs()

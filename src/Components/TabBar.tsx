@@ -20,7 +20,7 @@ const TabBarWrapper = styled.div`
 
   background-color: ${backgroundColor};
 
-  button.tab {
+  button.mde-tab {
     &.active {
       background-color: ${lighten(0.1, backgroundColor)};
     }
@@ -116,7 +116,7 @@ export const TabBar: FunctionComponent<Props> = ({ tabs, menu, onChange }) => {
             onChange && onChange(tab.key)
             tab.handler && tab.handler()
           }}
-          className={classnames('tab', {
+          className={classnames('mde-tab', {
             active: activeKey === tab.key,
           })}
           icon={tab.icon}
