@@ -68,7 +68,7 @@ module.exports = override =>
             ],
           },
           {
-            test: /\.(gif)(\?v=\d+\.\d+\.\d+)?$/,
+            test: /\.(gif|png)$/,
             use: [
               {
                 loader: 'file-loader',
@@ -99,6 +99,7 @@ module.exports = override =>
           '.ts',
           '.tsx',
           '.woff',
+          '.png',
         ],
       },
 

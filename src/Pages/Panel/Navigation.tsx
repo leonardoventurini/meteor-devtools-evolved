@@ -92,12 +92,7 @@ export const Navigation: FunctionComponent = observer(() => {
 
   menu.unshift({
     key: 'cloud',
-    content: (
-      <>
-        <strong>Meteor</strong> Cloud
-      </>
-    ),
-    icon: 'cloud',
+    content: '☁️ Deploy for Free',
     shine: true,
     handler: () => {
       panelStore.setSponsorVisible(true)

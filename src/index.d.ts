@@ -1,4 +1,5 @@
 declare module '*.gif'
+declare module '*.png'
 
 type MeteorID = string
 

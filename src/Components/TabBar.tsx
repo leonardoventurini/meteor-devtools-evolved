@@ -58,7 +58,7 @@ export interface ITab {
 export interface IMenuItem {
   key: string
   content?: JSX.Element | string
-  icon: IconName | JSX.Element
+  icon?: IconName | JSX.Element
   shine?: boolean
   handler: () => void
 }
