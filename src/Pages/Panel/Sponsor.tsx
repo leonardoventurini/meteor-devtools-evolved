@@ -52,27 +52,29 @@ export const Sponsor: FunctionComponent<Props> = ({
             Meteor app. Some of Meteor Cloud’s well-loved features include:
           </p>
 
-          <div>💡 Free Automatic SSL</div>
-          <div>💡 Push to Deploy</div>
-          <div>💡 Outgoing IP Whitelist</div>
-          <div>💡 One command deploy</div>
-          <div>💡 Prerender SEO Optimization</div>
-          <div>💡 Rollback feature to revert changes</div>
-          <div>💡 Usage and warning notifications</div>
-          <div>💡 Meteor APM for performance monitoring</div>
-          <div>💡 Integration with a log system for issue monitoring</div>
-          <div>💡 Zero downtime with coordinated version updates</div>
-          <div>💡 Custom proxy layer tailored for Meteor applications</div>
-          <div>
-            💡 Triggers (Autoscaling) allow you to adapt to usage fluctuations
+          <div className='mb-4'>
+            <div>💡 Free Automatic SSL</div>
+            <div>💡 Push to Deploy</div>
+            <div>💡 Outgoing IP Whitelist</div>
+            <div>💡 One command deploy</div>
+            <div>💡 Prerender SEO Optimization</div>
+            <div>💡 Rollback feature to revert changes</div>
+            <div>💡 Usage and warning notifications</div>
+            <div>💡 Meteor APM for performance monitoring</div>
+            <div>💡 Integration with a log system for issue monitoring</div>
+            <div>💡 Zero downtime with coordinated version updates</div>
+            <div>💡 Custom proxy layer tailored for Meteor applications</div>
+            <div>
+              💡 Triggers (Autoscaling) allow you to adapt to usage fluctuations
+            </div>
           </div>
 
           <p>The best part? 👇</p>
 
           <p>
             As a Meteor DevTools Evolved user, you can use promo code{' '}
-            <span className='orange'>DEVTOOLS60</span> to receive a $60 credit
-            towards any paid plan!
+            <span className='text-orange-500 font-bold'>DEVTOOLS60</span> to
+            receive a $60 credit towards any paid plan!
           </p>
 
           <p>
