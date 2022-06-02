@@ -18,7 +18,14 @@ export const Sponsor: FunctionComponent<Props> = ({
 }) => {
   return (
     <Drawer
-      title='☁️ Deploy for Free '
+      title={
+        <div className='flex items-center gap-2'>
+          <span>☁️ Deploy for Free</span>
+          <Tag className='my-auto' minimal round>
+            Sponsor
+          </Tag>
+        </div>
+      }
       isOpen={isSponsorVisible}
       onClose={onClose}
     >

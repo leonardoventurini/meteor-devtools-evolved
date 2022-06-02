@@ -90,15 +90,6 @@ export const Navigation: FunctionComponent = observer(() => {
     },
   ]
 
-  menu.unshift({
-    key: 'cloud',
-    content: '☁️ Deploy for Free',
-    shine: true,
-    handler: () => {
-      panelStore.setSponsorVisible(true)
-    },
-  })
-
   if (repositoryData) {
     menu.unshift({
       key: 'issue',
@@ -146,6 +137,15 @@ export const Navigation: FunctionComponent = observer(() => {
       },
     })
   }
+
+  menu.unshift({
+    key: 'cloud',
+    content: '☁️ Deploy for Free',
+    shine: true,
+    handler: () => {
+      panelStore.setSponsorVisible(true)
+    },
+  })
 
   return (
     <div className='mde-navbar'>
