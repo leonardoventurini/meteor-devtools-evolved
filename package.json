@@ -43,7 +43,7 @@
     "d3-selection": "^3.0.0",
     "d3-shape": "^3.0.1",
     "daisyui": "^2.15.2",
-    "dexie": "3.2.1",
+    "dexie": "3.2.2",
     "file-loader": "^6.2.0",
     "lodash": "4.17.21",
     "luxon": "2.3.0",
