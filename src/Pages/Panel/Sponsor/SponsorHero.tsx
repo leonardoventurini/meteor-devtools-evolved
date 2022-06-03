@@ -7,7 +7,7 @@ interface Props {}
 export const SponsorHero: FC<Props> = () => {
   return (
     <div
-      className='hero'
+      className='hero mb-4'
       style={{
         height: '30rem',
         backgroundImage: 'url(/build/assets/meteor-shower.png)',
@@ -17,7 +17,7 @@ export const SponsorHero: FC<Props> = () => {
       <div className='hero-overlay bg-opacity-70'></div>
       <div className='hero-content text-center text-neutral-content'>
         <div className='max-w-md'>
-          <h1 className='mb-5 text-5xl font-bold'>The best part? 👇</h1>
+          <h1 className='mb-5 text-5xl font-bold'>☁ Deploy for Free</h1>
           <p className='mb-5'>
             As a Meteor DevTools Evolved user, you can use the promo code{' '}
             <span
