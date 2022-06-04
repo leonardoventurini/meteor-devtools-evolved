@@ -7,7 +7,6 @@ import { DateTime } from 'luxon'
 import styled from 'styled-components'
 import { truncate } from '@/Styles/Mixins'
 import { DDPLogMenu } from '@/Pages/Panel/DDP/DDPLogMenu'
-import { StringUtils } from '@/Utils/StringUtils'
 
 interface Props {
   log: DDPLog
@@ -126,22 +125,6 @@ export const DDPLog: FunctionComponent<Props> = ({
       <div className='size'>
         <Tag minimal>{log.sizePretty}</Tag>
       </div>
-
-      {log.hash && (
-        <div className='hash'>
-          <Tooltip content='Copy CRC32' hoverOpenDelay={800} position='top'>
-            <Tag
-              minimal
-              interactive
-              onClick={() => {
-                StringUtils.toClipboard(log.hash as string)
-              }}
-            >
-              {log.hash}
-            </Tag>
-          </Tooltip>
-        </div>
-      )}
     </DDPLogWrapper>
   )
 }

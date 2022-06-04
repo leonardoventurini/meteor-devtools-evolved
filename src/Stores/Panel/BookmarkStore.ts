@@ -51,10 +51,7 @@ export class BookmarkStore extends Searchable<Bookmark> {
       .filter(
         bookmark =>
           !search ||
-          bookmark.log.content
-            .toLowerCase()
-            .concat(bookmark.log.hash ?? '')
-            .includes(search.toLowerCase()),
+          bookmark.log.content.toLowerCase().includes(search.toLowerCase()),
       )
 
   @computed

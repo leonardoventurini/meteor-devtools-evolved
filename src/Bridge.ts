@@ -1,13 +1,8 @@
-import { memoize, padStart } from 'lodash'
-import { CRC32 } from '@/Utils/CRC32'
 import { detectType } from '@/Pages/Panel/DDP/FilterConstants'
 import prettyBytes from 'pretty-bytes'
 import { PanelStore } from '@/Stores/PanelStore'
 import { DateTime } from 'luxon'
 import { StringUtils } from '@/Utils/StringUtils'
-
-const getHash = (content: string) =>
-  padStart(new CRC32().update(content).digest(), 8, '0')
 
 export const syncSubscriptions = () =>
   Bridge.sendContentMessage({
@@ -83,7 +78,6 @@ export const Bridge = new (class {
 
 Bridge.register('ddp-event', (message: Message<DDPLog>) => {
   const size = StringUtils.getSize(message.data.content)
-  const hash = getHash(message.data.content)
   const parsedContent = JSON.parse(message.data.content)
   const filterType = detectType(parsedContent)
 
@@ -100,7 +94,6 @@ Bridge.register('ddp-event', (message: Message<DDPLog>) => {
       : '',
     size,
     sizePretty: prettyBytes(size),
-    hash,
     filterType,
   }
 
