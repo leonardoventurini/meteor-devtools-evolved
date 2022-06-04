@@ -28,9 +28,8 @@ export const Sponsor: FunctionComponent<Props> = ({
       onClose={onClose}
     >
       <div className={Classes.DRAWER_BODY}>
+        <SponsorHero />
         <div className={Classes.DIALOG_BODY}>
-          <SponsorHero />
-
           <div className='card w-full bg-base-100 shadow-xl mb-4 text-lg'>
             <div className='card-body'>
               <p>
