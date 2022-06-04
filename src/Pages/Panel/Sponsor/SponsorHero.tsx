@@ -1,6 +1,7 @@
 import React, { FC } from 'react'
 import { StringUtils } from '@/Utils/StringUtils'
 import { AppToaster } from '@/AppToaster'
+import MeteorCloudLogo from '@/Assets/meteor-cloud-logo.png'
 
 interface Props {}
 
@@ -17,7 +18,15 @@ export const SponsorHero: FC<Props> = () => {
       <div className='hero-overlay bg-opacity-70'></div>
       <div className='hero-content text-center text-neutral-content'>
         <div className='max-w-md'>
-          <h1 className='mb-5 text-5xl font-bold'>☁ Deploy for Free</h1>
+          <img
+            src={MeteorCloudLogo}
+            alt='Meteor Cloud Logo'
+            style={{ width: '400px' }}
+            className='mb-4 select-none mx-auto'
+          />
+
+          <h1 className='mb-5 text-xl font-bold'>☁ Deploy for Free</h1>
+
           <p className='mb-5'>
             As a Meteor DevTools Evolved user, you can use the promo code{' '}
             <span

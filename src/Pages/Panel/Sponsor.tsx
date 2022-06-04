@@ -1,7 +1,5 @@
 import { Classes, Drawer, Tag } from '@blueprintjs/core'
 import React, { FunctionComponent } from 'react'
-import { Separator } from '@/Components/Separator'
-import MeteorCloudBanner from '@/Assets/meteor-cloud-banner.png'
 
 import '@/Assets/meteor-shower.png'
 import { SponsorHero } from '@/Pages/Panel/Sponsor/SponsorHero'
@@ -32,18 +30,6 @@ export const Sponsor: FunctionComponent<Props> = ({
       <div className={Classes.DRAWER_BODY}>
         <div className={Classes.DIALOG_BODY}>
           <SponsorHero />
-
-          <img
-            src={MeteorCloudBanner}
-            alt='Meteor Cloud Offer'
-            style={{ width: '100%' }}
-            className='mb-4 cursor-pointer'
-            onClick={() => {
-              chrome.tabs.create({
-                url: 'https://social.meteor.com/devtools-evolved',
-              })
-            }}
-          />
 
           <div className='card w-full bg-base-100 shadow-xl mb-4 text-lg'>
             <div className='card-body'>
