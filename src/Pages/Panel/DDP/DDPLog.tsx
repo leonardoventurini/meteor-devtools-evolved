@@ -65,18 +65,6 @@ const DDPLogWrapper = styled.div`
   &:hover {
     background-color: #394b59;
   }
-
-  .menu {
-    visibility: hidden;
-
-    .bp3-icon + .bp3-icon {
-      margin-left: 8px;
-    }
-  }
-
-  &:hover .menu {
-    visibility: visible;
-  }
 `
 
 export const DDPLog: FunctionComponent<Props> = ({
@@ -85,10 +73,13 @@ export const DDPLog: FunctionComponent<Props> = ({
   isNew,
   isStarred,
 }) => {
-  const classes = classnames({
-    'm-new': isNew,
-    'm-starred': isStarred,
-  })
+  const classes = classnames(
+    {
+      'm-new': isNew,
+      'm-starred': isStarred,
+    },
+    'group',
+  )
 
   return (
     <DDPLogWrapper className={classes} style={style}>

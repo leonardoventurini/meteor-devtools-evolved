@@ -1,7 +1,7 @@
-import { Icon, Menu, Popover } from '@blueprintjs/core'
+import { Icon } from '@blueprintjs/core'
 import { PanelPage } from '@/Constants'
 import { Bridge } from '@/Bridge'
-import React, { FunctionComponent, useState } from 'react'
+import React, { FunctionComponent } from 'react'
 import { usePanelStore } from '@/Stores/PanelStore'
 
 interface Props {
@@ -12,7 +12,7 @@ export const DDPLogMenu: FunctionComponent<Props> = ({ log }) => {
   const store = usePanelStore()
 
   return (
-    <div className='menu'>
+    <div className='menu flex gap-2 flex-row invisible group-hover:visible'>
       <Icon
         icon='eye-open'
         onClick={() => log.trace && store.setActiveStackTrace(log.trace)}
