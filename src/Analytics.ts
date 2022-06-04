@@ -144,7 +144,7 @@ export class Analytics {
     if (label) params.el = label
     if (value) params.ev = value
 
-    return this.send('event', params)
+    this.send('event', params).catch(console.error)
   }
 
   screen(
