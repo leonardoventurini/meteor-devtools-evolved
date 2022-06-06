@@ -3,6 +3,8 @@ import { StringUtils } from '@/Utils/StringUtils'
 import { AppToaster } from '@/AppToaster'
 import MeteorCloudLogo from '@/Assets/meteor-cloud-logo.png'
 
+import '@/Assets/meteor-shower.jpg'
+
 interface Props {}
 
 export const SponsorHero: FC<Props> = () => {
@@ -11,7 +13,7 @@ export const SponsorHero: FC<Props> = () => {
       className='hero mb-4'
       style={{
         height: '30rem',
-        backgroundImage: 'url(/build/assets/meteor-shower.png)',
+        backgroundImage: 'url(/build/assets/meteor-shower.jpg)',
       }}
       id='meteor-cloud-hero'
     >

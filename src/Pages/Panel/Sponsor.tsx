@@ -1,7 +1,6 @@
 import { Classes, Drawer, Tag } from '@blueprintjs/core'
 import React, { FunctionComponent } from 'react'
 
-import '@/Assets/meteor-shower.png'
 import { SponsorHero } from '@/Pages/Panel/Sponsor/SponsorHero'
 
 interface Props {
