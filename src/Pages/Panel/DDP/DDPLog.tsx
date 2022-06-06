@@ -7,7 +7,6 @@ import { DateTime } from 'luxon'
 import styled from 'styled-components'
 import { truncate } from '@/Styles/Mixins'
 import { DDPLogMenu } from '@/Pages/Panel/DDP/DDPLogMenu'
-import { StringUtils } from '@/Utils/StringUtils'
 
 interface Props {
   log: DDPLog
@@ -66,18 +65,6 @@ const DDPLogWrapper = styled.div`
   &:hover {
     background-color: #394b59;
   }
-
-  .menu {
-    visibility: hidden;
-
-    .bp3-icon + .bp3-icon {
-      margin-left: 8px;
-    }
-  }
-
-  &:hover .menu {
-    visibility: visible;
-  }
 `
 
 export const DDPLog: FunctionComponent<Props> = ({
@@ -86,10 +73,13 @@ export const DDPLog: FunctionComponent<Props> = ({
   isNew,
   isStarred,
 }) => {
-  const classes = classnames({
-    'm-new': isNew,
-    'm-starred': isStarred,
-  })
+  const classes = classnames(
+    {
+      'm-new': isNew,
+      'm-starred': isStarred,
+    },
+    'group',
+  )
 
   return (
     <DDPLogWrapper className={classes} style={style}>
@@ -126,22 +116,6 @@ export const DDPLog: FunctionComponent<Props> = ({
       <div className='size'>
         <Tag minimal>{log.sizePretty}</Tag>
       </div>
-
-      {log.hash && (
-        <div className='hash'>
-          <Tooltip content='Copy CRC32' hoverOpenDelay={800} position='top'>
-            <Tag
-              minimal
-              interactive
-              onClick={() => {
-                StringUtils.toClipboard(log.hash as string)
-              }}
-            >
-              {log.hash}
-            </Tag>
-          </Tooltip>
-        </div>
-      )}
     </DDPLogWrapper>
   )
 }

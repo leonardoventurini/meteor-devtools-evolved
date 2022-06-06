@@ -12,6 +12,7 @@ import { Button } from '@/Components/Button'
 import prettyBytes from 'pretty-bytes'
 import { Field } from '@/Components/Field'
 import { StringUtils } from '@/Utils/StringUtils'
+import { AppToaster } from '@/AppToaster'
 
 export const DDPStatus: FunctionComponent = observer(() => {
   const store = usePanelStore()
@@ -71,6 +72,12 @@ export const DDPStatus: FunctionComponent = observer(() => {
               interactive
               onClick={() => {
                 StringUtils.toClipboard(store.gitCommitHash as string)
+                AppToaster.show({
+                  icon: 'tick',
+                  message: 'Copied to Clipboard',
+                  intent: 'success',
+                  timeout: 1000,
+                })
               }}
               style={{ marginRight: 4 }}
             >

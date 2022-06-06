@@ -69,7 +69,6 @@ interface DDPLog {
   timestamp?: number
   timestampPretty?: string
   timestampLong?: string
-  hash?: string
   size?: number
   sizePretty?: string
   host?: string

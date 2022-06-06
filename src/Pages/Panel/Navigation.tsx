@@ -61,21 +61,21 @@ export const Navigation: FunctionComponent = observer(() => {
   const menu: IMenuItem[] = [
     {
       key: 'community',
-      content: 'Community',
-      icon: 'chat',
+      content: '👥 Community',
       handler: () => {
-        chrome.tabs.create({
-          url: 'https://join.slack.com/t/meteor-community/shared_invite/zt-a9lwcfb7-~UwR3Ng6whEqRxcP5rORZw',
-        })
+        chrome.tabs
+          .create({
+            url: 'https://join.slack.com/t/meteor-community/shared_invite/zt-a9lwcfb7-~UwR3Ng6whEqRxcP5rORZw',
+          })
+          .catch(console.error)
 
-        analytics?.event('navigation', 'click', { label: 'community-slack' })
+        analytics?.event('navigation', 'click', { label: 'community' })
       },
       shine: true,
     },
     {
       key: 'about',
-      content: 'About',
-      icon: 'info-sign',
+      content: 'ℹ️ About',
       handler: () => {
         panelStore.setAboutVisible(true)
         analytics?.event('navigation', 'click', { label: 'about' })
@@ -84,18 +84,18 @@ export const Navigation: FunctionComponent = observer(() => {
     },
     {
       key: 'reload',
-      content: 'Reload',
-      icon: 'refresh',
+      content: '🔃 Reload',
       handler: () => location.reload(),
+      shine: true,
     },
   ]
 
   if (repositoryData) {
     menu.unshift({
-      key: 'issue',
+      key: 'feedback',
       content: (
         <>
-          <strong>Issue</strong>
+          <strong>📥 Feedback</strong>
           {isNumber(repositoryData.open_issues_count) ? (
             <Tag minimal round style={{ marginLeft: '.5rem' }}>
               {repositoryData.open_issues_count}
@@ -103,13 +103,14 @@ export const Navigation: FunctionComponent = observer(() => {
           ) : null}
         </>
       ),
-      icon: 'issue',
       handler: () => {
-        chrome.tabs.create({
-          url: repositoryData.html_url.concat('/issues'),
-        })
+        chrome.tabs
+          .create({
+            url: repositoryData.html_url.concat('/issues'),
+          })
+          .catch(console.error)
 
-        analytics?.event('navigation', 'click', { label: 'issues' })
+        analytics?.event('navigation', 'click', { label: 'feedback' })
       },
       shine: true,
     })
@@ -118,7 +119,7 @@ export const Navigation: FunctionComponent = observer(() => {
       key: 'star',
       content: (
         <>
-          <strong>Star</strong>
+          <strong>⭐ Stargazers</strong>
           {isNumber(repositoryData.stargazers_count) ? (
             <Tag minimal round style={{ marginLeft: '.5rem' }}>
               {repositoryData.stargazers_count}
@@ -126,12 +127,13 @@ export const Navigation: FunctionComponent = observer(() => {
           ) : null}
         </>
       ),
-      icon: 'star',
       shine: true,
       handler: () => {
-        chrome.tabs.create({
-          url: repositoryData.html_url.concat('/stargazers'),
-        })
+        chrome.tabs
+          .create({
+            url: repositoryData.html_url.concat('/stargazers'),
+          })
+          .catch(console.error)
 
         analytics?.event('navigation', 'click', { label: 'star' })
       },
@@ -144,6 +146,8 @@ export const Navigation: FunctionComponent = observer(() => {
     shine: true,
     handler: () => {
       panelStore.setSponsorVisible(true)
+
+      analytics?.event('navigation', 'click', { label: 'meteor cloud sponsor' })
     },
   })
 
