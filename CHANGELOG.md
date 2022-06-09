@@ -4,12 +4,18 @@ All notable changes to this project will be documented in this file.
 
 > The dates refer to when it was made available in the Chrome platform.
 
-## [1.6] - Soon!
+## [1.6] - 2022-06-08
 
 ## Added
 
 - Now logs are intercepted and stored in the background and loaded when you open the devtools panel.
 - Add Meteor emoji to devtool tab.
+- Add emojis to some actions in the top bar.
+- Add Meteor Cloud Sponsor content.
+
+## Removed
+
+- Removed CRC32 hashes, they did not have much use besides looking cool. Improves performance a bit.
 
 ## [1.5] - 2022-04-14
 
