@@ -10,7 +10,9 @@
   ],
   "scripts": {
     "devapp": "cd devapp && npm run start",
-    "build": "webpack --config webpack/chrome.prod.js"
+    "build:chrome": "webpack --config webpack/chrome.prod.js",
+    "build:firefox": "webpack --config webpack/firefox.prod.js",
+    "lint": "eslint ."
   },
   "author": "Leonardo Venturini",
   "license": "MIT",
@@ -76,5 +78,9 @@
   "volta": {
     "node": "14.19.3",
     "yarn": "1.22.18"
+  },
+  "devDependencies": {
+    "@types/webextension-polyfill": "^0.9.0",
+    "webextension-polyfill": "^0.9.0"
   }
 }

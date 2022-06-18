@@ -2,7 +2,7 @@ const base = require('./base')
 
 const TerserPlugin = require('terser-webpack-plugin')
 
-module.exports = base('chrome', {
+module.exports = base('firefox', {
   mode: 'production',
 
   optimization: {

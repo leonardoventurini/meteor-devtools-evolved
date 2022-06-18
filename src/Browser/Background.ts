@@ -1,6 +1,7 @@
 import { defer } from 'lodash'
+import browser from 'webextension-polyfill'
 
-type Connection = Map<number, chrome.runtime.Port>
+type Connection = Map<number, any>
 
 declare global {
   interface Window {
@@ -15,7 +16,7 @@ const connections: Connection = new Map()
 self.connections = connections
 
 const panelListener = () => {
-  chrome.runtime.onConnect.addListener(port => {
+  browser.runtime.onConnect.addListener(port => {
     console.debug('runtime.onConnect', port)
 
     port.onMessage.addListener(request => {
@@ -40,7 +41,7 @@ const panelListener = () => {
 }
 
 const tabRemovalListener = () => {
-  chrome.tabs.onRemoved.addListener(tabId => {
+  browser.tabs.onRemoved.addListener(tabId => {
     console.debug('tabs.onRemoved', tabId)
 
     if (connections.has(tabId)) {
@@ -50,10 +51,10 @@ const tabRemovalListener = () => {
   })
 }
 
-chrome.action.onClicked.addListener(e => {
+browser.browserAction.onClicked.addListener(e => {
   console.debug('action.onClicked', e)
 
-  chrome.tabs
+  browser.tabs
     .create({
       url: 'http://cloud.meteor.com/?utm_source=chrome_extension&utm_medium=extension&utm_campaign=meteor_devtools_evolved',
     })
@@ -72,7 +73,8 @@ const handleConsole = (
 }
 
 const contentListener = () => {
-  chrome.runtime.onMessage.addListener((request, sender, sendResponse) => {
+  // @ts-ignore
+  browser.runtime.onMessage.addListener((request, sender, sendResponse) => {
     defer(() => {
       const tabId = sender?.tab?.id
 

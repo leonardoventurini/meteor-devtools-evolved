@@ -7,6 +7,7 @@ import { IMenuItem, ITab, TabBar } from '@/Components/TabBar'
 import { Tag } from '@blueprintjs/core'
 import { isNumber } from 'lodash'
 import { useAnalytics } from '@/Utils/Hooks/useAnalytics'
+import browser from 'webextension-polyfill'
 
 export const Navigation: FunctionComponent = observer(() => {
   const panelStore = usePanelStore()
@@ -63,7 +64,7 @@ export const Navigation: FunctionComponent = observer(() => {
       key: 'community',
       content: '👥 Community',
       handler: () => {
-        chrome.tabs
+        browser.tabs
           .create({
             url: 'https://join.slack.com/t/meteor-community/shared_invite/zt-a9lwcfb7-~UwR3Ng6whEqRxcP5rORZw',
           })
@@ -104,7 +105,7 @@ export const Navigation: FunctionComponent = observer(() => {
         </>
       ),
       handler: () => {
-        chrome.tabs
+        browser.tabs
           .create({
             url: repositoryData.html_url.concat('/issues'),
           })
@@ -129,7 +130,7 @@ export const Navigation: FunctionComponent = observer(() => {
       ),
       shine: true,
       handler: () => {
-        chrome.tabs
+        browser.tabs
           .create({
             url: repositoryData.html_url.concat('/stargazers'),
           })

@@ -9,7 +9,7 @@ const { CleanWebpackPlugin } = require('clean-webpack-plugin')
 
 const aliases = getTypeScriptAliases()
 
-module.exports = override =>
+module.exports = (browser = 'chrome', override) =>
   merge(
     {
       entry: {
@@ -22,7 +22,7 @@ module.exports = override =>
 
       output: {
         chunkFilename: '[name].js',
-        path: path.join(__dirname, '../chrome/build/'),
+        path: path.join(__dirname, `../${browser}/build/`),
         publicPath: '/build/',
       },
 
