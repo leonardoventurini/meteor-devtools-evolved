@@ -12,7 +12,7 @@ const messageHandler = (event: MessageEvent) => {
 
 window.addEventListener('message', messageHandler)
 
-const url = browser.runtime.getURL('/build/inject.js')
+const url = browser.runtime.getURL('/.dist/inject.js')
 const script = document.createElement('script')
 script.setAttribute('type', 'text/javascript')
 script.setAttribute('src', url)
