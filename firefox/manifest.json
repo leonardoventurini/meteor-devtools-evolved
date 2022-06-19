@@ -14,7 +14,6 @@
   },
   "background": {
     "scripts": [
-      "build/browser-polyfill.js",
       "build/background.js"
     ],
     "persistent": false
