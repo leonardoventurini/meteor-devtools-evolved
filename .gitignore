@@ -4,3 +4,5 @@ node_modules
 chrome/build
 firefox/build
 chrome.pem
+extension/.chrome
+extension/.firefox

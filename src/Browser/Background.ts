@@ -1,5 +1,5 @@
 import { defer } from 'lodash'
-import browser from 'webextension-polyfill'
+import browser, { browserAction } from 'webextension-polyfill'
 
 type Connection = Map<number, any>
 
@@ -51,7 +51,10 @@ const tabRemovalListener = () => {
   })
 }
 
-browser.browserAction.onClicked.addListener(e => {
+// For cross-browser support
+const action = browser.browserAction || browser.action
+
+action.onClicked.addListener(e => {
   console.debug('action.onClicked', e)
 
   browser.tabs
