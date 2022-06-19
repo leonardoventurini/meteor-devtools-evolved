@@ -116,6 +116,23 @@ const contentListener = () => {
   })
 }
 
+const tabListener = () => {
+  const tabEvent = {
+    'create-tab': request =>
+      browser.tabs
+        .create({
+          url: request.data.url,
+        })
+        .catch(console.error),
+  }
+  chrome.runtime.onMessage.addListener(function (request, sender) {
+    if (request.source !== 'meteor-devtools-evolved') return null
+
+    tabEvent[request.eventType]?.(request)
+  })
+}
+
 panelListener()
 tabRemovalListener()
 contentListener()
+tabListener()

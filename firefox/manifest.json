@@ -32,7 +32,8 @@
   ],
   "permissions": [
     "https://api.github.com/*",
-    "https://www.google-analytics.com/*"
+    "https://www.google-analytics.com/*",
+    "tabs"
   ],
   "content_security_policy": "script-src 'self'; object-src 'self'",
   "web_accessible_resources": [
