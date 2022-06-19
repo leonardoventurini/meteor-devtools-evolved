@@ -1,4 +1,5 @@
 {
+  "manifest_version": 3,
   "name": "Meteor DevTools Evolved",
   "description": "The Meteor framework development tool belt, evolved.",
   "version": "1.6",
@@ -13,7 +14,7 @@
     "default_icon": "icons/meteor-48.png"
   },
   "background": {
-    "service_worker": "build/background.js"
+    "service_worker": ".dist/background.js"
   },
   "content_scripts": [
     {
@@ -21,7 +22,7 @@
         "<all_urls>"
       ],
       "js": [
-        "build/content.js"
+        ".dist/content.js"
       ],
       "run_at": "document_start",
       "all_frames": true
@@ -37,13 +38,12 @@
   "web_accessible_resources": [
     {
       "resources": [
-        "/build/inject.js"
+        "/.dist/inject.js"
       ],
       "matches": [
         "*://*/*"
       ]
     }
   ],
-  "devtools_page": "devtools.html",
-  "manifest_version": 3
+  "devtools_page": "devtools.html"
 }

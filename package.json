@@ -11,8 +11,7 @@
   "scripts": {
     "devapp": "cd devapp && npm run start",
     "build:chrome": "webpack --config webpack/chrome.prod.js",
-    "build:firefox": "webpack --config webpack/firefox.prod.js",
-    "lint": "eslint ."
+    "build:firefox": "webpack --config webpack/firefox.prod.js"
   },
   "author": "Leonardo Venturini",
   "license": "MIT",
@@ -81,6 +80,7 @@
   },
   "devDependencies": {
     "@types/webextension-polyfill": "^0.9.0",
+    "copy-webpack-plugin": "^11.0.0",
     "webextension-polyfill": "^0.9.0"
   }
 }

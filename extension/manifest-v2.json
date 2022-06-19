@@ -14,8 +14,7 @@
   },
   "background": {
     "scripts": [
-      "build/browser-polyfill.js",
-      "build/background.js"
+      ".dist/background.js"
     ],
     "persistent": false
   },
@@ -25,7 +24,7 @@
         "<all_urls>"
       ],
       "js": [
-        "build/content.js"
+        ".dist/content.js"
       ],
       "run_at": "document_start",
       "all_frames": true
@@ -37,7 +36,7 @@
   ],
   "content_security_policy": "script-src 'self'; object-src 'self'",
   "web_accessible_resources": [
-    "/build/inject.js"
+    "/.dist/inject.js"
   ],
   "devtools_page": "devtools.html"
 }
