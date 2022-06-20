@@ -17,7 +17,7 @@ const manifestVersion = {
 
 module.exports = (browser = 'chrome', override) => {
   const extDir = path.join(__dirname, `../extension`)
-  const distPath = `${extDir}/.${browser}/.dist/`
+  const distPath = `${extDir}/${browser}/dist/`
 
   return merge(
     {
@@ -32,7 +32,7 @@ module.exports = (browser = 'chrome', override) => {
       output: {
         chunkFilename: '[name].js',
         path: distPath,
-        publicPath: '/.dist/',
+        publicPath: '/dist/',
       },
 
       plugins: [
@@ -45,21 +45,21 @@ module.exports = (browser = 'chrome', override) => {
           patterns: [
             {
               from: extDir,
-              to: `${extDir}/.${browser}`,
+              to: `${extDir}/${browser}`,
               globOptions: {
                 dot: true,
                 gitignore: true,
                 ignore: [
                   '**/manifest-v2.json',
                   '**/manifest-v3.json',
-                  '**/.firefox',
-                  '**/.chrome',
+                  '**/firefox',
+                  '**/chrome',
                 ],
               },
             },
             {
               from: `${extDir}/manifest-v${manifestVersion[browser]}.json`,
-              to: `${extDir}/.${browser}/manifest.json`,
+              to: `${extDir}/${browser}/manifest.json`,
             },
           ],
         }),

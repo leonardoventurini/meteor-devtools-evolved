@@ -14,7 +14,7 @@
     "default_icon": "icons/meteor-48.png"
   },
   "background": {
-    "service_worker": ".dist/background.js"
+    "service_worker": "/dist/background.js"
   },
   "content_scripts": [
     {
@@ -22,7 +22,7 @@
         "<all_urls>"
       ],
       "js": [
-        ".dist/content.js"
+        "/dist/content.js"
       ],
       "run_at": "document_start",
       "all_frames": true
@@ -38,7 +38,7 @@
   "web_accessible_resources": [
     {
       "resources": [
-        "/.dist/inject.js"
+        "/dist/inject.js"
       ],
       "matches": [
         "*://*/*"
