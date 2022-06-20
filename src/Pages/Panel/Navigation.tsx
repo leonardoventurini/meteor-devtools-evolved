@@ -9,155 +9,158 @@ import { isNumber } from 'lodash'
 import { useAnalytics } from '@/Utils/Hooks/useAnalytics'
 
 export const Navigation: FunctionComponent = observer(() => {
-  const panelStore = usePanelStore()
-  const analytics = useAnalytics()
+ const panelStore = usePanelStore()
+ const analytics = useAnalytics()
 
-  useEffect(() => {
-    setTimeout(() => {
-      panelStore.settingStore.updateRepositoryData()
-    }, 2000)
-  }, [])
+ useEffect(() => {
+  setTimeout(() => {
+   panelStore.settingStore.updateRepositoryData()
+  }, 2000)
+ }, [])
 
-  const { repositoryData } = panelStore.settingStore
+ const { repositoryData } = panelStore.settingStore
 
-  const tabs: ITab[] = [
-    {
-      key: PanelPage.DDP,
-      content: 'DDP',
-      icon: 'changes',
-    },
-    {
-      key: PanelPage.BOOKMARKS,
-      content: 'Bookmarks',
-      icon: 'star',
-    },
-    {
-      key: PanelPage.MINIMONGO,
-      content: 'Minimongo',
-      icon: 'database',
-      handler: () => {
-        // Fetch collection data from the page.
-        Bridge.sendContentMessage({
-          eventType: 'minimongo-get-collections',
-          data: null,
-        })
-      },
-    },
-    {
-      key: PanelPage.SUBSCRIPTIONS,
-      content: 'Subscriptions',
-      icon: 'feed-subscribed',
-      handler: () => {
-        syncSubscriptions()
-      },
-    },
-    {
-      key: PanelPage.PERFORMANCE,
-      content: 'Performance',
-      icon: 'lightning',
-    },
-  ]
-
-  const menu: IMenuItem[] = [
-    {
-      key: 'community',
-      content: '👥 Community',
-      handler: () => {
-        chrome.tabs
-          .create({
-            url: 'https://join.slack.com/t/meteor-community/shared_invite/zt-a9lwcfb7-~UwR3Ng6whEqRxcP5rORZw',
-          })
-          .catch(console.error)
-
-        analytics?.event('navigation', 'click', { label: 'community' })
-      },
-      shine: true,
-    },
-    {
-      key: 'about',
-      content: 'ℹ️ About',
-      handler: () => {
-        panelStore.setAboutVisible(true)
-        analytics?.event('navigation', 'click', { label: 'about' })
-      },
-      shine: true,
-    },
-    {
-      key: 'reload',
-      content: '🔃 Reload',
-      handler: () => location.reload(),
-      shine: true,
-    },
-  ]
-
-  if (repositoryData) {
-    menu.unshift({
-      key: 'feedback',
-      content: (
-        <>
-          <strong>📥 Feedback</strong>
-          {isNumber(repositoryData.open_issues_count) ? (
-            <Tag minimal round style={{ marginLeft: '.5rem' }}>
-              {repositoryData.open_issues_count}
-            </Tag>
-          ) : null}
-        </>
-      ),
-      handler: () => {
-        chrome.tabs
-          .create({
-            url: repositoryData.html_url.concat('/issues'),
-          })
-          .catch(console.error)
-
-        analytics?.event('navigation', 'click', { label: 'feedback' })
-      },
-      shine: true,
+ const tabs: ITab[] = [
+  {
+   key: PanelPage.DDP,
+   content: 'DDP',
+   icon: 'changes',
+  },
+  {
+   key: PanelPage.BOOKMARKS,
+   content: 'Bookmarks',
+   icon: 'star',
+  },
+  {
+   key: PanelPage.MINIMONGO,
+   content: 'Minimongo',
+   icon: 'database',
+   handler: () => {
+    // Fetch collection data from the page.
+    Bridge.sendContentMessage({
+     eventType: 'minimongo-get-collections',
+     data: null,
     })
+   },
+  },
+  {
+   key: PanelPage.SUBSCRIPTIONS,
+   content: 'Subscriptions',
+   icon: 'feed-subscribed',
+   handler: () => {
+    syncSubscriptions()
+   },
+  },
+  {
+   key: PanelPage.PERFORMANCE,
+   content: 'Performance',
+   icon: 'lightning',
+  },
+ ]
 
-    menu.unshift({
-      key: 'star',
-      content: (
-        <>
-          <strong>⭐ Stargazers</strong>
-          {isNumber(repositoryData.stargazers_count) ? (
-            <Tag minimal round style={{ marginLeft: '.5rem' }}>
-              {repositoryData.stargazers_count}
-            </Tag>
-          ) : null}
-        </>
-      ),
-      shine: true,
-      handler: () => {
-        chrome.tabs
-          .create({
-            url: repositoryData.html_url.concat('/stargazers'),
-          })
-          .catch(console.error)
+ const menu: IMenuItem[] = [
+  {
+   key: 'community',
+   content: '👥 Community',
+   handler: () => {
+    chrome.tabs
+     .create({
+      url: 'https://join.slack.com/t/meteor-community/shared_invite/zt-a9lwcfb7-~UwR3Ng6whEqRxcP5rORZw',
+     })
+     // eslint-disable-next-line no-console
+     .catch(console.error)
 
-        analytics?.event('navigation', 'click', { label: 'star' })
-      },
-    })
-  }
+    analytics?.event('navigation', 'click', { label: 'community' })
+   },
+   shine: true,
+  },
+  {
+   key: 'about',
+   content: 'ℹ️ About',
+   handler: () => {
+    panelStore.setAboutVisible(true)
+    analytics?.event('navigation', 'click', { label: 'about' })
+   },
+   shine: true,
+  },
+  {
+   key: 'reload',
+   content: '🔃 Reload',
+   handler: () => location.reload(),
+   shine: true,
+  },
+ ]
 
+ if (repositoryData) {
   menu.unshift({
-    key: 'cloud',
-    content: '☁️ Deploy for Free',
-    shine: true,
-    handler: () => {
-      panelStore.setSponsorVisible(true)
+   key: 'feedback',
+   content: (
+    <>
+     <strong>📥 Feedback</strong>
+     {isNumber(repositoryData.open_issues_count) ? (
+      <Tag minimal round style={{ marginLeft: '.5rem' }}>
+       {repositoryData.open_issues_count}
+      </Tag>
+     ) : null}
+    </>
+   ),
+   handler: () => {
+    chrome.tabs
+     .create({
+      url: repositoryData.html_url.concat('/issues'),
+     })
+     // eslint-disable-next-line no-console
+     .catch(console.error)
 
-      analytics?.event('navigation', 'click', { label: 'meteor cloud sponsor' })
-    },
+    analytics?.event('navigation', 'click', { label: 'feedback' })
+   },
+   shine: true,
   })
 
-  return (
-    <div className='mde-navbar'>
-      <TabBar
-        tabs={tabs}
-        menu={menu}
-        onChange={key => panelStore.setSelectedTabId(key)}
-      />
-    </div>
-  )
+  menu.unshift({
+   key: 'star',
+   content: (
+    <>
+     <strong>⭐ Stargazers</strong>
+     {isNumber(repositoryData.stargazers_count) ? (
+      <Tag minimal round style={{ marginLeft: '.5rem' }}>
+       {repositoryData.stargazers_count}
+      </Tag>
+     ) : null}
+    </>
+   ),
+   shine: true,
+   handler: () => {
+    chrome.tabs
+     .create({
+      url: repositoryData.html_url.concat('/stargazers'),
+     })
+     // eslint-disable-next-line no-console
+     .catch(console.error)
+
+    analytics?.event('navigation', 'click', { label: 'star' })
+   },
+  })
+ }
+
+ menu.unshift({
+  key: 'cloud',
+  content: '☁️ Deploy for Free',
+  shine: true,
+  handler: () => {
+   panelStore.setSponsorVisible(true)
+
+   analytics?.event('navigation', 'click', { label: 'meteor cloud sponsor' })
+  },
+ })
+
+ return (
+  <div className="mde-navbar">
+   <TabBar
+    tabs={tabs}
+    menu={menu}
+    onChange={key => panelStore.setSelectedTabId(key)}
+   />
+  </div>
+ )
 })

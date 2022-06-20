@@ -9,50 +9,50 @@
 $background-color: #30404d;
 
 ::-webkit-scrollbar {
-  width: 10px;
-  background: transparent;
+ width: 10px;
+ background: transparent;
 }
 
 ::-webkit-scrollbar-track {
-  -webkit-box-shadow: none;
-  background: transparent;
+ -webkit-box-shadow: none;
+ background: transparent;
 }
 
 ::-webkit-scrollbar-thumb {
-  -webkit-box-shadow: none;
-  background-color: lighten($background-color, 15%);
+ -webkit-box-shadow: none;
+ background-color: lighten($background-color, 15%);
 }
 
 html,
 body {
-  font-size: 12px;
+ font-size: 12px;
 }
 
 body {
-  background-color: $background-color;
-  overflow: hidden;
+ background-color: $background-color;
+ overflow: hidden;
 }
 
 pre {
-  white-space: pre-wrap;
+ white-space: pre-wrap;
 }
 
 .truncated {
-  white-space: nowrap;
-  overflow: hidden;
-  text-overflow: ellipsis;
+ white-space: nowrap;
+ overflow: hidden;
+ text-overflow: ellipsis;
 }
 
 .mde-stack-trace {
-  pre {
-    margin-bottom: 4px;
-  }
+ pre {
+  margin-bottom: 4px;
+ }
 }
 
 .bp3-menu-item {
-  i.fas,
-  i.fab {
-    margin-top: 2px;
-    font-size: 16px;
-  }
+ i.fas,
+ i.fab {
+  margin-top: 2px;
+  font-size: 16px;
+ }
 }

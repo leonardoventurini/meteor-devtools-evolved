@@ -9,73 +9,74 @@ import { SubscriptionStore } from '@/Stores/Panel/SubscriptionStore'
 import { PerformanceStore } from './Panel/PerformanceStore'
 
 export class PanelStoreConstructor {
-  @observable selectedTabId: string = PanelPage.DDP
+ @observable selectedTabId: string = PanelPage.DDP
 
-  @observable activeObjectTitle: string | null = null
-  @observable activeObject: ViewableObject = null
-  @observable.shallow activeStackTrace: StackTrace[] | null = null
+ @observable activeObjectTitle: string | null = null
+ @observable activeObject: ViewableObject = null
+ @observable.shallow activeStackTrace: StackTrace[] | null = null
 
-  @observable isAboutVisible = false
-  @observable isSponsorVisible = false
-  @observable subscriptions: Record<string, IMeteorSubscription> = {}
+ @observable isAboutVisible = false
+ @observable isSponsorVisible = false
+ @observable subscriptions: Record<string, IMeteorSubscription> = {}
 
-  @observable gitCommitHash?: string | null = null
+ @observable gitCommitHash?: string | null = null
 
-  ddpStore = new DDPStore()
-  bookmarkStore = new BookmarkStore()
-  minimongoStore = new MinimongoStore()
-  subscriptionStore = new SubscriptionStore()
-  settingStore = new SettingStore()
-  performanceStore = new PerformanceStore()
+ ddpStore = new DDPStore()
+ bookmarkStore = new BookmarkStore()
+ minimongoStore = new MinimongoStore()
+ subscriptionStore = new SubscriptionStore()
+ settingStore = new SettingStore()
+ performanceStore = new PerformanceStore()
 
-  constructor() {
-    makeObservable(this)
+ constructor() {
+  makeObservable(this)
 
-    this.bookmarkStore.sync().catch(console.error)
-  }
+  // eslint-disable-next-line no-console
+  this.bookmarkStore.sync().catch(console.error)
+ }
 
-  @action
-  syncSubscriptions(subscriptions: Record<MeteorID, IMeteorSubscription>) {
-    this.subscriptionStore.setCollection(Object.values(subscriptions))
-  }
+ @action
+ syncSubscriptions(subscriptions: Record<MeteorID, IMeteorSubscription>) {
+  this.subscriptionStore.setCollection(Object.values(subscriptions))
+ }
 
-  @action
-  setActiveObject(viewableObject: ViewableObject, title: string | null = null) {
-    this.activeObject = viewableObject
-    this.activeObjectTitle = title
-  }
+ @action
+ setActiveObject(viewableObject: ViewableObject, title: string | null = null) {
+  this.activeObject = viewableObject
+  this.activeObjectTitle = title
+ }
 
-  @action
-  setActiveStackTrace(trace: StackTrace[] | null) {
-    this.activeStackTrace = trace
-  }
+ @action
+ setActiveStackTrace(trace: StackTrace[] | null) {
+  this.activeStackTrace = trace
+ }
 
-  @action
-  setSelectedTabId(selectedTabId: string) {
-    this.selectedTabId = selectedTabId
-  }
+ @action
+ setSelectedTabId(selectedTabId: string) {
+  this.selectedTabId = selectedTabId
+ }
 
-  @action
-  setAboutVisible(isAboutVisible: boolean) {
-    this.isAboutVisible = isAboutVisible
-  }
+ @action
+ setAboutVisible(isAboutVisible: boolean) {
+  this.isAboutVisible = isAboutVisible
+ }
 
-  @action
-  setSponsorVisible(isSponsorVisible: boolean) {
-    this.isSponsorVisible = isSponsorVisible
-  }
+ @action
+ setSponsorVisible(isSponsorVisible: boolean) {
+  this.isSponsorVisible = isSponsorVisible
+ }
 
-  @action
-  getSubscriptionById(id: string) {
-    const subs = toJS(this.subscriptions)
+ @action
+ getSubscriptionById(id: string) {
+  const subs = toJS(this.subscriptions)
 
-    return id in subs ? subs[id] : null
-  }
+  return id in subs ? subs[id] : null
+ }
 
-  @action
-  setGitCommitHash(hash: string) {
-    this.gitCommitHash = hash
-  }
+ @action
+ setGitCommitHash(hash: string) {
+  this.gitCommitHash = hash
+ }
 }
 
 export const PanelStore = new PanelStoreConstructor()
@@ -83,17 +84,17 @@ export const PanelStore = new PanelStoreConstructor()
 const PanelStoreContext = createContext<PanelStoreConstructor | null>(null)
 
 export const PanelStoreProvider: FunctionComponent = ({ children }) => (
-  <PanelStoreContext.Provider value={PanelStore}>
-    {children}
-  </PanelStoreContext.Provider>
+ <PanelStoreContext.Provider value={PanelStore}>
+  {children}
+ </PanelStoreContext.Provider>
 )
 
 export const usePanelStore = () => {
-  const store = useContext(PanelStoreContext)
+ const store = useContext(PanelStoreContext)
 
-  if (!store) {
-    throw new Error('Must be used within a provider.')
-  }
+ if (!store) {
+  throw new Error('Must be used within a provider.')
+ }
 
-  return store
+ return store
 }

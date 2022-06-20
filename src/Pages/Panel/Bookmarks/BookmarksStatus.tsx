@@ -11,52 +11,49 @@ import { Field } from '@/Components/Field'
 import { exists } from '@/Utils'
 
 export const BookmarksStatus: FunctionComponent = observer(() => {
-  const store = usePanelStore()
-  const { bookmarkStore, settingStore } = store
+ const store = usePanelStore()
+ const { bookmarkStore, settingStore } = store
 
-  const activeFilters = store.settingStore.activeFilters
-  const setFilter = useCallback(
-    (type, isEnabled) => settingStore.setFilter(type, isEnabled),
-    [settingStore],
-  )
-  const collectionLength = bookmarkStore.collection.length
-  const { pagination } = bookmarkStore
+ const activeFilters = store.settingStore.activeFilters
+ const setFilter = useCallback(
+  (type, isEnabled) => settingStore.setFilter(type, isEnabled),
+  [settingStore],
+ )
+ const collectionLength = bookmarkStore.collection.length
+ const { pagination } = bookmarkStore
 
-  return (
-    <StatusBar>
-      <div className='left-group'>
-        <PopoverButton
-          icon='filter'
-          height={28}
-          content={
-            <DDPFilterMenu
-              setFilter={setFilter}
-              activeFilters={activeFilters}
-            />
-          }
-          position={Position.RIGHT_TOP}
-        >
-          Filter
-        </PopoverButton>
+ return (
+  <StatusBar>
+   <div className="left-group">
+    <PopoverButton
+     icon="filter"
+     height={28}
+     content={
+      <DDPFilterMenu setFilter={setFilter} activeFilters={activeFilters} />
+     }
+     position={Position.RIGHT_TOP}
+    >
+     Filter
+    </PopoverButton>
 
-        <TextInput
-          icon='search'
-          placeholder='Search...'
-          onChange={(event: FormEvent<HTMLInputElement>) =>
-            pagination.setSearch(event.currentTarget.value)
-          }
-        />
+    <TextInput
+     icon="search"
+     placeholder="Search..."
+     onChange={(event: FormEvent<HTMLInputElement>) =>
+      pagination.setSearch(event.currentTarget.value)
+     }
+    />
 
-        <Field icon='eye-open'>{pagination.length}</Field>
-      </div>
+    <Field icon="eye-open">{pagination.length}</Field>
+   </div>
 
-      <div className='right-group'>
-        {exists(collectionLength) && (
-          <Field intent='warning' icon='inbox'>
-            {collectionLength}
-          </Field>
-        )}
-      </div>
-    </StatusBar>
-  )
+   <div className="right-group">
+    {exists(collectionLength) && (
+     <Field intent="warning" icon="inbox">
+      {collectionLength}
+     </Field>
+    )}
+   </div>
+  </StatusBar>
+ )
 })

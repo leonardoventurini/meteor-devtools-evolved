@@ -1,168 +1,168 @@
 import { DDPInjector } from '@/Injectors/DDPInjector'
 import {
-  MinimongoInjector,
-  updateCollections,
+ MinimongoInjector,
+ updateCollections,
 } from '@/Injectors/MinimongoInjector'
 import { MeteorAdapter } from '@/Injectors/MeteorAdapter'
 
 const isFrame = (function () {
-  try {
-    return window.self !== window.top
-  } catch (e) {
-    return true
-  }
+ try {
+  return window.self !== window.top
+ } catch (e) {
+  return true
+ }
 })()
 
 const PARENTHESIS_REGEX = /(\S*) \(([^)]+)\)/
 
 export const sendMessage = (eventType: EventType, data: object) => {
-  window.postMessage(
-    {
-      eventType,
-      data,
-      source: 'meteor-devtools-evolved',
-    } as Message<object>,
-    '*',
-  )
+ window.postMessage(
+  {
+   eventType,
+   data,
+   source: 'meteor-devtools-evolved',
+  } as Message<object>,
+  '*',
+ )
 }
 
 const warning = (message: string) => {
-  sendMessage('console', {
-    type: 'info',
-    message,
-  } as { type: ConsoleType; message: string })
+ sendMessage('console', {
+  type: 'info',
+  message,
+ } as { type: ConsoleType; message: string })
 }
 
 /**
  * @todo Do nothing here, and run any stack trace processing logic inside the extension, so if any errors happen it happens in the sandbox console.
  */
 const getStackTrace = (stackTraceLimit: number) => {
-  const originalStackTraceLimit = Error.stackTraceLimit
+ const originalStackTraceLimit = Error.stackTraceLimit
 
-  try {
-    Error.stackTraceLimit = stackTraceLimit
-    const error = new Error()
+ try {
+  Error.stackTraceLimit = stackTraceLimit
+  const error = new Error()
 
-    if (!error.stack) return []
+  if (!error.stack) return []
 
-    return error?.stack
-      ?.split('\n')
-      .map(trace => {
-        const matches = PARENTHESIS_REGEX.exec(trace)
+  return error?.stack
+   ?.split('\n')
+   .map(trace => {
+    const matches = PARENTHESIS_REGEX.exec(trace)
 
-        if (!matches) return null
+    if (!matches) return null
 
-        return {
-          callee: matches?.[1],
-          url: matches?.[2],
-        }
-      })
-      .filter(Boolean)
-  } finally {
-    Error.stackTraceLimit = originalStackTraceLimit
-  }
+    return {
+     callee: matches?.[1],
+     url: matches?.[2],
+    }
+   })
+   .filter(Boolean)
+ } finally {
+  Error.stackTraceLimit = originalStackTraceLimit
+ }
 }
 
 export const sendLogMessage = (message: DDPLog) => {
-  const stackTrace = getStackTrace(15)
+ const stackTrace = getStackTrace(15)
 
-  if (stackTrace && stackTrace.length) {
-    stackTrace.splice(0, 2)
-  }
+ if (stackTrace && stackTrace.length) {
+  stackTrace.splice(0, 2)
+ }
 
-  sendMessage('ddp-event', {
-    ...message,
-    trace: stackTrace,
-    host: location.host,
-  })
+ sendMessage('ddp-event', {
+  ...message,
+  trace: stackTrace,
+  host: location.host,
+ })
 
-  if (
-    message.content !== '{"msg":"ping"}' &&
-    message.content !== '{"msg":"pong"}'
-  )
-    updateCollections()
+ if (
+  message.content !== '{"msg":"ping"}' &&
+  message.content !== '{"msg":"pong"}'
+ )
+  updateCollections()
 }
 
 type MessageHandler = (message: Message<any>) => void
 type Registration = {
-  eventType: EventType
-  handler: MessageHandler
+ eventType: EventType
+ handler: MessageHandler
 }
 
 interface IRegistry {
-  subscriptions: Registration[]
+ subscriptions: Registration[]
 
-  register(eventType: EventType, handler: MessageHandler): void
+ register(eventType: EventType, handler: MessageHandler): void
 
-  run(message: Message<any>): void
+ run(message: Message<any>): void
 }
 
 export const Registry: IRegistry = {
-  subscriptions: [],
+ subscriptions: [],
 
-  register(eventType: EventType, handler: MessageHandler) {
-    this.subscriptions.push({
-      eventType,
-      handler,
-    })
-  },
+ register(eventType: EventType, handler: MessageHandler) {
+  this.subscriptions.push({
+   eventType,
+   handler,
+  })
+ },
 
-  run(message: IMessagePayload<any>) {
-    this.subscriptions.forEach(
-      ({ eventType, handler }) =>
-        message.source === 'meteor-devtools-evolved' &&
-        eventType === message.eventType &&
-        handler(message),
-    )
-  },
+ run(message: IMessagePayload<any>) {
+  this.subscriptions.forEach(
+   ({ eventType, handler }) =>
+    message.source === 'meteor-devtools-evolved' &&
+    eventType === message.eventType &&
+    handler(message),
+  )
+ },
 }
 
 export function injectAll() {
-  if (!window.__meteor_devtools_evolved) {
-    if (isFrame) return false
+ if (!window.__meteor_devtools_evolved) {
+  if (isFrame) return false
 
-    warning(
+  warning(
+   isFrame
+    ? `Initializing from iframe "${location.href}"...`
+    : 'Initializing on the main page...',
+  )
+
+  let attempts = 100
+  let interval = null
+
+  function inject() {
+   --attempts
+
+   if (typeof Meteor === 'object' && !window.__meteor_devtools_evolved) {
+    window.__meteor_devtools_evolved = true
+
+    DDPInjector()
+    MinimongoInjector()
+    MeteorAdapter()
+
+    window.__meteor_devtools_evolved_receiveMessage =
+     Registry.run.bind(Registry)
+
+    warning(`Initialized. Attempts: ${100 - attempts}.`)
+   }
+
+   if (attempts === 0) {
+    clearInterval(interval)
+
+    if (!window.Meteor) {
+     warning(
       isFrame
-        ? `Initializing from iframe "${location.href}"...`
-        : 'Initializing on the main page...',
-    )
-
-    let attempts = 100
-    let interval = null
-
-    function inject() {
-      --attempts
-
-      if (typeof Meteor === 'object' && !window.__meteor_devtools_evolved) {
-        window.__meteor_devtools_evolved = true
-
-        DDPInjector()
-        MinimongoInjector()
-        MeteorAdapter()
-
-        window.__meteor_devtools_evolved_receiveMessage =
-          Registry.run.bind(Registry)
-
-        warning(`Initialized. Attempts: ${100 - attempts}.`)
-      }
-
-      if (attempts === 0) {
-        clearInterval(interval)
-
-        if (!window.Meteor) {
-          warning(
-            isFrame
-              ? `Unable to find Meteor on iframe "${location.href}"`
-              : 'Unable to find Meteor on the main page.',
-          )
-        }
-      }
+       ? `Unable to find Meteor on iframe "${location.href}"`
+       : 'Unable to find Meteor on the main page.',
+     )
     }
-
-    inject()
-
-    interval = window.setInterval(inject, 10)
+   }
   }
+
+  inject()
+
+  interval = window.setInterval(inject, 10)
+ }
 }
 
 injectAll()
