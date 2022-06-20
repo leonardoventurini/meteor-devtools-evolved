@@ -7,113 +7,113 @@ type BufferCallback<T> = ((buffer: T[]) => void) | null
 type FilterFunction<T> = ((collection: T[], search: string) => T[]) | null
 
 export abstract class Searchable<T> {
- bufferCallback: BufferCallback<T> = null
- filterFunction: FilterFunction<T> = null
+  bufferCallback: BufferCallback<T> = null
+  filterFunction: FilterFunction<T> = null
 
- lastPush: number = 0
- loadingTimeout: ReturnType<typeof setTimeout> | null = null
+  lastPush: number = 0
+  loadingTimeout: ReturnType<typeof setTimeout> | null = null
 
- buffer: T[] = []
+  buffer: T[] = []
 
- @observable.shallow collection: T[] = []
+  @observable.shallow collection: T[] = []
 
- @observable currentPage: number = 1
- @observable search: string = ''
- @observable isLoading: boolean = false
+  @observable currentPage: number = 1
+  @observable search: string = ''
+  @observable isLoading: boolean = false
 
- @action
- setCollection(collection: T[]) {
-  this.collection = collection
- }
-
- pushItem(log: T) {
-  this.lastPush = Date.now()
-
-  if (!this.isLoading) {
-   runInAction(() => {
-    this.isLoading = true
-   })
+  @action
+  setCollection(collection: T[]) {
+    this.collection = collection
   }
 
-  this.buffer.push(log)
+  pushItem(log: T) {
+    this.lastPush = Date.now()
 
-  this.submitLogs()
+    if (!this.isLoading) {
+      runInAction(() => {
+        this.isLoading = true
+      })
+    }
 
-  this.setLoadingState(false)
- }
+    this.buffer.push(log)
 
- submitLogs = debounce(
-  action(() => {
-   this._submitLogs()
-  }),
-  100,
-  {
-   maxWait: 1000,
-  },
- )
+    this.submitLogs()
 
- @action
- _submitLogs() {
-  if (this.bufferCallback) {
-   this.bufferCallback(this.buffer)
+    this.setLoadingState(false)
   }
 
-  // eslint-disable-next-line no-console
-  console.log('submitted')
+  submitLogs = debounce(
+    action(() => {
+      this._submitLogs()
+    }),
+    100,
+    {
+      maxWait: 1000,
+    },
+  )
 
-  this.collection.unshift(...this.buffer.reverse())
+  @action
+  _submitLogs() {
+    if (this.bufferCallback) {
+      this.bufferCallback(this.buffer)
+    }
 
-  this.buffer = []
- }
-
- setSearch = debounce(
-  action((search: string) => {
-   this.search = search
-   this.currentPage = 1
-  }),
-  250,
- )
-
- setLoadingState(isLoading: boolean) {
-  if (this.loadingTimeout) {
-   clearTimeout(this.loadingTimeout)
-  }
-
-  this.loadingTimeout = setTimeout(
-   action(() => {
-    this.isLoading = isLoading
     // eslint-disable-next-line no-console
-    console.log('loading:false')
-   }),
-   250,
+    console.log('submitted')
+
+    this.collection.unshift(...this.buffer.reverse())
+
+    this.buffer = []
+  }
+
+  setSearch = debounce(
+    action((search: string) => {
+      this.search = search
+      this.currentPage = 1
+    }),
+    250,
   )
- }
 
- @action
- setCurrentPage(currentPage: number) {
-  this.currentPage = currentPage
- }
+  setLoadingState(isLoading: boolean) {
+    if (this.loadingTimeout) {
+      clearTimeout(this.loadingTimeout)
+    }
 
- @computed
- get filtered() {
-  return this.filterFunction
-   ? this.filterFunction(this.collection, this.search)
-   : this.collection
- }
+    this.loadingTimeout = setTimeout(
+      action(() => {
+        this.isLoading = isLoading
+        // eslint-disable-next-line no-console
+        console.log('loading:false')
+      }),
+      250,
+    )
+  }
 
- @computed
- get pagination() {
-  return calculatePagination(
-   DEFAULT_OFFSET,
-   this.filtered.length,
-   this.currentPage,
-   this.setSearch.bind(this),
-   this.setCurrentPage.bind(this),
-  )
- }
+  @action
+  setCurrentPage(currentPage: number) {
+    this.currentPage = currentPage
+  }
 
- @computed
- get paginated() {
-  return this.filtered.slice(this.pagination.start, this.pagination.end)
- }
+  @computed
+  get filtered() {
+    return this.filterFunction
+      ? this.filterFunction(this.collection, this.search)
+      : this.collection
+  }
+
+  @computed
+  get pagination() {
+    return calculatePagination(
+      DEFAULT_OFFSET,
+      this.filtered.length,
+      this.currentPage,
+      this.setSearch.bind(this),
+      this.setCurrentPage.bind(this),
+    )
+  }
+
+  @computed
+  get paginated() {
+    return this.filtered.slice(this.pagination.start, this.pagination.end)
+  }
 }

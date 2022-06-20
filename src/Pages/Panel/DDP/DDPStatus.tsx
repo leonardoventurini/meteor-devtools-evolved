@@ -15,84 +15,95 @@ import { StringUtils } from '@/Utils/StringUtils'
 import { AppToaster } from '@/AppToaster'
 
 export const DDPStatus: FunctionComponent = observer(() => {
- const store = usePanelStore()
- const { ddpStore, settingStore } = store
+  const store = usePanelStore()
+  const { ddpStore, settingStore } = store
 
- const activeFilters = settingStore.activeFilters
- const setFilter = useCallback(
-  (type, isEnabled) => settingStore.setFilter(type, isEnabled),
-  [settingStore],
- )
- const collectionLength = ddpStore.collection.length
- const { inboundBytes, outboundBytes, isLoading, pagination } = ddpStore
+  const activeFilters = settingStore.activeFilters
+  const setFilter = useCallback(
+    (type, isEnabled) => settingStore.setFilter(type, isEnabled),
+    [settingStore],
+  )
+  const collectionLength = ddpStore.collection.length
+  const { inboundBytes, outboundBytes, isLoading, pagination } = ddpStore
 
- return (
-  <StatusBar>
-   <div className="left-group">
-    <PopoverButton
-     icon="filter"
-     height={28}
-     content={
-      <DDPFilterMenu setFilter={setFilter} activeFilters={activeFilters} />
-     }
-     position={Position.RIGHT_TOP}
-    >
-     Filter
-    </PopoverButton>
+  return (
+    <StatusBar>
+      <div className='left-group'>
+        <PopoverButton
+          icon='filter'
+          height={28}
+          content={
+            <DDPFilterMenu
+              setFilter={setFilter}
+              activeFilters={activeFilters}
+            />
+          }
+          position={Position.RIGHT_TOP}
+        >
+          Filter
+        </PopoverButton>
 
-    <TextInput
-     icon="search"
-     placeholder="Search..."
-     onChange={(event: FormEvent<HTMLInputElement>) =>
-      pagination.setSearch(event.currentTarget.value)
-     }
-    />
+        <TextInput
+          icon='search'
+          placeholder='Search...'
+          onChange={(event: FormEvent<HTMLInputElement>) =>
+            pagination.setSearch(event.currentTarget.value)
+          }
+        />
 
-    <Field icon="eye-open">{pagination.length}</Field>
-   </div>
+        <Field icon='eye-open'>{pagination.length}</Field>
+      </div>
 
-   <div className="right-group">
-    {isLoading && (
-     <Field>
-      <Spinner size={12} intent="warning" />
-     </Field>
-    )}
+      <div className='right-group'>
+        {isLoading && (
+          <Field>
+            <Spinner size={12} intent='warning' />
+          </Field>
+        )}
 
-    {store.gitCommitHash ? (
-     <Tooltip content="Git Commit Hash" hoverOpenDelay={800} position="top">
-      <Tag
-       minimal
-       interactive
-       onClick={() => {
-        StringUtils.toClipboard(store.gitCommitHash as string)
-        AppToaster.show({
-         icon: 'tick',
-         message: 'Copied to Clipboard',
-         intent: 'success',
-         timeout: 1000,
-        })
-       }}
-       style={{ marginRight: 4 }}
-      >
-       {store.gitCommitHash.slice(0, 8)}
-      </Tag>
-     </Tooltip>
-    ) : null}
+        {store.gitCommitHash ? (
+          <Tooltip
+            content='Git Commit Hash'
+            hoverOpenDelay={800}
+            position='top'
+          >
+            <Tag
+              minimal
+              interactive
+              onClick={() => {
+                StringUtils.toClipboard(store.gitCommitHash as string)
+                AppToaster.show({
+                  icon: 'tick',
+                  message: 'Copied to Clipboard',
+                  intent: 'success',
+                  timeout: 1000,
+                })
+              }}
+              style={{ marginRight: 4 }}
+            >
+              {store.gitCommitHash.slice(0, 8)}
+            </Tag>
+          </Tooltip>
+        ) : null}
 
-    {!!inboundBytes && (
-     <Field icon="cloud-download">{prettyBytes(inboundBytes)}</Field>
-    )}
+        {!!inboundBytes && (
+          <Field icon='cloud-download'>{prettyBytes(inboundBytes)}</Field>
+        )}
 
-    {!!outboundBytes && (
-     <Field icon="cloud-upload">{prettyBytes(outboundBytes)}</Field>
-    )}
+        {!!outboundBytes && (
+          <Field icon='cloud-upload'>{prettyBytes(outboundBytes)}</Field>
+        )}
 
-    {isNumber(collectionLength) && (
-     <Button intent="warning" onClick={() => ddpStore.clearLogs()} icon="inbox">
-      {collectionLength}
-     </Button>
-    )}
-   </div>
-  </StatusBar>
- )
+        {isNumber(collectionLength) && (
+          <Button
+            intent='warning'
+            onClick={() => ddpStore.clearLogs()}
+            icon='inbox'
+          >
+            {collectionLength}
+          </Button>
+        )}
+      </div>
+    </StatusBar>
+  )
 })

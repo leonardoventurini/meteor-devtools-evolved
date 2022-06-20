@@ -5,124 +5,124 @@ import { DateTime } from 'luxon'
 import { StringUtils } from '@/Utils/StringUtils'
 
 export const syncSubscriptions = () =>
- Bridge.sendContentMessage({
-  eventType: 'sync-subscriptions',
-  data: null,
- })
+  Bridge.sendContentMessage({
+    eventType: 'sync-subscriptions',
+    data: null,
+  })
 
 export const syncStats = () =>
- Bridge.sendContentMessage({
-  eventType: 'stats',
-  data: null,
- })
+  Bridge.sendContentMessage({
+    eventType: 'stats',
+    data: null,
+  })
 
 export const clearCache = () =>
- Bridge.sendContentMessage({
-  eventType: 'cache:clear',
-  data: null,
- })
+  Bridge.sendContentMessage({
+    eventType: 'cache:clear',
+    data: null,
+  })
 
 export const Bridge = new (class {
- private handlers: Partial<Record<EventType, MessageHandler>> = {}
+  private handlers: Partial<Record<EventType, MessageHandler>> = {}
 
- register(eventType: EventType, handler: MessageHandler) {
-  this.handlers[eventType] = handler
- }
-
- handle(message: Message<any>) {
-  if (message.eventType in this.handlers) {
-   const handler = this.handlers[message.eventType]
-
-   if (handler) handler(message)
-  }
- }
-
- sendContentMessage(message: Message<any>) {
-  const payload: IMessagePayload<any> = {
-   ...message,
-   source: 'meteor-devtools-evolved',
+  register(eventType: EventType, handler: MessageHandler) {
+    this.handlers[eventType] = handler
   }
 
-  if (chrome && chrome.devtools) {
-   chrome.devtools.inspectedWindow.eval(
-    `__meteor_devtools_evolved_receiveMessage(${JSON.stringify(payload)})`,
-   )
+  handle(message: Message<any>) {
+    if (message.eventType in this.handlers) {
+      const handler = this.handlers[message.eventType]
+
+      if (handler) handler(message)
+    }
   }
- }
 
- chrome() {
-  const backgroundConnection = chrome.runtime.connect({
-   name: 'panel',
-  })
+  sendContentMessage(message: Message<any>) {
+    const payload: IMessagePayload<any> = {
+      ...message,
+      source: 'meteor-devtools-evolved',
+    }
 
-  backgroundConnection.postMessage({
-   name: 'init',
-   tabId: chrome.devtools.inspectedWindow.tabId,
-  })
+    if (chrome && chrome.devtools) {
+      chrome.devtools.inspectedWindow.eval(
+        `__meteor_devtools_evolved_receiveMessage(${JSON.stringify(payload)})`,
+      )
+    }
+  }
 
-  backgroundConnection.onMessage.addListener((message: Message<any>) =>
-   Bridge.handle(message),
-  )
- }
+  chrome() {
+    const backgroundConnection = chrome.runtime.connect({
+      name: 'panel',
+    })
 
- init() {
-  // eslint-disable-next-line no-console
-  console.log('Setting up bridge...')
+    backgroundConnection.postMessage({
+      name: 'init',
+      tabId: chrome.devtools.inspectedWindow.tabId,
+    })
 
-  if (!chrome || !chrome.devtools) return
+    backgroundConnection.onMessage.addListener((message: Message<any>) =>
+      Bridge.handle(message),
+    )
+  }
 
-  this.chrome()
+  init() {
+    // eslint-disable-next-line no-console
+    console.log('Setting up bridge...')
 
-  syncStats()
- }
+    if (!chrome || !chrome.devtools) return
+
+    this.chrome()
+
+    syncStats()
+  }
 })()
 
 Bridge.register('ddp-event', (message: Message<DDPLog>) => {
- const size = StringUtils.getSize(message.data.content)
- const parsedContent = JSON.parse(message.data.content)
- const filterType = detectType(parsedContent)
+  const size = StringUtils.getSize(message.data.content)
+  const parsedContent = JSON.parse(message.data.content)
+  const filterType = detectType(parsedContent)
 
- const log = {
-  ...message.data,
-  parsedContent,
-  timestampPretty: message.data.timestamp
-   ? DateTime.fromMillis(message.data.timestamp).toFormat('HH:mm:ss.SSS')
-   : '',
-  timestampLong: message.data.timestamp
-   ? DateTime.fromMillis(message.data.timestamp).toLocaleString(
-      DateTime.DATETIME_FULL,
-     )
-   : '',
-  size,
-  sizePretty: prettyBytes(size),
-  filterType,
- }
+  const log = {
+    ...message.data,
+    parsedContent,
+    timestampPretty: message.data.timestamp
+      ? DateTime.fromMillis(message.data.timestamp).toFormat('HH:mm:ss.SSS')
+      : '',
+    timestampLong: message.data.timestamp
+      ? DateTime.fromMillis(message.data.timestamp).toLocaleString(
+          DateTime.DATETIME_FULL,
+        )
+      : '',
+    size,
+    sizePretty: prettyBytes(size),
+    filterType,
+  }
 
- if (filterType === 'subscription') {
-  syncSubscriptions()
- }
+  if (filterType === 'subscription') {
+    syncSubscriptions()
+  }
 
- PanelStore.ddpStore.pushItem(log)
+  PanelStore.ddpStore.pushItem(log)
 })
 
 Bridge.register(
- 'minimongo-get-collections',
- (message: Message<RawCollections>) => {
-  PanelStore.minimongoStore.setCollections(message.data)
- },
+  'minimongo-get-collections',
+  (message: Message<RawCollections>) => {
+    PanelStore.minimongoStore.setCollections(message.data)
+  },
 )
 
 Bridge.register('sync-subscriptions', (message: Message<any>) => {
- PanelStore.syncSubscriptions(JSON.parse(message.data.subscriptions))
+  PanelStore.syncSubscriptions(JSON.parse(message.data.subscriptions))
 })
 
 Bridge.register('stats', (message: Message<any>) => {
- // eslint-disable-next-line no-console
- console.log(message.data)
+  // eslint-disable-next-line no-console
+  console.log(message.data)
 
- PanelStore.setGitCommitHash(message.data.gitCommitHash)
+  PanelStore.setGitCommitHash(message.data.gitCommitHash)
 })
 
 Bridge.register('meteor-data-performance', (message: Message<CallData>) => {
- PanelStore.performanceStore.push(message.data)
+  PanelStore.performanceStore.push(message.data)
 })

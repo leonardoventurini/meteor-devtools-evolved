@@ -7,42 +7,42 @@ import { observer } from 'mobx-react-lite'
 import { usePanelStore } from '@/Stores/PanelStore'
 
 export const MinimongoStatus: FunctionComponent = observer(() => {
- const { minimongoStore } = usePanelStore()
+  const { minimongoStore } = usePanelStore()
 
- return (
-  <StatusBar>
-   <div className="left-group">
-    <Button
-     icon={minimongoStore.activeCollection ? 'database' : 'asterisk'}
-     onClick={() => minimongoStore.setNavigatorVisible(true)}
-     disabled={!minimongoStore.collectionNames.length}
-    >
-     {minimongoStore.activeCollection || 'Everything'}
-    </Button>
+  return (
+    <StatusBar>
+      <div className='left-group'>
+        <Button
+          icon={minimongoStore.activeCollection ? 'database' : 'asterisk'}
+          onClick={() => minimongoStore.setNavigatorVisible(true)}
+          disabled={!minimongoStore.collectionNames.length}
+        >
+          {minimongoStore.activeCollection || 'Everything'}
+        </Button>
 
-    {minimongoStore.activeCollection && (
-     <Button
-      icon="asterisk"
-      onClick={() => minimongoStore.setActiveCollection(null)}
-     >
-      Clear
-     </Button>
-    )}
+        {minimongoStore.activeCollection && (
+          <Button
+            icon='asterisk'
+            onClick={() => minimongoStore.setActiveCollection(null)}
+          >
+            Clear
+          </Button>
+        )}
 
-    <TextInput
-     icon="search"
-     placeholder="Search..."
-     onChange={(event: FormEvent<HTMLInputElement>) =>
-      minimongoStore.activeCollectionDocuments.pagination.setSearch(
-       event.currentTarget.value,
-      )
-     }
-    />
+        <TextInput
+          icon='search'
+          placeholder='Search...'
+          onChange={(event: FormEvent<HTMLInputElement>) =>
+            minimongoStore.activeCollectionDocuments.pagination.setSearch(
+              event.currentTarget.value,
+            )
+          }
+        />
 
-    <Field icon="eye-open">
-     {minimongoStore.activeCollectionDocuments.pagination.length}
-    </Field>
-   </div>
-  </StatusBar>
- )
+        <Field icon='eye-open'>
+          {minimongoStore.activeCollectionDocuments.pagination.length}
+        </Field>
+      </div>
+    </StatusBar>
+  )
 })

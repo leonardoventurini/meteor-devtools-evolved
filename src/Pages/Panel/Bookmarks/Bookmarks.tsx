@@ -6,18 +6,18 @@ import { DDPContainer } from '@/Pages/Panel/DDP/DDPContainer'
 import { BookmarksStatus } from './BookmarksStatus'
 
 interface Props {
- isVisible: boolean
+  isVisible: boolean
 }
 
 export const Bookmarks: FunctionComponent<Props> = observer(({ isVisible }) => {
- const store = usePanelStore()
- const bookmarkStore = store.bookmarkStore
+  const store = usePanelStore()
+  const bookmarkStore = store.bookmarkStore
 
- return (
-  <Hideable isVisible={isVisible}>
-   <DDPContainer isVisible={isVisible} source={bookmarkStore} />
+  return (
+    <Hideable isVisible={isVisible}>
+      <DDPContainer isVisible={isVisible} source={bookmarkStore} />
 
-   <BookmarksStatus />
-  </Hideable>
- )
+      <BookmarksStatus />
+    </Hideable>
+  )
 })

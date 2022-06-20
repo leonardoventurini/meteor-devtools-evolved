@@ -3,28 +3,28 @@ import { Collapsible } from '@/Utils/ObjectTreerinator/Collapsible'
 import { ArrayNodeRenderer } from '@/Utils/ObjectTreerinator/ArrayNodeRenderer'
 
 interface Props {
- property: string
- child: any[]
- level: number
+  property: string
+  child: any[]
+  level: number
 }
 
 export const ArrayRenderer: FunctionComponent<Props> = ({
- property,
- child,
- level,
+  property,
+  child,
+  level,
 }) => (
- <li key={property}>
-  <span role="collapsible-property">{property}</span>
+  <li key={property}>
+    <span role='collapsible-property'>{property}</span>
 
-  <Collapsible object={child} level={level + 1}>
-   <ol start={0} role="array">
-    {child.map((item, index) => (
-     <li key={index} role="item">
-      <span role="index">{index}:</span>
-      {ArrayNodeRenderer(item, level + 1)}
-     </li>
-    ))}
-   </ol>
-  </Collapsible>
- </li>
+    <Collapsible object={child} level={level + 1}>
+      <ol start={0} role='array'>
+        {child.map((item, index) => (
+          <li key={index} role='item'>
+            <span role='index'>{index}:</span>
+            {ArrayNodeRenderer(item, level + 1)}
+          </li>
+        ))}
+      </ol>
+    </Collapsible>
+  </li>
 )
