@@ -14,7 +14,7 @@
   },
   "background": {
     "scripts": [
-      ".dist/background.js"
+      "/dist/background.js"
     ],
     "persistent": false
   },
@@ -24,7 +24,7 @@
         "<all_urls>"
       ],
       "js": [
-        ".dist/content.js"
+        "/dist/content.js"
       ],
       "run_at": "document_start",
       "all_frames": true
@@ -32,7 +32,8 @@
   ],
   "permissions": [
     "https://api.github.com/*",
-    "https://www.google-analytics.com/*"
+    "https://www.google-analytics.com/*",
+    "tabs"
   ],
   "content_security_policy": "script-src 'self'; object-src 'self'",
   "web_accessible_resources": [

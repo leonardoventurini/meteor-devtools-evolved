@@ -2,7 +2,7 @@ import React, { FC } from 'react'
 import { StringUtils } from '@/Utils/StringUtils'
 import { AppToaster } from '@/AppToaster'
 import MeteorCloudLogo from '@/Assets/meteor-cloud-logo.png'
-import browser from 'webextension-polyfill'
+import { openTab } from '@/Utils/BackgroundEvents'
 
 import '@/Assets/meteor-shower.jpg'
 
@@ -77,9 +77,7 @@ export const SponsorHero: FC<Props> = () => {
             <button
               className='btn btn-primary'
               onClick={() =>
-                browser.tabs.create({
-                  url: 'https://social.meteor.com/devtools-evolved',
-                })
+                openTab('https://social.meteor.com/devtools-evolved')
               }
             >
               Sign Up
@@ -87,9 +85,7 @@ export const SponsorHero: FC<Props> = () => {
 
             <button
               className='btn bg-orange-500 hover:bg-orange-600'
-              onClick={() =>
-                browser.tabs.create({ url: 'mailto:marketing@meteor.com' })
-              }
+              onClick={() => openTab('mailto:marketing@meteor.com')}
             >
               Email Us the Code
             </button>

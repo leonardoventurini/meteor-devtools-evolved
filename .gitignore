@@ -1,9 +1,9 @@
 .DS_Store
 .idea
 node_modules
-extension/chrome
-extension/firefox
+chrome/build
+firefox/build
 chrome.pem
 firefox.pem
-chrome/
-firefox/
+extension/chrome
+extension/firefox
