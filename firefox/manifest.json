@@ -14,7 +14,7 @@
   },
   "background": {
     "scripts": [
-      ".dist/background.js"
+      "build/background.js"
     ],
     "persistent": false
   },
@@ -24,7 +24,7 @@
         "<all_urls>"
       ],
       "js": [
-        ".dist/content.js"
+        "build/content.js"
       ],
       "run_at": "document_start",
       "all_frames": true
@@ -37,7 +37,7 @@
   ],
   "content_security_policy": "script-src 'self'; object-src 'self'",
   "web_accessible_resources": [
-    "/.dist/inject.js"
+    "/build/inject.js"
   ],
   "devtools_page": "devtools.html"
 }
