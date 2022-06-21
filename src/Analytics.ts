@@ -12,10 +12,6 @@ type RequestObject = {
   headers?: Record<string, string>
 }
 
-type ss = {
-  ss: 1
-}
-
 type EventOptions = {
   clientId?: UUID
   label?: string
