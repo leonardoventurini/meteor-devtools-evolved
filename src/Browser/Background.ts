@@ -16,9 +16,11 @@ self.connections = connections
 
 const panelListener = () => {
   chrome.runtime.onConnect.addListener(port => {
+    // eslint-disable-next-line no-console
     console.debug('runtime.onConnect', port)
 
     port.onMessage.addListener(request => {
+      // eslint-disable-next-line no-console
       console.debug('port.onMessage', request)
 
       if (request.name === 'init') {
@@ -41,6 +43,7 @@ const panelListener = () => {
 
 const tabRemovalListener = () => {
   chrome.tabs.onRemoved.addListener(tabId => {
+    // eslint-disable-next-line no-console
     console.debug('tabs.onRemoved', tabId)
 
     if (connections.has(tabId)) {
@@ -51,12 +54,14 @@ const tabRemovalListener = () => {
 }
 
 chrome.action.onClicked.addListener(e => {
+  // eslint-disable-next-line no-console
   console.debug('action.onClicked', e)
 
   chrome.tabs
     .create({
       url: 'http://cloud.meteor.com/?utm_source=chrome_extension&utm_medium=extension&utm_campaign=meteor_devtools_evolved',
     })
+    // eslint-disable-next-line no-console
     .catch(console.error)
 })
 
@@ -65,8 +70,10 @@ const handleConsole = (
   { data: { type, message } }: Message<{ type: ConsoleType; message: string }>,
 ) => {
   if (type in console) {
+    // eslint-disable-next-line no-console
     console[type](`[${tabId}]`, message)
   } else {
+    // eslint-disable-next-line no-console
     console.warn('Wrong console type.')
   }
 }
@@ -80,6 +87,7 @@ const contentListener = () => {
 
       // The message event has to from the panel to the content and then through here.
       if (request?.eventType === 'cache:clear') {
+        // eslint-disable-next-line no-console
         console.debug('clear cache')
         Cache.delete(tabId)
         return

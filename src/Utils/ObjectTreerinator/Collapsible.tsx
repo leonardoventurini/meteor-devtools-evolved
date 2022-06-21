@@ -62,6 +62,7 @@ export const Collapsible: FunctionComponent<Props> = ({
   }
 
   console.error('Not a valid collapsible value.')
+  // eslint-disable-next-line no-console
   console.trace(object)
 
   return null

@@ -67,6 +67,7 @@ export const Navigation: FunctionComponent = observer(() => {
           .create({
             url: 'https://join.slack.com/t/meteor-community/shared_invite/zt-a9lwcfb7-~UwR3Ng6whEqRxcP5rORZw',
           })
+          // eslint-disable-next-line no-console
           .catch(console.error)
 
         analytics?.event('navigation', 'click', { label: 'community' })
@@ -108,6 +109,7 @@ export const Navigation: FunctionComponent = observer(() => {
           .create({
             url: repositoryData.html_url.concat('/issues'),
           })
+          // eslint-disable-next-line no-console
           .catch(console.error)
 
         analytics?.event('navigation', 'click', { label: 'feedback' })
@@ -133,6 +135,7 @@ export const Navigation: FunctionComponent = observer(() => {
           .create({
             url: repositoryData.html_url.concat('/stargazers'),
           })
+          // eslint-disable-next-line no-console
           .catch(console.error)
 
         analytics?.event('navigation', 'click', { label: 'star' })

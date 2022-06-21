@@ -144,6 +144,7 @@ export class Analytics {
     if (label) params.el = label
     if (value) params.ev = value
 
+    // eslint-disable-next-line no-console
     this.send('event', params).catch(console.error)
   }
 

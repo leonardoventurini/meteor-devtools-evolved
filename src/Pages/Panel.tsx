@@ -59,6 +59,7 @@ const PanelObserverComponent: FunctionComponent = observer(() => {
   const analytics = useAnalytics()
 
   useEffect(() => {
+    // eslint-disable-next-line no-console
     analytics?.pageView().catch(console.error)
   }, [analytics])
 

@@ -78,7 +78,9 @@ export const ObjectTreeNode: FunctionComponent<{
   level: number
 }> = ({ object, level }) => {
   if (!(typeof object === 'object' && object?.constructor === Object)) {
+    // eslint-disable-next-line no-console
     console.error('Invalid Object')
+    // eslint-disable-next-line no-console
     console.debug(object)
   }
 

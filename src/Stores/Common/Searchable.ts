@@ -58,6 +58,7 @@ export abstract class Searchable<T> {
       this.bufferCallback(this.buffer)
     }
 
+    // eslint-disable-next-line no-console
     console.log('submitted')
 
     this.collection.unshift(...this.buffer.reverse())
@@ -81,6 +82,7 @@ export abstract class Searchable<T> {
     this.loadingTimeout = setTimeout(
       action(() => {
         this.isLoading = isLoading
+        // eslint-disable-next-line no-console
         console.log('loading:false')
       }),
       250,
