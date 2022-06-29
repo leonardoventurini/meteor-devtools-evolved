@@ -1,4 +1,4 @@
-<div style="text-align: center">
+<center style="text-align: center">
 <div style="width: 300px; height:300px; text-align: center; border-radius: 50%; box-shadow: 2px 2px 50px 2px #222A59; display: inline-flex; flex-direction: column; justify-content: center; overflow:hidden; background-color: #222A59">
 <img width="300px" height="260px" src="https://media.giphy.com/media/Pt2yOXUALOhpB5dpiM/giphy.gif" alt="Download for Chrome" />
 </div>
@@ -9,7 +9,7 @@ Meteor Devtools Extension
 <p style="color: deeppink">
 Behold, the evolution of Meteor DevTools.</p>
 
-</div>
+</center>
 
 
 Meteor Devtools Evolved is currently available for Google Chrome and Mozilla Firefox.

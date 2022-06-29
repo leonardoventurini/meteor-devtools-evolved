@@ -7,7 +7,6 @@ import { IMenuItem, ITab, TabBar } from '@/Components/TabBar'
 import { Tag } from '@blueprintjs/core'
 import { isNumber } from 'lodash'
 import { useAnalytics } from '@/Utils/Hooks/useAnalytics'
-import browser from 'webextension-polyfill'
 import { openTab } from '@/Utils/BackgroundEvents'
 
 export const Navigation: FunctionComponent = observer(() => {

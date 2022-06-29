@@ -71,6 +71,7 @@ export const Bridge = new (class {
 
     if (!browser || !browser.devtools) return
 
+    // FIXME : Need to confirm if using `chrome` instead of `browser` breaking any communication
     this.chrome()
 
     syncStats()
