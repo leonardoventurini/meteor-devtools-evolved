@@ -1,6 +1,27 @@
-Behold, the evolution of Meteor DevTools.
+<div style="text-align: center">
+<div style="width: 300px; height:300px; text-align: center; border-radius: 50%; box-shadow: 2px 2px 50px 2px #222A59; display: inline-flex; flex-direction: column; justify-content: center; overflow:hidden; background-color: #222A59">
+<img width="300px" height="260px" src="https://media.giphy.com/media/Pt2yOXUALOhpB5dpiM/giphy.gif" alt="Download for Chrome" />
+</div>
 
-You can find the Chrome Extension **[here](https://chrome.google.com/webstore/detail/meteor-devtools-evolved/ibniinmoafhgbifjojidlagmggecmpgf)**.
+<p style="font-size: 30px">
+Meteor Devtools Extension
+</p>
+<p style="color: deeppink">
+Behold, the evolution of Meteor DevTools.</p>
+
+</div>
+
+
+Meteor Devtools Evolved is currently available for Google Chrome and Mozilla Firefox.
+
+<p style="text-align: center">
+    <a href="https://chrome.google.com/webstore/detail/meteor-devtools-evolved/ibniinmoafhgbifjojidlagmggecmpgf">
+    <img width="120" src="https://img.shields.io/badge/%20-Chrome-orange?logo=google-chrome&logoColor=white" alt="Download for Chrome" />
+    </a>
+    <a href="https://addons.mozilla.org/en-US/firefox/addon/">
+    <img width="110" src="https://img.shields.io/badge/%20-Firefox-red?logo=mozilla&logoColor=white" alt="Download for Firefox" />
+    </a>
+</p>
 
 [Harder, Better, Faster, Stronger](https://www.youtube.com/watch?v=gAjR4_CbPpQ) :rocket:
 
