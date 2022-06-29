@@ -2,7 +2,7 @@
 
 1. Install dependencies for `devapp/` with `yarn`.
 
-   > As of now we use Node.js `v12.16.1`.
+   > As of now we use Node.js `v14.19.3`.
 
 2. Also install dependencies for the root project with `npm install`.
 

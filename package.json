@@ -16,9 +16,10 @@
     "dev:chrome": "run-p build:chrome devapp open:chrome",
     "dev:firefox": "run-p build:firefox devapp open:firefox",
     "dev": "yarn dev:chrome",
-    "devapp:wait": "wait-on http://localhost:2100",
-    "open:firefox": "yarn devapp:wait && web-ext run --start-url \"http://localhost:2100\"  --source-dir ./extension/firefox/",
-    "open:chrome": "yarn devapp:wait && web-ext run -t chromium --start-url \"http://localhost:2100\" --source-dir ./extension/chrome/",
+    "wait:firefox": "wait-on extension/firefox/manifest.json http://localhost:2100",
+    "wait:chrome": "wait-on extension/chrome/manifest.json http://localhost:2100",
+    "open:firefox": "yarn wait:firefox && web-ext run --start-url \"http://localhost:2100\"  --source-dir ./extension/firefox/ --browser-console",
+    "open:chrome": "yarn wait:chrome && web-ext run -t chromium --start-url \"http://localhost:2100\" --source-dir ./extension/chrome/ --browser-console",
     "clean": "rimraf extension/firefox extension/chrome"
   },
   "author": "Leonardo Venturini",
