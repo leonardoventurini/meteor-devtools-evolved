@@ -9,9 +9,17 @@
     "devtools"
   ],
   "scripts": {
-    "devapp": "cd devapp && npm run start",
+    "setup": "cd devapp && yarn && cd ../ && yarn",
+    "devapp": "cd devapp && yarn start",
     "build:chrome": "webpack --config webpack/chrome.prod.js",
-    "build:firefox": "webpack --config webpack/firefox.prod.js"
+    "build:firefox": "webpack --config webpack/firefox.prod.js",
+    "dev:chrome": "run-p build:chrome devapp open:chrome",
+    "dev:firefox": "run-p build:firefox devapp open:firefox",
+    "dev": "yarn dev:chrome",
+    "devapp:wait": "wait-on http://localhost:2100",
+    "open:firefox": "yarn devapp:wait && web-ext run --start-url \"http://localhost:2100\"  --source-dir ./extension/firefox/",
+    "open:chrome": "yarn devapp:wait && web-ext run -t chromium --start-url \"http://localhost:2100\" --source-dir ./extension/chrome/",
+    "clean": "rimraf extension/firefox extension/chrome"
   },
   "author": "Leonardo Venturini",
   "license": "MIT",
@@ -37,7 +45,6 @@
     "babel-loader": "^8.1.0",
     "classnames": "2.3.1",
     "clean-webpack-plugin": "^4.0.0",
-    "concurrently": "^7.0.0",
     "css-loader": "^6.3.0",
     "d3-collection": "^1.0.7",
     "d3-hierarchy": "^3.0.1",
@@ -81,6 +88,8 @@
   "devDependencies": {
     "@types/webextension-polyfill": "^0.9.0",
     "copy-webpack-plugin": "^11.0.0",
+    "npm-run-all": "^4.1.5",
+    "wait-on": "^6.0.1",
     "web-ext": "^7.1.0",
     "webextension-polyfill": "^0.9.0"
   }
