@@ -1,18 +1,28 @@
 ## Setting the Environment Up
 
-1. Install dependencies for `devapp/` with `yarn`.
+1. Install dependencies for `devapp` & `root` with `yarn`.
+
+```shell
+yarn setup
+```
 
    > As of now we use Node.js `v14.19.3`.
 
-2. Also install dependencies for the root project with `npm install`.
+2. Run the extension locally
 
-   > Duh!
+```shell
+yarn dev # default chrome
+```
+```shell
+yarn dev:chrome # for chrome
+```
+```shell
+yarn dev:firefox # for firefox
+```
 
-3. Run `yarn start`.
+   > This command will build and watch the extension and run the `devpp` in parallel mode and when they are ready it will launch the chrome/firefox private instance with extension installed
 
-   > This command will generate an unpacked extension inside the `chrome/` directory, which should be loaded inside `Google Chrome` in `Developer Mode`. It will also spawn a development server which you can access from `localhost:3000`.
-
-4. Hack away!
+5. Hack away!
 
    > Open a Pull Request from your fork to our repo once it is done or need a review.
 

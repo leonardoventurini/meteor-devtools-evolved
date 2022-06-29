@@ -1,4 +1,10 @@
 import browser from 'webextension-polyfill'
+import { checkFirefoxBrowser } from '@/Utils'
 
-// FIXME
-browser.devtools.panels.create('☄️ Meteor', '', 'devtools-panel.html')
+const isFirefox = checkFirefoxBrowser()
+
+browser.devtools.panels.create(
+  `${isFirefox ? '' : '☄️'} Meteor`,
+  '',
+  'devtools-panel.html',
+)
