@@ -1,5 +1,5 @@
 {
-  "manifest_version": 2,
+  "manifest_version": 3,
   "name": "Meteor DevTools Evolved",
   "description": "The Meteor framework development tool belt, evolved.",
   "version": "1.6",
@@ -9,14 +9,12 @@
     "48": "icons/meteor-48.png",
     "128": "icons/meteor-128.png"
   },
-  "browser_action": {
-    "default_title": "Meteor"
+  "action": {
+    "default_title": "Meteor",
+    "default_icon": "icons/meteor-48.png"
   },
   "background": {
-    "scripts": [
-      "build/background.js"
-    ],
-    "persistent": false
+    "service_worker": "/dist/background.js"
   },
   "content_scripts": [
     {
@@ -24,20 +22,28 @@
         "<all_urls>"
       ],
       "js": [
-        "build/content.js"
+        "/dist/content.js"
       ],
       "run_at": "document_start",
       "all_frames": true
     }
   ],
-  "permissions": [
+  "host_permissions": [
     "https://api.github.com/*",
-    "https://www.google-analytics.com/*",
-    "tabs"
+    "https://www.google-analytics.com/*"
   ],
-  "content_security_policy": "script-src 'self'; object-src 'self'",
+  "content_security_policy": {
+    "extension_pages": "script-src 'self'; object-src 'self'"
+  },
   "web_accessible_resources": [
-    "/build/inject.js"
+    {
+      "resources": [
+        "/dist/inject.js"
+      ],
+      "matches": [
+        "*://*/*"
+      ]
+    }
   ],
   "devtools_page": "devtools.html"
 }

@@ -1,5 +1,5 @@
 import { defer } from 'lodash'
-import browser, { browserAction } from 'webextension-polyfill'
+import browser from 'webextension-polyfill'
 
 type Connection = Map<number, any>
 
