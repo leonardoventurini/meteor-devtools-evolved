@@ -81,6 +81,7 @@
   "devDependencies": {
     "@types/webextension-polyfill": "^0.9.0",
     "copy-webpack-plugin": "^11.0.0",
+    "web-ext": "^7.1.0",
     "webextension-polyfill": "^0.9.0"
   }
 }
