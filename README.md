@@ -1,6 +1,6 @@
-<div align="center" style="text-align: center">
+<div align="center">
 
-<img style="border-radius: 50%;" width="300px" height="260px" src="https://media.giphy.com/media/Pt2yOXUALOhpB5dpiM/giphy.gif" alt="Download for Chrome" />
+<img src="https://media.giphy.com/media/Pt2yOXUALOhpB5dpiM/giphy.gif" alt="Meteor Devtool Evolved Gif" />
 
 
 <p style="font-size: 30px">

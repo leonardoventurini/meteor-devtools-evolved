@@ -1,6 +1,6 @@
 ## Setting the Environment Up
 
-1. Install dependencies for `devapp/` with `npm install`.
+1. Install dependencies for `devapp/` with `yarn`.
 
    > As of now we use Node.js `v12.16.1`.
 
@@ -8,7 +8,7 @@
 
    > Duh!
 
-3. Run `npm start`.
+3. Run `yarn start`.
 
    > This command will generate an unpacked extension inside the `chrome/` directory, which should be loaded inside `Google Chrome` in `Developer Mode`. It will also spawn a development server which you can access from `localhost:3000`.
 
@@ -18,7 +18,27 @@
 
 ## Environment Commands
 
-If you use Linux you can run `source .envrc` for some useful commands like `@setup` or `@start`.
+If you use Linux you can run `source .envrc` for some useful commands
+
+> -c: for chrome, -f: firefox, (chrome is default)
+
+* Setup extension and test project Dependencies
+
+```shell
+setup
+```
+
+
+## Build
+* Chrome
+```shell
+npm run build:chrome
+```
+* Firefox
+```shell
+npm run build:firefox
+```
+
 
 ## Guidelines & Objectives
 
