@@ -51,4 +51,4 @@ The extension is almost entirely written in TypeScript, while some Chrome specif
 
 ## Firefox
 
-The Firefox port of the extension was a contribution made by @nilooy. Thank you!
+The Firefox port of the extension was a contribution made by [@nilooy](https://github.com/nilooy). Thank you!
