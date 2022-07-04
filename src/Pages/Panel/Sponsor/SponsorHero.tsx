@@ -14,7 +14,7 @@ export const SponsorHero: FC<Props> = () => {
       className='hero mb-4'
       style={{
         height: '30rem',
-        backgroundImage: 'url(/build/assets/meteor-shower.jpg)',
+        backgroundImage: 'url(/dist/assets/meteor-shower.jpg)',
       }}
       id='meteor-cloud-hero'
     >
