@@ -3,6 +3,7 @@ import prettyBytes from 'pretty-bytes'
 import { PanelStore } from '@/Stores/PanelStore'
 import { DateTime } from 'luxon'
 import { StringUtils } from '@/Utils/StringUtils'
+import browser from 'webextension-polyfill'
 
 export const syncSubscriptions = () =>
   Bridge.sendContentMessage({
@@ -43,21 +44,21 @@ export const Bridge = new (class {
       source: 'meteor-devtools-evolved',
     }
 
-    if (chrome && chrome.devtools) {
-      chrome.devtools.inspectedWindow.eval(
+    if (browser && browser.devtools) {
+      browser.devtools.inspectedWindow.eval(
         `__meteor_devtools_evolved_receiveMessage(${JSON.stringify(payload)})`,
       )
     }
   }
 
   chrome() {
-    const backgroundConnection = chrome.runtime.connect({
+    const backgroundConnection = browser.runtime.connect({
       name: 'panel',
     })
 
     backgroundConnection.postMessage({
       name: 'init',
-      tabId: chrome.devtools.inspectedWindow.tabId,
+      tabId: browser.devtools.inspectedWindow.tabId,
     })
 
     backgroundConnection.onMessage.addListener((message: Message<any>) =>
@@ -69,8 +70,9 @@ export const Bridge = new (class {
     // eslint-disable-next-line no-console
     console.log('Setting up bridge...')
 
-    if (!chrome || !chrome.devtools) return
+    if (!browser || !browser.devtools) return
 
+    // FIXME : Need to confirm if using `chrome` instead of `browser` breaking any communication
     this.chrome()
 
     syncStats()

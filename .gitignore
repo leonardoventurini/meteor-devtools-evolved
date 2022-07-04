@@ -2,4 +2,8 @@
 .idea
 node_modules
 chrome/build
+firefox/build
 chrome.pem
+firefox.pem
+extension/chrome
+extension/firefox

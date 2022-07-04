@@ -6,11 +6,20 @@ const { getTypeScriptAliases } = require('./utils')
 const src = path.join(__dirname, '../src/')
 
 const { CleanWebpackPlugin } = require('clean-webpack-plugin')
+const CopyPlugin = require('copy-webpack-plugin')
 
 const aliases = getTypeScriptAliases()
 
-module.exports = override =>
-  merge(
+const manifestVersion = {
+  chrome: 3,
+  firefox: 2,
+}
+
+module.exports = (browser = 'chrome', override) => {
+  const extDir = path.join(__dirname, `../extension`)
+  const distPath = `${extDir}/${browser}/dist/`
+
+  return merge(
     {
       entry: {
         bundle: path.resolve(src, 'App.tsx'),
@@ -22,8 +31,8 @@ module.exports = override =>
 
       output: {
         chunkFilename: '[name].js',
-        path: path.join(__dirname, '../chrome/build/'),
-        publicPath: '/build/',
+        path: distPath,
+        publicPath: '/dist/',
       },
 
       plugins: [
@@ -31,6 +40,28 @@ module.exports = override =>
 
         new DefinePlugin({
           'process.env.MODE': JSON.stringify(override.mode),
+        }),
+        new CopyPlugin({
+          patterns: [
+            {
+              from: extDir,
+              to: `${extDir}/${browser}`,
+              globOptions: {
+                dot: true,
+                gitignore: true,
+                ignore: [
+                  '**/manifest-v2.json',
+                  '**/manifest-v3.json',
+                  '**/firefox',
+                  '**/chrome',
+                ],
+              },
+            },
+            {
+              from: `${extDir}/manifest-v${manifestVersion[browser]}.json`,
+              to: `${extDir}/${browser}/manifest.json`,
+            },
+          ],
         }),
       ],
 
@@ -110,3 +141,4 @@ module.exports = override =>
     },
     override,
   )
+}

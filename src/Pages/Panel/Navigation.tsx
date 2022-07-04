@@ -7,6 +7,7 @@ import { IMenuItem, ITab, TabBar } from '@/Components/TabBar'
 import { Tag } from '@blueprintjs/core'
 import { isNumber } from 'lodash'
 import { useAnalytics } from '@/Utils/Hooks/useAnalytics'
+import { openTab } from '@/Utils/BackgroundEvents'
 
 export const Navigation: FunctionComponent = observer(() => {
   const panelStore = usePanelStore()
@@ -63,12 +64,9 @@ export const Navigation: FunctionComponent = observer(() => {
       key: 'community',
       content: '👥 Community',
       handler: () => {
-        chrome.tabs
-          .create({
-            url: 'https://join.slack.com/t/meteor-community/shared_invite/zt-a9lwcfb7-~UwR3Ng6whEqRxcP5rORZw',
-          })
-          // eslint-disable-next-line no-console
-          .catch(console.error)
+        openTab(
+          'https://join.slack.com/t/meteor-community/shared_invite/zt-a9lwcfb7-~UwR3Ng6whEqRxcP5rORZw',
+        )
 
         analytics?.event('navigation', 'click', { label: 'community' })
       },
@@ -105,13 +103,7 @@ export const Navigation: FunctionComponent = observer(() => {
         </>
       ),
       handler: () => {
-        chrome.tabs
-          .create({
-            url: repositoryData.html_url.concat('/issues'),
-          })
-          // eslint-disable-next-line no-console
-          .catch(console.error)
-
+        openTab(repositoryData.html_url.concat('/issues'))
         analytics?.event('navigation', 'click', { label: 'feedback' })
       },
       shine: true,
@@ -131,12 +123,7 @@ export const Navigation: FunctionComponent = observer(() => {
       ),
       shine: true,
       handler: () => {
-        chrome.tabs
-          .create({
-            url: repositoryData.html_url.concat('/stargazers'),
-          })
-          // eslint-disable-next-line no-console
-          .catch(console.error)
+        openTab(repositoryData.html_url.concat('/stargazers'))
 
         analytics?.event('navigation', 'click', { label: 'star' })
       },

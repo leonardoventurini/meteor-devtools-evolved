@@ -1,6 +1,7 @@
 import { defer } from 'lodash'
+import browser from 'webextension-polyfill'
 
-type Connection = Map<number, chrome.runtime.Port>
+type Connection = Map<number, any>
 
 declare global {
   interface Window {
@@ -15,8 +16,7 @@ const connections: Connection = new Map()
 self.connections = connections
 
 const panelListener = () => {
-  chrome.runtime.onConnect.addListener(port => {
-    // eslint-disable-next-line no-console
+  browser.runtime.onConnect.addListener(port => {
     console.debug('runtime.onConnect', port)
 
     port.onMessage.addListener(request => {
@@ -42,8 +42,7 @@ const panelListener = () => {
 }
 
 const tabRemovalListener = () => {
-  chrome.tabs.onRemoved.addListener(tabId => {
-    // eslint-disable-next-line no-console
+  browser.tabs.onRemoved.addListener(tabId => {
     console.debug('tabs.onRemoved', tabId)
 
     if (connections.has(tabId)) {
@@ -53,11 +52,14 @@ const tabRemovalListener = () => {
   })
 }
 
-chrome.action.onClicked.addListener(e => {
-  // eslint-disable-next-line no-console
+
+// For cross-browser support
+const action = browser.browserAction || browser.action
+
+action.onClicked.addListener(e => {
   console.debug('action.onClicked', e)
 
-  chrome.tabs
+  browser.tabs
     .create({
       url: 'http://cloud.meteor.com/?utm_source=chrome_extension&utm_medium=extension&utm_campaign=meteor_devtools_evolved',
     })
@@ -79,7 +81,8 @@ const handleConsole = (
 }
 
 const contentListener = () => {
-  chrome.runtime.onMessage.addListener((request, sender, sendResponse) => {
+  // @ts-ignore
+  browser.runtime.onMessage.addListener((request, sender, sendResponse) => {
     defer(() => {
       const tabId = sender?.tab?.id
 
@@ -119,6 +122,23 @@ const contentListener = () => {
   })
 }
 
+const tabListener = () => {
+  const tabEvent = {
+    'create-tab': request =>
+      browser.tabs
+        .create({
+          url: request.data.url,
+        })
+        .catch(console.error),
+  }
+  chrome.runtime.onMessage.addListener(function (request, sender) {
+    if (request.source !== 'meteor-devtools-evolved') return null
+
+    tabEvent[request.eventType]?.(request)
+  })
+}
+
 panelListener()
 tabRemovalListener()
 contentListener()
+tabListener()

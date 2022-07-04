@@ -1,6 +1,6 @@
 const base = require('./base')
 
-module.exports = base('chrome', {
+module.exports = base('firefox', {
   watch: true,
   mode: 'development',
   devtool: 'inline-source-map',

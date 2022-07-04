@@ -1,6 +1,24 @@
-Behold, the evolution of Meteor DevTools.
+<div align="center">
 
-You can find the Chrome Extension **[here](https://chrome.google.com/webstore/detail/meteor-devtools-evolved/ibniinmoafhgbifjojidlagmggecmpgf)**.
+<img src="https://media.giphy.com/media/Pt2yOXUALOhpB5dpiM/giphy.gif" alt="Meteor Devtool Evolved Gif" />
+
+
+<p style="font-size: 30px">
+Meteor Devtools Extension
+</p>
+Behold, the evolution of Meteor DevTools.</p>
+</div>
+
+Meteor Devtools Evolved is currently available for Google Chrome and Mozilla Firefox.
+
+<p align="center" >
+    <a href="https://chrome.google.com/webstore/detail/meteor-devtools-evolved/ibniinmoafhgbifjojidlagmggecmpgf">
+    <img width="120" src="https://img.shields.io/badge/%20-Chrome-orange?logo=google-chrome&logoColor=white" alt="Download for Chrome" />
+    </a>
+    <a href="https://addons.mozilla.org/en-US/firefox/addon/">
+    <img width="110" src="https://img.shields.io/badge/%20-Firefox-red?logo=mozilla&logoColor=white" alt="Download for Firefox" />
+    </a>
+</p>
 
 [Harder, Better, Faster, Stronger](https://www.youtube.com/watch?v=gAjR4_CbPpQ) :rocket:
 

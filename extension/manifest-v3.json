@@ -1,0 +1,49 @@
+{
+  "manifest_version": 3,
+  "name": "Meteor DevTools Evolved",
+  "description": "The Meteor framework development tool belt, evolved.",
+  "version": "1.6",
+  "author": "Leonardo Venturini",
+  "icons": {
+    "16": "icons/meteor-16.png",
+    "48": "icons/meteor-48.png",
+    "128": "icons/meteor-128.png"
+  },
+  "action": {
+    "default_title": "Meteor",
+    "default_icon": "icons/meteor-48.png"
+  },
+  "background": {
+    "service_worker": "/dist/background.js"
+  },
+  "content_scripts": [
+    {
+      "matches": [
+        "<all_urls>"
+      ],
+      "js": [
+        "/dist/content.js"
+      ],
+      "run_at": "document_start",
+      "all_frames": true
+    }
+  ],
+  "host_permissions": [
+    "https://api.github.com/*",
+    "https://www.google-analytics.com/*"
+  ],
+  "content_security_policy": {
+    "extension_pages": "script-src 'self'; object-src 'self'"
+  },
+  "web_accessible_resources": [
+    {
+      "resources": [
+        "/dist/inject.js"
+      ],
+      "matches": [
+        "*://*/*"
+      ]
+    }
+  ],
+  "devtools_page": "devtools.html"
+}
