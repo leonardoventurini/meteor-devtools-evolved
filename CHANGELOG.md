@@ -4,6 +4,17 @@ All notable changes to this project will be documented in this file.
 
 > The dates refer to when it was made available in the Chrome platform.
 
+## [1.7] - 2022-XX-XX
+
+## Added
+
+- The Firefox browser is now supported. Thanks to Niloy.
+
+## Changed (development only)
+
+- Now we can build extensions for both Chrome and Firefox using the same codebase.
+- New commands added to support the workflow.
+
 ## [1.6] - 2022-06-08
 
 ## Added
