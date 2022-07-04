@@ -47,3 +47,8 @@ You don't know what data belongs to where? You can rapidly search for anything i
 The extension is almost entirely written in TypeScript, while some Chrome specific code being left out for practical reasons. It uses MobX to manage state, and SASS its styles. We also use components from the [Blueprint](https://github.com/palantir/blueprint) library by Palantir. Everything is glued together with Webpack.
 
 > Anyone is welcome to contribute, more info [here](CONTRIBUTING.md).
+
+
+## Firefox
+
+The Firefox port of the extension was a contribution made by @nilooy. Thank you!

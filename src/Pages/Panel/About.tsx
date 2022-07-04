@@ -24,11 +24,9 @@ export const About: FunctionComponent<Props> = ({
       <div className={Classes.DRAWER_BODY}>
         <div className={Classes.DIALOG_BODY}>
           <h1>Basics</h1>
-
           <p>
             <em>Behold, the evolution of Meteor DevTools.</em>
           </p>
-
           <p>
             <a
               href='https://github.com/leonardoventurini/meteor-devtools-evolved/blob/development/CHANGELOG.md'
@@ -38,21 +36,17 @@ export const About: FunctionComponent<Props> = ({
               Change Log
             </a>
           </p>
-
           <p>
             The extension initializes with the page content, which means you
             have to refresh the page after installation, also it needs the
             devtools panel to be opened at least once in the current tab for any
             messages to be processed.
           </p>
-
           <p>
             Other than that you can just explore the extension at your leisure.
             It should be easy enough.
           </p>
-
           <h1>Feedback</h1>
-
           <p>
             Any feedback you might have can be addressed directly at our{' '}
             <a
@@ -81,7 +75,6 @@ export const About: FunctionComponent<Props> = ({
             </a>
             .
           </p>
-
           <p>
             Starring the project is the easiest way to support the work and be
             part of our community of{' '}
@@ -94,13 +87,22 @@ export const About: FunctionComponent<Props> = ({
             </a>
             .
           </p>
-
           <p>Let&apos;s make Meteor great again.</p>
 
+          <h1>Firefox</h1>
+          <p>
+            The Firefox port of the extension was a contribution made by{' '}
+            <a
+              href='https://github.com/nilooy'
+              target='_blank'
+              rel='noopener noreferrer'
+            >
+              RF Niloy
+            </a>
+            . Thank you!
+          </p>
           <h1>License</h1>
-
           <p>The MIT License (MIT)</p>
-
           <p>
             Copyright (c) {YEAR}{' '}
             <a
@@ -111,7 +113,6 @@ export const About: FunctionComponent<Props> = ({
               Leonardo Venturini
             </a>
           </p>
-
           <p>
             Permission is hereby granted, free of charge, to any person
             obtaining a copy of this software and associated documentation files
@@ -121,12 +122,10 @@ export const About: FunctionComponent<Props> = ({
             and to permit persons to whom the Software is furnished to do so,
             subject to the following conditions:
           </p>
-
           <p>
             The above copyright notice and this permission notice shall be
             included in all copies or substantial portions of the Software.
           </p>
-
           <p>
             THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND,
             EXPRESS OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF
