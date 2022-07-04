@@ -31,6 +31,7 @@ export class PanelStoreConstructor {
   constructor() {
     makeObservable(this)
 
+    // eslint-disable-next-line no-console
     this.bookmarkStore.sync().catch(console.error)
   }
 

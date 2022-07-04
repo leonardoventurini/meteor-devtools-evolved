@@ -20,6 +20,7 @@ const panelListener = () => {
     console.debug('runtime.onConnect', port)
 
     port.onMessage.addListener(request => {
+      // eslint-disable-next-line no-console
       console.debug('port.onMessage', request)
 
       if (request.name === 'init') {
@@ -51,6 +52,7 @@ const tabRemovalListener = () => {
   })
 }
 
+
 // For cross-browser support
 const action = browser.browserAction || browser.action
 
@@ -61,6 +63,7 @@ action.onClicked.addListener(e => {
     .create({
       url: 'http://cloud.meteor.com/?utm_source=chrome_extension&utm_medium=extension&utm_campaign=meteor_devtools_evolved',
     })
+    // eslint-disable-next-line no-console
     .catch(console.error)
 })
 
@@ -69,8 +72,10 @@ const handleConsole = (
   { data: { type, message } }: Message<{ type: ConsoleType; message: string }>,
 ) => {
   if (type in console) {
+    // eslint-disable-next-line no-console
     console[type](`[${tabId}]`, message)
   } else {
+    // eslint-disable-next-line no-console
     console.warn('Wrong console type.')
   }
 }
@@ -85,6 +90,7 @@ const contentListener = () => {
 
       // The message event has to from the panel to the content and then through here.
       if (request?.eventType === 'cache:clear') {
+        // eslint-disable-next-line no-console
         console.debug('clear cache')
         Cache.delete(tabId)
         return

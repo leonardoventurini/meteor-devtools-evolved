@@ -67,6 +67,7 @@ export const Bridge = new (class {
   }
 
   init() {
+    // eslint-disable-next-line no-console
     console.log('Setting up bridge...')
 
     if (!browser || !browser.devtools) return
@@ -118,6 +119,7 @@ Bridge.register('sync-subscriptions', (message: Message<any>) => {
 })
 
 Bridge.register('stats', (message: Message<any>) => {
+  // eslint-disable-next-line no-console
   console.log(message.data)
 
   PanelStore.setGitCommitHash(message.data.gitCommitHash)

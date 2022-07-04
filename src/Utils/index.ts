@@ -4,6 +4,7 @@ import browser from 'webextension-polyfill'
 
 export const inDevelopmentOnly = (callback: () => any) => {
   if (DEVELOPMENT) {
+    // eslint-disable-next-line no-console
     console.trace('DEVELOPMENT ONLY')
     callback()
   }
