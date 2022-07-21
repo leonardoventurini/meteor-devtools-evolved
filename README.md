@@ -7,9 +7,11 @@
 Meteor Devtools Extension
 </p>
 Behold, the evolution of Meteor DevTools.</p>
-</div>
 
 Meteor Devtools Evolved is currently available for Google Chrome and Mozilla Firefox.
+</div>
+
+
 
 <p align="center" >
     <a href="https://chrome.google.com/webstore/detail/meteor-devtools-evolved/ibniinmoafhgbifjojidlagmggecmpgf">
