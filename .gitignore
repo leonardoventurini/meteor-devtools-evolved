@@ -7,3 +7,4 @@ chrome.pem
 firefox.pem
 extension/chrome
 extension/firefox
+mongo-decimal-test-main

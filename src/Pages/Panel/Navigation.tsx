@@ -137,9 +137,8 @@ export const Navigation: FunctionComponent = observer(() => {
 
   menu.unshift({
     key: 'learn-meteor',
-    content: 'Learn Meteor',
+    content: 'Sapienza Course 🧠',
     shine: true,
-    icon: 'book',
     handler: () => {
       openTab(
         'https://www.sapienza.dev/course/meteor?utm_source=chrome_extension&utm_medium=extension&utm_campaign=meteor_devtools_evolved',
