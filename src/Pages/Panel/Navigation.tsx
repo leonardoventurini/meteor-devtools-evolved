@@ -62,7 +62,8 @@ export const Navigation: FunctionComponent = observer(() => {
   const menu: IMenuItem[] = [
     {
       key: 'community',
-      content: '👥 Community',
+      content: 'Community',
+      icon: 'chat',
       handler: () => {
         openTab(
           'https://join.slack.com/t/meteor-community/shared_invite/zt-a9lwcfb7-~UwR3Ng6whEqRxcP5rORZw',
@@ -74,7 +75,8 @@ export const Navigation: FunctionComponent = observer(() => {
     },
     {
       key: 'about',
-      content: 'ℹ️ About',
+      content: 'About',
+      icon: 'info-sign',
       handler: () => {
         panelStore.setAboutVisible(true)
         analytics?.event('navigation', 'click', { label: 'about' })
@@ -83,7 +85,8 @@ export const Navigation: FunctionComponent = observer(() => {
     },
     {
       key: 'reload',
-      content: '🔃 Reload',
+      icon: 'refresh',
+      content: 'Reload',
       handler: () => location.reload(),
       shine: true,
     },
@@ -92,9 +95,10 @@ export const Navigation: FunctionComponent = observer(() => {
   if (repositoryData) {
     menu.unshift({
       key: 'feedback',
+      icon: 'thumbs-up',
       content: (
         <>
-          <strong>📥 Feedback</strong>
+          <strong>Feedback</strong>
           {isNumber(repositoryData.open_issues_count) ? (
             <Tag minimal round style={{ marginLeft: '.5rem' }}>
               {repositoryData.open_issues_count}
@@ -111,9 +115,10 @@ export const Navigation: FunctionComponent = observer(() => {
 
     menu.unshift({
       key: 'star',
+      icon: 'star',
       content: (
         <>
-          <strong>⭐ Stargazers</strong>
+          <strong>Stargazers</strong>
           {isNumber(repositoryData.stargazers_count) ? (
             <Tag minimal round style={{ marginLeft: '.5rem' }}>
               {repositoryData.stargazers_count}
@@ -131,13 +136,15 @@ export const Navigation: FunctionComponent = observer(() => {
   }
 
   menu.unshift({
-    key: 'cloud',
-    content: '☁️ Deploy for Free',
+    key: 'learn-meteor',
+    content: 'Learn Meteor',
     shine: true,
+    icon: 'book',
     handler: () => {
-      panelStore.setSponsorVisible(true)
-
-      analytics?.event('navigation', 'click', { label: 'meteor cloud sponsor' })
+      openTab(
+        'https://www.sapienza.dev/course/meteor?utm_source=chrome_extension&utm_medium=extension&utm_campaign=meteor_devtools_evolved',
+      )
+      analytics?.event('navigation', 'click', { label: 'learn meteor' })
     },
   })
 

@@ -7,7 +7,10 @@ const messageHandler = (event: MessageEvent) => {
   // Only accept messages that we know are ours
   if (event.data.source !== 'meteor-devtools-evolved') return
 
-  browser.runtime.sendMessage(event.data)
+  browser.runtime.sendMessage(event.data).catch(() => {
+    // Cleans up and prevent "context invalidated" errors.
+    window.removeEventListener('message', messageHandler)
+  })
 }
 
 window.addEventListener('message', messageHandler)
