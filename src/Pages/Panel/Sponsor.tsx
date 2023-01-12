@@ -29,7 +29,7 @@ export const Sponsor: FunctionComponent<Props> = ({
       <div className={Classes.DRAWER_BODY}>
         <SponsorHero />
         <div className={Classes.DIALOG_BODY}>
-          <div className='w-full mb-4 text-lg'>
+          <div className='mb-4 w-full text-lg'>
             <p>
               ✅ Do you have a Meteor app, but you’re looking for a better
               hosting platform?

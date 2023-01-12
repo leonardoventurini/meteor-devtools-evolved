@@ -20,7 +20,8 @@
     "wait:chrome": "wait-on extension/chrome/manifest.json http://localhost:2100",
     "open:firefox": "yarn wait:firefox && web-ext run --start-url \"http://localhost:2100\"  --source-dir ./extension/firefox/ --browser-console",
     "open:chrome": "yarn wait:chrome && web-ext run -t chromium --start-url \"http://localhost:2100\" --source-dir ./extension/chrome/ --browser-console",
-    "clean": "rimraf extension/firefox extension/chrome"
+    "clean": "rimraf extension/firefox extension/chrome",
+    "lint": "eslint ./src --ext .js,.jsx,.ts,.tsx --cache ."
   },
   "author": "Leonardo Venturini",
   "license": "MIT",
@@ -31,7 +32,7 @@
     "@blueprintjs/core": "3.53.0",
     "@blueprintjs/icons": "3.32.0",
     "@blueprintjs/popover2": "^0.13.0",
-    "@tstt/eslint-config": "^0.0.2",
+    "@tstt/eslint-config": "^0.1.4",
     "@types/chrome": "0.0.178",
     "@types/classnames": "^2.2.10",
     "@types/lodash": "^4.14.149",

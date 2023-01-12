@@ -25,7 +25,7 @@ export const SponsorHero: FC<Props> = () => {
             src={MeteorCloudLogo}
             alt='Meteor Cloud Logo'
             style={{ width: '400px' }}
-            className='mb-4 select-none mx-auto'
+            className='mx-auto mb-4 select-none'
           />
 
           <h1 className='mb-5 text-xl font-bold'>☁ Deploy for Free</h1>
@@ -33,7 +33,7 @@ export const SponsorHero: FC<Props> = () => {
           <p className='mb-5'>
             As a Meteor DevTools Evolved user, you can use the promo code{' '}
             <span
-              className='text-orange-500 font-bold cursor-pointer'
+              className='cursor-pointer font-bold text-orange-500'
               onClick={() => {
                 StringUtils.toClipboard('DEVTOOLS60')
                 AppToaster.show({
@@ -47,7 +47,7 @@ export const SponsorHero: FC<Props> = () => {
               DEVTOOLS60
             </span>{' '}
             to receive a{' '}
-            <span className='text-green-500 font-bold'>$60 credit</span> towards
+            <span className='font-bold text-green-500'>$60 credit</span> towards
             any paid plan!
           </p>
 
@@ -73,7 +73,7 @@ export const SponsorHero: FC<Props> = () => {
             with your username and discount code.
           </p>
 
-          <div className='flex gap-2 justify-center'>
+          <div className='flex justify-center gap-2'>
             <button
               className='btn btn-primary'
               onClick={() =>

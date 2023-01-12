@@ -52,7 +52,6 @@ const tabRemovalListener = () => {
   })
 }
 
-
 // For cross-browser support
 const action = browser.browserAction || browser.action
 

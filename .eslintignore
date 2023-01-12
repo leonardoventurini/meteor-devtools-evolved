@@ -1,2 +1,5 @@
-chrome/builds
-firefox/builds
+/extension/**
+**/node_modules/**
+/devapp/**
+/devapp-*/**
+/mongo-decimal-test-main/

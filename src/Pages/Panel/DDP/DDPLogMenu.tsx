@@ -12,7 +12,7 @@ export const DDPLogMenu: FunctionComponent<Props> = ({ log }) => {
   const store = usePanelStore()
 
   return (
-    <div className='menu flex gap-2 flex-row invisible group-hover:visible'>
+    <div className='menu invisible flex flex-row gap-2 group-hover:visible'>
       <Icon
         icon='eye-open'
         onClick={() => log.trace && store.setActiveStackTrace(log.trace)}

@@ -8,3 +8,4 @@ firefox.pem
 extension/chrome
 extension/firefox
 mongo-decimal-test-main
+.eslintcache
