@@ -19,7 +19,7 @@ import {
 } from '@/Styles/Constants'
 import { Performance } from '@/Pages/Panel/Performance/Performance'
 import { useAnalytics } from '@/Utils/Hooks/useAnalytics'
-import { Sponsor } from './Panel/Sponsor'
+import { HelpDrawer } from './Panel/HelpDrawer'
 
 Bridge.init()
 
@@ -83,9 +83,9 @@ const PanelObserverComponent: FunctionComponent = observer(() => {
         onClose={() => store.setAboutVisible(false)}
       />
 
-      <Sponsor
-        isSponsorVisible={store.isSponsorVisible}
-        onClose={() => store.setSponsorVisible(false)}
+      <HelpDrawer
+        isHelpDrawerVisible={store.isHelpDrawerVisible}
+        onClose={() => store.setHelpDrawerVisible(false)}
       />
 
       <Navigation />

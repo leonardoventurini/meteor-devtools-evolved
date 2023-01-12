@@ -61,25 +61,22 @@ export const Navigation: FunctionComponent = observer(() => {
 
   const menu: IMenuItem[] = [
     {
-      key: 'community',
-      content: 'Community',
-      icon: 'chat',
-      handler: () => {
-        openTab(
-          'https://join.slack.com/t/meteor-community/shared_invite/zt-a9lwcfb7-~UwR3Ng6whEqRxcP5rORZw',
-        )
-
-        analytics?.event('navigation', 'click', { label: 'community' })
-      },
-      shine: true,
-    },
-    {
       key: 'monti-apm',
       content: 'Monti APM',
       icon: 'timeline-bar-chart',
       handler: () => {
         openTab('https://app.montiapm.com/')
         analytics?.event('navigation', 'click', { label: 'monti apm' })
+      },
+    },
+    {
+      key: 'help',
+      icon: 'help',
+      content: 'Help',
+      shine: true,
+      handler: () => {
+        panelStore.setHelpDrawerVisible(true)
+        analytics?.event('navigation', 'click', { label: 'partners' })
       },
     },
     {

@@ -4,13 +4,13 @@ import React, { FunctionComponent } from 'react'
 import { SponsorHero } from '@/Pages/Panel/Sponsor/SponsorHero'
 
 interface Props {
-  isSponsorVisible: boolean
+  isHelpDrawerVisible: boolean
 
   onClose(): void
 }
 
-export const Sponsor: FunctionComponent<Props> = ({
-  isSponsorVisible,
+export const HelpDrawer: FunctionComponent<Props> = ({
+  isHelpDrawerVisible,
   onClose,
 }) => {
   return (
@@ -23,8 +23,9 @@ export const Sponsor: FunctionComponent<Props> = ({
           </Tag>
         </div>
       }
-      isOpen={isSponsorVisible}
+      isOpen={isHelpDrawerVisible}
       onClose={onClose}
+      size={Drawer.SIZE_LARGE}
     >
       <div className={Classes.DRAWER_BODY}>
         <SponsorHero />

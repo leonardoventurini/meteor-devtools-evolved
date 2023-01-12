@@ -16,7 +16,7 @@ export class PanelStoreConstructor {
   @observable.shallow activeStackTrace: StackTrace[] | null = null
 
   @observable isAboutVisible = false
-  @observable isSponsorVisible = false
+  @observable isHelpDrawerVisible = false
   @observable subscriptions: Record<string, IMeteorSubscription> = {}
 
   @observable gitCommitHash?: string | null = null
@@ -62,8 +62,8 @@ export class PanelStoreConstructor {
   }
 
   @action
-  setSponsorVisible(isSponsorVisible: boolean) {
-    this.isSponsorVisible = isSponsorVisible
+  setHelpDrawerVisible(isHelpDrawerVisible: boolean) {
+    this.isHelpDrawerVisible = isHelpDrawerVisible
   }
 
   @action
