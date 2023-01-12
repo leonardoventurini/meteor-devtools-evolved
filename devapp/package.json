@@ -2,7 +2,7 @@
   "name": "devapp",
   "private": true,
   "scripts": {
-    "start": "meteor run --port=2100 --exclude-archs=web.browser.legacy,web.cordova"
+    "start": "MONGO_URL='' meteor run --port=3000 --exclude-archs=web.browser.legacy,web.cordova"
   },
   "dependencies": {
     "@babel/runtime": "^7.17.9",

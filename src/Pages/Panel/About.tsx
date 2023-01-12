@@ -59,7 +59,7 @@ export const About: FunctionComponent<Props> = ({
             page, that way we can discuss and transition into development more
             easily. You can also reach the author on the{' '}
             <a
-              href='https://join.slack.com/t/meteor-community/shared_invite/zt-a9lwcfb7-~UwR3Ng6whEqRxcP5rORZw'
+              href='https://meteor-community.slack.com/archives/DRKE6HDD5'
               target='_blank'
               rel='noopener noreferrer'
             >
@@ -67,7 +67,7 @@ export const About: FunctionComponent<Props> = ({
             </a>{' '}
             or the{' '}
             <a
-              href='https://forums.meteor.com/'
+              href='https://forums.meteor.com/u/leonardoventurini'
               target='_blank'
               rel='noopener noreferrer'
             >

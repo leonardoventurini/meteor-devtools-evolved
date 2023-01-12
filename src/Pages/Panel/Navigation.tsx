@@ -74,6 +74,15 @@ export const Navigation: FunctionComponent = observer(() => {
       shine: true,
     },
     {
+      key: 'monti-apm',
+      content: 'Monti APM',
+      icon: 'timeline-bar-chart',
+      handler: () => {
+        openTab('https://app.montiapm.com/')
+        analytics?.event('navigation', 'click', { label: 'monti apm' })
+      },
+    },
+    {
       key: 'about',
       content: 'About',
       icon: 'info-sign',
@@ -95,17 +104,8 @@ export const Navigation: FunctionComponent = observer(() => {
   if (repositoryData) {
     menu.unshift({
       key: 'feedback',
-      icon: 'thumbs-up',
-      content: (
-        <>
-          <strong>Feedback</strong>
-          {isNumber(repositoryData.open_issues_count) ? (
-            <Tag minimal round style={{ marginLeft: '.5rem' }}>
-              {repositoryData.open_issues_count}
-            </Tag>
-          ) : null}
-        </>
-      ),
+      icon: 'issue',
+      content: <strong>Issues</strong>,
       handler: () => {
         openTab(repositoryData.html_url.concat('/issues'))
         analytics?.event('navigation', 'click', { label: 'feedback' })
@@ -118,7 +118,7 @@ export const Navigation: FunctionComponent = observer(() => {
       icon: 'star',
       content: (
         <>
-          <strong>Stargazers</strong>
+          <strong>Star</strong>
           {isNumber(repositoryData.stargazers_count) ? (
             <Tag minimal round style={{ marginLeft: '.5rem' }}>
               {repositoryData.stargazers_count}
@@ -136,14 +136,13 @@ export const Navigation: FunctionComponent = observer(() => {
   }
 
   menu.unshift({
-    key: 'learn-meteor',
-    content: 'Sapienza Course 🧠',
+    key: 'sponsor',
+    content: <strong>❤️ Sponsor</strong>,
     shine: true,
+    title: 'Support new features and bug fixes',
     handler: () => {
-      openTab(
-        'https://www.sapienza.dev/course/meteor?utm_source=chrome_extension&utm_medium=extension&utm_campaign=meteor_devtools_evolved',
-      )
-      analytics?.event('navigation', 'click', { label: 'learn meteor' })
+      openTab('https://github.com/sponsors/leonardoventurini')
+      analytics?.event('navigation', 'click', { label: 'sponsor' })
     },
   })
 

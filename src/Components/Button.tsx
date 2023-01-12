@@ -1,6 +1,6 @@
 import React, { ButtonHTMLAttributes, FunctionComponent } from 'react'
 import styled from 'styled-components'
-import { Icon, IconName, Intent } from '@blueprintjs/core'
+import { Icon, IconName, Intent, Popover } from '@blueprintjs/core'
 import { centerItems, truncate } from '@/Styles/Mixins'
 import classnames from 'classnames'
 import { isNumber, isString } from 'lodash'
@@ -122,6 +122,7 @@ export const Button: FunctionComponent<Props> = ({
   shine,
   active,
   subtitle,
+  title,
   ...rest
 }) => {
   const classes = classnames(
@@ -132,6 +133,32 @@ export const Button: FunctionComponent<Props> = ({
     },
     className,
   )
+
+  if (title) {
+    return (
+      <ButtonWrapper className={classes} {...rest}>
+        <Popover
+          content={<div className='p-4'>{title}</div>}
+          interactionKind='hover'
+        >
+          <div className='button-wrapper'>
+            {icon &&
+              (isString(icon) ? (
+                <Icon icon={icon} className='icon' iconSize={12} />
+              ) : (
+                icon
+              ))}
+            {(children || isNumber(children)) && (
+              <span className='content'>{children}</span>
+            )}
+            {(subtitle || isNumber(subtitle)) && (
+              <span className='subtitle'>{subtitle}</span>
+            )}
+          </div>
+        </Popover>
+      </ButtonWrapper>
+    )
+  }
 
   return (
     <ButtonWrapper className={classes} {...rest}>

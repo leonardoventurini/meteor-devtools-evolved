@@ -61,6 +61,8 @@ export interface IMenuItem {
   icon?: IconName | JSX.Element
   shine?: boolean
   handler: () => void
+
+  title?: string
 }
 
 interface Props {
@@ -100,6 +102,7 @@ export const TabBar: FunctionComponent<Props> = ({ tabs, menu, onChange }) => {
         onClick={item.handler}
         icon={item.icon}
         shine={item.shine}
+        title={item.title}
       >
         {item.content}
       </Button>
