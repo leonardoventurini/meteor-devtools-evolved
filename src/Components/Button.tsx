@@ -1,9 +1,10 @@
 import React, { ButtonHTMLAttributes, FunctionComponent } from 'react'
 import styled from 'styled-components'
-import { Icon, IconName, Intent, Popover } from '@blueprintjs/core'
+import { Icon, IconName, Intent } from '@blueprintjs/core'
 import { centerItems, truncate } from '@/Styles/Mixins'
 import classnames from 'classnames'
 import { isNumber, isString } from 'lodash'
+import { Popover2 } from '@blueprintjs/popover2'
 
 const ButtonWrapper = styled.button`
   ${centerItems};
@@ -137,7 +138,7 @@ export const Button: FunctionComponent<Props> = ({
   if (title) {
     return (
       <ButtonWrapper className={classes} {...rest}>
-        <Popover
+        <Popover2
           content={<div className='p-4'>{title}</div>}
           interactionKind='hover'
         >
@@ -155,7 +156,7 @@ export const Button: FunctionComponent<Props> = ({
               <span className='subtitle'>{subtitle}</span>
             )}
           </div>
-        </Popover>
+        </Popover2>
       </ButtonWrapper>
     )
   }

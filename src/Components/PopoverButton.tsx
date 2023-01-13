@@ -1,7 +1,8 @@
 import React, { FunctionComponent } from 'react'
-import { IconName, IPopoverProps, Popover } from '@blueprintjs/core'
+import { IconName } from '@blueprintjs/core'
 import { Button } from '@/Components/Button'
 import styled from 'styled-components'
+import { Popover2, Popover2Props } from '@blueprintjs/popover2'
 
 interface WrapperProps {
   height: number
@@ -14,7 +15,7 @@ const Wrapper = styled.span`
   }
 `
 
-interface Props extends IPopoverProps {
+interface Props extends Popover2Props {
   icon: IconName
   height?: number
 }
@@ -26,10 +27,10 @@ export const PopoverButton: FunctionComponent<Props> = ({
   ...rest
 }) => (
   <Wrapper height={height}>
-    <Popover {...rest}>
+    <Popover2 {...rest}>
       <Button icon={icon} className='popover-button'>
         {children}
       </Button>
-    </Popover>
+    </Popover2>
   </Wrapper>
 )
