@@ -72,7 +72,13 @@ export const HelpDrawer: FunctionComponent<Props> = ({
       <div className={Classes.DRAWER_BODY}>
         <div className={Classes.DIALOG_BODY}>
           <div className='mb-4 w-full text-lg'>
+            <h2 className='mb-4 border-l-2 border-gray-500 pl-2 font-medium uppercase text-gray-500'>
+              Extension
+            </h2>
             <PartnersGrid items={people} className='mb-4' />
+            <h2 className='mb-4 border-l-2 border-gray-500 pl-2 font-medium uppercase text-gray-500'>
+              Meteor & Development
+            </h2>
             <PartnersGrid items={orgs} />
           </div>
         </div>
