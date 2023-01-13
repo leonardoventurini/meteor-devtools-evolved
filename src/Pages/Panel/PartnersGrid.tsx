@@ -1,5 +1,9 @@
 import React from 'react'
-import { EnvelopeIcon, LinkIcon } from '@heroicons/react/20/solid'
+import {
+  ChatBubbleLeftIcon,
+  EnvelopeIcon,
+  LinkIcon,
+} from '@heroicons/react/20/solid'
 import classnames from 'classnames'
 
 export type GridItem = {
@@ -9,6 +13,10 @@ export type GridItem = {
   email?: string
   imageUrl?: string
   website?: string
+
+  slack?: string
+
+  linkedin?: string
 
   description?: string
 }
@@ -38,6 +46,22 @@ export function PartnersGrid({ items, className = '' }) {
                 <p className='mt-1 truncate text-sm text-gray-500'>
                   {person.title}
                 </p>
+                {person.linkedin ? (
+                  <a
+                    href={person.linkedin}
+                    className='text-sm font-medium text-gray-700 hover:text-gray-500'
+                    target='_blank'
+                    rel='noreferrer'
+                  >
+                    <svg
+                      xmlns='http://www.w3.org/2000/svg'
+                      viewBox='0 0 24 24'
+                      className='inline-block h-5 w-5 fill-gray-500'
+                    >
+                      <path d='M4.98 3.5c0 1.381-1.11 2.5-2.48 2.5s-2.48-1.119-2.48-2.5c0-1.38 1.11-2.5 2.48-2.5s2.48 1.12 2.48 2.5zm.02 4.5h-5v16h5v-16zm7.982 0h-4.968v16h4.969v-8.399c0-4.67 6.029-5.052 6.029 0v8.399h4.988v-10.131c0-7.88-8.922-7.593-11.018-3.714v-2.155z' />
+                    </svg>
+                  </a>
+                ) : null}
               </div>
               {person.imageUrl ? (
                 <img
@@ -83,6 +107,23 @@ export function PartnersGrid({ items, className = '' }) {
                         aria-hidden='true'
                       />
                       <span className='ml-3'>Website</span>
+                    </a>
+                  </div>
+                ) : null}
+
+                {person.slack ? (
+                  <div className='flex w-0 flex-1'>
+                    <a
+                      href={person.slack}
+                      className='relative -mr-px inline-flex w-0 flex-1 items-center justify-center rounded-bl-lg border border-transparent py-4 text-sm font-medium text-gray-700 hover:text-gray-500'
+                      target='_blank'
+                      rel='noreferrer'
+                    >
+                      <ChatBubbleLeftIcon
+                        className='h-5 w-5 text-gray-400'
+                        aria-hidden='true'
+                      />
+                      <span className='ml-3'>Community Slack</span>
                     </a>
                   </div>
                 ) : null}

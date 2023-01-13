@@ -15,6 +15,8 @@ const people: GridItem[] = [
     imageUrl: AuthorLogo,
     description:
       'If you need help with extension related issues or general Node.js or Meteor consulting',
+    slack: 'https://meteor-community.slack.com/archives/DRKE6HDD5',
+    linkedin: 'https://www.linkedin.com/in/leonardo-venturini/',
   },
 ]
 
