@@ -23,8 +23,8 @@ const orgs: GridItem[] = [
     name: 'Quave',
     title: 'Organization',
     role: 'Partner',
-    website: 'https://www.quave.com.br/',
-    email: 'contact@quave.com.br',
+    website: 'https://www.quave.dev/',
+    email: 'contact@quave.dev',
     imageUrl: QuaveLogo,
     description:
       'If you need help developing an app, maintaining an existing one or need to consult Meteor experts',
