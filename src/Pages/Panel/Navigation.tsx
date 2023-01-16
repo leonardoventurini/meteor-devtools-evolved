@@ -126,7 +126,8 @@ export const Navigation: FunctionComponent = observer(() => {
     key: 'sponsor',
     content: <strong>❤️ Sponsor</strong>,
     shine: true,
-    title: 'Support new features and bug fixes',
+    title:
+      'If you find this extension useful, please consider sponsoring the author.',
     handler: () => {
       openTab('https://github.com/sponsors/leonardoventurini')
       analytics?.event('navigation', 'click', { label: 'sponsor' })

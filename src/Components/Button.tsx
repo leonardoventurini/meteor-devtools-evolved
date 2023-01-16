@@ -133,15 +133,17 @@ export const Button: FunctionComponent<Props> = ({
       warning: intent === 'warning',
     },
     className,
+    'h-full',
   )
 
   if (title) {
     return (
-      <ButtonWrapper className={classes} {...rest}>
-        <Popover2
-          content={<div className='p-4'>{title}</div>}
-          interactionKind='hover'
-        >
+      <Popover2
+        content={<div className='p-4'>{title}</div>}
+        interactionKind='hover'
+        className='inline-flex items-center'
+      >
+        <ButtonWrapper className={classes} {...rest}>
           <div className='button-wrapper'>
             {icon &&
               (isString(icon) ? (
@@ -156,8 +158,8 @@ export const Button: FunctionComponent<Props> = ({
               <span className='subtitle'>{subtitle}</span>
             )}
           </div>
-        </Popover2>
-      </ButtonWrapper>
+        </ButtonWrapper>
+      </Popover2>
     )
   }
 

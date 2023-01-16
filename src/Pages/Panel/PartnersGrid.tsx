@@ -72,7 +72,7 @@ export function PartnersGrid({ items, className = '' }) {
               ) : null}
             </div>
             {person.description ? (
-              <div className='p-3 text-sm text-gray-700'>
+              <div className='p-3 text-base text-gray-700'>
                 {person.description}
               </div>
             ) : null}
