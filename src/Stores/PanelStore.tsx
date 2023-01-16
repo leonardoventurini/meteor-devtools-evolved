@@ -15,7 +15,6 @@ export class PanelStoreConstructor {
   @observable activeObject: ViewableObject = null
   @observable.shallow activeStackTrace: StackTrace[] | null = null
 
-  @observable isAboutVisible = false
   @observable isHelpDrawerVisible = false
   @observable subscriptions: Record<string, IMeteorSubscription> = {}
 
@@ -54,11 +53,6 @@ export class PanelStoreConstructor {
   @action
   setSelectedTabId(selectedTabId: string) {
     this.selectedTabId = selectedTabId
-  }
-
-  @action
-  setAboutVisible(isAboutVisible: boolean) {
-    this.isAboutVisible = isAboutVisible
   }
 
   @action

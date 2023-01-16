@@ -80,16 +80,6 @@ export const Navigation: FunctionComponent = observer(() => {
       },
     },
     {
-      key: 'about',
-      content: 'About',
-      icon: 'info-sign',
-      handler: () => {
-        panelStore.setAboutVisible(true)
-        analytics?.event('navigation', 'click', { label: 'about' })
-      },
-      shine: true,
-    },
-    {
       key: 'reload',
       icon: 'refresh',
       content: 'Reload',

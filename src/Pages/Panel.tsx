@@ -7,7 +7,6 @@ import { DrawerJSON } from './Panel/DrawerJSON'
 import { DrawerStackTrace } from './Panel/DrawerStackTrace'
 import { Minimongo } from './Panel/Minimongo/Minimongo'
 import { Navigation } from './Panel/Navigation'
-import { About } from '@/Pages/Panel/About'
 import { Bridge } from '@/Bridge'
 import { PanelPage } from '@/Constants'
 import { Subscriptions } from '@/Pages/Panel/Subscriptions/Subscriptions'
@@ -76,11 +75,6 @@ const PanelObserverComponent: FunctionComponent = observer(() => {
       <DrawerStackTrace
         activeStackTrace={store.activeStackTrace}
         onClose={() => store.setActiveStackTrace(null)}
-      />
-
-      <About
-        isAboutVisible={store.isAboutVisible}
-        onClose={() => store.setAboutVisible(false)}
       />
 
       <HelpDrawer
