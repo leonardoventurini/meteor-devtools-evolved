@@ -4,7 +4,20 @@ All notable changes to this project will be documented in this file.
 
 > The dates refer to when it was made available in the Chrome platform.
 
-## [1.7] - 2022-XX-XX
+## [1.8] - 2023-01-17
+
+## Fixed
+
+- Fixed a bug where the extension crashes on custom Minimongo types specifically on MongoDecimal type.
+- Issue where the lodash package would break the extension randomly on some pages and reduced bundle size.
+
+## Added
+
+- Help drawer containing contact information for the author and for partners. Moved the content from the About drawer to the Help drawer.
+- Added sponsor button so users can support the project.
+
+
+## [1.7] - 2022-07-05
 
 ## Added
 
