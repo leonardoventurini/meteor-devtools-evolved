@@ -122,6 +122,8 @@ export class MinimongoStore {
   ): IDocumentWrapper {
     const _string = JSONUtils.stringify(document)
 
+    console.log({ collectionName })
+
     return {
       collectionName,
       document,

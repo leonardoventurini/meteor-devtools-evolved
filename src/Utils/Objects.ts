@@ -12,7 +12,7 @@ export function omit(object, keys) {
 
 export function mapValues(object, fn) {
   return Object.keys(object).reduce((result, key) => {
-    result[key] = fn(object[key])
+    result[key] = fn(object[key], key)
 
     return result
   }, {})
