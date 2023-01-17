@@ -9,3 +9,4 @@ extension/chrome
 extension/firefox
 mongo-decimal-test-main
 .eslintcache
+yarn-error.log

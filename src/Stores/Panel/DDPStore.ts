@@ -1,4 +1,4 @@
-import { debounce } from 'lodash'
+import debounce from 'lodash.debounce'
 import { action, computed, makeObservable, observable, runInAction } from 'mobx'
 import { Searchable } from '../Common/Searchable'
 import { PanelStore } from '@/Stores/PanelStore'

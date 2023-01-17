@@ -1,4 +1,6 @@
-import { isString, memoize } from 'lodash'
+import memoize from 'lodash.memoize'
+
+export const isString = (value: any) => typeof value === 'string'
 
 export namespace StringUtils {
   export const classPrefix = 'mde'

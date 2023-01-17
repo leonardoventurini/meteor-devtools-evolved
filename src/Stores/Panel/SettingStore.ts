@@ -7,8 +7,8 @@ import {
   toJS,
 } from 'mobx'
 import { PanelDatabase } from '@/Database/PanelDatabase'
-import { assign, compact, flatten, omit } from 'lodash'
 import { FilterCriteria } from '@/Pages/Panel/DDP/FilterConstants'
+import { compact, flatten, omit } from '@/Utils/Objects'
 
 export class SettingStore implements ISettings {
   hydrated = false
@@ -30,7 +30,7 @@ export class SettingStore implements ISettings {
 
     PanelDatabase.getSettings().then(settings => {
       runInAction(() => {
-        assign(this, settings)
+        Object.assign(this, settings)
       })
 
       setTimeout(() => {

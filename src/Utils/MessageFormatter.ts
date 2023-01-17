@@ -1,5 +1,5 @@
-import { StringUtils } from '@/Utils/StringUtils'
-import { isNumber, isString } from 'lodash'
+import { isString, StringUtils } from '@/Utils/StringUtils'
+import { isNumber } from './Numbers'
 
 const MAX_CHARACTERS = 512
 

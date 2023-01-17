@@ -1,5 +1,6 @@
 import { action, makeObservable, observable } from 'mobx'
-import { debounce, sortBy } from 'lodash'
+import sortBy from 'lodash.sortby'
+import debounce from 'lodash.debounce'
 
 type AccCallData = {
   collectionName: string

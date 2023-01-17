@@ -1,6 +1,5 @@
-import mapValues from 'lodash/mapValues'
-import omit from 'lodash/omit'
 import { JSONUtils } from '@/Utils/JSONUtils'
+import { mapValues, omit } from '@/Utils/Objects'
 
 export const getSubscriptions = () => {
   const payload = mapValues(

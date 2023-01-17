@@ -1,9 +1,10 @@
-import { debounce, mapValues } from 'lodash'
+import debounce from 'lodash.debounce'
 import { action, computed, makeObservable, observable } from 'mobx'
 import { CollectionStore } from './CollectionStore'
 import { JSONUtils } from '@/Utils/JSONUtils'
 import { StringUtils } from '@/Utils/StringUtils'
 import prettyBytes from 'pretty-bytes'
+import { mapValues } from '@/Utils/Objects'
 
 export class MinimongoStore {
   activeCollectionDocuments = new CollectionStore()

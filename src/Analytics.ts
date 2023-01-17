@@ -1,6 +1,6 @@
 import { exists } from './Utils'
 import { v4 as uuid } from 'uuid'
-import { isString } from 'lodash'
+import { isString } from './Utils/StringUtils'
 
 const GA_HOST = 'https://www.google-analytics.com'
 

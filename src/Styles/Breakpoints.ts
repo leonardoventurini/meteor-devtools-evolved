@@ -1,5 +1,5 @@
+import { mapValues } from '@/Utils/Objects'
 import { css, FlattenSimpleInterpolation } from 'styled-components'
-import { mapValues } from 'lodash'
 
 type BreakpointLabel = 'xs' | 'sm' | 'md' | 'lg' | 'xl'
 

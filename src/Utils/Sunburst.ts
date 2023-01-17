@@ -6,7 +6,7 @@ import { arc } from 'd3-shape'
 import { hierarchy, partition } from 'd3-hierarchy'
 import { entries, keys } from 'd3-collection'
 import { StringUtils } from '@/Utils/StringUtils'
-import { isNil, isObject } from 'lodash'
+import { isNil, isObject } from './Objects'
 
 export const typeBundle = 'bundle'
 export const typePackage = 'package'

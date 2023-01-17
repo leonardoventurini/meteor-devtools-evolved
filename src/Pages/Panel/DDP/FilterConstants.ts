@@ -1,5 +1,3 @@
-import { toPairs } from 'lodash'
-
 export const FilterCriteria: FilterTypeMap<string[]> = {
   heartbeat: ['ping', 'pong'],
   subscription: ['sub', 'unsub', 'nosub', 'ready'],
@@ -10,7 +8,7 @@ export const FilterCriteria: FilterTypeMap<string[]> = {
 
 export const FilterCriteriaMap: {
   [key: string]: FilterType
-} = toPairs(FilterCriteria).reduce(
+} = Object.entries(FilterCriteria).reduce(
   (previous: any, [key, matchers]) => ({
     ...previous,
     ...matchers.reduce(

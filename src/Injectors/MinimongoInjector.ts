@@ -1,8 +1,14 @@
 import { warning } from '@/Log'
 import { Registry, sendMessage } from '@/Browser/Inject'
-import cloneDeep from 'lodash/cloneDeep'
-import throttle from 'lodash/throttle'
-import { isArray } from 'lodash'
+import throttle from 'lodash.throttle'
+
+function cloneDeep(obj: any) {
+  return JSON.parse(JSON.stringify(obj))
+}
+
+function isArray(obj: any) {
+  return Array.isArray(obj)
+}
 
 const cleanup = (object: any) => {
   if (typeof object !== 'object') return object

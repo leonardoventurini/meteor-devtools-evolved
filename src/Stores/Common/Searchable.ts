@@ -1,6 +1,6 @@
 import { DEFAULT_OFFSET } from '@/Constants'
 import { calculatePagination } from '@/Utils/Pagination'
-import { debounce } from 'lodash'
+import debounce from 'lodash.debounce'
 import { action, computed, observable, runInAction } from 'mobx'
 
 type BufferCallback<T> = ((buffer: T[]) => void) | null

@@ -1,4 +1,3 @@
-import { defer } from 'lodash'
 import browser from 'webextension-polyfill'
 
 type Connection = Map<number, any>
@@ -82,7 +81,7 @@ const handleConsole = (
 const contentListener = () => {
   // @ts-ignore
   browser.runtime.onMessage.addListener((request, sender, sendResponse) => {
-    defer(() => {
+    setTimeout(() => {
       const tabId = sender?.tab?.id
 
       if (!tabId) return
@@ -115,7 +114,7 @@ const contentListener = () => {
       if (connections.has(tabId)) {
         connections.get(tabId).postMessage(request)
       }
-    })
+    }, 0)
 
     sendResponse()
   })
