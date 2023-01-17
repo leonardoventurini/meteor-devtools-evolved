@@ -61,15 +61,6 @@ export const Navigation: FunctionComponent = observer(() => {
 
   const menu: IMenuItem[] = [
     {
-      key: 'monti-apm',
-      content: 'Monti APM',
-      icon: 'timeline-bar-chart',
-      handler: () => {
-        openTab('https://app.montiapm.com/')
-        analytics?.event('navigation', 'click', { label: 'monti apm' })
-      },
-    },
-    {
       key: 'help',
       icon: 'help',
       content: 'Help',
@@ -77,6 +68,15 @@ export const Navigation: FunctionComponent = observer(() => {
       handler: () => {
         panelStore.setHelpDrawerVisible(true)
         analytics?.event('navigation', 'click', { label: 'partners' })
+      },
+    },
+    {
+      key: 'monti-apm',
+      content: 'Monti APM',
+      icon: 'timeline-bar-chart',
+      handler: () => {
+        openTab('https://app.montiapm.com/')
+        analytics?.event('navigation', 'click', { label: 'monti apm' })
       },
     },
     {
@@ -126,8 +126,7 @@ export const Navigation: FunctionComponent = observer(() => {
     key: 'sponsor',
     content: <strong>❤️ Sponsor</strong>,
     shine: true,
-    title:
-      'If you find this extension useful, please consider sponsoring the author.',
+    title: 'If you find this extension useful, please consider sponsoring',
     handler: () => {
       openTab('https://github.com/sponsors/leonardoventurini')
       analytics?.event('navigation', 'click', { label: 'sponsor' })

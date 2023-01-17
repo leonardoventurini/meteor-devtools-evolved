@@ -48,7 +48,8 @@ const orgs: GridItem[] = [
     role: 'Partner',
     website: 'https://social.meteor.com/devtools-evolved/',
     imageUrl: MeteorCloudLogo,
-    description: 'If you need a complete hosting solution for your app',
+    description:
+      'If you want a full service cloud offering for deploying, hosting, and scaling your apps with zero DevOps',
   },
 ]
 
@@ -128,7 +129,7 @@ export const HelpDrawer: FunctionComponent<Props> = ({
                 page, that way we can discuss and transition into development
                 more easily. You can also reach the author on the{' '}
                 <a
-                  href='https://meteor-community.slack.com/archives/DRKE6HDD5'
+                  href='https://join.slack.com/t/meteor-community/shared_invite/zt-a9lwcfb7-~UwR3Ng6whEqRxcP5rORZw'
                   target='_blank'
                   rel='noopener noreferrer'
                 >
