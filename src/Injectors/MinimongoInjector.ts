@@ -52,6 +52,15 @@ const cleanup = (object: any) => {
   return clonedObject
 }
 
+const getDocs = (collection: any) => {
+  if(collection._docs._map instanceof Map) {
+    return collection._docs._map?.values() || [];
+  }
+  else {
+    return Object.values(collection._docs._map || {}) 
+  }
+}
+
 const getCollections = () => {
   const collections = Meteor.connection._mongo_livedata_collections
 
@@ -66,7 +75,7 @@ const getCollections = () => {
     (acc: object, collection: any) =>
       Object.assign(acc, {
         [collection.name]: Array.from(
-          collection._docs._map?.values?.() ?? [],
+          getDocs(collection)
         ).map(cleanup),
       }),
     {},
