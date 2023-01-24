@@ -1,6 +1,7 @@
 import React, { useEffect, useRef, useState } from 'react'
 import { useTracker } from 'meteor/react-meteor-data'
 import { RandomCollection } from '../api/random'
+import { SampleCollection } from '../api/sample'
 
 export const App = () => {
   const [isSpamming, setSpamming] = useState(false)
@@ -83,6 +84,14 @@ export const App = () => {
     return {
       isLoading: !handle.ready(),
       docs: RandomCollection.find({}).fetch(),
+    }
+  }, [])
+
+  const sample = useTracker(() => {
+    const handle = Meteor.subscribe('sample')
+    return {
+      isLoading: !handle.ready(),
+      docs: SampleCollection.find({}).fetch(),
     }
   }, [])
 

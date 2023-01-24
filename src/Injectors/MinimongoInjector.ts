@@ -15,6 +15,8 @@ const cleanup = (object: any) => {
 
   const clonedObject = cloneDeep(object)
 
+  if (!clonedObject) return clonedObject
+
   Object.keys(clonedObject).forEach((key: string) => {
     if (!clonedObject[key]) {
       return
