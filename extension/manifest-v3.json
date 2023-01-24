@@ -2,7 +2,7 @@
   "manifest_version": 3,
   "name": "Meteor DevTools Evolved",
   "description": "The Meteor framework development tool belt, evolved.",
-  "version": "1.8",
+  "version": "1.8.1",
   "author": "Leonardo Venturini",
   "icons": {
     "16": "icons/meteor-16.png",
