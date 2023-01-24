@@ -53,11 +53,10 @@ const cleanup = (object: any) => {
 }
 
 const getDocs = (collection: any) => {
-  if(collection._docs._map instanceof Map) {
-    return collection._docs._map?.values() || [];
-  }
-  else {
-    return Object.values(collection._docs._map || {}) 
+  if (collection._docs._map instanceof Map) {
+    return collection._docs._map?.values() || []
+  } else {
+    return Object.values(collection._docs._map || {})
   }
 }
 
@@ -74,9 +73,7 @@ const getCollections = () => {
   const data = Object.values(collections).reduce(
     (acc: object, collection: any) =>
       Object.assign(acc, {
-        [collection.name]: Array.from(
-          getDocs(collection)
-        ).map(cleanup),
+        [collection.name]: Array.from(getDocs(collection)).map(cleanup),
       }),
     {},
   )
