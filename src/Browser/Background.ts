@@ -129,10 +129,21 @@ const tabListener = () => {
         })
         .catch(console.error),
   }
-  chrome.runtime.onMessage.addListener(function (request, sender) {
-    if (request.source !== 'meteor-devtools-evolved') return null
+  /**
+   * @issue https://stackoverflow.com/a/73836810/10567157
+   */
+  chrome.runtime.onMessage.addListener(function (
+    request,
+    sender,
+    sendResponse,
+  ) {
+    sendResponse({ foo: true })
+
+    if (request.source !== 'meteor-devtools-evolved') return true
 
     tabEvent[request.eventType]?.(request)
+
+    return true
   })
 }
 
