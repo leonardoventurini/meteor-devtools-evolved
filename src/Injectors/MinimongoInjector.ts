@@ -83,7 +83,7 @@ const getCollections = () => {
   sendMessage('minimongo-get-collections', data as any)
 }
 
-export const updateCollections = throttle(getCollections, 100, {
+export const updateCollections = throttle(getCollections, 1000, {
   leading: true,
   trailing: true,
 })
