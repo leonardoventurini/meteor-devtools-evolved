@@ -46,10 +46,9 @@ export class SettingStore implements ISettings {
         if (this.hydrated) {
           PanelDatabase.saveSettings(omit(data, ['hydrated']) as ISettings)
             .then(() => {
-              // eslint-disable-next-line no-console
               console.log('Settings updated.')
             })
-            // eslint-disable-next-line no-console
+
             .catch(console.error)
         }
       },
@@ -70,7 +69,6 @@ export class SettingStore implements ISettings {
       .then(data => {
         if (data) {
           if (!data.stargazers_count || !data.open_issues_count) {
-            // eslint-disable-next-line no-console
             console.log('Not updating repository data', data)
             return
           }
@@ -80,7 +78,7 @@ export class SettingStore implements ISettings {
           })
         }
       })
-      // eslint-disable-next-line no-console
+
       .catch(console.error)
   }
 

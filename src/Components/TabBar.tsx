@@ -117,8 +117,8 @@ export const TabBar: FunctionComponent<Props> = ({ tabs, menu, onChange }) => {
           key={tab.key}
           onClick={() => {
             setKey(tab.key)
-            onChange && onChange(tab.key)
-            tab.handler && tab.handler()
+            if (onChange) onChange(tab.key)
+            if (tab.handler) tab.handler()
           }}
           className={classnames('mde-tab', {
             active: activeKey === tab.key,

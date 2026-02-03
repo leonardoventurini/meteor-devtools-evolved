@@ -56,7 +56,7 @@ export class MinimongoStore {
 
   @action
   computeCollectionSizes() {
-    Object.keys(this.collections).forEach(collectionName => {
+    for (const collectionName of Object.keys(this.collections)) {
       const collectionSize = this.collections[collectionName].reduce(
         (acc: number, cur: IDocumentWrapper) => acc + cur._size,
         0,
@@ -66,7 +66,7 @@ export class MinimongoStore {
         collectionSize,
         collectionSizePretty: prettyBytes(collectionSize),
       }
-    })
+    }
   }
 
   @action

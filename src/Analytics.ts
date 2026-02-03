@@ -110,10 +110,10 @@ export class Analytics {
   }
 
   set(key: string, value = null) {
-    if (value !== null) {
-      this.customParams[key] = value
-    } else {
+    if (value === null) {
       delete this.customParams[key]
+    } else {
+      this.customParams[key] = value
     }
   }
 
@@ -144,7 +144,6 @@ export class Analytics {
     if (label) params.el = label
     if (value) params.ev = value
 
-    // eslint-disable-next-line no-console
     this.send('event', params).catch(console.error)
   }
 
@@ -257,27 +256,24 @@ export class Analytics {
       .then(res => {
         let response = {}
 
-        if (res.headers.get('content-type') !== 'image/gif') {
-          response = res.json()
-        } else {
-          response = res.text()
-        }
+        response =
+          res.headers.get('content-type') === 'image/gif'
+            ? res.text()
+            : res.json()
 
         if (res.status === 200) {
           return response
         }
 
-        return Promise.reject(new Error(response as string))
+        throw new Error(response as string)
       })
       .then((json: any) => {
-        if (this.globalDebug) {
-          if (json.hitParsingResult[0].valid) {
-            return { clientId: payload.cid }
-          }
+        if (this.globalDebug && json.hitParsingResult[0].valid) {
+          return { clientId: payload.cid }
         }
 
         return { clientId: payload.cid }
       })
-      .catch(err => new Error(err))
+      .catch(error => new Error(error))
   }
 }

@@ -27,7 +27,7 @@ export const MeteorAdapter = () => {
 
   const prototype = Mongo.Collection.prototype
 
-  Object.entries(prototype).forEach(([key, val]) => {
+  for (const [key, val] of Object.entries(prototype)) {
     if (
       ['find', 'findOne', 'insert', 'update', 'upsert', 'remove'].includes(
         key,
@@ -50,5 +50,5 @@ export const MeteorAdapter = () => {
         return result
       }
     }
-  })
+  }
 }

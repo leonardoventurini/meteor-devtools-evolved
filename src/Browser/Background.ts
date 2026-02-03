@@ -12,14 +12,13 @@ const Cache = new Map<number, string[]>()
 
 const connections: Connection = new Map()
 
-self.connections = connections
+globalThis.connections = connections
 
 const panelListener = () => {
   browser.runtime.onConnect.addListener(port => {
     console.debug('runtime.onConnect', port)
 
     port.onMessage.addListener(request => {
-      // eslint-disable-next-line no-console
       console.debug('port.onMessage', request)
 
       if (request.name === 'init') {
@@ -27,9 +26,9 @@ const panelListener = () => {
 
         // Pick things from cache and send it to the panel.
         if (Cache.has(request.tabId)) {
-          Cache.get(request.tabId).forEach(message => {
+          for (const message of Cache.get(request.tabId)) {
             port.postMessage(message)
-          })
+          }
         }
 
         port.onDisconnect.addListener(() => {
@@ -61,7 +60,7 @@ action.onClicked.addListener(e => {
     .create({
       url: 'http://cloud.meteor.com/?utm_source=chrome_extension&utm_medium=extension&utm_campaign=meteor_devtools_evolved',
     })
-    // eslint-disable-next-line no-console
+
     .catch(console.error)
 })
 
@@ -70,10 +69,8 @@ const handleConsole = (
   { data: { type, message } }: Message<{ type: ConsoleType; message: string }>,
 ) => {
   if (type in console) {
-    // eslint-disable-next-line no-console
     console[type](`[${tabId}]`, message)
   } else {
-    // eslint-disable-next-line no-console
     console.warn('Wrong console type.')
   }
 }
@@ -88,7 +85,6 @@ const contentListener = () => {
 
       // The message event has to from the panel to the content and then through here.
       if (request?.eventType === 'cache:clear') {
-        // eslint-disable-next-line no-console
         console.debug('clear cache')
         Cache.delete(tabId)
         return
@@ -102,7 +98,7 @@ const contentListener = () => {
       if (Cache.has(tabId)) {
         const entry = Cache.get(tabId)
 
-        if (entry.length >= 10000) {
+        if (entry.length >= 10_000) {
           entry.shift()
         }
 
@@ -132,19 +128,17 @@ const tabListener = () => {
   /**
    * @issue https://stackoverflow.com/a/73836810/10567157
    */
-  chrome.runtime.onMessage.addListener(function (
-    request,
-    sender,
-    sendResponse,
-  ) {
-    sendResponse({ foo: true })
+  chrome.runtime.onMessage.addListener(
+    function (request, sender, sendResponse) {
+      sendResponse({ foo: true })
 
-    if (request.source !== 'meteor-devtools-evolved') return true
+      if (request.source !== 'meteor-devtools-evolved') return true
 
-    tabEvent[request.eventType]?.(request)
+      tabEvent[request.eventType]?.(request)
 
-    return true
-  })
+      return true
+    },
+  )
 }
 
 panelListener()

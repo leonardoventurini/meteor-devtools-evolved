@@ -21,18 +21,24 @@ const getTag = (icon: IconName, title: string) => (
 
 const getTypeTag = (filterType?: FilterType | null) => {
   switch (filterType) {
-    case 'heartbeat':
+    case 'heartbeat': {
       return getTag('heart', 'Heartbeat')
-    case 'connection':
+    }
+    case 'connection': {
       return getTag('globe-network', 'Connection')
-    case 'collection':
+    }
+    case 'collection': {
       return getTag('database', 'Collection')
-    case 'subscription':
+    }
+    case 'subscription': {
       return getTag('feed-subscribed', 'Subscription')
-    case 'method':
+    }
+    case 'method': {
       return getTag('derive-column', 'Method')
-    default:
+    }
+    default: {
       return getTag('warning-sign', 'Unknown')
+    }
   }
 }
 
@@ -50,7 +56,7 @@ export const DDPLogPreview: FunctionComponent<Partial<DDPLog>> = ({
         interactive
         minimal
         onClick={() => {
-          parsedContent && store.setActiveObject(parsedContent)
+          if (parsedContent) store.setActiveObject(parsedContent)
         }}
         className='content-preview'
         intent={parsedContent?.error ? 'danger' : 'none'}

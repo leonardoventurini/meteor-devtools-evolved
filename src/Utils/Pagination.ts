@@ -8,7 +8,7 @@ export const calculatePagination = (
   const lastIndex = length - 1
   const start = (currentPage - 1) * offset
   const end1 = start + offset
-  const end2 = end1 <= length ? end1 : length
+  const end2 = Math.min(end1, length)
   const pages = Math.ceil(length / offset)
   const hasOnePage = pages === 1
   const hasNextPage = currentPage < pages
@@ -18,7 +18,7 @@ export const calculatePagination = (
     offset,
     length,
     lastIndex,
-    start: start >= 0 ? start : 0,
+    start: Math.max(start, 0),
     end: end2,
     pages,
     hasOnePage,
@@ -26,7 +26,7 @@ export const calculatePagination = (
     hasPreviousPage,
     currentPage,
     setCurrentPage,
-    pageItems: length > end2 ? end2 : length,
+    pageItems: Math.min(length, end2),
     setSearch(search: string) {
       setSearch(search)
     },

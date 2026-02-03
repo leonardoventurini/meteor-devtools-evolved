@@ -21,7 +21,7 @@ export const MessageFormatter = {
   },
 
   connection({ msg, session }: DDPLogContent) {
-    return session ? session : msg
+    return session || msg
   },
 
   subscription({ msg, id, name, subs }: any) {

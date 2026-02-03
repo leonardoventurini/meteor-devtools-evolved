@@ -45,14 +45,12 @@ class Database extends Dexie {
   }
 
   async saveSettings(settings: ISettings) {
-    if (await this.data.get('settings')) {
-      return this.data.update('settings', settings)
-    } else {
-      return this.data.add({
-        id: 'settings',
-        ...settings,
-      })
-    }
+    return (await this.data.get('settings'))
+      ? this.data.update('settings', settings)
+      : this.data.add({
+          id: 'settings',
+          ...settings,
+        })
   }
 }
 

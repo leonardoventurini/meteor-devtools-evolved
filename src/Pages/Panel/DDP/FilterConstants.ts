@@ -8,18 +8,10 @@ export const FilterCriteria: FilterTypeMap<string[]> = {
 
 export const FilterCriteriaMap: {
   [key: string]: FilterType
-} = Object.entries(FilterCriteria).reduce(
-  (previous: any, [key, matchers]) => ({
-    ...previous,
-    ...matchers.reduce(
-      (previous, matcher) => ({
-        ...previous,
-        [matcher]: key,
-      }),
-      {},
-    ),
-  }),
-  {},
+} = Object.fromEntries(
+  Object.entries(FilterCriteria).flatMap(([key, matchers]) =>
+    matchers.map(matcher => [matcher, key]),
+  ),
 )
 
 export const detectType = (content?: DDPLogContent) => {

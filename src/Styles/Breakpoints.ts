@@ -13,10 +13,9 @@ export const Breakpoints: Record<BreakpointLabel, number> = {
 
 export const respond = mapValues(
   Breakpoints,
-  (value: number) => (content: FlattenSimpleInterpolation) =>
-    css`
-      @media (min-width: ${value}px) {
-        ${content};
-      }
-    `,
+  (value: number) => (content: FlattenSimpleInterpolation) => css`
+    @media (min-width: ${value}px) {
+      ${content};
+    }
+  `,
 )

@@ -48,7 +48,7 @@ export const DDPContainer: FunctionComponent<Props> = observer(
 
     return (
       <div className='mde-content mde-ddp' ref={contentRef}>
-        {source.filtered.length ? list : null}
+        {source.filtered.length > 0 ? list : null}
       </div>
     )
   },

@@ -15,7 +15,7 @@ export const MinimongoStatus: FunctionComponent = observer(() => {
         <Button
           icon={minimongoStore.activeCollection ? 'database' : 'asterisk'}
           onClick={() => minimongoStore.setNavigatorVisible(true)}
-          disabled={!minimongoStore.collectionNames.length}
+          disabled={minimongoStore.collectionNames.length === 0}
         >
           {minimongoStore.activeCollection || 'Everything'}
         </Button>

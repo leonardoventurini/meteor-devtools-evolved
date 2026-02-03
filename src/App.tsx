@@ -10,10 +10,10 @@ import './Styles/App.scss'
 
 FocusStyleManager.onlyShowFocusOnTabs()
 
-const panelElement = document.getElementById('panel')
-const optionsElement = document.getElementById('options')
-const popupElement = document.getElementById('popup')
+const panelElement = document.querySelector('#panel')
+const optionsElement = document.querySelector('#options')
+const popupElement = document.querySelector('#popup')
 
-panelElement && render(<Panel />, panelElement)
-optionsElement && render(<Options />, optionsElement)
-popupElement && render(<Popup />, popupElement)
+if (panelElement) render(<Panel />, panelElement)
+if (optionsElement) render(<Options />, optionsElement)
+if (popupElement) render(<Popup />, popupElement)

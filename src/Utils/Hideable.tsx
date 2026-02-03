@@ -10,7 +10,7 @@ export const Hideable: FunctionComponent<Props & HTMLProps<HTMLDivElement>> = ({
   ...props
 }) => {
   const styles = {
-    display: !isVisible ? 'none' : undefined,
+    display: isVisible ? undefined : 'none',
   }
 
   return (

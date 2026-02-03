@@ -82,7 +82,7 @@ export const Minimongo: FunctionComponent<Props> = observer(({ isVisible }) => {
         <Wrapper>
           <div className='sidebar'>
             <nav>
-              {!!minimongoStore.collectionNames.length &&
+              {minimongoStore.collectionNames.length > 0 &&
                 minimongoStore.collectionNames.map(key => (
                   <Button
                     key={key}

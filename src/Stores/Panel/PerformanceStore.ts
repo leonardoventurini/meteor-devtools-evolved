@@ -25,12 +25,10 @@ export class PerformanceStore<T> {
 
   updateRenderData = debounce(
     action(() => {
-      this.renderData = sortBy(Array.from(this.callMap.values()), [
-        'runtime',
-        'args',
-        'method',
-        'collectionName',
-      ])
+      this.renderData = sortBy(
+        [...this.callMap.values()],
+        ['runtime', 'args', 'method', 'collectionName'],
+      )
         .reverse()
         .slice(0, 100)
     }),

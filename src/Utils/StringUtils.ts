@@ -7,7 +7,7 @@ export namespace StringUtils {
 
   export const truncate = (str: string, max: number = 40) => {
     return isString(str) && str.length > max
-      ? str.slice(0, max).concat('...')
+      ? [...str.slice(0, max), '...']
       : str
   }
 
@@ -27,16 +27,16 @@ export namespace StringUtils {
     const getByte = () =>
       Math.round(variance * (brightness - 1) + Math.random() * variance)
 
-    const rgb = [0, 0, 0].map(getByte).join(',')
+    const rgb = [0, 0, 0].map(() => getByte()).join(',')
 
     return `rgb(${rgb})`
   }
 
   export const toClipboard = (data: string, mimeType = 'text/plain') => {
-    document.oncopy = function (event: ClipboardEvent) {
+    document.addEventListener('copy', function (event: ClipboardEvent) {
       event.clipboardData?.setData(mimeType, data)
       event.preventDefault()
-    }
+    })
     document.execCommand('copy', false)
   }
 

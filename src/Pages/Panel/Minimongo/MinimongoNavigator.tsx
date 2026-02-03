@@ -34,14 +34,12 @@ export const MinimongoNavigator: FunctionComponent = observer(() => {
         style={{ height: '50vh', overflowY: 'scroll' }}
       >
         <Menu>
-          {minimongoStore.filteredCollectionNames.length ? (
+          {minimongoStore.filteredCollectionNames.length > 0 ? (
             minimongoStore.filteredCollectionNames.map(key => (
               <MenuItem
                 key={key}
                 icon='database'
-                text={key.concat(
-                  ` (${minimongoStore.collections[key]?.length ?? 0})`,
-                )}
+                text={`${key} (${minimongoStore.collections[key]?.length ?? 0})`}
                 active={minimongoStore.activeCollection === key}
                 onClick={() => setActiveCollection(key)}
               />

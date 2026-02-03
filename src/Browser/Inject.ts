@@ -7,8 +7,8 @@ import { MeteorAdapter } from '@/Injectors/MeteorAdapter'
 
 const isFrame = (function () {
   try {
-    return window.self !== window.top
-  } catch (e) {
+    return globalThis.self !== window.top
+  } catch {
     return true
   }
 })()
@@ -41,7 +41,7 @@ const getStackTrace = (stackTraceLimit: number) => {
 
   try {
     Error.stackTraceLimit = stackTraceLimit
-    const error = new Error()
+    const error = new Error('Stack trace')
 
     if (!error.stack) return []
 
@@ -66,7 +66,7 @@ const getStackTrace = (stackTraceLimit: number) => {
 export const sendLogMessage = (message: DDPLog) => {
   const stackTrace = getStackTrace(15)
 
-  if (stackTrace && stackTrace.length) {
+  if (stackTrace && stackTrace.length > 0) {
     stackTrace.splice(0, 2)
   }
 
@@ -108,17 +108,19 @@ export const Registry: IRegistry = {
   },
 
   run(message: IMessagePayload<any>) {
-    this.subscriptions.forEach(
-      ({ eventType, handler }) =>
+    for (const { eventType, handler } of this.subscriptions) {
+      if (
         message.source === 'meteor-devtools-evolved' &&
-        eventType === message.eventType &&
-        handler(message),
-    )
+        eventType === message.eventType
+      ) {
+        handler(message)
+      }
+    }
   },
 }
 
 export function injectAll() {
-  if (!window.__meteor_devtools_evolved) {
+  if (!globalThis.__meteor_devtools_evolved) {
     if (isFrame) return false
 
     warning(
@@ -133,14 +135,14 @@ export function injectAll() {
     function inject() {
       --attempts
 
-      if (typeof Meteor === 'object' && !window.__meteor_devtools_evolved) {
-        window.__meteor_devtools_evolved = true
+      if (typeof Meteor === 'object' && !globalThis.__meteor_devtools_evolved) {
+        globalThis.__meteor_devtools_evolved = true
 
         DDPInjector()
         MinimongoInjector()
         MeteorAdapter()
 
-        window.__meteor_devtools_evolved_receiveMessage =
+        globalThis.__meteor_devtools_evolved_receiveMessage =
           Registry.run.bind(Registry)
 
         warning(`Initialized. Attempts: ${100 - attempts}.`)
@@ -149,7 +151,7 @@ export function injectAll() {
       if (attempts === 0) {
         clearInterval(interval)
 
-        if (!window.Meteor) {
+        if (!globalThis.Meteor) {
           warning(
             isFrame
               ? `Unable to find Meteor on iframe "${location.href}"`
@@ -161,7 +163,7 @@ export function injectAll() {
 
     inject()
 
-    interval = window.setInterval(inject, 10)
+    interval = globalThis.setInterval(inject, 10)
   }
 }
 

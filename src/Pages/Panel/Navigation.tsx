@@ -85,7 +85,7 @@ export const Navigation: FunctionComponent = observer(() => {
       icon: 'issue',
       content: <strong>Issues</strong>,
       handler: () => {
-        openTab(repositoryData.html_url.concat('/issues'))
+        openTab([...repositoryData.html_url, '/issues'])
         analytics?.event('navigation', 'click', { label: 'feedback' })
       },
       shine: true,
@@ -106,7 +106,7 @@ export const Navigation: FunctionComponent = observer(() => {
       ),
       shine: true,
       handler: () => {
-        openTab(repositoryData.html_url.concat('/stargazers'))
+        openTab([...repositoryData.html_url, '/stargazers'])
 
         analytics?.event('navigation', 'click', { label: 'star' })
       },

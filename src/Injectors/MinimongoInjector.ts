@@ -3,7 +3,7 @@ import { Registry, sendMessage } from '@/Browser/Inject'
 import throttle from 'lodash.throttle'
 
 function cloneDeep(obj: any) {
-  return JSON.parse(JSON.stringify(obj))
+  return structuredClone(obj)
 }
 
 function isArray(obj: any) {
@@ -17,7 +17,7 @@ const cleanup = (object: any) => {
 
   if (!clonedObject) return clonedObject
 
-  Object.keys(clonedObject).forEach((key: string) => {
+  for (const key of Object.keys(clonedObject)) {
     if (!clonedObject[key]) {
       return
     }
@@ -49,17 +49,15 @@ const cleanup = (object: any) => {
 
       clonedObject[key] = cleanup(clonedObject[key])
     }
-  })
+  }
 
   return clonedObject
 }
 
 const getDocs = (collection: any) => {
-  if (collection._docs._map instanceof Map) {
-    return collection._docs._map?.values() || []
-  } else {
-    return Object.values(collection._docs._map || {})
-  }
+  return collection._docs._map instanceof Map
+    ? collection._docs._map?.values() || []
+    : Object.values(collection._docs._map || {})
 }
 
 const getCollections = () => {
@@ -72,12 +70,11 @@ const getCollections = () => {
     return
   }
 
-  const data = Object.values(collections).reduce(
-    (acc: object, collection: any) =>
-      Object.assign(acc, {
-        [collection.name]: Array.from(getDocs(collection)).map(cleanup),
-      }),
-    {},
+  const data = Object.fromEntries(
+    Object.values(collections).map((collection: any) => [
+      collection.name,
+      [...getDocs(collection)].map(item => cleanup(item)),
+    ]),
   )
 
   sendMessage('minimongo-get-collections', data as any)
