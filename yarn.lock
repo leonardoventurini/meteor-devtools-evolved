@@ -380,13 +380,12 @@ __metadata:
   linkType: hard
 
 "@babel/helpers@npm:^7.17.2":
-  version: 7.17.2
-  resolution: "@babel/helpers@npm:7.17.2"
+  version: 7.28.6
+  resolution: "@babel/helpers@npm:7.28.6"
   dependencies:
-    "@babel/template": "npm:^7.16.7"
-    "@babel/traverse": "npm:^7.17.0"
-    "@babel/types": "npm:^7.17.0"
-  checksum: 10c0/c59d4d5a072a6b00d07910499a6a758962334eef76ed687cb969ccd3c82c470b37718e2a7433de4ea0d1b7a134b20fc311775949b07955e37fc45744f8d23b39
+    "@babel/template": "npm:^7.28.6"
+    "@babel/types": "npm:^7.28.6"
+  checksum: 10c0/c4a779c66396bb0cf619402d92f1610601ff3832db2d3b86b9c9dd10983bf79502270e97ac6d5280cea1b1a37de2f06ecbac561bd2271545270407fbe64027cb
   languageName: node
   linkType: hard
 
