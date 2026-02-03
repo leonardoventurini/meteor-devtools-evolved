@@ -10,8 +10,8 @@
     "devtools"
   ],
   "scripts": {
-    "setup": "cd devapp && yarn && cd ../ && yarn",
-    "devapp": "cd devapp && yarn start",
+    "setup": "cd devapp-3.4 && npm install && cd ../ && yarn",
+    "devapp": "cd devapp-3.4 && npm start",
     "build:chrome": "webpack --config webpack/chrome.prod.js",
     "build:firefox": "webpack --config webpack/firefox.prod.js",
     "dev:chrome": "run-p build:chrome devapp open:chrome",

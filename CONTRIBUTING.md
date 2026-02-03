@@ -1,6 +1,6 @@
 ## Setting the Environment Up
 
-1. Install dependencies for `devapp` & `root` with `yarn`.
+1. Install dependencies for `devapp-3.4` & `root` with `yarn`.
 
 ```shell
 yarn setup
@@ -20,7 +20,7 @@ yarn dev:chrome # for chrome
 yarn dev:firefox # for firefox
 ```
 
-   > This command will build and watch the extension and run the `devpp` in parallel mode and when they are ready it will launch the chrome/firefox private instance with extension installed
+   > This command will build and watch the extension and run the `devapp-3.4` in parallel mode and when they are ready it will launch the chrome/firefox private instance with extension installed
 
 5. Hack away!
 
