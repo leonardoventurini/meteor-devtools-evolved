@@ -48,6 +48,14 @@ yarn lint
 # Manual formatting is handled by lint-staged
 ```
 
+## Security Auditing
+```bash
+# Check for high and critical security vulnerabilities
+yarn run audit
+
+# This runs: yarn npm audit --all --recursive --severity high
+```
+
 ## Git Operations
 ```bash
 # Standard git commands work normally

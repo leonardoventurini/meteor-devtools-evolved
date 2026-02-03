@@ -27,6 +27,12 @@ yarn lint
 ```
 Ensure no ESLint errors or warnings.
 
+### Security Audit
+```bash
+yarn run audit
+```
+Ensure no high or critical security vulnerabilities are introduced.
+
 ### Building
 ```bash
 # Test Chrome build
