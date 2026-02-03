@@ -5,6 +5,7 @@ on:
     branches:
       - development
   pull_request:
+  workflow_dispatch:
 
 jobs:
   lint-and-audit:
