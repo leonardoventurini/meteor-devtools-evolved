@@ -1,0 +1,33 @@
+name: CI
+
+on:
+  push:
+    branches:
+      - development
+  pull_request:
+
+jobs:
+  lint-and-audit:
+    name: Lint & Security Audit
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+
+      - name: Enable Corepack
+        run: corepack enable
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: 24
+          cache: 'yarn'
+
+      - name: Install dependencies
+        run: yarn install --immutable
+
+      - name: Run lint
+        run: yarn run lint
+
+      - name: Run security audit
+        run: yarn run audit
