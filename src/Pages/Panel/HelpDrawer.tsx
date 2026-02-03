@@ -2,8 +2,6 @@ import { Classes, Drawer, DrawerSize, Icon } from '@blueprintjs/core'
 import React, { FunctionComponent } from 'react'
 import { GridItem, PartnersGrid } from './PartnersGrid'
 import AuthorLogo from '@/Assets/leonardoventurini.png'
-import QuaveLogo from '@/Assets/quave-logo.png'
-import MontiApmLogo from '@/Assets/monti-apm-logo.png'
 import MeteorCloudLogo from '@/Assets/meteor-cloud-logo.png'
 
 const people: GridItem[] = [
@@ -22,26 +20,6 @@ const people: GridItem[] = [
 ]
 
 const orgs: GridItem[] = [
-  {
-    name: 'Quave',
-    title: 'Organization',
-    role: 'Partner',
-    website: 'https://www.quave.dev/',
-    email: 'contact@quave.dev',
-    imageUrl: QuaveLogo,
-    description:
-      'If you need help developing an app, maintaining an existing one or need to consult Meteor experts',
-    linkedin: 'https://www.linkedin.com/company/quave/',
-  },
-  {
-    name: 'Monti APM',
-    title: 'Organization',
-    role: 'Partner',
-    website: 'https://montiapm.com/',
-    imageUrl: MontiApmLogo,
-    description:
-      'If you need a powerful application monitoring tool to complement your development stack',
-  },
   {
     name: 'Meteor Cloud',
     title: 'Organization',

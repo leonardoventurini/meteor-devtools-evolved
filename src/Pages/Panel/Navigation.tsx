@@ -71,15 +71,6 @@ export const Navigation: FunctionComponent = observer(() => {
       },
     },
     {
-      key: 'monti-apm',
-      content: 'Monti APM',
-      icon: 'timeline-bar-chart',
-      handler: () => {
-        openTab('https://app.montiapm.com/')
-        analytics?.event('navigation', 'click', { label: 'monti apm' })
-      },
-    },
-    {
       key: 'reload',
       icon: 'refresh',
       content: 'Reload',
