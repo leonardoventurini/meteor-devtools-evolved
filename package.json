@@ -87,8 +87,8 @@
     "webpack-merge": "^5.8.0"
   },
   "volta": {
-    "node": "14.19.3",
-    "yarn": "1.22.18"
+    "node": "24.13.0",
+    "yarn": "4.12.0"
   },
   "devDependencies": {
     "@types/webextension-polyfill": "^0.9.0",
