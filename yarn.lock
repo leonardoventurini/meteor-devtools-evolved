@@ -7438,6 +7438,7 @@ __metadata:
     d3-shape: "npm:^3.0.1"
     daisyui: "npm:^2.15.2"
     dexie: "npm:3.2.2"
+    eslint: "npm:8.31.0"
     lodash.debounce: "npm:^4.0.8"
     lodash.memoize: "npm:^4.1.2"
     lodash.sortby: "npm:^4.7.0"
