@@ -88,15 +88,10 @@ module.exports = (browser = 'chrome', override) => {
           },
           {
             test: /\.(gif|png|jpg)$/,
-            use: [
-              {
-                loader: 'file-loader',
-                options: {
-                  name: '[name].[ext]',
-                  outputPath: 'assets/',
-                },
-              },
-            ],
+            type: 'asset/resource',
+            generator: {
+              filename: 'assets/[name][ext]',
+            },
           },
         ],
       },
