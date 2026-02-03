@@ -16,7 +16,6 @@ All notable changes to this project will be documented in this file.
 - Help drawer containing contact information for the author and for partners. Moved the content from the About drawer to the Help drawer.
 - Added sponsor button so users can support the project.
 
-
 ## [1.7] - 2022-07-05
 
 ## Added

@@ -2,16 +2,14 @@
 
 <img src="https://media.giphy.com/media/Pt2yOXUALOhpB5dpiM/giphy.gif" alt="Meteor Devtool Evolved Gif" />
 
-
 <p style="font-size: 30px">
 Meteor Devtools Extension
 </p>
 Behold, the evolution of Meteor DevTools.</p>
 
 Meteor Devtools Evolved is currently available for Google Chrome and Mozilla Firefox.
+
 </div>
-
-
 
 <p align="center" >
     <a href="https://chrome.google.com/webstore/detail/meteor-devtools-evolved/ibniinmoafhgbifjojidlagmggecmpgf">
@@ -49,7 +47,6 @@ You don't know what data belongs to where? You can rapidly search for anything i
 The extension is almost entirely written in TypeScript, while some Chrome specific code being left out for practical reasons. It uses MobX to manage state, and SASS its styles. We also use components from the [Blueprint](https://github.com/palantir/blueprint) library by Palantir. Everything is glued together with Webpack.
 
 > Anyone is welcome to contribute, more info [here](CONTRIBUTING.md).
-
 
 ## Firefox
 

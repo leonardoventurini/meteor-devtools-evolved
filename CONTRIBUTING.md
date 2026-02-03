@@ -6,21 +6,23 @@
 yarn setup
 ```
 
-   > As of now we use Node.js `v14.19.3`.
+> As of now we use Node.js `v14.19.3`.
 
 2. Run the extension locally
 
 ```shell
 yarn dev # default chrome
 ```
+
 ```shell
 yarn dev:chrome # for chrome
 ```
+
 ```shell
 yarn dev:firefox # for firefox
 ```
 
-   > This command will build and watch the extension and run the `devapp-3.4` in parallel mode and when they are ready it will launch the chrome/firefox private instance with extension installed
+> This command will build and watch the extension and run the `devapp-3.4` in parallel mode and when they are ready it will launch the chrome/firefox private instance with extension installed
 
 5. Hack away!
 
@@ -32,23 +34,25 @@ If you use Linux you can run `source .envrc` for some useful commands
 
 > -c: for chrome, -f: firefox, (chrome is default)
 
-* Setup extension and test project Dependencies
+- Setup extension and test project Dependencies
 
 ```shell
 setup
 ```
 
-
 ## Build
-* Chrome
+
+- Chrome
+
 ```shell
 npm run build:chrome
 ```
-* Firefox
+
+- Firefox
+
 ```shell
 npm run build:firefox
 ```
-
 
 ## Guidelines & Objectives
 

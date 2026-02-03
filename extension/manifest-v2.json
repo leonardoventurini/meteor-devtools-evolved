@@ -13,19 +13,13 @@
     "default_title": "Meteor"
   },
   "background": {
-    "scripts": [
-      "/dist/background.js"
-    ],
+    "scripts": ["/dist/background.js"],
     "persistent": false
   },
   "content_scripts": [
     {
-      "matches": [
-        "<all_urls>"
-      ],
-      "js": [
-        "/dist/content.js"
-      ],
+      "matches": ["<all_urls>"],
+      "js": ["/dist/content.js"],
       "run_at": "document_start",
       "all_frames": true
     }
@@ -36,8 +30,6 @@
     "tabs"
   ],
   "content_security_policy": "script-src 'self'; object-src 'self'",
-  "web_accessible_resources": [
-    "/dist/inject.js"
-  ],
+  "web_accessible_resources": ["/dist/inject.js"],
   "devtools_page": "devtools.html"
 }

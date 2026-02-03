@@ -1,12 +1,14 @@
 # Suggested Commands
 
 ## Initial Setup
+
 ```bash
 # Install dependencies for both root and devapp
 yarn setup
 ```
 
 ## Development
+
 ```bash
 # Start development mode for Chrome (default)
 yarn dev
@@ -22,12 +24,14 @@ yarn devapp
 ```
 
 **Note**: The `yarn dev` commands will:
+
 1. Build and watch the extension
 2. Run the devapp in parallel
 3. Launch a browser instance with the extension installed
 4. Auto-reload on code changes
 
 ## Building
+
 ```bash
 # Build Chrome extension for production
 yarn build:chrome
@@ -40,6 +44,7 @@ yarn clean
 ```
 
 ## Linting & Formatting
+
 ```bash
 # Run ESLint on all source files
 yarn lint
@@ -49,6 +54,7 @@ yarn lint
 ```
 
 ## Security Auditing
+
 ```bash
 # Check for high and critical security vulnerabilities
 yarn run audit
@@ -57,6 +63,7 @@ yarn run audit
 ```
 
 ## Git Operations
+
 ```bash
 # Standard git commands work normally
 git status
@@ -66,6 +73,7 @@ git push
 ```
 
 ## Useful System Commands (macOS/Darwin)
+
 ```bash
 # List files
 ls -la
@@ -87,16 +95,20 @@ pwd
 ```
 
 ## Testing Extension Manually
+
 After running `yarn dev:chrome` or `yarn dev:firefox`, the extension will be loaded in a browser instance. Navigate to `http://localhost:2100` to see the devapp and test the extension's DevTools panel.
 
 ## Node/Yarn Version Management
+
 The project uses Volta to manage Node and Yarn versions:
+
 - Node.js: 14.19.3
 - Yarn: 1.22.18
 
 Volta will automatically use the correct versions if installed.
 
 ## Troubleshooting
+
 ```bash
 # If dependencies are out of sync, reinstall
 rm -rf node_modules yarn.lock

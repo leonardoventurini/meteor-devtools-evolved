@@ -1,3 +1,3 @@
-import { Mongo } from 'meteor/mongo';
+import { Mongo } from 'meteor/mongo'
 
-export const RandomCollection = new Mongo.Collection('random');
+export const RandomCollection = new Mongo.Collection('random')
