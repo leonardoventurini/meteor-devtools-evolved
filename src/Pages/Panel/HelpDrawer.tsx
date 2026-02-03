@@ -21,7 +21,7 @@ const people: GridItem[] = [
 
 const orgs: GridItem[] = [
   {
-    name: 'Meteor Cloud',
+    name: 'Galaxy',
     title: 'Organization',
     role: 'Partner',
     website: 'https://social.meteor.com/devtools-evolved/',

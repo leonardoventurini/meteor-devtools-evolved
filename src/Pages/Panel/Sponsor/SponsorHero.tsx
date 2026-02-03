@@ -16,14 +16,14 @@ export const SponsorHero: FC<Props> = () => {
         height: '30rem',
         backgroundImage: 'url(/dist/assets/meteor-shower.jpg)',
       }}
-      id='meteor-cloud-hero'
+      id='galaxy-hero'
     >
       <div className='hero-overlay bg-opacity-70'></div>
       <div className='hero-content text-center text-neutral-content'>
         <div className='max-w-md'>
           <img
             src={MeteorCloudLogo}
-            alt='Meteor Cloud Logo'
+            alt='Galaxy Logo'
             style={{ width: '400px' }}
             className='mx-auto mb-4 select-none'
           />
@@ -52,7 +52,7 @@ export const SponsorHero: FC<Props> = () => {
           </p>
 
           <p>
-            Sign up for a Meteor Cloud account{' '}
+            Sign up for a Galaxy account{' '}
             <a
               href='https://social.meteor.com/devtools-evolved'
               target='_blank'

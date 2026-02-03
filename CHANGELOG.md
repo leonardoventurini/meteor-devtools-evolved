@@ -35,7 +35,7 @@ All notable changes to this project will be documented in this file.
 - Now logs are intercepted and stored in the background and loaded when you open the devtools panel.
 - Add Meteor emoji to devtool tab.
 - Add emojis to some actions in the top bar.
-- Add Meteor Cloud Sponsor content.
+- Add Galaxy Sponsor content.
 
 ## Removed
 
@@ -46,7 +46,7 @@ All notable changes to this project will be documented in this file.
 ## Added
 
 - Google Analytics for improving the extension.
-- The browser action of the extension opens Meteor Cloud.
+- The browser action of the extension opens Galaxy.
 - Add subscription duration, so we know how long specific subscriptions take.
 - Performance tab which measures Minimongo calls.
 
