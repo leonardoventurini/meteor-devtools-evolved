@@ -3,6 +3,7 @@
     "strict": false,
     "noImplicitAny": false,
     "target": "ES6",
+    "lib": ["esnext", "dom"],
     "module": "commonjs",
     "moduleResolution": "node",
     "experimentalDecorators": true,

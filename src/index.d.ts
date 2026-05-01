@@ -1,6 +1,12 @@
 declare module '*.gif'
 declare module '*.png'
 
+// structuredClone is available in page context at runtime but not typed until TS 4.7.
+declare function structuredClone<T>(
+  value: T,
+  options?: { transfer?: Transferable[] },
+): T
+
 type MeteorID = string
 
 interface Window {
