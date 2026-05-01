@@ -19,20 +19,21 @@ const cleanup = (object: any) => {
 
   for (const key of Object.keys(clonedObject)) {
     if (!clonedObject[key]) {
-      return
+      // Falsy primitive value (null, 0, false, '') — leave as-is and keep going.
+      continue
     }
 
     if (typeof clonedObject[key] === 'object') {
       if (isArray(clonedObject[key])) {
         clonedObject[key] = clonedObject[key].map((item: any) => cleanup(item))
-        return
+        continue
       }
 
       if (clonedObject[key] instanceof Date) {
         clonedObject[key] = `[Object::${
           clonedObject[key].constructor.name
         }] ${clonedObject[key].toISOString()}`
-        return
+        continue
       }
 
       if (clonedObject[key].constructor.name !== 'Object') {
@@ -40,11 +41,10 @@ const cleanup = (object: any) => {
           clonedObject[key] = `[Object::${
             clonedObject[key].constructor.name
           }] ${clonedObject[key].toString()}`
-          return
         } else {
           clonedObject[key] = `[Object::${clonedObject[key].constructor.name}]`
-          return
         }
+        continue
       }
 
       clonedObject[key] = cleanup(clonedObject[key])
@@ -73,7 +73,7 @@ const getCollections = () => {
   const data = Object.fromEntries(
     Object.values(collections).map((collection: any) => [
       collection.name,
-      [...getDocs(collection)].map(item => cleanup(item)),
+      [...getDocs(collection)].map(item => cleanup(item)).filter(Boolean),
     ]),
   )
 

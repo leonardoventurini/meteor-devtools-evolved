@@ -89,9 +89,9 @@ export class MinimongoStore {
   @action
   setCollections(collections: RawCollections) {
     this.collections = mapValues(collections, (collection, collectionName) => {
-      return collection.map(document =>
-        MinimongoStore.wrapDocument(document, collectionName),
-      )
+      return collection
+        .filter(doc => doc != null)
+        .map(document => MinimongoStore.wrapDocument(document, collectionName))
     })
 
     this.computeCollectionSizes()
@@ -121,8 +121,6 @@ export class MinimongoStore {
     collectionName: string,
   ): IDocumentWrapper {
     const _string = JSONUtils.stringify(document)
-
-    console.log({ collectionName })
 
     return {
       collectionName,

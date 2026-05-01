@@ -29,6 +29,10 @@ export const MinimongoContainer: FunctionComponent<Props> = observer(
       ({ data, index, style }: IRow) => {
         const item = data.items![index]
 
+        if (!item?.document) {
+          return null
+        }
+
         return (
           <MinimongoRow
             style={style}
