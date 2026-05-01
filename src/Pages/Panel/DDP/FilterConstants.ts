@@ -12,7 +12,7 @@ export const FilterCriteriaMap: {
   Object.entries(FilterCriteria).flatMap(([key, matchers]) =>
     matchers.map(matcher => [matcher, key]),
   ),
-)
+) as { [key: string]: FilterType }
 
 export const detectType = (content?: DDPLogContent) => {
   if (content && content.msg && content.msg in FilterCriteriaMap) {
