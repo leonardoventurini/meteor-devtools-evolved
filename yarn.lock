@@ -2169,13 +2169,6 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@types/luxon@npm:^2.0.5":
-  version: 2.0.9
-  resolution: "@types/luxon@npm:2.0.9"
-  checksum: 10c0/912c95fcf0309e486e835aba5f622b41f714404399ca0a6e515c59ff0129538e23b7466ac9c75d188cda0c1e625e59737f27dc2c049ed9e8ac025381b97b63f8
-  languageName: node
-  linkType: hard
-
 "@types/meteor@npm:^2.0.4":
   version: 2.0.4
   resolution: "@types/meteor@npm:2.0.4"
@@ -7703,10 +7696,10 @@ __metadata:
   languageName: node
   linkType: hard
 
-"luxon@npm:2.5.2":
-  version: 2.5.2
-  resolution: "luxon@npm:2.5.2"
-  checksum: 10c0/c93b71c4ae74c440982f39832159b9311eca6db1e55d032d30a3f9354e6ceb16d576158c5dc9f847eb15c481557063bd61defdb96ee0953f8df2c57cd91e0b13
+"luxon@npm:^3.7.2":
+  version: 3.7.2
+  resolution: "luxon@npm:3.7.2"
+  checksum: 10c0/ed8f0f637826c08c343a29dd478b00628be93bba6f068417b1d8896b61cb61c6deacbe1df1e057dbd9298334044afa150f9aaabbeb3181418ac8520acfdc2ae2
   languageName: node
   linkType: hard
 
@@ -7820,7 +7813,6 @@ __metadata:
     "@eslint/js": "npm:^9.0.0"
     "@heroicons/react": "npm:^2.0.13"
     "@types/chrome": "npm:0.0.178"
-    "@types/luxon": "npm:^2.0.5"
     "@types/meteor": "npm:^2.0.4"
     "@types/react": "npm:^17.0.27"
     "@types/react-dom": "npm:^17.0.9"
@@ -7849,7 +7841,7 @@ __metadata:
     lodash.memoize: "npm:^4.1.2"
     lodash.sortby: "npm:^4.7.0"
     lodash.throttle: "npm:^4.1.1"
-    luxon: "npm:2.5.2"
+    luxon: "npm:^3.7.2"
     mobx: "npm:6.4.0"
     mobx-react-lite: "npm:3.3.0"
     normalize.css: "npm:8.0.1"
