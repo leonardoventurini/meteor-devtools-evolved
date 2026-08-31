@@ -4480,10 +4480,10 @@ __metadata:
   languageName: node
   linkType: hard
 
-"dexie@npm:3.2.2":
-  version: 3.2.2
-  resolution: "dexie@npm:3.2.2"
-  checksum: 10c0/9e3ceba6c09a4cacb9b8d706dce13068848a3c157b9dc3a22bafe4e80ebba3ba96e10f34578e525333a13d94a59b4f17bc7a1e33b0922f4fbd7f67751f93dcff
+"dexie@npm:^4.4.5":
+  version: 4.4.5
+  resolution: "dexie@npm:4.4.5"
+  checksum: 10c0/a88439b82842b27929fb5e883944ff9a739f1b713382b1eb09745166cad41ce83ca443aa850ae185e9f75569f643aa8efb4126e52971db2b8c9ca27eab1afce2
   languageName: node
   linkType: hard
 
@@ -7830,7 +7830,7 @@ __metadata:
     copy-webpack-plugin: "npm:^11.0.0"
     css-loader: "npm:^6.3.0"
     daisyui: "npm:^2.15.2"
-    dexie: "npm:3.2.2"
+    dexie: "npm:^4.4.5"
     eslint: "npm:^9.0.0"
     eslint-plugin-prettier: "npm:^5.0.0"
     eslint-plugin-react: "npm:^7.37.0"

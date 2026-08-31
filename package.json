@@ -51,7 +51,7 @@
     "clean-webpack-plugin": "^4.0.0",
     "css-loader": "^6.3.0",
     "daisyui": "^2.15.2",
-    "dexie": "3.2.2",
+    "dexie": "^4.4.5",
     "lodash.debounce": "^4.0.8",
     "lodash.memoize": "^4.1.2",
     "lodash.sortby": "^4.7.0",
