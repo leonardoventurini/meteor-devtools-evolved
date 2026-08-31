@@ -32,6 +32,9 @@ launch-screen@2.0.1
 logging@1.3.6
 meteor@2.2.0
 meteor-base@1.5.2
+meteortesting:browser-tests@1.8.0
+meteortesting:mocha@3.3.0
+meteortesting:mocha-core@8.2.0
 minifier-css@2.0.1
 minifier-js@3.1.0
 minimongo@2.0.5
