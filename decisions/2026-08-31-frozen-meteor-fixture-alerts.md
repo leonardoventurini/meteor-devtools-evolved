@@ -3,7 +3,7 @@
 ## Context
 
 GitHub Dependabot reports vulnerabilities from every supported manifest on the
-default branch. Forty-seven of the repository's 49 open alerts originate from
+default branch. Forty-five of the repository's 47 open alerts originate from
 the lockfiles for `devapp-2.0.0`, `devapp-2.2.0`, and `devapp-2.2.4`. These
 applications are frozen compatibility fixtures that reproduce historical
 Meteor environments; they are not shipped with the extension or used as the

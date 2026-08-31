@@ -9,7 +9,7 @@ reports dependency vulnerabilities after pushes to the default branch.
 
 - Run `33424623987` fails in setup-node before Corepack installation because
   Yarn caching invokes the runner's Yarn 1.22.22 against a Yarn 4.12 project.
-- GitHub reports 49 open Dependabot alerts: 47 belong to the intentionally
+- GitHub reports 47 open Dependabot alerts: 45 belong to the intentionally
   frozen Meteor 2 fixture lockfiles and two medium alerts belong to `yarn.lock`.
 - The root alerts require AJV 8.18.0 or newer and Babel runtime 7.26.10 or newer.
 - The three frozen fixtures each reproduce Meteor 2-era dependency graphs and
@@ -52,12 +52,12 @@ reports dependency vulnerabilities after pushes to the default branch.
       releases.
 - [x] Pass immutable install, lint, typecheck, tests, and both builds.
 - [x] Pass production and active-fixture audits.
-- [ ] Confirm no open Dependabot alert remains for `yarn.lock` or
+- [x] Confirm no open Dependabot alert remains for `yarn.lock` or
       `devapp-3.4/package-lock.json`.
-- [ ] Commit and push the verified repository changes.
-- [ ] Confirm the new hosted GitHub Actions run succeeds.
-- [ ] Dismiss only the 47 frozen-fixture alerts with the approved rationale.
-- [ ] Confirm the final open alert count is zero.
+- [x] Commit and push the verified repository changes.
+- [x] Confirm the new hosted GitHub Actions run succeeds.
+- [x] Dismiss only the 45 frozen-fixture alerts with the approved rationale.
+- [x] Confirm the final open alert count is zero.
 
 ## Direct rollout
 
