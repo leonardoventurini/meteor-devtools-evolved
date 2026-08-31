@@ -1,11 +1,16 @@
-@tailwind base;
-@tailwind components;
-@tailwind utilities;
+@import 'tailwindcss';
+
+@custom-variant dark (&:where(.dark, .dark *));
+
+@plugin 'daisyui' {
+  themes: all;
+  logs: false;
+}
 
 .section {
   @apply text-base;
 }
 
 .section-title {
-  @apply mb-4 font-medium uppercase text-gray-500;
+  @apply mb-4 font-medium text-gray-500 uppercase;
 }
