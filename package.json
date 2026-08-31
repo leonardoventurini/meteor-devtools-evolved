@@ -26,6 +26,8 @@
     "open:chrome": "yarn wait:chrome && web-ext run -t chromium --start-url \"http://localhost:2100\" --source-dir ./extension/chrome/ --browser-console",
     "clean": "rimraf extension/firefox extension/chrome",
     "lint": "eslint .",
+    "test": "vitest run",
+    "typecheck": "tsc --noEmit",
     "audit": "yarn audit --all --recursive --severity high"
   },
   "author": "Leonardo Venturini",
@@ -118,6 +120,7 @@
     "postcss": "^8.5.26",
     "prettier": "^3.9.6",
     "prettier-plugin-tailwindcss": "^0.8.1",
+    "vitest": "^4.1.11",
     "wait-on": "^9.1.0",
     "web-ext": "^10.6.0",
     "webextension-polyfill": "^0.12.0"
