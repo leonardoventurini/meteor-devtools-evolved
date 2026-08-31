@@ -7850,7 +7850,7 @@ __metadata:
     postcss-loader: "npm:^7.0.0"
     prettier: "npm:^3.0.0"
     prettier-plugin-tailwindcss: "npm:^0.6.0"
-    pretty-bytes: "npm:6.0.0"
+    pretty-bytes: "npm:^7.1.2"
     react: "npm:17.0.2"
     react-dom: "npm:17.0.2"
     react-is: "npm:17.0.2"
@@ -9266,10 +9266,10 @@ __metadata:
   languageName: node
   linkType: hard
 
-"pretty-bytes@npm:6.0.0":
-  version: 6.0.0
-  resolution: "pretty-bytes@npm:6.0.0"
-  checksum: 10c0/4ef1f24efd118d084a7fdf56887444cb9c66ac4203894d49559dd895e8a5cac2b55b19389b457d7c6e7c6f5e44efff9b4b60c76de92cd86ee2d6068c59686d8b
+"pretty-bytes@npm:^7.1.2":
+  version: 7.1.2
+  resolution: "pretty-bytes@npm:7.1.2"
+  checksum: 10c0/f80920f9642725e2ee227061486fa6a64d5a095cabf371c9e7ab054977f0c55c76853f427662cdb9d9ffdb075d9fe57be14dc77ffc1abea2b1c4956c86500d5c
   languageName: node
   linkType: hard
 
