@@ -80,37 +80,38 @@ export const Navigation: FunctionComponent = observer(() => {
   ]
 
   if (repositoryData) {
-    menu.unshift({
-      key: 'feedback',
-      icon: 'issue',
-      content: <strong>Issues</strong>,
-      handler: () => {
-        openTab(`${repositoryData.html_url}/issues`)
-        analytics?.event('navigation', 'click', { label: 'feedback' })
-      },
-      shine: true,
-    })
+    menu.unshift(
+      {
+        key: 'star',
+        icon: 'star',
+        content: (
+          <>
+            <strong>Star</strong>
+            {isNumber(repositoryData.stargazers_count) ? (
+              <Tag minimal round style={{ marginLeft: '.5rem' }}>
+                {repositoryData.stargazers_count}
+              </Tag>
+            ) : null}
+          </>
+        ),
+        shine: true,
+        handler: () => {
+          openTab(`${repositoryData.html_url}/stargazers`)
 
-    menu.unshift({
-      key: 'star',
-      icon: 'star',
-      content: (
-        <>
-          <strong>Star</strong>
-          {isNumber(repositoryData.stargazers_count) ? (
-            <Tag minimal round style={{ marginLeft: '.5rem' }}>
-              {repositoryData.stargazers_count}
-            </Tag>
-          ) : null}
-        </>
-      ),
-      shine: true,
-      handler: () => {
-        openTab(`${repositoryData.html_url}/stargazers`)
-
-        analytics?.event('navigation', 'click', { label: 'star' })
+          analytics?.event('navigation', 'click', { label: 'star' })
+        },
       },
-    })
+      {
+        key: 'feedback',
+        icon: 'issue',
+        content: <strong>Issues</strong>,
+        handler: () => {
+          openTab(`${repositoryData.html_url}/issues`)
+          analytics?.event('navigation', 'click', { label: 'feedback' })
+        },
+        shine: true,
+      },
+    )
   }
 
   menu.unshift({

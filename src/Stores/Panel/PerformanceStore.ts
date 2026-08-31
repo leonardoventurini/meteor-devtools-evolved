@@ -31,7 +31,7 @@ export class PerformanceStore<T> {
         [...this.callMap.values()],
         ['runtime', 'args', 'method', 'collectionName'],
       )
-        .reverse()
+        .toReversed()
         .slice(0, 100)
     }),
     250,

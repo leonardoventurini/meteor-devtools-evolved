@@ -45,7 +45,7 @@ export class MinimongoStore {
   }
 
   get collectionNames() {
-    return Object.keys(this.collections).sort()
+    return Object.keys(this.collections).toSorted()
   }
 
   get filteredCollectionNames() {

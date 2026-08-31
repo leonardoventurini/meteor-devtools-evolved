@@ -8,6 +8,8 @@ const injectOutboundInterceptor = (callback: MessageCallback) => {
   const send = Meteor.connection._stream.send
 
   Meteor.connection._stream.send = function (...args) {
+    // Preserve the receiver expected by Meteor's stream implementation.
+    // eslint-disable-next-line unicorn/no-this-outside-of-class
     send.apply(this, args)
 
     callback({

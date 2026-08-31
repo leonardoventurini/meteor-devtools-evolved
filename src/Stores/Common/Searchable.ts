@@ -80,7 +80,7 @@ export abstract class Searchable<T> {
 
     console.log('submitted')
 
-    this.collection.unshift(...this.buffer.reverse())
+    this.collection.unshift(...this.buffer.toReversed())
 
     this.buffer = []
   }

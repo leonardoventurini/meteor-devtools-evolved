@@ -38,9 +38,12 @@ export const MeteorAdapter = () => {
 
       prototype[key] = function (...args) {
         const startMs = Date.now()
+        // Preserve the collection instance for the monkey-patched prototype API.
+        // eslint-disable-next-line unicorn/no-this-outside-of-class
         const result = original.apply(this, args)
 
         sendMessage('meteor-data-performance', {
+          // eslint-disable-next-line unicorn/no-this-outside-of-class
           collectionName: this._name,
           key,
           args: JSON.stringify(args, JSONUtils.getCircularReplacer()),

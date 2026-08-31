@@ -90,11 +90,7 @@ interface Bookmark {
 }
 
 type FilterType =
-  | 'heartbeat'
-  | 'subscription'
-  | 'collection'
-  | 'method'
-  | 'connection'
+  'heartbeat' | 'subscription' | 'collection' | 'method' | 'connection'
 
 type FilterTypeMap<T> = { [key in FilterType]: T }
 

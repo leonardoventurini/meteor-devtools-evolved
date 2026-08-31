@@ -58,7 +58,7 @@ action.onClicked.addListener(e => {
 
   browser.tabs
     .create({
-      url: 'http://cloud.meteor.com/?utm_source=chrome_extension&utm_medium=extension&utm_campaign=meteor_devtools_evolved',
+      url: 'https://cloud.meteor.com/?utm_source=chrome_extension&utm_medium=extension&utm_campaign=meteor_devtools_evolved',
     })
 
     .catch(console.error)

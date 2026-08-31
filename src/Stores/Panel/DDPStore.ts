@@ -45,7 +45,6 @@ export class DDPStore extends Searchable<DDPLog> {
     this.clearNewLogs()
   }
 
-  // eslint-disable-next-line unicorn/consistent-function-scoping
   clearNewLogs = debounce(() => {
     runInAction(() => {
       this.newLogs = []

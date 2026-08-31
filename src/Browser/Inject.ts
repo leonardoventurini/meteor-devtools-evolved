@@ -97,18 +97,20 @@ interface IRegistry {
   run(message: Message<any>): void
 }
 
+const subscriptions: Registration[] = []
+
 export const Registry: IRegistry = {
-  subscriptions: [],
+  subscriptions,
 
   register(eventType: EventType, handler: MessageHandler) {
-    this.subscriptions.push({
+    subscriptions.push({
       eventType,
       handler,
     })
   },
 
   run(message: IMessagePayload<any>) {
-    for (const { eventType, handler } of this.subscriptions) {
+    for (const { eventType, handler } of subscriptions) {
       if (
         message.source === 'meteor-devtools-evolved' &&
         eventType === message.eventType

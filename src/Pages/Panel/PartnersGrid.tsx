@@ -123,6 +123,8 @@ export function PartnersGrid({ items, className = '' }) {
                     rel='noreferrer'
                   >
                     <svg
+                      // The canonical SVG namespace is intentionally HTTP.
+                      // eslint-disable-next-line unicorn/prefer-https
                       xmlns='http://www.w3.org/2000/svg'
                       viewBox='0 0 24 24'
                       className='inline-block h-4 w-4 fill-gray-400'
