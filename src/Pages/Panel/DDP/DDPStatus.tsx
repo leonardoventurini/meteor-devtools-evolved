@@ -1,18 +1,17 @@
-import { Spinner, Tag, Tooltip } from '@blueprintjs/core'
+import { Position, Spinner, Tag, Tooltip } from '@blueprintjs/core'
 import { isNumber } from 'lodash'
 import { observer } from 'mobx-react-lite'
 import React, { FormEvent, FunctionComponent, useCallback } from 'react'
 import { usePanelStore } from '@/Stores/PanelStore'
 import { StatusBar } from '@/Components/StatusBar'
 import { DDPFilterMenu } from '@/Pages/Panel/DDP/DDPFilterMenu'
-import { Position } from '@blueprintjs/core/lib/esm/common/position'
 import { TextInput } from '@/Components/TextInput'
 import { PopoverButton } from '@/Components/PopoverButton'
 import { Button } from '@/Components/Button'
 import prettyBytes from 'pretty-bytes'
 import { Field } from '@/Components/Field'
 import { StringUtils } from '@/Utils/StringUtils'
-import { AppToaster } from '@/AppToaster'
+import { showToast } from '@/AppToaster'
 
 export const DDPStatus: FunctionComponent = observer(() => {
   const store = usePanelStore()
@@ -72,7 +71,7 @@ export const DDPStatus: FunctionComponent = observer(() => {
               interactive
               onClick={() => {
                 StringUtils.toClipboard(store.gitCommitHash as string)
-                AppToaster.show({
+                void showToast({
                   icon: 'tick',
                   message: 'Copied to Clipboard',
                   intent: 'success',

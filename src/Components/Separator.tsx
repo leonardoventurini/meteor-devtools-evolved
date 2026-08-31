@@ -5,7 +5,7 @@ interface WrapperProps {
   horizontal?: boolean
 }
 
-const Wrapper = styled.div`
+const Wrapper = styled.div<WrapperProps>`
   width: ${({ horizontal }: WrapperProps) => (horizontal ? undefined : '1px')};
   height: ${({ horizontal }: WrapperProps) => (horizontal ? '1px' : undefined)};
   margin: 0 3px;

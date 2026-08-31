@@ -1,4 +1,4 @@
-import React, { FunctionComponent, useState } from 'react'
+import React, { FunctionComponent, PropsWithChildren, useState } from 'react'
 import { isArray, isEmpty, isObject } from 'lodash'
 
 interface Props {
@@ -6,7 +6,7 @@ interface Props {
   level?: number
 }
 
-export const Collapsible: FunctionComponent<Props> = ({
+export const Collapsible: FunctionComponent<PropsWithChildren<Props>> = ({
   children,
   object,
   level = 0,

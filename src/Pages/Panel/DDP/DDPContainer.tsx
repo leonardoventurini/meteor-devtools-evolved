@@ -1,6 +1,6 @@
 import React, { FunctionComponent, useRef } from 'react'
 import { DDPLog } from '@/Pages/Panel/DDP/DDPLog'
-import { FixedSizeList } from 'react-window'
+import { List, type RowComponentProps } from 'react-window'
 import { observer } from 'mobx-react-lite'
 import { DDPStore } from '@/Stores/Panel/DDPStore'
 import { BookmarkStore } from '@/Stores/Panel/BookmarkStore'
@@ -12,6 +12,34 @@ interface Props {
   isVisible: boolean
 }
 
+interface DDPRowProps {
+  items: Array<DDPLog | Bookmark>
+  newLogIds: string[]
+  bookmarkedLogIds: Array<string | undefined>
+}
+
+const Row = observer(
+  ({
+    items,
+    newLogIds,
+    bookmarkedLogIds,
+    index,
+    style,
+  }: RowComponentProps<DDPRowProps>) => {
+    const item = items[index]
+    const log = 'log' in item ? item.log : item
+
+    return (
+      <DDPLog
+        style={style}
+        log={log}
+        isNew={newLogIds.includes(log.id)}
+        isStarred={bookmarkedLogIds.includes(log.id)}
+      />
+    )
+  },
+)
+
 export const DDPContainer: FunctionComponent<Props> = observer(
   ({ source, isVisible }) => {
     const store = usePanelStore()
@@ -19,31 +47,18 @@ export const DDPContainer: FunctionComponent<Props> = observer(
 
     const { width, height } = useDimensions(contentRef, [isVisible])
 
-    const Row: FunctionComponent<any> = observer(({ data, index, style }) => {
-      const item = (data as any).items[index]
-      const log = 'log' in item ? item.log : item
-
-      return (
-        <DDPLog
-          key={log.id}
-          style={style}
-          log={log}
-          isNew={'newLogs' in source && source.newLogs.includes(log.id)}
-          isStarred={store.bookmarkStore.bookmarkIds.includes(log.id)}
-        />
-      )
-    })
-
     const list = (
-      <FixedSizeList
-        height={height}
-        width={width}
-        itemCount={source.filtered.length}
-        itemSize={28}
-        itemData={{ items: source.filtered }}
-      >
-        {Row}
-      </FixedSizeList>
+      <List
+        rowCount={source.filtered.length}
+        rowHeight={28}
+        rowComponent={Row}
+        rowProps={{
+          items: source.filtered,
+          newLogIds: 'newLogs' in source ? source.newLogs : [],
+          bookmarkedLogIds: store.bookmarkStore.bookmarkIds,
+        }}
+        style={{ height, width }}
+      />
     )
 
     return (

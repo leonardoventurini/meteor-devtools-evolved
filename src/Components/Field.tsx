@@ -1,4 +1,4 @@
-import React, { FunctionComponent } from 'react'
+import React, { FunctionComponent, PropsWithChildren } from 'react'
 import styled from 'styled-components'
 import { centerItems } from '@/Styles/Mixins'
 import { Icon, IconName } from '@blueprintjs/core'
@@ -26,7 +26,7 @@ interface Props {
   className?: string
 }
 
-export const Field: FunctionComponent<Props> = ({
+export const Field: FunctionComponent<PropsWithChildren<Props>> = ({
   children,
   icon,
   className,
@@ -41,7 +41,7 @@ export const Field: FunctionComponent<Props> = ({
 
   return (
     <Wrapper className={classes}>
-      {icon && <Icon icon={icon} className='icon' iconSize={12} />}
+      {icon && <Icon icon={icon} className='icon' size={12} />}
       {exists(children) && <span>{children}</span>}
     </Wrapper>
   )

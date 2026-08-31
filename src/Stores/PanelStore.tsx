@@ -1,5 +1,10 @@
 import { action, makeObservable, observable, toJS } from 'mobx'
-import React, { createContext, FunctionComponent, useContext } from 'react'
+import React, {
+  createContext,
+  FunctionComponent,
+  PropsWithChildren,
+  useContext,
+} from 'react'
 import { BookmarkStore } from './Panel/BookmarkStore'
 import { DDPStore } from './Panel/DDPStore'
 import { MinimongoStore } from './Panel/MinimongoStore'
@@ -76,7 +81,9 @@ export const PanelStore = new PanelStoreConstructor()
 
 const PanelStoreContext = createContext<PanelStoreConstructor | null>(null)
 
-export const PanelStoreProvider: FunctionComponent = ({ children }) => (
+export const PanelStoreProvider: FunctionComponent<PropsWithChildren> = ({
+  children,
+}) => (
   <PanelStoreContext.Provider value={PanelStore}>
     {children}
   </PanelStoreContext.Provider>

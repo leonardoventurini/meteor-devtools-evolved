@@ -1,10 +1,14 @@
-import React, { ButtonHTMLAttributes, FunctionComponent } from 'react'
+import React, {
+  ButtonHTMLAttributes,
+  FunctionComponent,
+  ReactElement,
+} from 'react'
 import styled from 'styled-components'
 import { Icon, IconName, Intent } from '@blueprintjs/core'
 import { centerItems, truncate } from '@/Styles/Mixins'
 import classnames from 'classnames'
 import { isNumber, isString } from 'lodash'
-import { Popover2 } from '@blueprintjs/popover2'
+import { Popover } from '@blueprintjs/core'
 
 const ButtonWrapper = styled.button`
   ${centerItems};
@@ -108,7 +112,7 @@ const ButtonWrapper = styled.button`
 `
 
 interface Props extends ButtonHTMLAttributes<HTMLButtonElement> {
-  icon?: IconName | JSX.Element
+  icon?: IconName | ReactElement
   intent?: Intent
   shine?: boolean
   active?: boolean
@@ -138,7 +142,7 @@ export const Button: FunctionComponent<Props> = ({
 
   if (title) {
     return (
-      <Popover2
+      <Popover
         content={<div className='p-4'>{title}</div>}
         interactionKind='hover'
         className='inline-flex items-center'
@@ -147,7 +151,7 @@ export const Button: FunctionComponent<Props> = ({
           <div className='button-wrapper'>
             {icon &&
               (isString(icon) ? (
-                <Icon icon={icon} className='icon' iconSize={12} />
+                <Icon icon={icon} className='icon' size={12} />
               ) : (
                 icon
               ))}
@@ -159,7 +163,7 @@ export const Button: FunctionComponent<Props> = ({
             )}
           </div>
         </ButtonWrapper>
-      </Popover2>
+      </Popover>
     )
   }
 
@@ -168,7 +172,7 @@ export const Button: FunctionComponent<Props> = ({
       <div className='button-wrapper'>
         {icon &&
           (isString(icon) ? (
-            <Icon icon={icon} className='icon' iconSize={12} />
+            <Icon icon={icon} className='icon' size={12} />
           ) : (
             icon
           ))}

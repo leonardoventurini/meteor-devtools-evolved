@@ -1,15 +1,17 @@
-import { singletonHook } from 'react-singleton-hook'
-import { useEffect, useState } from 'react'
+import { useState } from 'react'
 import { Analytics } from '@/Analytics'
 
-export const useAnalytics = singletonHook(null, () => {
-  const [instance, setInstance] = useState<Analytics>()
+const ANALYTICS_TRACKING_ID = 'UA-211731487-1'
+let sharedAnalytics: Analytics | undefined
 
-  useEffect(() => {
-    const GA_TID = 'UA-211731487-1'
+export const useAnalytics = () => {
+  const [instance] = useState(() => {
+    sharedAnalytics ??= new Analytics(ANALYTICS_TRACKING_ID, {
+      userAgent: navigator.userAgent,
+    })
 
-    setInstance(new Analytics(GA_TID, { userAgent: navigator.userAgent }))
-  }, [])
+    return sharedAnalytics
+  })
 
   return instance
-})
+}

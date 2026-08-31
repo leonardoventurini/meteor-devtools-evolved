@@ -11,6 +11,8 @@
     "sourceMap": true,
     "esModuleInterop": true,
     "jsx": "react",
+    "lib": ["DOM", "ES2024", "ESNext.Collection"],
+    "types": ["chrome", "node", "react", "react-dom"],
     "baseUrl": "./",
     "paths": {
       "@/*": ["src/*"]

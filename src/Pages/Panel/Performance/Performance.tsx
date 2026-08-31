@@ -35,7 +35,7 @@ export const Performance = observer(
     return (
       <Hideable isVisible={isVisible}>
         <Wrapper className='mde-content'>
-          <HTMLTable condensed interactive>
+          <HTMLTable compact interactive>
             <thead>
               <tr>
                 <th>Collection</th>

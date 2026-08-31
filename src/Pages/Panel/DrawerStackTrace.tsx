@@ -1,5 +1,5 @@
 import { Classes, Drawer } from '@blueprintjs/core'
-import { Tooltip2 } from '@blueprintjs/popover2'
+import { Tooltip } from '@blueprintjs/core'
 import classnames from 'classnames'
 import React, { FunctionComponent } from 'react'
 
@@ -32,7 +32,7 @@ export const DrawerStackTrace: FunctionComponent<Props> = ({
           return (
             <pre key={index}>
               {stack?.url ? (
-                <Tooltip2 content={stack.url.trim()}>
+                <Tooltip content={stack.url.trim()}>
                   <a
                     href={stack.url.trim()}
                     target='_blank'
@@ -40,7 +40,7 @@ export const DrawerStackTrace: FunctionComponent<Props> = ({
                   >
                     {text}
                   </a>
-                </Tooltip2>
+                </Tooltip>
               ) : (
                 text
               )}

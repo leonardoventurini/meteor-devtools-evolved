@@ -32,7 +32,7 @@ interface Props extends InputHTMLAttributes<HTMLInputElement> {
 
 export const TextInput: FunctionComponent<Props> = ({ icon, ...rest }) => (
   <Wrapper>
-    <Icon icon={icon} iconSize={12} className='icon' />
+    <Icon icon={icon} size={12} className='icon' />
     <input type='text' {...rest} />
   </Wrapper>
 )

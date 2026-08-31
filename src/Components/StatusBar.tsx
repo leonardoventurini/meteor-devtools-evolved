@@ -1,4 +1,4 @@
-import React, { FunctionComponent } from 'react'
+import React, { FunctionComponent, PropsWithChildren } from 'react'
 import styled from 'styled-components'
 import { NAVBAR_HEIGHT } from '@/Styles/Constants'
 import { lighten } from 'polished'
@@ -39,6 +39,6 @@ const Wrapper = styled.div`
   }
 `
 
-export const StatusBar: FunctionComponent = ({ children }) => (
-  <Wrapper>{children}</Wrapper>
-)
+export const StatusBar: FunctionComponent<PropsWithChildren> = ({
+  children,
+}) => <Wrapper>{children}</Wrapper>

@@ -12,6 +12,13 @@ interface Window {
 declare namespace Meteor {
   const connection: any
   const gitCommitHash: string | undefined | null
+  function call(method: string, ...params: unknown[]): void
+}
+
+declare const Mongo: {
+  Collection: {
+    prototype: Record<string, (...args: unknown[]) => unknown>
+  }
 }
 
 type MessageSource = 'meteor-devtools-evolved'

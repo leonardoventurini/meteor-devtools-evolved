@@ -2,7 +2,7 @@ import { ObjectTreerinator } from '@/Utils/ObjectTreerinator'
 import { Button, Classes, Drawer } from '@blueprintjs/core'
 import React, { FunctionComponent } from 'react'
 import { StringUtils } from '@/Utils/StringUtils'
-import { Popover2 } from '@blueprintjs/popover2'
+import { Popover } from '@blueprintjs/core'
 
 interface Props {
   title: string | null
@@ -29,7 +29,7 @@ export const DrawerJSON: FunctionComponent<Props> = ({
         </div>
       </div>
       <div className={Classes.DRAWER_FOOTER}>
-        <Popover2
+        <Popover
           position='top'
           content={<div style={{ padding: '0.5rem' }}>Copied</div>}
         >
@@ -42,7 +42,7 @@ export const DrawerJSON: FunctionComponent<Props> = ({
           >
             Copy
           </Button>
-        </Popover2>
+        </Popover>
       </div>
     </Drawer>
   )
