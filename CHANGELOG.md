@@ -24,10 +24,19 @@ All notable changes to this project will be documented in this file.
 - Replaced shell-sourced `.envrc` helpers with documented Just recipes for
   development, Meteor maintenance, and release packaging.
 
+### Fixed
+
+- Fixed Node 26 CI startup by preventing setup-node from invoking Yarn before
+  Corepack enables the repository's pinned Yarn 4 release.
+
 ### Security
 
 - Updated vulnerable transitive dependencies where patched releases are
   available and added enforced production and active-fixture audits to CI.
+- Patched active-root AJV and Babel runtime advisories while preserving
+  explicitly documented historical Meteor 2 fixture locks.
+- Removed the deprecated `@types/react-json-tree` stub from the active root
+  dependency graph.
 
 ## [1.8] - 2023-01-17
 

@@ -22,7 +22,6 @@ jobs:
         uses: actions/setup-node@v6
         with:
           node-version: 26.5.1
-          cache: 'yarn'
 
       - name: Install Corepack
         run: npm install --global corepack@0.36.0

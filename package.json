@@ -44,7 +44,6 @@
     "@types/chrome": "^0.2.7",
     "@types/react": "^19.2.18",
     "@types/react-dom": "^19.2.5",
-    "@types/react-json-tree": "^0.13.0",
     "babel-loader": "^10.1.1",
     "classnames": "^2.5.1",
     "clean-webpack-plugin": "^4.0.0",
@@ -86,7 +85,12 @@
     "yarn": "4.12.0"
   },
   "resolutions": {
+    "@babel/runtime@npm:^7.5.5": "^7.29.7",
+    "@babel/runtime@npm:^7.8.7": "^7.29.7",
+    "@babel/runtime@npm:^7.16.7": "^7.29.7",
     "@isaacs/brace-expansion": "^5.0.1",
+    "ajv@npm:^8.0.0": "^8.20.0",
+    "ajv@npm:^8.9.0": "^8.20.0",
     "axios": "^1.20.0",
     "brace-expansion@npm:^1.1.7": "1.1.18",
     "braces": "^3.0.3",
