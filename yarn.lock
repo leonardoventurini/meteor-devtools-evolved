@@ -2266,13 +2266,13 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@types/chrome@npm:0.0.178":
-  version: 0.0.178
-  resolution: "@types/chrome@npm:0.0.178"
+"@types/chrome@npm:^0.2.7":
+  version: 0.2.7
+  resolution: "@types/chrome@npm:0.2.7"
   dependencies:
     "@types/filesystem": "npm:*"
     "@types/har-format": "npm:*"
-  checksum: 10c0/1839546054b4a53b1f18089479b38a4bda94513d941391c2b52c0b609e763d933194ba8f2102e221c0b2265eabade7f7c90e3f96af87656887538b3cdf2e5c01
+  checksum: 10c0/499c25d282b70733160f1c51dc86301cec89a19a54e1db3449fd586dcc6a2523cf51c26e7e2b14d865dc2c94f73fa91e242fc5718220bbe80841fb32edb0955b
   languageName: node
   linkType: hard
 
@@ -2415,10 +2415,10 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@types/webextension-polyfill@npm:^0.9.0":
-  version: 0.9.0
-  resolution: "@types/webextension-polyfill@npm:0.9.0"
-  checksum: 10c0/a5af71d49c34dcd3fa1ba509a5273d75f418eab92fe261cb242d72883c06d7dfab40e3b6dd484ce306d871167cf55623d6cade1ea027bb74a4728275e4d85799
+"@types/webextension-polyfill@npm:^0.12.5":
+  version: 0.12.5
+  resolution: "@types/webextension-polyfill@npm:0.12.5"
+  checksum: 10c0/019727139514bc39d25d9d94be8a24ca8a57f49954c3e546a54cc0df213b3d356391bf45917c43084370da462b4c903bbaa26a33845458ca868b8726961113e1
   languageName: node
   linkType: hard
 
@@ -7000,13 +7000,13 @@ __metadata:
     "@eslint/js": "npm:9"
     "@heroicons/react": "npm:^2.2.0"
     "@tailwindcss/postcss": "npm:^4.3.3"
-    "@types/chrome": "npm:0.0.178"
+    "@types/chrome": "npm:^0.2.7"
     "@types/lodash": "npm:^4.17.25"
     "@types/node": "npm:^26.4.0"
     "@types/react": "npm:^19.2.18"
     "@types/react-dom": "npm:^19.2.5"
     "@types/react-json-tree": "npm:^0.13.0"
-    "@types/webextension-polyfill": "npm:^0.9.0"
+    "@types/webextension-polyfill": "npm:^0.12.5"
     "@typescript-eslint/eslint-plugin": "npm:^8.0.0"
     "@typescript-eslint/parser": "npm:^8.0.0"
     babel-loader: "npm:^10.1.1"
@@ -7055,7 +7055,7 @@ __metadata:
     uuid: "npm:^14.0.2"
     wait-on: "npm:^9.1.0"
     web-ext: "npm:^10.6.0"
-    webextension-polyfill: "npm:^0.9.0"
+    webextension-polyfill: "npm:^0.12.0"
     webpack: "npm:^5.110.2"
     webpack-cli: "npm:^7.2.3"
     webpack-merge: "npm:^6.0.1"
@@ -10070,10 +10070,10 @@ __metadata:
   languageName: node
   linkType: hard
 
-"webextension-polyfill@npm:^0.9.0":
-  version: 0.9.0
-  resolution: "webextension-polyfill@npm:0.9.0"
-  checksum: 10c0/ebcbb0fffcf4ee65726c6554d95c88ff13903a7a8e105bad154d1d6e1ed050a4b64d4e36fc9056bca9d44ee989d3da1a269f5e31f735012e053242dc43cac3de
+"webextension-polyfill@npm:^0.12.0":
+  version: 0.12.0
+  resolution: "webextension-polyfill@npm:0.12.0"
+  checksum: 10c0/5ace2aaaf6a203515bdd2fb948622f186a5fbb50099b539ce9c0ad54896f9cc1fcc3c0e2a71d1f7071dd7236d7daebba1e0cbcf43bfdfe54361addf0333ee7d1
   languageName: node
   linkType: hard
 

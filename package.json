@@ -37,7 +37,7 @@
     "@blueprintjs/core": "^6.18.0",
     "@blueprintjs/icons": "^6.13.0",
     "@heroicons/react": "^2.2.0",
-    "@types/chrome": "0.0.178",
+    "@types/chrome": "^0.2.7",
     "@types/react": "^19.2.18",
     "@types/react-dom": "^19.2.5",
     "@types/react-json-tree": "^0.13.0",
@@ -103,7 +103,7 @@
     "@tailwindcss/postcss": "^4.3.3",
     "@types/lodash": "^4.17.25",
     "@types/node": "^26.4.0",
-    "@types/webextension-polyfill": "^0.9.0",
+    "@types/webextension-polyfill": "^0.12.5",
     "@typescript-eslint/eslint-plugin": "^8.0.0",
     "@typescript-eslint/parser": "^8.0.0",
     "concurrently": "^10.0.5",
@@ -120,6 +120,6 @@
     "prettier-plugin-tailwindcss": "^0.8.1",
     "wait-on": "^9.1.0",
     "web-ext": "^10.6.0",
-    "webextension-polyfill": "^0.9.0"
+    "webextension-polyfill": "^0.12.0"
   }
 }

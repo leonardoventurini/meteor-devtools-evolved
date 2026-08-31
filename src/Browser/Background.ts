@@ -1,6 +1,31 @@
 import browser from 'webextension-polyfill'
 
-type Connection = Map<number, any>
+type Connection = Map<number, browser.Runtime.Port>
+
+interface InitializationRequest {
+  name: 'init'
+  tabId: number
+}
+
+const isRecord = (value: unknown): value is Record<string, unknown> =>
+  typeof value === 'object' && value !== null
+
+const isInitializationRequest = (
+  value: unknown,
+): value is InitializationRequest =>
+  isRecord(value) && value.name === 'init' && typeof value.tabId === 'number'
+
+const isMessage = (value: unknown): value is Message<unknown> =>
+  isRecord(value) && typeof value.eventType === 'string' && 'data' in value
+
+const isConsoleMessage = (
+  value: unknown,
+): value is Message<{ type: ConsoleType; message: string }> =>
+  isMessage(value) &&
+  value.eventType === 'console' &&
+  isRecord(value.data) &&
+  typeof value.data.type === 'string' &&
+  typeof value.data.message === 'string'
 
 declare global {
   interface Window {
@@ -8,7 +33,7 @@ declare global {
   }
 }
 
-const Cache = new Map<number, string[]>()
+const Cache = new Map<number, unknown[]>()
 
 const connections: Connection = new Map()
 
@@ -21,7 +46,7 @@ const panelListener = () => {
     port.onMessage.addListener(request => {
       console.debug('port.onMessage', request)
 
-      if (request.name === 'init') {
+      if (isInitializationRequest(request)) {
         connections.set(request.tabId, port)
 
         // Pick things from cache and send it to the panel.
@@ -76,7 +101,6 @@ const handleConsole = (
 }
 
 const contentListener = () => {
-  // @ts-ignore
   browser.runtime.onMessage.addListener((request, sender, sendResponse) => {
     setTimeout(() => {
       const tabId = sender?.tab?.id
@@ -84,13 +108,13 @@ const contentListener = () => {
       if (!tabId) return
 
       // The message event has to from the panel to the content and then through here.
-      if (request?.eventType === 'cache:clear') {
+      if (isMessage(request) && request.eventType === 'cache:clear') {
         console.debug('clear cache')
         Cache.delete(tabId)
         return
       }
 
-      if (request?.eventType === 'console') {
+      if (isConsoleMessage(request)) {
         handleConsole(tabId, request)
         return
       }
@@ -112,7 +136,8 @@ const contentListener = () => {
       }
     }, 0)
 
-    sendResponse()
+    sendResponse(null)
+    return true
   })
 }
 
