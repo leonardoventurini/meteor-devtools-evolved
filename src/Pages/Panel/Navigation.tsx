@@ -6,12 +6,10 @@ import { Bridge, syncSubscriptions } from '@/Bridge'
 import { IMenuItem, ITab, TabBar } from '@/Components/TabBar'
 import { Tag } from '@blueprintjs/core'
 import { isNumber } from 'lodash'
-import { useAnalytics } from '@/Utils/Hooks/useAnalytics'
 import { openTab } from '@/Utils/BackgroundEvents'
 
 export const Navigation: FunctionComponent = observer(() => {
   const panelStore = usePanelStore()
-  const analytics = useAnalytics()
 
   useEffect(() => {
     setTimeout(() => {
@@ -67,7 +65,6 @@ export const Navigation: FunctionComponent = observer(() => {
       shine: true,
       handler: () => {
         panelStore.setHelpDrawerVisible(true)
-        analytics?.event('navigation', 'click', { label: 'partners' })
       },
     },
     {
@@ -97,8 +94,6 @@ export const Navigation: FunctionComponent = observer(() => {
         shine: true,
         handler: () => {
           openTab(`${repositoryData.html_url}/stargazers`)
-
-          analytics?.event('navigation', 'click', { label: 'star' })
         },
       },
       {
@@ -107,7 +102,6 @@ export const Navigation: FunctionComponent = observer(() => {
         content: <strong>Issues</strong>,
         handler: () => {
           openTab(`${repositoryData.html_url}/issues`)
-          analytics?.event('navigation', 'click', { label: 'feedback' })
         },
         shine: true,
       },
@@ -121,7 +115,6 @@ export const Navigation: FunctionComponent = observer(() => {
     title: 'If you find this extension useful, please consider sponsoring',
     handler: () => {
       openTab('https://github.com/sponsors/leonardoventurini')
-      analytics?.event('navigation', 'click', { label: 'sponsor' })
     },
   })
 

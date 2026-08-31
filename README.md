@@ -48,6 +48,12 @@ The DDP inspection is ephemeral, but you can save as many DDP messages you want 
 
 You don't know what data belongs to where? You can rapidly search for anything in your Minimongo data and easily visualize the documents with our blazing fast custom-made Object Treerinator.
 
+### Privacy
+
+The extension does not collect or send analytics. Bookmarks remain in your
+browser's local IndexedDB storage. Network access is limited to the GitHub API
+for repository metadata and links you explicitly open from the extension.
+
 ## Install
 
 - [Google Chrome](https://chrome.google.com/webstore/detail/meteor-devtools-evolved/ibniinmoafhgbifjojidlagmggecmpgf)
@@ -135,7 +141,7 @@ development commands, verification requirements, and project guidelines.
 
 ## Firefox
 
-The Firefox port of the extension was a contribution made by [@nilooy](https://github.com/nilooy). Thank you!
+The Firefox port of the extension was a contribution made by [@nilooy](https://github.com/nilooy). Thank you! Current releases require Firefox 140 or newer on desktop and Firefox 142 or newer on Android.
 
 ## License
 

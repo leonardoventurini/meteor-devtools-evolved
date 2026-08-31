@@ -15,6 +15,9 @@ All notable changes to this project will be documented in this file.
 
 ### Changed
 
+- Modernized Chrome and Firefox manifests, set Firefox 140 desktop and Firefox
+  142 Android as the supported baselines, aligned HTTP(S) injection scope, and
+  synchronized packaged versions with `package.json`.
 - Upgraded the development runtime to Node.js 26 and Yarn 4.
 - Upgraded the extension to React 19, MobX 7, Blueprint 6, Tailwind CSS 4,
   DaisyUI 5, Babel 8, and the current Webpack 5 toolchain.
@@ -29,8 +32,15 @@ All notable changes to this project will be documented in this file.
 - Fixed Node 26 CI startup by preventing setup-node from invoking Yarn before
   Corepack enables the repository's pinned Yarn 4 release.
 
+### Removed
+
+- Removed retired Google Analytics telemetry, its UUID dependency, and its
+  external host permission while preserving all navigation actions.
+
 ### Security
 
+- Reduced Firefox privileges by removing the unnecessary `tabs` permission and
+  declared that the extension collects no data.
 - Updated vulnerable transitive dependencies where patched releases are
   available and added enforced production and active-fixture audits to CI.
 - Patched active-root AJV and Babel runtime advisories while preserving

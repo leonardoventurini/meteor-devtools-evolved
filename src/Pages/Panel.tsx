@@ -1,6 +1,6 @@
 import { PanelStoreProvider, usePanelStore } from '@/Stores/PanelStore'
 import { observer } from 'mobx-react-lite'
-import React, { FunctionComponent, useEffect, useRef } from 'react'
+import React, { FunctionComponent, useRef } from 'react'
 import { Bookmarks } from './Panel/Bookmarks/Bookmarks'
 import { DDP } from './Panel/DDP/DDP'
 import { DrawerJSON } from './Panel/DrawerJSON'
@@ -17,7 +17,6 @@ import {
   STATUS_HEIGHT,
 } from '@/Styles/Constants'
 import { Performance } from '@/Pages/Panel/Performance/Performance'
-import { useAnalytics } from '@/Utils/Hooks/useAnalytics'
 import { HelpDrawer } from './Panel/HelpDrawer'
 
 Bridge.init()
@@ -55,12 +54,6 @@ const Layout = styled.div`
 const PanelObserverComponent: FunctionComponent = observer(() => {
   const store = usePanelStore()
   const panelRef = useRef<HTMLDivElement>(null)
-  const analytics = useAnalytics()
-
-  useEffect(() => {
-    analytics?.pageView().catch(console.error)
-  }, [analytics])
-
   return (
     <Layout>
       <DrawerJSON

@@ -7101,7 +7101,6 @@ __metadata:
     ts-loader: "npm:^9.6.2"
     tslib: "npm:^2.8.1"
     typescript: "npm:5.9.3"
-    uuid: "npm:^14.0.2"
     vitest: "npm:^4.1.11"
     wait-on: "npm:^9.1.0"
     web-ext: "npm:^10.6.0"
@@ -9842,15 +9841,6 @@ __metadata:
   version: 1.0.2
   resolution: "util-deprecate@npm:1.0.2"
   checksum: 10c0/41a5bdd214df2f6c3ecf8622745e4a366c4adced864bc3c833739791aeeeb1838119af7daed4ba36428114b5c67dcda034a79c882e97e43c03e66a4dd7389942
-  languageName: node
-  linkType: hard
-
-"uuid@npm:^14.0.2":
-  version: 14.0.2
-  resolution: "uuid@npm:14.0.2"
-  bin:
-    uuid: dist-node/bin/uuid
-  checksum: 10c0/88906237004db370b013129c8372a2149f6fa1aad7a5f78fa65ddf2ba0a8663097022300d81fa01f551efee9d6bbe8c7ab140dc6d49f1b03d289f855096990c9
   languageName: node
   linkType: hard
 

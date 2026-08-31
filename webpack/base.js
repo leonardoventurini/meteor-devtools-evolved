@@ -7,6 +7,7 @@ const src = path.join(__dirname, '../src/')
 
 const { CleanWebpackPlugin } = require('clean-webpack-plugin')
 const CopyPlugin = require('copy-webpack-plugin')
+const { transformManifest } = require('./manifest')
 
 const aliases = getTypeScriptAliases()
 
@@ -60,6 +61,7 @@ module.exports = (browser = 'chrome', override) => {
             {
               from: `${extDir}/manifest-v${manifestVersion[browser]}.json`,
               to: `${extDir}/${browser}/manifest.json`,
+              transform: transformManifest,
             },
           ],
         }),
