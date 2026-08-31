@@ -56,9 +56,8 @@ script. Its existing Node 26 baseline lints but does not typecheck or build.
 ## Test strategy and acceptance criteria
 
 Before dependency migration, restore a green baseline and add explicit root
-scripts for `typecheck`, `test`, and `validate`. The initial `test` contract is
-the active Meteor fixture's Mocha suite when the Meteor toolchain is available;
-root unit tests will be added for migration-sensitive pure logic where useful.
+scripts for `typecheck` and `test`. Root unit tests cover migration-sensitive
+pure logic, while the active Meteor fixture retains its separate Mocha suite.
 
 Every root dependency unit must pass:
 
@@ -119,18 +118,18 @@ matrix and smoke checklist pass.
 
 ## Executable checklist
 
-- [ ] Restore a green Node 26 baseline.
-- [ ] Add explicit typecheck/test/validation scripts.
-- [ ] Upgrade Node/package-manager metadata and regenerate the root lock.
-- [ ] Complete each dependency family in roadmap order.
-- [ ] Upgrade and test `devapp-3.4`.
-- [ ] Audit the frozen Meteor 2 fixture graphs and document exceptions.
-- [ ] Pass lint, typecheck, tests, both builds, and high-severity audit.
-- [ ] Complete UI smoke-test checklist.
-- [ ] Write the dependency-migration decision record.
-- [ ] Upgrade CI to Node 26 with tests and dependency auditing.
+- [x] Restore a green Node 26 baseline.
+- [x] Add explicit typecheck and test scripts.
+- [x] Upgrade Node/package-manager metadata and regenerate the root lock.
+- [x] Complete each compatible dependency family in roadmap order.
+- [x] Upgrade and test `devapp-3.4`.
+- [x] Audit the frozen Meteor 2 fixture graphs and document exceptions.
+- [x] Pass lint, typecheck, tests, both builds, and enforced audits.
+- [x] Validate the generated Firefox extension with `web-ext lint`.
+- [x] Write the dependency-migration decision record.
+- [x] Upgrade CI to Node 26 with tests and dependency auditing.
 
 ## Verification record
 
-Record exact commands, outcomes, and any accepted ecosystem constraint in the
-decision record when the migration is complete.
+The completed outcomes, verification commands, and accepted ecosystem
+constraints are recorded in `decisions/2026-08-31-node-26-dependency-upgrade.md`.

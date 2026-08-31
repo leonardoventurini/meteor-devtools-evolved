@@ -1,12 +1,20 @@
 ## Setting the Environment Up
 
-1. Install dependencies for `devapp-3.4` & `root` with `yarn`.
+1. Install Node.js `26.5.1`, then install dependencies for `devapp-3.4` and
+   the root project with Yarn.
 
 ```shell
 yarn setup
 ```
 
-> As of now we use Node.js `v14.19.3`.
+The repository pins Yarn through the `packageManager` field. Because Node 26
+does not bundle Corepack, install and enable it first when your Node
+distribution does not provide it:
+
+```shell
+npm install --global corepack@0.36.0
+corepack enable
+```
 
 2. Run the extension locally
 
@@ -45,14 +53,32 @@ setup
 - Chrome
 
 ```shell
-npm run build:chrome
+yarn build:chrome
 ```
 
 - Firefox
 
 ```shell
-npm run build:firefox
+yarn build:firefox
 ```
+
+## Verification
+
+Run the same primary checks enforced by CI:
+
+```shell
+yarn install --immutable
+yarn lint
+yarn typecheck
+yarn test
+yarn build:chrome
+yarn build:firefox
+yarn audit
+yarn audit:devapp
+```
+
+`yarn audit:all` additionally reports development-only advisories without
+blocking CI when no patched upstream release exists.
 
 ## Guidelines & Objectives
 
