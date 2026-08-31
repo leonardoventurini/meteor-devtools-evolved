@@ -1,12 +1,34 @@
 import { DEFAULT_OFFSET } from '@/Constants'
 import { calculatePagination } from '@/Utils/Pagination'
 import debounce from 'lodash.debounce'
-import { action, computed, observable, runInAction } from 'mobx'
+import {
+  action,
+  computed,
+  makeObservable,
+  observable,
+  observableShallow,
+  runInAction,
+} from 'mobx'
 
 type BufferCallback<T> = ((buffer: T[]) => void) | null
 type FilterFunction<T> = ((collection: T[], search: string) => T[]) | null
 
 export abstract class Searchable<T> {
+  constructor() {
+    makeObservable(this, {
+      collection: observableShallow,
+      currentPage: observable,
+      search: observable,
+      isLoading: observable,
+      setCollection: action,
+      _submitLogs: action,
+      setCurrentPage: action,
+      filtered: computed,
+      pagination: computed,
+      paginated: computed,
+    })
+  }
+
   bufferCallback: BufferCallback<T> = null
   filterFunction: FilterFunction<T> = null
 
@@ -15,13 +37,12 @@ export abstract class Searchable<T> {
 
   buffer: T[] = []
 
-  @observable.shallow collection: T[] = []
+  collection: T[] = []
 
-  @observable currentPage: number = 1
-  @observable search: string = ''
-  @observable isLoading: boolean = false
+  currentPage: number = 1
+  search: string = ''
+  isLoading: boolean = false
 
-  @action
   setCollection(collection: T[]) {
     this.collection = collection
   }
@@ -52,7 +73,6 @@ export abstract class Searchable<T> {
     },
   )
 
-  @action
   _submitLogs() {
     if (this.bufferCallback) {
       this.bufferCallback(this.buffer)
@@ -88,19 +108,16 @@ export abstract class Searchable<T> {
     )
   }
 
-  @action
   setCurrentPage(currentPage: number) {
     this.currentPage = currentPage
   }
 
-  @computed
   get filtered() {
     return this.filterFunction
       ? this.filterFunction(this.collection, this.search)
       : this.collection
   }
 
-  @computed
   get pagination() {
     return calculatePagination(
       DEFAULT_OFFSET,
@@ -111,7 +128,6 @@ export abstract class Searchable<T> {
     )
   }
 
-  @computed
   get paginated() {
     return this.filtered.slice(this.pagination.start, this.pagination.end)
   }

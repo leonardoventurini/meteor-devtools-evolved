@@ -1,15 +1,26 @@
 import { PanelDatabase } from '@/Database/PanelDatabase'
-import { action, computed, makeObservable, observable, runInAction } from 'mobx'
+import {
+  action,
+  computed,
+  makeObservable,
+  observableShallow,
+  runInAction,
+} from 'mobx'
 import { Searchable } from '../Common/Searchable'
 import { PanelStore } from '@/Stores/PanelStore'
 
 export class BookmarkStore extends Searchable<Bookmark> {
   constructor() {
     super()
-    makeObservable(this)
+    makeObservable(this, {
+      bookmarkIds: observableShallow,
+      remove: action,
+      add: action,
+      filterRegularExpression: computed,
+    })
   }
 
-  @observable.shallow bookmarkIds: (string | undefined)[] = []
+  bookmarkIds: (string | undefined)[] = []
 
   async sync() {
     const collection = await PanelDatabase.getAll()
@@ -22,7 +33,6 @@ export class BookmarkStore extends Searchable<Bookmark> {
     })
   }
 
-  @action
   async remove(log: DDPLog) {
     if (log.timestamp) {
       await PanelDatabase.remove(log.id)
@@ -30,7 +40,6 @@ export class BookmarkStore extends Searchable<Bookmark> {
     }
   }
 
-  @action
   async add(log: DDPLog) {
     const key = await PanelDatabase.add(log)
     const bookmark = await PanelDatabase.get(key)
@@ -54,7 +63,6 @@ export class BookmarkStore extends Searchable<Bookmark> {
           bookmark.log.content.toLowerCase().includes(search.toLowerCase()),
       )
 
-  @computed
   get filterRegularExpression() {
     return new RegExp(
       `"msg":"(${PanelStore.settingStore.activeFilterBlacklist.join('|')})"`,

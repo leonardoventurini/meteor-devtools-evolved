@@ -6,13 +6,20 @@ import { generatePreview } from '@/Utils/MessageFormatter'
 import { clearCache } from '@/Bridge'
 
 export class DDPStore extends Searchable<DDPLog> {
-  @observable inboundBytes = 0
-  @observable outboundBytes = 0
-  @observable newLogs: string[] = []
+  inboundBytes = 0
+  outboundBytes = 0
+  newLogs: string[] = []
 
   constructor() {
     super()
-    makeObservable(this)
+    makeObservable(this, {
+      inboundBytes: observable,
+      outboundBytes: observable,
+      newLogs: observable,
+      clearLogs: action,
+      filterRegularExpression: computed,
+      subscriptionLogs: computed,
+    })
   }
 
   bufferCallback = (buffer: DDPLog[]) => {
@@ -56,7 +63,6 @@ export class DDPStore extends Searchable<DDPLog> {
           ),
       )
 
-  @action
   clearLogs() {
     this.collection = []
     this.inboundBytes = 0
@@ -65,14 +71,12 @@ export class DDPStore extends Searchable<DDPLog> {
     clearCache()
   }
 
-  @computed
   get filterRegularExpression() {
     return new RegExp(
       `"msg":"(${PanelStore.settingStore.activeFilterBlacklist.join('|')})"`,
     )
   }
 
-  @computed
   get subscriptionLogs() {
     return this.collection.filter(
       log =>

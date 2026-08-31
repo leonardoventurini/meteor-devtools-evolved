@@ -1,4 +1,10 @@
-import { action, makeObservable, observable, toJS } from 'mobx'
+import {
+  action,
+  makeObservable,
+  observable,
+  observableShallow,
+  toJS,
+} from 'mobx'
 import React, {
   createContext,
   FunctionComponent,
@@ -14,16 +20,16 @@ import { SubscriptionStore } from '@/Stores/Panel/SubscriptionStore'
 import { PerformanceStore } from './Panel/PerformanceStore'
 
 export class PanelStoreConstructor {
-  @observable selectedTabId: string = PanelPage.DDP
+  selectedTabId: string = PanelPage.DDP
 
-  @observable activeObjectTitle: string | null = null
-  @observable activeObject: ViewableObject = null
-  @observable.shallow activeStackTrace: StackTrace[] | null = null
+  activeObjectTitle: string | null = null
+  activeObject: ViewableObject = null
+  activeStackTrace: StackTrace[] | null = null
 
-  @observable isHelpDrawerVisible = false
-  @observable subscriptions: Record<string, IMeteorSubscription> = {}
+  isHelpDrawerVisible = false
+  subscriptions: Record<string, IMeteorSubscription> = {}
 
-  @observable gitCommitHash?: string | null = null
+  gitCommitHash?: string | null = null
 
   ddpStore = new DDPStore()
   bookmarkStore = new BookmarkStore()
@@ -33,45 +39,53 @@ export class PanelStoreConstructor {
   performanceStore = new PerformanceStore()
 
   constructor() {
-    makeObservable(this)
+    makeObservable(this, {
+      selectedTabId: observable,
+      activeObjectTitle: observable,
+      activeObject: observable,
+      activeStackTrace: observableShallow,
+      isHelpDrawerVisible: observable,
+      subscriptions: observable,
+      gitCommitHash: observable,
+      syncSubscriptions: action,
+      setActiveObject: action,
+      setActiveStackTrace: action,
+      setSelectedTabId: action,
+      setHelpDrawerVisible: action,
+      getSubscriptionById: action,
+      setGitCommitHash: action,
+    })
 
     this.bookmarkStore.sync().catch(console.error)
   }
 
-  @action
   syncSubscriptions(subscriptions: Record<MeteorID, IMeteorSubscription>) {
     this.subscriptionStore.setCollection(Object.values(subscriptions))
   }
 
-  @action
   setActiveObject(viewableObject: ViewableObject, title: string | null = null) {
     this.activeObject = viewableObject
     this.activeObjectTitle = title
   }
 
-  @action
   setActiveStackTrace(trace: StackTrace[] | null) {
     this.activeStackTrace = trace
   }
 
-  @action
   setSelectedTabId(selectedTabId: string) {
     this.selectedTabId = selectedTabId
   }
 
-  @action
   setHelpDrawerVisible(isHelpDrawerVisible: boolean) {
     this.isHelpDrawerVisible = isHelpDrawerVisible
   }
 
-  @action
   getSubscriptionById(id: string) {
     const subs = toJS(this.subscriptions)
 
     return id in subs ? subs[id] : null
   }
 
-  @action
   setGitCommitHash(hash: string) {
     this.gitCommitHash = hash
   }

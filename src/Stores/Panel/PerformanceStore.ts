@@ -1,4 +1,4 @@
-import { action, makeObservable, observable } from 'mobx'
+import { action, makeObservable, observableShallow } from 'mobx'
 import sortBy from 'lodash.sortby'
 import debounce from 'lodash.debounce'
 
@@ -15,12 +15,14 @@ type AccCallData = {
 
 export class PerformanceStore<T> {
   constructor() {
-    makeObservable(this)
+    makeObservable(this, {
+      renderData: observableShallow,
+      clear: action,
+    })
   }
 
   callMap = new Map<string, AccCallData>()
 
-  @observable.shallow
   renderData: AccCallData[] = []
 
   updateRenderData = debounce(
@@ -72,7 +74,6 @@ export class PerformanceStore<T> {
     this.updateRenderData()
   }
 
-  @action
   clear() {
     this.callMap.clear()
     this.renderData = []

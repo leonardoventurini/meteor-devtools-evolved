@@ -5,7 +5,9 @@ import { PanelStore } from '@/Stores/PanelStore'
 export class SubscriptionStore extends Searchable<IMeteorSubscription> {
   constructor() {
     super()
-    makeObservable(this)
+    makeObservable(this, {
+      subsWithMeta: computed,
+    })
   }
 
   filterFunction = (collection: IMeteorSubscription[], search: string) =>
@@ -15,7 +17,6 @@ export class SubscriptionStore extends Searchable<IMeteorSubscription> {
         JSON.stringify(document).toLowerCase().includes(search.toLowerCase()),
     )
 
-  @computed
   get subsWithMeta() {
     return this.filtered.map(sub => ({
       ...sub,

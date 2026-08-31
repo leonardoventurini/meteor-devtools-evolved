@@ -9,18 +9,34 @@ import { mapValues } from '@/Utils/Objects'
 export class MinimongoStore {
   activeCollectionDocuments = new CollectionStore()
 
-  @observable collections: MinimongoCollections = {}
-  @observable collectionMetadata: ICollectionMetadata = {}
-  @observable activeCollection: string | null = null
-  @observable search: string = ''
-  @observable collectionColorMap: Record<string, string> = {}
-  @observable isNavigatorVisible = false
+  collections: MinimongoCollections = {}
+  collectionMetadata: ICollectionMetadata = {}
+  activeCollection: string | null = null
+  search: string = ''
+  collectionColorMap: Record<string, string> = {}
+  isNavigatorVisible = false
 
   constructor() {
-    makeObservable(this)
+    makeObservable(this, {
+      collections: observable,
+      collectionMetadata: observable,
+      activeCollection: observable,
+      search: observable,
+      collectionColorMap: observable,
+      isNavigatorVisible: observable,
+      totalDocuments: computed,
+      collectionNames: computed,
+      filteredCollectionNames: computed,
+      totalSize: computed,
+      getMetadata: action,
+      computeCollectionSizes: action,
+      syncDocuments: action,
+      setCollections: action,
+      setActiveCollection: action,
+      setNavigatorVisible: action,
+    })
   }
 
-  @computed
   get totalDocuments() {
     return Object.values(this.collections).reduce(
       (acc, cur) => acc + cur.length,
@@ -28,12 +44,10 @@ export class MinimongoStore {
     )
   }
 
-  @computed
   get collectionNames() {
     return Object.keys(this.collections).sort()
   }
 
-  @computed
   get filteredCollectionNames() {
     return this.collectionNames.filter(
       name =>
@@ -41,7 +55,6 @@ export class MinimongoStore {
     )
   }
 
-  @computed
   get totalSize() {
     return Object.entries(this.collectionMetadata).reduce(
       (sum, [collectionName, metadata]) => sum + metadata.collectionSize,
@@ -49,12 +62,10 @@ export class MinimongoStore {
     )
   }
 
-  @action
   getMetadata(collectionName: string) {
     return this.collectionMetadata?.[collectionName]
   }
 
-  @action
   computeCollectionSizes() {
     for (const collectionName of Object.keys(this.collections)) {
       const collectionSize = this.collections[collectionName].reduce(
@@ -69,7 +80,6 @@ export class MinimongoStore {
     }
   }
 
-  @action
   syncDocuments() {
     if (this.activeCollection) {
       return this.activeCollectionDocuments.setCollection(
@@ -86,7 +96,6 @@ export class MinimongoStore {
     )
   }
 
-  @action
   setCollections(collections: RawCollections) {
     this.collections = mapValues(collections, (collection, collectionName) => {
       return collection.map(document =>
@@ -99,7 +108,6 @@ export class MinimongoStore {
     this.syncDocuments()
   }
 
-  @action
   setActiveCollection(collection: string | null) {
     this.activeCollection = collection
 
@@ -111,7 +119,6 @@ export class MinimongoStore {
     250,
   )
 
-  @action
   setNavigatorVisible(isVisible: boolean) {
     this.isNavigatorVisible = isVisible
   }

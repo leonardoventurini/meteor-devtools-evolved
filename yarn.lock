@@ -7637,8 +7637,8 @@ __metadata:
     lodash.sortby: "npm:^4.7.0"
     lodash.throttle: "npm:^4.1.1"
     luxon: "npm:^3.7.2"
-    mobx: "npm:6"
-    mobx-react-lite: "npm:4"
+    mobx: "npm:^7.0.3"
+    mobx-react-lite: "npm:^5.0.3"
     normalize.css: "npm:8.0.1"
     npm-run-all: "npm:^4.1.5"
     polished: "npm:4.1.4"
@@ -7872,27 +7872,20 @@ __metadata:
   languageName: node
   linkType: hard
 
-"mobx-react-lite@npm:4":
-  version: 4.1.1
-  resolution: "mobx-react-lite@npm:4.1.1"
-  dependencies:
-    use-sync-external-store: "npm:^1.4.0"
+"mobx-react-lite@npm:^5.0.3":
+  version: 5.0.3
+  resolution: "mobx-react-lite@npm:5.0.3"
   peerDependencies:
-    mobx: ^6.9.0
-    react: ^16.8.0 || ^17 || ^18 || ^19
-  peerDependenciesMeta:
-    react-dom:
-      optional: true
-    react-native:
-      optional: true
-  checksum: 10c0/296b29487dc9fae7b7dd8eb39454d980fcfe59bf4c160ac911faa55469f9ebe2953661efca588f6d7929a2b071f234c7c4d717beaf5819d548be9b58c39874f1
+    mobx: ^7.0.0
+    react: ^18 || ^19
+  checksum: 10c0/e648585b93d5a2ee94e13ebefab3267f1be2c1d60fcca1bbc1fac33e4bf73881e846fbe83d0a33a5cce4adb6726a5f6ac196f035cd0d4d2ce103759b7c356dd1
   languageName: node
   linkType: hard
 
-"mobx@npm:6":
-  version: 6.16.1
-  resolution: "mobx@npm:6.16.1"
-  checksum: 10c0/8450dab51fa133c9dde9f6c9b42cdc9f16c70cf2b989acc25b2cf2c66948def053ad3f1fdfc3bc256ece394e607e9c15dbfe88792ffa81a041e2ec92ae268cdb
+"mobx@npm:^7.0.3":
+  version: 7.0.3
+  resolution: "mobx@npm:7.0.3"
+  checksum: 10c0/c6b560bbd7d2d9ee89ad833ba3b010375ecda0f60da12a08554ac817276e33bc7a6b6f0990e9690a50918f461a210e7538db7e52494c09c1211c26abde7f86e0
   languageName: node
   linkType: hard
 
@@ -11318,15 +11311,6 @@ __metadata:
   dependencies:
     prepend-http: "npm:^2.0.0"
   checksum: 10c0/16f918634d41a4fab9e03c5f9702968c9930f7c29aa1a8c19a6dc01f97d02d9b700ab9f47f8da0b9ace6e0c0e99c27848994de1465b494bced6940c653481e55
-  languageName: node
-  linkType: hard
-
-"use-sync-external-store@npm:^1.4.0":
-  version: 1.6.0
-  resolution: "use-sync-external-store@npm:1.6.0"
-  peerDependencies:
-    react: ^16.8.0 || ^17.0.0 || ^18.0.0 || ^19.0.0
-  checksum: 10c0/35e1179f872a53227bdf8a827f7911da4c37c0f4091c29b76b1e32473d1670ebe7bcd880b808b7549ba9a5605c233350f800ffab963ee4a4ee346ee983b6019b
   languageName: node
   linkType: hard
 

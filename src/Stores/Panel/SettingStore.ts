@@ -13,11 +13,11 @@ import { compact, flatten, omit } from '@/Utils/Objects'
 export class SettingStore implements ISettings {
   hydrated = false
 
-  @observable repositoryData: IGitHubRepository | null = null
+  repositoryData: IGitHubRepository | null = null
 
-  @observable activeFilterBlacklist: string[] = []
+  activeFilterBlacklist: string[] = []
 
-  @observable activeFilters: FilterTypeMap<boolean> = {
+  activeFilters: FilterTypeMap<boolean> = {
     heartbeat: true,
     subscription: true,
     collection: true,
@@ -26,7 +26,14 @@ export class SettingStore implements ISettings {
   }
 
   constructor() {
-    makeObservable(this)
+    makeObservable(this, {
+      repositoryData: observable,
+      activeFilterBlacklist: observable,
+      activeFilters: observable,
+      setRepositoryData: action,
+      updateRepositoryData: action,
+      setFilter: action,
+    })
 
     PanelDatabase.getSettings().then(settings => {
       runInAction(() => {
@@ -55,12 +62,10 @@ export class SettingStore implements ISettings {
     )
   }
 
-  @action
   setRepositoryData(repositoryData: IGitHubRepository) {
     this.repositoryData = repositoryData
   }
 
-  @action
   updateRepositoryData() {
     fetch(
       'https://api.github.com/repos/leonardoventurini/meteor-devtools-evolved',
@@ -82,7 +87,6 @@ export class SettingStore implements ISettings {
       .catch(console.error)
   }
 
-  @action
   setFilter(type: FilterType, isEnabled: boolean) {
     this.activeFilters[type] = isEnabled
 
