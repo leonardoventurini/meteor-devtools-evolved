@@ -84,4 +84,4 @@ navigation, and outbound links.
 - [x] Remove Webpack, Babel, loaders, plugins, and obsolete source manifests.
 - [x] Update README, contributing guide, changelog, and decision record.
 - [x] Run the complete verification and audit suite.
-- [ ] Commit each verified migration unit semantically without bypassing hooks.
+- [x] Commit each verified migration unit semantically without bypassing hooks.
