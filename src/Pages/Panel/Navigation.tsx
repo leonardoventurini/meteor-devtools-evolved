@@ -108,16 +108,6 @@ export const Navigation: FunctionComponent = observer(() => {
     )
   }
 
-  menu.unshift({
-    key: 'sponsor',
-    content: <strong>❤️ Sponsor</strong>,
-    shine: true,
-    title: 'If you find this extension useful, please consider sponsoring',
-    handler: () => {
-      openTab('https://github.com/sponsors/leonardoventurini')
-    },
-  })
-
   return (
     <div className='mde-navbar'>
       <TabBar

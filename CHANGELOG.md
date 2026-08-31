@@ -42,6 +42,8 @@ All notable changes to this project will be documented in this file.
 
 - Removed retired Google Analytics telemetry, its UUID dependency, and its
   external host permission while preserving all navigation actions.
+- Retired the Sponsor toolbar action and its GitHub Sponsors link, and removed
+  the decorative emoji from the Chrome DevTools tab title.
 - Removed the redundant Meteor 2.0, 2.2, and 2.2.4 compatibility fixtures in
   favor of a single maintained Meteor 2.16 baseline.
 
