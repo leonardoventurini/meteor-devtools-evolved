@@ -31,9 +31,9 @@
   "author": "Leonardo Venturini",
   "license": "MIT",
   "dependencies": {
-    "@babel/core": "^7.9.0",
-    "@babel/preset-env": "^7.9.0",
-    "@babel/preset-react": "^7.9.1",
+    "@babel/core": "^8.0.1",
+    "@babel/preset-env": "^8.0.2",
+    "@babel/preset-react": "^8.0.1",
     "@blueprintjs/core": "^6.18.0",
     "@blueprintjs/icons": "^6.13.0",
     "@heroicons/react": "^2.2.0",
@@ -82,7 +82,6 @@
     "yarn": "4.12.0"
   },
   "resolutions": {
-    "@babel/traverse": "^7.23.2",
     "axios": "^1.6.0",
     "braces": "^3.0.3",
     "cross-spawn": "^7.0.5",
