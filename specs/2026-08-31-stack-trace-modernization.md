@@ -75,4 +75,4 @@ stack traces are ephemeral.
 - [x] Add cleaned/raw drawer modes and DevTools source navigation.
 - [x] Update the changelog and architecture decision record.
 - [x] Run the complete verification suite.
-- [ ] Commit the verified unit semantically without bypassing hooks.
+- [x] Commit the verified unit semantically without bypassing hooks.
