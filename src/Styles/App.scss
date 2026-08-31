@@ -38,8 +38,52 @@ pre {
 }
 
 .mde-stack-trace {
-  pre {
-    margin-bottom: 4px;
+  .mde-stack-trace-toolbar {
+    display: flex;
+    justify-content: flex-end;
+    margin-bottom: 12px;
+  }
+
+  .mde-stack-frame {
+    border-left: 3px solid transparent;
+    padding: 8px 12px;
+
+    & + .mde-stack-frame {
+      border-top: 1px solid rgb(17 20 24 / 15%);
+    }
+  }
+
+  .mde-stack-frame-application {
+    border-left-color: #238551;
+    background: rgb(35 133 81 / 8%);
+  }
+
+  .mde-stack-frame-internal {
+    opacity: 0.68;
+  }
+
+  .mde-stack-frame-heading {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+  }
+
+  .mde-stack-source {
+    display: block;
+    margin-top: 4px;
+    padding: 0;
+    border: 0;
+    color: #106ba3;
+    background: transparent;
+    cursor: pointer;
+    font-family: monospace;
+    text-align: left;
+  }
+
+  .mde-stack-frame-raw {
+    margin: 6px 0 0;
+    color: #5f6b7c;
+    font-size: 12px;
   }
 }
 

@@ -4,8 +4,9 @@ import {
   updateCollections,
 } from '@/Injectors/MinimongoInjector'
 import { MeteorAdapter } from '@/Injectors/MeteorAdapter'
+import { parseStackTrace } from '@/Utils/StackTrace'
 
-const PARENTHESIS_REGEX = /(\S*) \(([^)]+)\)/
+const STACK_TRACE_LIMIT = 50
 
 export const sendMessage = (eventType: EventType, data: object) => {
   window.postMessage(
@@ -25,9 +26,6 @@ const warning = (message: string) => {
   } as { type: ConsoleType; message: string })
 }
 
-/**
- * @todo Do nothing here, and run any stack trace processing logic inside the extension, so if any errors happen it happens in the sandbox console.
- */
 const getStackTrace = (stackTraceLimit: number) => {
   const originalStackTraceLimit = Error.stackTraceLimit
 
@@ -37,30 +35,14 @@ const getStackTrace = (stackTraceLimit: number) => {
 
     if (!error.stack) return []
 
-    return error?.stack
-      ?.split('\n')
-      .map(trace => {
-        const matches = PARENTHESIS_REGEX.exec(trace)
-
-        if (!matches) return null
-
-        return {
-          callee: matches?.[1],
-          url: matches?.[2],
-        }
-      })
-      .filter(Boolean)
+    return parseStackTrace(error.stack)
   } finally {
     Error.stackTraceLimit = originalStackTraceLimit
   }
 }
 
 export const sendLogMessage = (message: DDPLog) => {
-  const stackTrace = getStackTrace(15)
-
-  if (stackTrace && stackTrace.length > 0) {
-    stackTrace.splice(0, 2)
-  }
+  const stackTrace = getStackTrace(STACK_TRACE_LIMIT)
 
   sendMessage('ddp-event', {
     ...message,

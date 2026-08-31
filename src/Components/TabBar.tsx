@@ -5,13 +5,12 @@ import React, {
   useState,
 } from 'react'
 import styled from 'styled-components'
-import { IconName, Menu, MenuItem, Position } from '@blueprintjs/core'
+import { IconName, Menu, MenuItem, PopoverNext } from '@blueprintjs/core'
 import classnames from 'classnames'
 import { Button } from './Button'
 import { lighten } from 'polished'
 import { NAVBAR_HEIGHT } from '@/Styles/Constants'
 import { useBreakpoints } from '@/Utils/Hooks/useBreakpoints'
-import { Popover } from '@blueprintjs/core'
 
 const backgroundColor = '#202b33'
 
@@ -83,7 +82,7 @@ export const TabBar: FunctionComponent<Props> = ({ tabs, menu, onChange }) => {
   const { navigationCollapse } = useBreakpoints()
 
   const rightMenu = navigationCollapse ? (
-    <Popover
+    <PopoverNext
       content={
         <Menu>
           {menu?.map(item => (
@@ -96,10 +95,10 @@ export const TabBar: FunctionComponent<Props> = ({ tabs, menu, onChange }) => {
           ))}
         </Menu>
       }
-      position={Position.BOTTOM_LEFT}
+      placement='bottom-start'
     >
       <Button icon='menu' style={{ height: 28 }} />
-    </Popover>
+    </PopoverNext>
   ) : (
     menu?.map(item => (
       <Button

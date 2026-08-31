@@ -42,8 +42,14 @@ interface IMessagePayload<T> extends Message<T> {
 }
 
 declare interface StackTrace {
-  url: string
+  raw: string
   callee: string
+  url?: string
+  line?: number
+  column?: number
+  isInternal?: boolean
+  isApplication?: boolean
+  occurrences?: number
 }
 
 interface DDPError {

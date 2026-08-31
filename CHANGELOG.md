@@ -24,6 +24,10 @@ All notable changes to this project will be documented in this file.
 - Replaced the custom Webpack build, manifest copying, and browser launch
   orchestration with typed WXT entrypoints, generated manifests, artifact
   validation, and store packaging.
+- Modernized stack traces with cleaned and raw views, application-frame
+  highlighting, duplicate grouping, source locations, and DevTools navigation.
+- Migrated legacy Blueprint popovers to the React 19-compatible positioning
+  implementation.
 - Upgraded the active fixture to Meteor 3.5.1 with React 19 and a pinned,
   Meteor-compatible Rspack 1 development stack; upgraded the retained legacy
   fixture to Meteor 2.16.

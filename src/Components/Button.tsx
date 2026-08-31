@@ -8,7 +8,7 @@ import { Icon, IconName, Intent } from '@blueprintjs/core'
 import { centerItems, truncate } from '@/Styles/Mixins'
 import classnames from 'classnames'
 import { isNumber, isString } from 'lodash'
-import { Popover } from '@blueprintjs/core'
+import { PopoverNext } from '@blueprintjs/core'
 
 const ButtonWrapper = styled.button`
   ${centerItems};
@@ -142,7 +142,7 @@ export const Button: FunctionComponent<Props> = ({
 
   if (title) {
     return (
-      <Popover
+      <PopoverNext
         content={<div className='p-4'>{title}</div>}
         interactionKind='hover'
         className='inline-flex items-center'
@@ -163,7 +163,7 @@ export const Button: FunctionComponent<Props> = ({
             )}
           </div>
         </ButtonWrapper>
-      </Popover>
+      </PopoverNext>
     )
   }
 

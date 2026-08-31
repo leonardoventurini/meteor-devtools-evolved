@@ -37,7 +37,7 @@ export const DDPStatus: FunctionComponent = observer(() => {
               activeFilters={activeFilters}
             />
           }
-          position={Position.RIGHT_TOP}
+          placement='right-start'
         >
           Filter
         </PopoverButton>

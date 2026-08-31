@@ -4,7 +4,6 @@ import React, { FormEvent, FunctionComponent, useCallback } from 'react'
 import { usePanelStore } from '@/Stores/PanelStore'
 import { StatusBar } from '@/Components/StatusBar'
 import { DDPFilterMenu } from '@/Pages/Panel/DDP/DDPFilterMenu'
-import { Position } from '@blueprintjs/core/lib/esm/common/position'
 import { TextInput } from '@/Components/TextInput'
 import { PopoverButton } from '@/Components/PopoverButton'
 import { Field } from '@/Components/Field'
@@ -34,7 +33,7 @@ export const BookmarksStatus: FunctionComponent = observer(() => {
               activeFilters={activeFilters}
             />
           }
-          position={Position.RIGHT_TOP}
+          placement='right-start'
         >
           Filter
         </PopoverButton>
