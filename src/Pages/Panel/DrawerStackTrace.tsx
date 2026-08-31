@@ -69,7 +69,7 @@ export const DrawerStackTrace: FunctionComponent<Props> = ({
       <div className={Classes.DRAWER_BODY}>
         <div className={classnames(Classes.DIALOG_BODY, 'mde-stack-trace')}>
           <div className='mde-stack-trace-toolbar'>
-            <ButtonGroup minimal>
+            <ButtonGroup className='gap-2' minimal>
               <Button
                 active={viewMode === 'clean'}
                 onClick={() => setViewMode('clean')}
