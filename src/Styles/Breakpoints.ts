@@ -1,5 +1,5 @@
 import { mapValues } from '@/Utils/Objects'
-import { css, FlattenSimpleInterpolation } from 'styled-components'
+import { css, type RuleSet } from 'styled-components'
 
 type BreakpointLabel = 'xs' | 'sm' | 'md' | 'lg' | 'xl'
 
@@ -13,7 +13,7 @@ export const Breakpoints: Record<BreakpointLabel, number> = {
 
 export const respond = mapValues(
   Breakpoints,
-  (value: number) => (content: FlattenSimpleInterpolation) => css`
+  (value: number) => (content: RuleSet<object>) => css`
     @media (min-width: ${value}px) {
       ${content};
     }
