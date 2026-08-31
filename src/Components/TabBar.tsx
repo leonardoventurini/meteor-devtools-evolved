@@ -46,7 +46,7 @@ const TabBarWrapper = styled.div`
         background-color: ${lighten(0.05, backgroundColor)};
       }
 
-      .bp3-icon {
+      .bp6-icon {
         margin-bottom: 2px;
       }
     }

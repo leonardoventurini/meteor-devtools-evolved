@@ -1,8 +1,8 @@
+@use 'sass:color';
+
 @import '~normalize.css/normalize.css';
 @import '~@blueprintjs/core/lib/css/blueprint.css';
 @import '~@blueprintjs/icons/lib/css/blueprint-icons.css';
-
-@import 'Utils';
 
 $background-color: #30404d;
 
@@ -18,7 +18,7 @@ $background-color: #30404d;
 
 ::-webkit-scrollbar-thumb {
   -webkit-box-shadow: none;
-  background-color: lighten($background-color, 15%);
+  background-color: color.adjust($background-color, $lightness: 15%);
 }
 
 html,
@@ -47,7 +47,7 @@ pre {
   }
 }
 
-.bp3-menu-item {
+.bp6-menu-item {
   i.fas,
   i.fab {
     margin-top: 2px;
