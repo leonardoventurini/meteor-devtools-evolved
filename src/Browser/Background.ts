@@ -1,6 +1,6 @@
-import browser from 'webextension-polyfill'
+import { browser } from 'wxt/browser'
 
-type Connection = Map<number, browser.Runtime.Port>
+type Connection = Map<number, ReturnType<typeof browser.runtime.connect>>
 
 interface InitializationRequest {
   name: 'init'
@@ -37,8 +37,6 @@ const Cache = new Map<number, unknown[]>()
 
 const connections: Connection = new Map()
 
-globalThis.connections = connections
-
 const panelListener = () => {
   browser.runtime.onConnect.addListener(port => {
     console.debug('runtime.onConnect', port)
@@ -74,20 +72,6 @@ const tabRemovalListener = () => {
     }
   })
 }
-
-// For cross-browser support
-const action = browser.browserAction || browser.action
-
-action.onClicked.addListener(e => {
-  console.debug('action.onClicked', e)
-
-  browser.tabs
-    .create({
-      url: 'https://cloud.meteor.com/?utm_source=chrome_extension&utm_medium=extension&utm_campaign=meteor_devtools_evolved',
-    })
-
-    .catch(console.error)
-})
 
 const handleConsole = (
   tabId: number,
@@ -153,7 +137,7 @@ const tabListener = () => {
   /**
    * @issue https://stackoverflow.com/a/73836810/10567157
    */
-  chrome.runtime.onMessage.addListener(
+  browser.runtime.onMessage.addListener(
     function (request, sender, sendResponse) {
       sendResponse({ foo: true })
 
@@ -166,7 +150,22 @@ const tabListener = () => {
   )
 }
 
-panelListener()
-tabRemovalListener()
-contentListener()
-tabListener()
+export const initializeBackground = () => {
+  globalThis.connections = connections
+
+  // WXT normalizes Manifest V2 browser actions and Manifest V3 actions.
+  browser.action.onClicked.addListener(tab => {
+    console.debug('action.onClicked', tab)
+
+    browser.tabs
+      .create({
+        url: 'https://cloud.meteor.com/?utm_source=chrome_extension&utm_medium=extension&utm_campaign=meteor_devtools_evolved',
+      })
+      .catch(console.error)
+  })
+
+  panelListener()
+  tabRemovalListener()
+  contentListener()
+  tabListener()
+}

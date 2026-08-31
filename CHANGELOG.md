@@ -20,7 +20,10 @@ All notable changes to this project will be documented in this file.
   synchronized packaged versions with `package.json`.
 - Upgraded the development runtime to Node.js 26 and Yarn 4.
 - Upgraded the extension to React 19, MobX 7, Blueprint 6, Tailwind CSS 4,
-  DaisyUI 5, Babel 8, and the current Webpack 5 toolchain.
+  DaisyUI 5, and the current WXT and Vite 8 toolchain.
+- Replaced the custom Webpack build, manifest copying, and browser launch
+  orchestration with typed WXT entrypoints, generated manifests, artifact
+  validation, and store packaging.
 - Upgraded the active Meteor 3.4 fixture to React 19, Babel runtime 8, and
   Rspack 2, with a cleanly regenerated npm lockfile.
 - Modernized the README and contributor workflow for the current toolchain.

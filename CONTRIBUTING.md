@@ -70,12 +70,14 @@ just build
 
 ```shell
 yarn build:chrome
+yarn validate:chrome
 ```
 
 - Firefox
 
 ```shell
 yarn build:firefox
+yarn validate:firefox
 ```
 
 ## Verification
@@ -88,7 +90,9 @@ yarn lint
 yarn typecheck
 yarn test
 yarn build:chrome
+yarn validate:chrome
 yarn build:firefox
+yarn validate:firefox
 yarn audit
 yarn audit:devapp
 ```

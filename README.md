@@ -64,8 +64,10 @@ for repository metadata and links you explicitly open from the extension.
 > DISCLAIMER: This work is based in part on the [Meteor DevTools](https://github.com/bakery/meteor-devtools) extension by The Bakery. Which sadly is not maintained anymore. While it is not necessarily a fork, I did use some useful knowledge and architectural decisions, and some things naturally converged into the same most practical solution. Hence the "evolved".
 
 The extension is built with TypeScript, React 19, MobX 7, Blueprint 6,
-Tailwind CSS 4, Sass, and Webpack 5. Vitest covers deterministic core logic,
-while the active Meteor fixture provides integration coverage.
+Tailwind CSS 4, Sass, and WXT on Vite 8. WXT generates the Chrome Manifest V3
+and Firefox Manifest V2 packages from shared typed entrypoints. Vitest covers
+deterministic core and build-policy logic, while the active Meteor fixture
+provides integration coverage.
 
 ### Requirements
 
@@ -115,7 +117,9 @@ yarn lint
 yarn typecheck
 yarn test
 yarn build:chrome
+yarn validate:chrome
 yarn build:firefox
+yarn validate:firefox
 yarn audit
 yarn audit:devapp
 ```
@@ -126,6 +130,9 @@ the complete local workflow.
 
 Run `just` to list optional helper recipes for development, Meteor maintenance,
 and release packaging.
+
+Production extension artifacts are written to `.output/chrome-mv3` and
+`.output/firefox-mv2`. Use `just build` to create store ZIPs in `releases/`.
 
 ## Compatibility fixtures
 

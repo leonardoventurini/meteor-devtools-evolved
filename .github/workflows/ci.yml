@@ -44,8 +44,17 @@ jobs:
       - name: Build Chrome extension
         run: yarn build:chrome
 
+      - name: Validate Chrome extension
+        run: yarn validate:chrome
+
       - name: Build Firefox extension
         run: yarn build:firefox
+
+      - name: Validate Firefox extension
+        run: yarn validate:firefox
+
+      - name: Lint Firefox package
+        run: yarn web-ext lint --source-dir .output/firefox-mv2
 
       - name: Report all dependency advisories
         continue-on-error: true

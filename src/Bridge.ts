@@ -3,7 +3,7 @@ import prettyBytes from 'pretty-bytes'
 import { PanelStore } from '@/Stores/PanelStore'
 import { DateTime } from 'luxon'
 import { StringUtils } from '@/Utils/StringUtils'
-import browser from 'webextension-polyfill'
+import { browser } from 'wxt/browser'
 
 export const syncSubscriptions = () =>
   Bridge.sendContentMessage({

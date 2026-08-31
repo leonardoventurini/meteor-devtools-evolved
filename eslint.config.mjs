@@ -14,7 +14,8 @@ export default [
       'extension/**',
       'devapp-*/**',
       '.yarn/**',
-      'webpack/**',
+      '.output/**',
+      '.wxt/**',
     ],
   },
   // Base config for all files

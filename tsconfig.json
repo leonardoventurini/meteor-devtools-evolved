@@ -1,10 +1,11 @@
 {
+  "extends": "./.wxt/tsconfig.json",
   "compilerOptions": {
     "strict": false,
     "noImplicitAny": false,
+    "verbatimModuleSyntax": false,
+    "noImplicitOverride": false,
     "target": "ES2021",
-    "module": "commonjs",
-    "moduleResolution": "node",
     "experimentalDecorators": true,
     "emitDecoratorMetadata": true,
     "useDefineForClassFields": true,
@@ -13,10 +14,13 @@
     "jsx": "react",
     "lib": ["DOM", "ES2024", "ESNext.Collection"],
     "types": ["chrome", "node", "react", "react-dom"],
-    "baseUrl": "./",
-    "paths": {
-      "@/*": ["src/*"]
-    }
+    "resolveJsonModule": true
   },
-  "include": ["src/*.d.ts", "src/**/*.ts", "src/**/*.tsx"]
+  "include": [
+    ".wxt/wxt.d.ts",
+    "src/*.d.ts",
+    "src/**/*.ts",
+    "src/**/*.tsx",
+    "wxt.config.ts"
+  ]
 }

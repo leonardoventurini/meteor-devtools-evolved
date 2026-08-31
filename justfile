@@ -17,11 +17,11 @@ start:
 # Start an extension watcher and the Meteor fixture (browser defaults to Chrome).
 develop browser="chrome":
     @echo "Starting development mode for => {{ browser }}"
-    yarn concurrently -n ext,app "webpack --config webpack/{{ browser }}.dev.js" "cd devapp-3.4 && npm start"
+    yarn run dev:{{ browser }}
 
-# Watch an extension build (browser defaults to Chrome).
+# Start WXT development mode without the Meteor fixture.
 watch browser="chrome":
-    yarn webpack --config webpack/{{ browser }}.dev.js
+    if [ "{{ browser }}" = "firefox" ]; then yarn wxt -b firefox --mv2; else yarn wxt -b chrome; fi
 
 # Install root and active-fixture dependencies.
 setup:
@@ -39,8 +39,9 @@ package-version:
 # Build and package one browser extension.
 build-for-browser browser:
     mkdir -p releases
-    yarn run build:{{ browser }}
-    cd extension/{{ browser }} && zip -r "../../releases/meteor-devtools-evolved-{{ version }}.{{ browser }}.zip" -- *
+    if [ "{{ browser }}" = "firefox" ]; then yarn wxt zip -b firefox --mv2; else yarn wxt zip -b chrome; fi
+    cp ".output/meteor-devtools-evolved-{{ version }}-{{ browser }}.zip" releases/
+    if [ "{{ browser }}" = "firefox" ]; then cp ".output/meteor-devtools-evolved-{{ version }}-sources.zip" releases/; fi
 
 # Build and package the Chrome and Firefox extensions sequentially.
 build:

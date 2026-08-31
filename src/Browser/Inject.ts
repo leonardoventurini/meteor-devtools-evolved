@@ -5,14 +5,6 @@ import {
 } from '@/Injectors/MinimongoInjector'
 import { MeteorAdapter } from '@/Injectors/MeteorAdapter'
 
-const isFrame = (function () {
-  try {
-    return globalThis.self !== window.top
-  } catch {
-    return true
-  }
-})()
-
 const PARENTHESIS_REGEX = /(\S*) \(([^)]+)\)/
 
 export const sendMessage = (eventType: EventType, data: object) => {
@@ -122,6 +114,14 @@ export const Registry: IRegistry = {
 }
 
 export function injectAll() {
+  const isFrame = (() => {
+    try {
+      return globalThis.self !== window.top
+    } catch {
+      return true
+    }
+  })()
+
   if (!globalThis.__meteor_devtools_evolved) {
     if (isFrame) return false
 
@@ -168,5 +168,3 @@ export function injectAll() {
     interval = globalThis.setInterval(inject, 10)
   }
 }
-
-injectAll()

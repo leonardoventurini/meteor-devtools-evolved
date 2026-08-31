@@ -5,8 +5,8 @@ chrome/build
 firefox/build
 chrome.pem
 firefox.pem
-extension/chrome
-extension/firefox
+.output
+.wxt
 mongo-decimal-test-main
 .eslintcache
 yarn-error.log
