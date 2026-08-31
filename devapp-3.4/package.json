@@ -9,19 +9,19 @@
   },
   "dependencies": {
     "@babel/runtime": "^8.0.0",
-    "@swc/helpers": "^0.5.17",
-    "meteor-node-stubs": "^1.2.12",
+    "@swc/helpers": "^0.5.23",
+    "meteor-node-stubs": "^1.2.29",
     "react": "^19.2.8",
     "react-dom": "^19.2.8"
   },
   "devDependencies": {
     "@meteorjs/rspack": "^2.1.0",
-    "@rsdoctor/rspack-plugin": "^1.2.3",
+    "@rsdoctor/rspack-plugin": "^1.6.3",
     "@rspack/cli": "^2.2.1",
     "@rspack/core": "^2.2.1",
     "@rspack/plugin-react-refresh": "^2.0.2",
     "@svgr/webpack": "^8.1.0",
-    "react-refresh": "^0.17.0"
+    "react-refresh": "^0.18.0"
   },
   "meteor": {
     "mainModule": {
