@@ -79,4 +79,4 @@ No migration or staged server rollout is required.
 - [x] Synchronize generated manifest versions from `package.json`.
 - [x] Update README, changelog, and architectural decision record.
 - [x] Run the complete verification suite and browser manifest lint.
-- [ ] Commit the verified unit with a semantic message.
+- [x] Commit the verified unit with a semantic message.
