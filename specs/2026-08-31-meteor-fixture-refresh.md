@@ -77,4 +77,4 @@ compatibility fixture and remove the older Meteor 2 trees in the same change.
 - [x] Pin the Meteor-compatible Rspack 1 stack and add its development server.
 - [x] Update scripts, current documentation, changelog, CI, and decision record.
 - [x] Verify both fixtures and the complete root project.
-- [ ] Commit the verified unit semantically without bypassing hooks.
+- [x] Commit the verified unit semantically without bypassing hooks.
