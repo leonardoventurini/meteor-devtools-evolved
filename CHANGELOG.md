@@ -21,6 +21,8 @@ All notable changes to this project will be documented in this file.
 - Upgraded the active Meteor 3.4 fixture to React 19, Babel runtime 8, and
   Rspack 2, with a cleanly regenerated npm lockfile.
 - Modernized the README and contributor workflow for the current toolchain.
+- Replaced shell-sourced `.envrc` helpers with documented Just recipes for
+  development, Meteor maintenance, and release packaging.
 
 ### Security
 

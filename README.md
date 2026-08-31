@@ -65,6 +65,7 @@ while the active Meteor fixture provides integration coverage.
 
 - Node.js 26.5.1
 - Yarn 4.12.0, selected through Corepack
+- [Just](https://just.systems/) 1.57 or newer for repository helper recipes
 
 Node 26 does not bundle Corepack. Install and enable the pinned compatible
 release if it is not already available:
@@ -116,6 +117,9 @@ yarn audit:devapp
 `yarn audit:all` reports the complete dependency graph, including
 development-only advisories. See the [contributing guide](CONTRIBUTING.md) for
 the complete local workflow.
+
+Run `just` to list optional helper recipes for development, Meteor maintenance,
+and release packaging.
 
 ## Compatibility fixtures
 

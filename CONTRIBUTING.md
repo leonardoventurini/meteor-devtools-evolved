@@ -1,7 +1,8 @@
 ## Setting the Environment Up
 
 1. Install Node.js `26.5.1`, then install dependencies for `devapp-3.4` and
-   the root project with Yarn.
+   the root project with Yarn. Install [Just](https://just.systems/) 1.57 or
+   newer to use the repository helper recipes.
 
 ```shell
 yarn setup
@@ -36,16 +37,31 @@ yarn dev:firefox # for firefox
 
    > Open a Pull Request from your fork to our repo once it is done or need a review.
 
-## Environment Commands
+## Helper Recipes
 
-If you use Linux you can run `source .envrc` for some useful commands
+Run `just` to list the cross-platform repository helpers:
 
-> -c: for chrome, -f: firefox, (chrome is default)
+```shell
+just
+```
 
 - Setup extension and test project Dependencies
 
 ```shell
-setup
+just setup
+```
+
+- Start development mode (Chrome by default)
+
+```shell
+just develop
+just develop firefox
+```
+
+- Build release archives for both browsers
+
+```shell
+just build
 ```
 
 ## Build
