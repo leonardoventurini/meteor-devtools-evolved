@@ -4,6 +4,29 @@ All notable changes to this project will be documented in this file.
 
 > The dates refer to when it was made available in the Chrome platform.
 
+## [Unreleased]
+
+### Added
+
+- Added root Vitest coverage for pagination, circular JSON serialization, and
+  string utilities.
+- Added Node 26 CI verification for immutable installs, linting, typechecking,
+  tests, Chrome and Firefox production builds, and dependency audits.
+
+### Changed
+
+- Upgraded the development runtime to Node.js 26 and Yarn 4.
+- Upgraded the extension to React 19, MobX 7, Blueprint 6, Tailwind CSS 4,
+  DaisyUI 5, Babel 8, and the current Webpack 5 toolchain.
+- Upgraded the active Meteor 3.4 fixture to React 19, Babel runtime 8, and
+  Rspack 2, with a cleanly regenerated npm lockfile.
+- Modernized the README and contributor workflow for the current toolchain.
+
+### Security
+
+- Updated vulnerable transitive dependencies where patched releases are
+  available and added enforced production and active-fixture audits to CI.
+
 ## [1.8] - 2023-01-17
 
 ## Fixed
