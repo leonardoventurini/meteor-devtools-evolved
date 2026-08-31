@@ -13,8 +13,8 @@
     "devtools"
   ],
   "scripts": {
-    "setup": "cd devapp-3.4 && npm install && cd ../ && yarn",
-    "devapp": "cd devapp-3.4 && npm start",
+    "setup": "cd devapp-3.5 && meteor npm install && cd ../ && yarn",
+    "devapp": "cd devapp-3.5 && meteor npm start",
     "build:chrome": "wxt build -b chrome",
     "build:firefox": "wxt build -b firefox --mv2",
     "validate:chrome": "node scripts/validate-build.mjs chrome",
@@ -31,7 +31,7 @@
     "typecheck": "tsc --noEmit",
     "audit": "yarn npm audit --recursive --environment production --severity high",
     "audit:all": "yarn npm audit --recursive --severity high",
-    "audit:devapp": "npm audit --prefix devapp-3.4 --audit-level high"
+    "audit:devapp": "npm audit --prefix devapp-3.5 --audit-level high"
   },
   "author": "Leonardo Venturini",
   "license": "MIT",

@@ -105,7 +105,7 @@ yarn dev:chrome
 ```
 
 The development command builds and watches the extension, starts
-`devapp-3.4`, and launches a browser instance with the extension installed.
+`devapp-3.5`, and launches a browser instance with the extension installed.
 
 ### Verify changes
 
@@ -136,10 +136,10 @@ Production extension artifacts are written to `.output/chrome-mv3` and
 
 ## Compatibility fixtures
 
-`devapp-3.4` is the active Meteor development and integration fixture. The
-Meteor 2 applications are intentionally frozen historical compatibility
-fixtures; their dependency locks should not be upgraded as part of routine
-root maintenance.
+`devapp-3.5` is the active Meteor 3.5.1 development and integration fixture.
+`devapp-2.16` is the single maintained Meteor 2 compatibility fixture. Each
+fixture uses its Meteor release's embedded Node/npm toolchain, so run its npm
+commands through `meteor npm`.
 
 ## Contributing
 

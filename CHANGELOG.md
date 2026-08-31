@@ -24,8 +24,9 @@ All notable changes to this project will be documented in this file.
 - Replaced the custom Webpack build, manifest copying, and browser launch
   orchestration with typed WXT entrypoints, generated manifests, artifact
   validation, and store packaging.
-- Upgraded the active Meteor 3.4 fixture to React 19, Babel runtime 8, and
-  Rspack 2, with a cleanly regenerated npm lockfile.
+- Upgraded the active fixture to Meteor 3.5.1 with React 19 and a pinned,
+  Meteor-compatible Rspack 1 development stack; upgraded the retained legacy
+  fixture to Meteor 2.16.
 - Modernized the README and contributor workflow for the current toolchain.
 - Replaced shell-sourced `.envrc` helpers with documented Just recipes for
   development, Meteor maintenance, and release packaging.
@@ -34,11 +35,15 @@ All notable changes to this project will be documented in this file.
 
 - Fixed Node 26 CI startup by preventing setup-node from invoking Yarn before
   Corepack enables the repository's pinned Yarn 4 release.
+- Fixed Minimongo capture replacing complete documents with `null` when they
+  contain dates, arrays, or valid falsy field values.
 
 ### Removed
 
 - Removed retired Google Analytics telemetry, its UUID dependency, and its
   external host permission while preserving all navigation actions.
+- Removed the redundant Meteor 2.0, 2.2, and 2.2.4 compatibility fixtures in
+  favor of a single maintained Meteor 2.16 baseline.
 
 ### Security
 

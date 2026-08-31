@@ -26,11 +26,11 @@ watch browser="chrome":
 # Install root and active-fixture dependencies.
 setup:
     yarn install
-    npm install --prefix devapp-3.4
+    cd devapp-3.5 && meteor npm install
 
 # Update Meteor in the active development fixture.
 update-meteor:
-    cd devapp-3.4 && meteor update
+    cd devapp-3.5 && meteor update
 
 # Print the extension version from package.json.
 package-version:

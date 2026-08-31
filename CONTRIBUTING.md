@@ -1,6 +1,6 @@
 ## Setting the Environment Up
 
-1. Install Node.js `26.5.1`, then install dependencies for `devapp-3.4` and
+1. Install Node.js `26.5.1`, then install dependencies for `devapp-3.5` and
    the root project with Yarn. Install [Just](https://just.systems/) 1.57 or
    newer to use the repository helper recipes.
 
@@ -31,7 +31,9 @@ yarn dev:chrome # for chrome
 yarn dev:firefox # for firefox
 ```
 
-> This command will build and watch the extension and run the `devapp-3.4` in parallel mode and when they are ready it will launch the chrome/firefox private instance with extension installed
+> This command builds and watches the extension, runs `devapp-3.5` in
+> parallel, and launches a private Chrome or Firefox instance with the
+> extension installed when both are ready.
 
 5. Hack away!
 

@@ -1,64 +1,7 @@
 import { warning } from '@/Log'
 import { Registry, sendMessage } from '@/Browser/Inject'
+import { cleanupDocument } from '@/Utils/Minimongo'
 import throttle from 'lodash.throttle'
-
-interface StructuredCloneScope {
-  structuredClone<T>(value: T): T
-}
-
-function cloneDeep<T>(obj: T): T {
-  return (
-    globalThis as typeof globalThis & StructuredCloneScope
-  ).structuredClone(obj)
-}
-
-function isArray(obj: any) {
-  return Array.isArray(obj)
-}
-
-const cleanup = (object: any) => {
-  if (typeof object !== 'object') return object
-
-  const clonedObject = cloneDeep(object)
-
-  if (!clonedObject) return clonedObject
-
-  for (const key of Object.keys(clonedObject)) {
-    if (!clonedObject[key]) {
-      return
-    }
-
-    if (typeof clonedObject[key] === 'object') {
-      if (isArray(clonedObject[key])) {
-        clonedObject[key] = clonedObject[key].map((item: any) => cleanup(item))
-        return
-      }
-
-      if (clonedObject[key] instanceof Date) {
-        clonedObject[key] = `[Object::${
-          clonedObject[key].constructor.name
-        }] ${clonedObject[key].toISOString()}`
-        return
-      }
-
-      if (clonedObject[key].constructor.name !== 'Object') {
-        if (typeof clonedObject[key].toString === 'function') {
-          clonedObject[key] = `[Object::${
-            clonedObject[key].constructor.name
-          }] ${clonedObject[key].toString()}`
-          return
-        } else {
-          clonedObject[key] = `[Object::${clonedObject[key].constructor.name}]`
-          return
-        }
-      }
-
-      clonedObject[key] = cleanup(clonedObject[key])
-    }
-  }
-
-  return clonedObject
-}
 
 const getDocs = (collection: any) => {
   return collection._docs._map instanceof Map
@@ -79,7 +22,7 @@ const getCollections = () => {
   const data = Object.fromEntries(
     Object.values(collections).map((collection: any) => [
       collection.name,
-      [...getDocs(collection)].map(item => cleanup(item)),
+      [...getDocs(collection)].map(item => cleanupDocument(item)),
     ]),
   )
 
