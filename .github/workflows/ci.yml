@@ -7,28 +7,53 @@ on:
   pull_request:
   workflow_dispatch:
 
+permissions:
+  contents: read
+
 jobs:
-  lint-and-audit:
-    name: Lint & Security Audit
+  verify:
+    name: Verify & Audit
     runs-on: ubuntu-latest
     steps:
       - name: Checkout code
-        uses: actions/checkout@v4
+        uses: actions/checkout@v6
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v6
+        with:
+          node-version: 26.5.1
+          cache: 'yarn'
+
+      - name: Install Corepack
+        run: npm install --global corepack@0.36.0
 
       - name: Enable Corepack
         run: corepack enable
-
-      - name: Setup Node.js
-        uses: actions/setup-node@v4
-        with:
-          node-version: 24
-          cache: 'yarn'
 
       - name: Install dependencies
         run: yarn install --immutable
 
       - name: Run lint
-        run: yarn run lint
+        run: yarn lint
 
-      - name: Run security audit
-        run: yarn run audit
+      - name: Run typecheck
+        run: yarn typecheck
+
+      - name: Run tests
+        run: yarn test
+
+      - name: Build Chrome extension
+        run: yarn build:chrome
+
+      - name: Build Firefox extension
+        run: yarn build:firefox
+
+      - name: Report all dependency advisories
+        continue-on-error: true
+        run: yarn audit:all
+
+      - name: Enforce production dependency audit
+        run: yarn audit
+
+      - name: Audit Meteor fixture dependencies
+        run: yarn audit:devapp

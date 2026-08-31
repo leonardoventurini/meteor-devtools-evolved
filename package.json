@@ -28,7 +28,9 @@
     "lint": "eslint .",
     "test": "vitest run",
     "typecheck": "tsc --noEmit",
-    "audit": "yarn audit --all --recursive --severity high"
+    "audit": "yarn npm audit --recursive --environment production --severity high",
+    "audit:all": "yarn npm audit --recursive --severity high",
+    "audit:devapp": "npm audit --prefix devapp-3.4 --audit-level high"
   },
   "author": "Leonardo Venturini",
   "license": "MIT",
