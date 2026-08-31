@@ -2,7 +2,7 @@ import browser from 'webextension-polyfill'
 
 const messageHandler = (event: MessageEvent) => {
   // Only accept messages from same frame
-  if (event.source !== globalThis) return
+  if (event.source !== (globalThis as unknown as WindowProxy)) return
 
   // Only accept messages that we know are ours
   if (event.data.source !== 'meteor-devtools-evolved') return

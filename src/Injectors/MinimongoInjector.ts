@@ -2,8 +2,14 @@ import { warning } from '@/Log'
 import { Registry, sendMessage } from '@/Browser/Inject'
 import throttle from 'lodash.throttle'
 
-function cloneDeep(obj: any) {
-  return structuredClone(obj)
+interface StructuredCloneScope {
+  structuredClone<T>(value: T): T
+}
+
+function cloneDeep<T>(obj: T): T {
+  return (
+    globalThis as typeof globalThis & StructuredCloneScope
+  ).structuredClone(obj)
 }
 
 function isArray(obj: any) {

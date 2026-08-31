@@ -5,7 +5,7 @@ const MAX_CHARACTERS = 512
 
 export const MessageFormatter = {
   heartbeat({ msg }: DDPLogContent) {
-    return msg
+    return String(msg ?? '')
   },
 
   collection({ msg, collection }: DDPLogContent) {
@@ -21,7 +21,7 @@ export const MessageFormatter = {
   },
 
   connection({ msg, session }: DDPLogContent) {
-    return session || msg
+    return String(session ?? msg ?? '')
   },
 
   subscription({ msg, id, name, subs }: any) {
@@ -48,7 +48,7 @@ export const MessageFormatter = {
 
   method({ msg, method, result, error }: DDPLogContent) {
     if (msg === 'method') {
-      return method
+      return String(method ?? '')
     }
 
     if (msg === 'result' && error) {
@@ -62,7 +62,7 @@ export const MessageFormatter = {
       return StringUtils.truncate(JSON.stringify(result), MAX_CHARACTERS)
     }
 
-    return msg
+    return String(msg ?? '')
   },
 }
 
