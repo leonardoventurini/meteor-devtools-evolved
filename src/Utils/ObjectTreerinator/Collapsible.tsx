@@ -1,5 +1,12 @@
-import React, { FunctionComponent, PropsWithChildren, useState } from 'react'
+import React, {
+  FunctionComponent,
+  PropsWithChildren,
+  useEffect,
+  useState,
+} from 'react'
 import { isArray, isEmpty, isObject } from 'lodash'
+import { shouldCollapseTreeNode } from './TreeExpansion'
+import { useTreeExpansion } from './TreeExpansionContext'
 
 interface Props {
   object: any
@@ -11,7 +18,14 @@ export const Collapsible: FunctionComponent<PropsWithChildren<Props>> = ({
   object,
   level = 0,
 }) => {
-  const [isCollapsed, setIsCollapsed] = useState(level > 5)
+  const expansion = useTreeExpansion()
+  const collapseFromPolicy = () =>
+    shouldCollapseTreeNode({ ...expansion, level })
+  const [isCollapsed, setIsCollapsed] = useState(collapseFromPolicy)
+
+  useEffect(() => {
+    setIsCollapsed(collapseFromPolicy())
+  }, [expansion.defaultDepth, expansion.mode, level])
 
   if (isArray(object)) {
     const isArrayEmpty = isEmpty(object)

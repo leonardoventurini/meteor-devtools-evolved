@@ -7,7 +7,7 @@ import {
   isString,
   toPairs,
 } from 'lodash'
-import React, { FunctionComponent } from 'react'
+import React, { ChangeEvent, FunctionComponent, useState } from 'react'
 
 import { Collapsible } from './Collapsible'
 import { StringRenderer } from '@/Utils/ObjectTreerinator/StringRenderer'
@@ -17,6 +17,16 @@ import { BooleanRenderer } from '@/Utils/ObjectTreerinator/BooleanRenderer'
 import { NumberRenderer } from '@/Utils/ObjectTreerinator/NumberRenderer'
 import { NullRenderer } from '@/Utils/ObjectTreerinator/NullRenderer'
 import styled from 'styled-components'
+import {
+  DEFAULT_TREE_DEPTH,
+  MAXIMUM_TREE_DEPTH,
+  MINIMUM_TREE_DEPTH,
+  normalizeTreeDepth,
+  TREE_DEPTH_STORAGE_KEY,
+  type TreeExpansionMode,
+} from './TreeExpansion'
+import { TreeExpansionContext } from './TreeExpansionContext'
+import { Button } from '@blueprintjs/core'
 
 const TreeWrapper = styled.div`
   font-family: monospace;
@@ -73,6 +83,19 @@ const TreeWrapper = styled.div`
   }
 `
 
+const TreeToolbar = styled.div`
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  padding: 0.5rem 1rem 0;
+
+  label {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.33rem;
+  }
+`
+
 export const ObjectTreeNode: FunctionComponent<{
   object: { [key: string]: any }
   level: number
@@ -114,8 +137,71 @@ export const ObjectTreeNode: FunctionComponent<{
 
 export const ObjectTreerinator: FunctionComponent<{
   object?: { [key: string]: any }
-}> = ({ object }) => (
-  <TreeWrapper>
-    {object && <ObjectTreeNode object={object} level={1} />}
-  </TreeWrapper>
-)
+}> = ({ object }) => {
+  const [defaultDepth, setDefaultDepth] = useState(() => {
+    try {
+      return normalizeTreeDepth(localStorage.getItem(TREE_DEPTH_STORAGE_KEY))
+    } catch {
+      return DEFAULT_TREE_DEPTH
+    }
+  })
+  const [mode, setMode] = useState<TreeExpansionMode>('default')
+
+  const updateDefaultDepth = (event: ChangeEvent<HTMLSelectElement>) => {
+    const depth = normalizeTreeDepth(event.target.value)
+
+    setDefaultDepth(depth)
+    setMode('default')
+
+    try {
+      localStorage.setItem(TREE_DEPTH_STORAGE_KEY, String(depth))
+    } catch {
+      // Browser privacy settings may make local storage unavailable.
+    }
+  }
+
+  return (
+    <TreeExpansionContext.Provider value={{ defaultDepth, mode }}>
+      <TreeToolbar aria-label='JSON tree controls'>
+        <Button
+          aria-label='Expand all JSON nodes'
+          icon='expand-all'
+          minimal
+          onClick={() => setMode('expand-all')}
+        >
+          Expand all
+        </Button>
+        <Button
+          aria-label='Collapse all JSON nodes'
+          icon='collapse-all'
+          minimal
+          onClick={() => setMode('collapse-all')}
+        >
+          Collapse all
+        </Button>
+        <label>
+          Default depth
+          <select
+            aria-label='Default JSON expansion depth'
+            onChange={updateDefaultDepth}
+            value={defaultDepth}
+          >
+            {Array.from(
+              {
+                length: MAXIMUM_TREE_DEPTH - MINIMUM_TREE_DEPTH + 1,
+              },
+              (_, index) => index + MINIMUM_TREE_DEPTH,
+            ).map(depth => (
+              <option key={depth} value={depth}>
+                {depth}
+              </option>
+            ))}
+          </select>
+        </label>
+      </TreeToolbar>
+      <TreeWrapper>
+        {object && <ObjectTreeNode object={object} level={1} />}
+      </TreeWrapper>
+    </TreeExpansionContext.Provider>
+  )
+}
