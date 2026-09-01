@@ -15,6 +15,7 @@
   "scripts": {
     "setup": "cd devapp-3.5 && meteor npm install && cd ../ && yarn",
     "devapp": "cd devapp-3.5 && meteor npm start",
+    "devapp:2": "cd devapp-2.16 && meteor run --port 2200",
     "build:chrome": "wxt build -b chrome",
     "build:firefox": "wxt build -b firefox --mv2",
     "validate:chrome": "node scripts/validate-build.mjs chrome",
@@ -28,7 +29,9 @@
     "postinstall": "wxt prepare",
     "lint": "eslint .",
     "test": "vitest run",
-    "test:e2e": "playwright test",
+    "test:e2e": "node scripts/run-e2e.mjs devapp-3.5",
+    "test:e2e:meteor2": "node scripts/run-e2e.mjs devapp-2.16",
+    "test:e2e:all": "node scripts/run-e2e.mjs devapp-3.5 devapp-2.16",
     "test:e2e:install": "playwright install chromium",
     "typecheck": "tsc --noEmit && tsc --noEmit --project tests/e2e/tsconfig.json",
     "audit": "yarn npm audit --recursive --environment production --severity high",
