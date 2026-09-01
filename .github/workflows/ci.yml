@@ -101,7 +101,13 @@ jobs:
 
       - name: Install Meteor fixture dependencies
         working-directory: ${{ matrix.fixture }}
-        run: meteor npm ci
+        run: |
+          if [[ "${{ matrix.fixture }}" == "devapp-3.5" ]]; then
+            meteor update --npm
+            meteor npm install
+          else
+            meteor npm ci
+          fi
 
       - name: Report legacy Meteor 2 fixture advisories
         if: matrix.fixture == 'devapp-2.16'

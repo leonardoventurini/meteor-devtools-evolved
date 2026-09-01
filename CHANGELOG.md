@@ -69,7 +69,8 @@ All notable changes to this project will be documented in this file.
   directory to subsequent GitHub Actions steps.
 - Fixed clean-environment Meteor 3 integration startup by pinning Rspack's
   complete SWC dependency set, preventing Meteor's auto-installer from
-  disrupting Rspack.
+  disrupting Rspack, and synchronizing Meteor's npm requirements before CI
+  installs the fixture.
 - Fixed Minimongo capture replacing complete documents with `null` when they
   contain dates, arrays, or valid falsy field values.
 - Recovered additional DDP connections created before extension injection when
