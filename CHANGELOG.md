@@ -11,6 +11,8 @@ All notable changes to this project will be documented in this file.
 - Added accessible expand-all and collapse-all JSON controls with a persisted
   default tree depth.
 - Added a dedicated, copyable document ID field to every Minimongo result row.
+- Added case-insensitive JSON key/value filtering with ancestor preservation,
+  original array indexes, automatic match expansion, and highlighting.
 - Added root Vitest coverage for pagination, circular JSON serialization, and
   string utilities.
 - Added Node 26 CI verification for immutable installs, linting, typechecking,

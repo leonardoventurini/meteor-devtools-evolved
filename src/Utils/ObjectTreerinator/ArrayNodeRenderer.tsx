@@ -2,21 +2,38 @@ import React from 'react'
 import { ObjectTreeNode } from '@/Utils/ObjectTreerinator/index'
 import { isArray, isBoolean, isNil, isNumber, isObject, isString } from 'lodash'
 import { Collapsible } from '@/Utils/ObjectTreerinator/Collapsible'
+import { TreeMatch } from './TreeMatch'
 
 export const ArrayNodeRenderer = (child: any, level: number) => {
   if (isNil(child))
     return (
       <span role='null' style={{ marginLeft: '.33rem' }}>
-        null
+        <TreeMatch text='null' />
       </span>
     )
 
-  if (isString(child)) return <span role='string'>{`"${child}"`}</span>
+  if (isString(child))
+    return (
+      <span role='string'>
+        &quot;
+        <TreeMatch text={child} />
+        &quot;
+      </span>
+    )
 
-  if (isNumber(child)) return <span role='number'>{child}</span>
+  if (isNumber(child))
+    return (
+      <span role='number'>
+        <TreeMatch text={String(child)} />
+      </span>
+    )
 
   if (isBoolean(child))
-    return <span role='boolean'>{JSON.stringify(child)}</span>
+    return (
+      <span role='boolean'>
+        <TreeMatch text={JSON.stringify(child)} />
+      </span>
+    )
 
   if (isArray(child))
     return (
@@ -24,7 +41,9 @@ export const ArrayNodeRenderer = (child: any, level: number) => {
         <ol start={0} role='array'>
           {child.map((item, index) => (
             <li key={index} role='item'>
-              <span role='index'>{index}:</span>
+              <span role='index'>
+                <TreeMatch text={String(index)} />:
+              </span>
               {ArrayNodeRenderer(item, level + 1)}
             </li>
           ))}

@@ -7,7 +7,7 @@ import {
   isString,
   toPairs,
 } from 'lodash'
-import React, { ChangeEvent, FunctionComponent, useState } from 'react'
+import React, { ChangeEvent, FunctionComponent, useMemo, useState } from 'react'
 
 import { Collapsible } from './Collapsible'
 import { StringRenderer } from '@/Utils/ObjectTreerinator/StringRenderer'
@@ -26,7 +26,9 @@ import {
   type TreeExpansionMode,
 } from './TreeExpansion'
 import { TreeExpansionContext } from './TreeExpansionContext'
-import { Button } from '@blueprintjs/core'
+import { Button, InputGroup } from '@blueprintjs/core'
+import { filterJsonTree } from './TreeFilter'
+import { TreeSearchContext } from './TreeSearchContext'
 
 const TreeWrapper = styled.div`
   font-family: monospace;
@@ -59,6 +61,13 @@ const TreeWrapper = styled.div`
 
   span[role='boolean'] {
     color: #c274c2;
+  }
+
+  mark {
+    padding: 0;
+    color: inherit;
+    background: #8a6d1d;
+    outline: 1px solid #d99e0b;
   }
 
   span[role='expand'],
@@ -146,6 +155,15 @@ export const ObjectTreerinator: FunctionComponent<{
     }
   })
   const [mode, setMode] = useState<TreeExpansionMode>('default')
+  const [search, setSearch] = useState('')
+  const filteredTree = useMemo(
+    () => filterJsonTree(object, search),
+    [object, search],
+  )
+  const visibleObject = filteredTree.matched
+    ? (filteredTree.value as { [key: string]: any })
+    : undefined
+  const effectiveMode = search.trim() ? 'expand-all' : mode
 
   const updateDefaultDepth = (event: ChangeEvent<HTMLSelectElement>) => {
     const depth = normalizeTreeDepth(event.target.value)
@@ -161,47 +179,63 @@ export const ObjectTreerinator: FunctionComponent<{
   }
 
   return (
-    <TreeExpansionContext.Provider value={{ defaultDepth, mode }}>
-      <TreeToolbar aria-label='JSON tree controls'>
-        <Button
-          aria-label='Expand all JSON nodes'
-          icon='expand-all'
-          minimal
-          onClick={() => setMode('expand-all')}
-        >
-          Expand all
-        </Button>
-        <Button
-          aria-label='Collapse all JSON nodes'
-          icon='collapse-all'
-          minimal
-          onClick={() => setMode('collapse-all')}
-        >
-          Collapse all
-        </Button>
-        <label>
-          Default depth
-          <select
-            aria-label='Default JSON expansion depth'
-            onChange={updateDefaultDepth}
-            value={defaultDepth}
+    <TreeExpansionContext.Provider
+      value={{ defaultDepth, mode: effectiveMode }}
+    >
+      <TreeSearchContext.Provider value={search}>
+        <TreeToolbar aria-label='JSON tree controls'>
+          <InputGroup
+            aria-label='Filter JSON keys and values'
+            leftIcon='search'
+            onChange={event => setSearch(event.target.value)}
+            placeholder='Filter keys and values'
+            type='search'
+            value={search}
+          />
+          <Button
+            aria-label='Expand all JSON nodes'
+            icon='expand-all'
+            minimal
+            onClick={() => setMode('expand-all')}
           >
-            {Array.from(
-              {
-                length: MAXIMUM_TREE_DEPTH - MINIMUM_TREE_DEPTH + 1,
-              },
-              (_, index) => index + MINIMUM_TREE_DEPTH,
-            ).map(depth => (
-              <option key={depth} value={depth}>
-                {depth}
-              </option>
-            ))}
-          </select>
-        </label>
-      </TreeToolbar>
-      <TreeWrapper>
-        {object && <ObjectTreeNode object={object} level={1} />}
-      </TreeWrapper>
+            Expand all
+          </Button>
+          <Button
+            aria-label='Collapse all JSON nodes'
+            icon='collapse-all'
+            minimal
+            onClick={() => setMode('collapse-all')}
+          >
+            Collapse all
+          </Button>
+          <label>
+            Default depth
+            <select
+              aria-label='Default JSON expansion depth'
+              onChange={updateDefaultDepth}
+              value={defaultDepth}
+            >
+              {Array.from(
+                {
+                  length: MAXIMUM_TREE_DEPTH - MINIMUM_TREE_DEPTH + 1,
+                },
+                (_, index) => index + MINIMUM_TREE_DEPTH,
+              ).map(depth => (
+                <option key={depth} value={depth}>
+                  {depth}
+                </option>
+              ))}
+            </select>
+          </label>
+        </TreeToolbar>
+        <TreeWrapper>
+          {visibleObject ? (
+            <ObjectTreeNode object={visibleObject} level={1} />
+          ) : (
+            <p role='status'>No matching keys or values.</p>
+          )}
+        </TreeWrapper>
+      </TreeSearchContext.Provider>
     </TreeExpansionContext.Provider>
   )
 }

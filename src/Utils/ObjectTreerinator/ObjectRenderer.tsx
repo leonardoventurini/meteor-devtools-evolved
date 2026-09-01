@@ -1,5 +1,6 @@
 import React, { FunctionComponent } from 'react'
 import { ObjectTreeNode } from '@/Utils/ObjectTreerinator/index'
+import { TreeMatch } from './TreeMatch'
 
 interface Props {
   property: string
@@ -13,7 +14,9 @@ export const ObjectRenderer: FunctionComponent<Props> = ({
   level,
 }) => (
   <li key={property}>
-    <span role='collapsible-property'>{property}</span>
+    <span role='collapsible-property'>
+      <TreeMatch text={property} />
+    </span>
     <ObjectTreeNode object={child} level={level + 1} />
   </li>
 )
