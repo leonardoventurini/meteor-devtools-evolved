@@ -15,6 +15,8 @@ All notable changes to this project will be documented in this file.
   original array indexes, automatic match expansion, and highlighting.
 - Added collision-safe, session-stable discovery of unnamed local Minimongo
   collections while retaining their actual null names as metadata.
+- Added stable identities and transparent DDP stream capture for the default
+  connection and every additional connection created through `DDP.connect`.
 - Added root Vitest coverage for pagination, circular JSON serialization, and
   string utilities.
 - Added Node 26 CI verification for immutable installs, linting, typechecking,

@@ -10,9 +10,24 @@ interface Window {
 }
 
 declare namespace Meteor {
-  const connection: any
+  const connection: DDPConnection
   const gitCommitHash: string | undefined | null
   function call(method: string, ...params: unknown[]): void
+}
+
+interface DDPConnectionStream {
+  on(event: 'message', handler: (content: string) => void): void
+  send(content: string): unknown
+}
+
+interface DDPConnection {
+  _mongo_livedata_collections?: Record<string, any>
+  _stream: DDPConnectionStream
+  _subscriptions?: Record<string, IMeteorSubscription>
+}
+
+declare const DDP: {
+  connect(...args: unknown[]): DDPConnection
 }
 
 declare const Mongo: {
@@ -87,6 +102,7 @@ interface DDPLog {
   host?: string
   filterType?: FilterType | null
   preview?: string
+  connectionId: string
 }
 
 interface Bookmark {

@@ -1,29 +1,44 @@
 import { sendLogMessage } from '@/Browser/Inject'
+import { getMeteorConnections } from './MeteorConnections'
+import type { ConnectionDescriptor } from './ConnectionRegistry'
 
 type MessageCallback = (message: DDPLog) => void
 
 const generateId = () => (Date.now() + Math.random()).toString(36)
 
-const injectOutboundInterceptor = (callback: MessageCallback) => {
-  const send = Meteor.connection._stream.send
+const instrumentedStreams = new WeakSet<object>()
 
-  Meteor.connection._stream.send = function (...args) {
+export const instrumentDDPConnection = (
+  descriptor: ConnectionDescriptor<DDPConnection>,
+  callback: MessageCallback,
+) => {
+  const { connection, id: connectionId } = descriptor
+  const { _stream: stream } = connection
+
+  if (instrumentedStreams.has(stream)) return
+  instrumentedStreams.add(stream)
+
+  const send = stream.send
+
+  stream.send = function (...args) {
     // Preserve the receiver expected by Meteor's stream implementation.
     // eslint-disable-next-line unicorn/no-this-outside-of-class
-    send.apply(this, args)
+    const result = send.apply(this, args)
 
     callback({
+      connectionId,
       id: generateId(),
       content: args[0],
       isOutbound: true,
       timestamp: Date.now(),
     })
-  }
-}
 
-const injectInboundInterceptor = (callback: MessageCallback) => {
-  Meteor.connection._stream.on('message', (...args) => {
+    return result
+  }
+
+  stream.on('message', (...args) => {
     callback({
+      connectionId,
       id: generateId(),
       content: args[0],
       isInbound: true,
@@ -33,6 +48,13 @@ const injectInboundInterceptor = (callback: MessageCallback) => {
 }
 
 export const DDPInjector = () => {
-  injectOutboundInterceptor(sendLogMessage)
-  injectInboundInterceptor(sendLogMessage)
+  const registry = getMeteorConnections()
+
+  for (const descriptor of registry.list()) {
+    instrumentDDPConnection(descriptor, sendLogMessage)
+  }
+
+  registry.subscribe(descriptor => {
+    instrumentDDPConnection(descriptor, sendLogMessage)
+  })
 }

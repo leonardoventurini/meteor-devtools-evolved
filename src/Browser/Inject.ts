@@ -2,6 +2,7 @@ import { DDPInjector } from '@/Injectors/DDPInjector'
 import { MinimongoInjector } from '@/Injectors/MinimongoInjector'
 import { MeteorAdapter } from '@/Injectors/MeteorAdapter'
 import { parseStackTrace } from '@/Utils/StackTrace'
+import { initializeMeteorConnections } from '@/Injectors/MeteorConnections'
 
 const STACK_TRACE_LIMIT = 50
 const HEARTBEAT_MESSAGES = new Set(['{"msg":"ping"}', '{"msg":"pong"}'])
@@ -119,6 +120,7 @@ export function injectAll() {
       if (typeof Meteor === 'object' && !globalThis.__meteor_devtools_evolved) {
         globalThis.__meteor_devtools_evolved = true
 
+        initializeMeteorConnections(Meteor.connection, DDP)
         DDPInjector()
         MinimongoInjector()
         MeteorAdapter()
