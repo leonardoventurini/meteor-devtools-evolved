@@ -136,4 +136,4 @@ verification infrastructure rather than shipped runtime behavior.
       the headed manual DevTools-panel smoke.
 - [x] Update `CHANGELOG.md` under Unreleased.
 - [x] Add the architectural decision record.
-- [ ] Run the complete verification matrix and dependency audits.
+- [x] Run the complete verification matrix and dependency audits.
