@@ -28,7 +28,7 @@ All notable changes to this project will be documented in this file.
   parallel Meteor 3 browser-integration gate with failure diagnostics.
 - Added pinned, strictly typed Playwright Chromium integration coverage for the
   packaged extension's injection, DDP, connection, subscription, Minimongo, and
-  panel-rendering boundaries against the active Meteor 3.5.1 fixture.
+  panel-rendering boundaries against the Meteor 3.5.1 and 2.16 fixtures.
 
 ### Changed
 

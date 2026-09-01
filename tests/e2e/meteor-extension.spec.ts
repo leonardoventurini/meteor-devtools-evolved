@@ -1,11 +1,13 @@
 import type { Page } from '@playwright/test'
 import { expect, test } from './fixtures'
+import { resolveMeteorFixture } from './MeteorFixtures'
 
 const EXTENSION_MESSAGE_SOURCE = 'meteor-devtools-evolved'
 const CAPTURED_MESSAGES_KEY = '__meteorDevtoolsE2EMessages'
 const DEFAULT_CONNECTION_ID = 'default'
 const ADDITIONAL_CONNECTION_ID = 'connection-1'
 const LOCAL_COLLECTION_NAMES = ['Local collection 1', 'Local collection 2']
+const meteorFixture = resolveMeteorFixture()
 
 interface ExtensionMessage<TData = unknown> {
   source: string
@@ -36,7 +38,8 @@ interface SubscriptionSnapshotData {
 
 interface BrowserIntegrationScope {
   Meteor: {
-    callAsync<T>(methodName: string, ...parameters: unknown[]): Promise<T>
+    call(methodName: string, ...parameters: unknown[]): void
+    release: string
   }
   __meteor_devtools_evolved: boolean
   __meteor_devtools_evolved_receiveMessage(message: ExtensionMessage): void
@@ -131,10 +134,36 @@ const waitForEvent = async <TData>(
   return message as ExtensionMessage<TData>
 }
 
+const pollProductionEvent = async <TData>(
+  page: Page,
+  eventType: string,
+  requestData: unknown,
+  predicate: (data: TData) => boolean,
+): Promise<TData> => {
+  let matchedData: TData | undefined
+
+  await expect
+    .poll(async () => {
+      await clearCapturedMessages(page)
+      await sendProductionRequest(page, eventType, requestData)
+      const message = await waitForEvent<TData>(page, eventType)
+
+      if (predicate(message.data)) matchedData = message.data
+      return Boolean(matchedData)
+    })
+    .toBe(true)
+
+  if (!matchedData) {
+    throw new Error(`Extension event ${eventType} never matched its predicate.`)
+  }
+
+  return matchedData
+}
+
 test.beforeEach(async ({ page }) => {
   await installMessageCapture(page)
   await page.goto('/')
-  await expect(page.getByText('Learn Meteor!')).toBeVisible()
+  await expect(page.getByText(meteorFixture.readinessText)).toBeVisible()
   await expect
     .poll(() =>
       page.evaluate(
@@ -144,9 +173,16 @@ test.beforeEach(async ({ page }) => {
       ),
     )
     .toBe(true)
+  await expect
+    .poll(() =>
+      page.evaluate(
+        () => (globalThis as unknown as BrowserIntegrationScope).Meteor.release,
+      ),
+    )
+    .toBe(meteorFixture.release)
 })
 
-test('captures real Meteor 3 runtime data through the packaged extension', async ({
+test('captures real Meteor runtime data through the packaged extension', async ({
   extensionId,
   extensionWorker,
   page,
@@ -157,12 +193,33 @@ test('captures real Meteor 3 runtime data through the packaged extension', async
   ).toHaveCount(1)
 
   await clearCapturedMessages(page)
-  const aboutResult = await page.evaluate(() =>
-    (globalThis as unknown as BrowserIntegrationScope).Meteor.callAsync<string>(
-      'about',
-    ),
+  const methodResult = await page.evaluate(
+    ({ methodName, methodParameters }) =>
+      new Promise<unknown>((resolve, reject) => {
+        const scope = globalThis as unknown as BrowserIntegrationScope
+        scope.Meteor.call(
+          methodName,
+          ...methodParameters,
+          (error: unknown, result: unknown) => {
+            if (error) {
+              reject(new Error(String(error)))
+              return
+            }
+
+            resolve(result)
+          },
+        )
+      }),
+    {
+      methodName: meteorFixture.method.name,
+      methodParameters: meteorFixture.method.parameters,
+    },
   )
-  expect(aboutResult).toContain('This is a Meteor application')
+  if (meteorFixture.method.resultComparison === 'equals') {
+    expect(methodResult).toBe(meteorFixture.method.expectedResult)
+  } else {
+    expect(methodResult).toContain(meteorFixture.method.expectedResult)
+  }
 
   await expect
     .poll(async () => {
@@ -177,7 +234,9 @@ test('captures real Meteor 3 runtime data through the packaged extension', async
             JSON.parse(message.data.content) as Record<string, unknown>,
         )
       const method = events.find(
-        message => message.msg === 'method' && message.method === 'about',
+        message =>
+          message.msg === 'method' &&
+          message.method === meteorFixture.method.name,
       )
 
       return Boolean(
@@ -189,59 +248,79 @@ test('captures real Meteor 3 runtime data through the packaged extension', async
     })
     .toBe(true)
 
-  await clearCapturedMessages(page)
-  await sendProductionRequest(page, 'connections:get', null)
-  const connectionMessage = await waitForEvent<ConnectionListData>(
+  const connectionData = await pollProductionEvent<ConnectionListData>(
     page,
     'connections:get',
+    null,
+    data =>
+      [DEFAULT_CONNECTION_ID, ADDITIONAL_CONNECTION_ID].every(connectionId =>
+        data.connections.some(connection => connection.id === connectionId),
+      ),
   )
-  expect(connectionMessage.data.connections).toEqual(
+  expect(connectionData.connections).toEqual(
     expect.arrayContaining([
       expect.objectContaining({ id: DEFAULT_CONNECTION_ID }),
       expect.objectContaining({ id: ADDITIONAL_CONNECTION_ID }),
     ]),
   )
 
-  await clearCapturedMessages(page)
-  await sendProductionRequest(page, 'minimongo-get-collections', {
-    connectionId: DEFAULT_CONNECTION_ID,
-  })
-  const minimongoMessage = await waitForEvent<MinimongoSnapshotData>(
+  const minimongoData = await pollProductionEvent<MinimongoSnapshotData>(
     page,
     'minimongo-get-collections',
+    { connectionId: DEFAULT_CONNECTION_ID },
+    data =>
+      Boolean(data.collections[meteorFixture.namedCollection]?.length) &&
+      LOCAL_COLLECTION_NAMES.every(collectionName =>
+        data.collections[collectionName]?.some(document =>
+          ['local-one', 'local-two'].includes(String(document._id)),
+        ),
+      ),
   )
-  expect(minimongoMessage.data.connectionId).toBe(DEFAULT_CONNECTION_ID)
-  expect(Object.keys(minimongoMessage.data.collections)).toEqual(
-    expect.arrayContaining(['links', ...LOCAL_COLLECTION_NAMES]),
+  expect(minimongoData.connectionId).toBe(DEFAULT_CONNECTION_ID)
+  expect(Object.keys(minimongoData.collections)).toEqual(
+    expect.arrayContaining([
+      meteorFixture.namedCollection,
+      ...LOCAL_COLLECTION_NAMES,
+    ]),
   )
-  const links = minimongoMessage.data.collections.links
-  if (!links) throw new Error('The links collection was not captured.')
+  const namedDocuments =
+    minimongoData.collections[meteorFixture.namedCollection]
+  if (!namedDocuments) {
+    throw new Error(
+      `The ${meteorFixture.namedCollection} collection was not captured.`,
+    )
+  }
 
-  expect(links.length).toBeGreaterThan(0)
-  expect(
-    minimongoMessage.data.collections['Local collection 1'],
-  ).toContainEqual(
-    expect.objectContaining({ _id: 'local-one', fixture: 'Meteor 3.5.1' }),
+  expect(namedDocuments.length).toBeGreaterThan(0)
+  expect(minimongoData.collections['Local collection 1']).toContainEqual(
+    expect.objectContaining({
+      _id: 'local-one',
+      fixture: meteorFixture.localFixtureLabel,
+    }),
   )
-  expect(
-    minimongoMessage.data.collections['Local collection 2'],
-  ).toContainEqual(
-    expect.objectContaining({ _id: 'local-two', fixture: 'Meteor 3.5.1' }),
+  expect(minimongoData.collections['Local collection 2']).toContainEqual(
+    expect.objectContaining({
+      _id: 'local-two',
+      fixture: meteorFixture.localFixtureLabel,
+    }),
   )
-  expect(minimongoMessage.data.metadata['Local collection 1']).toEqual({
+  expect(minimongoData.metadata['Local collection 1']).toEqual({
     actualName: null,
   })
 
-  await clearCapturedMessages(page)
-  await sendProductionRequest(page, 'sync-subscriptions', {
-    connectionId: DEFAULT_CONNECTION_ID,
-  })
-  const subscriptionMessage = await waitForEvent<SubscriptionSnapshotData>(
+  const subscriptionData = await pollProductionEvent<SubscriptionSnapshotData>(
     page,
     'sync-subscriptions',
+    { connectionId: DEFAULT_CONNECTION_ID },
+    data =>
+      meteorFixture.requiredSubscriptions.every(subscriptionName =>
+        data.subscriptions.includes(subscriptionName),
+      ),
   )
-  expect(subscriptionMessage.data.connectionId).toBe(DEFAULT_CONNECTION_ID)
-  expect(subscriptionMessage.data.subscriptions).toContain('links')
+  expect(subscriptionData.connectionId).toBe(DEFAULT_CONNECTION_ID)
+  for (const subscriptionName of meteorFixture.requiredSubscriptions) {
+    expect(subscriptionData.subscriptions).toContain(subscriptionName)
+  }
 })
 
 test('renders the packaged DevTools panel navigation', async ({
