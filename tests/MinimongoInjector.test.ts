@@ -1,5 +1,12 @@
 import { describe, expect, it } from 'vitest'
 import { cleanupDocument } from '../src/Utils/Minimongo'
+import { readFileSync } from 'node:fs'
+import path from 'node:path'
+
+const injectionSource = readFileSync(
+  path.resolve(import.meta.dirname, '../src/Browser/Inject.ts'),
+  'utf8',
+)
 
 describe('Minimongo document cleanup', () => {
   it('preserves complete documents with falsy and nested values', () => {
@@ -29,5 +36,10 @@ describe('Minimongo document cleanup', () => {
         ],
       },
     })
+  })
+
+  it('refreshes snapshots on explicit panel requests instead of DDP traffic', () => {
+    expect(injectionSource).not.toContain('updateCollections()')
+    expect(injectionSource).not.toContain('updateCollections,')
   })
 })

@@ -1,7 +1,6 @@
 import { warning } from '@/Log'
 import { Registry, sendMessage } from '@/Browser/Inject'
 import { cleanupDocument } from '@/Utils/Minimongo'
-import throttle from 'lodash.throttle'
 
 const getDocs = (collection: any) => {
   return collection._docs._map instanceof Map
@@ -28,11 +27,6 @@ const getCollections = () => {
 
   sendMessage('minimongo-get-collections', data as any)
 }
-
-export const updateCollections = throttle(getCollections, 1000, {
-  leading: true,
-  trailing: true,
-})
 
 export const MinimongoInjector = () => {
   Registry.register('minimongo-get-collections', () => {

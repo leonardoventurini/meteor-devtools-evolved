@@ -1,12 +1,10 @@
 import { DDPInjector } from '@/Injectors/DDPInjector'
-import {
-  MinimongoInjector,
-  updateCollections,
-} from '@/Injectors/MinimongoInjector'
+import { MinimongoInjector } from '@/Injectors/MinimongoInjector'
 import { MeteorAdapter } from '@/Injectors/MeteorAdapter'
 import { parseStackTrace } from '@/Utils/StackTrace'
 
 const STACK_TRACE_LIMIT = 50
+const HEARTBEAT_MESSAGES = new Set(['{"msg":"ping"}', '{"msg":"pong"}'])
 
 export const sendMessage = (eventType: EventType, data: object) => {
   window.postMessage(
@@ -42,20 +40,19 @@ const getStackTrace = (stackTraceLimit: number) => {
 }
 
 export const sendLogMessage = (message: DDPLog) => {
-  const stackTrace = getStackTrace(STACK_TRACE_LIMIT)
+  const trace = shouldCaptureDDPStack(message)
+    ? getStackTrace(STACK_TRACE_LIMIT)
+    : undefined
 
   sendMessage('ddp-event', {
     ...message,
-    trace: stackTrace,
+    ...(trace ? { trace } : {}),
     host: location.host,
   })
-
-  if (
-    message.content !== '{"msg":"ping"}' &&
-    message.content !== '{"msg":"pong"}'
-  )
-    updateCollections()
 }
+
+export const shouldCaptureDDPStack = (message: DDPLog): boolean =>
+  message.isOutbound === true && !HEARTBEAT_MESSAGES.has(message.content)
 
 type MessageHandler = (message: Message<any>) => void
 type Registration = {
