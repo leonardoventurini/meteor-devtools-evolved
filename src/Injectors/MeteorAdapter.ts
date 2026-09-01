@@ -2,6 +2,7 @@
 import { Registry, sendMessage } from '@/Browser/Inject'
 import { getSubscriptions } from '@/Browser/MeteorLibrary'
 import { JSONUtils } from '@/Utils/JSONUtils'
+import { getMeteorConnections } from './MeteorConnections'
 
 const SYNCHRONOUS_COLLECTION_METHODS = [
   'find',
@@ -110,10 +111,27 @@ export const MeteorAdapter = () => {
     Meteor.call(method, ...params)
   })
 
-  Registry.register('sync-subscriptions', () => {
+  const sendConnections = () => {
+    sendMessage('connections:get', {
+      connections: getMeteorConnections()
+        .list()
+        .map(({ displayName, id }) => ({ displayName, id })),
+    } satisfies ConnectionListPayload)
+  }
+
+  Registry.register('connections:get', sendConnections)
+  getMeteorConnections().subscribe(sendConnections)
+
+  Registry.register('sync-subscriptions', message => {
+    const { connectionId } = message.data as ConnectionRequest
+    const connection = getMeteorConnections().get(connectionId)?.connection
+
+    if (!connection) return
+
     sendMessage('sync-subscriptions', {
-      subscriptions: getSubscriptions(),
-    })
+      connectionId,
+      subscriptions: getSubscriptions(connection),
+    } satisfies SubscriptionSnapshotPayload)
   })
 
   Registry.register('stats', () => {

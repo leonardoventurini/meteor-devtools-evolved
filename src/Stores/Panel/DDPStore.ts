@@ -5,6 +5,7 @@ import { PanelStore } from '@/Stores/PanelStore'
 import { generatePreview } from '@/Utils/MessageFormatter'
 import { clearCache } from '@/Bridge'
 import { DDP_LOG_RETENTION_LIMIT } from '@/Constants'
+import { isLogForConnection } from '@/Injectors/ConnectionScoping'
 
 export class DDPStore extends Searchable<DDPLog> {
   inboundBytes = 0
@@ -54,6 +55,7 @@ export class DDPStore extends Searchable<DDPLog> {
 
   filterFunction = (collection: DDPLog[], search: string) =>
     collection
+      .filter(log => isLogForConnection(log, PanelStore.activeConnectionId))
       .filter(log => !this.filterRegularExpression.test(log.content))
       .filter(
         log =>

@@ -21,6 +21,10 @@ import { PerformanceStore } from './Panel/PerformanceStore'
 
 export class PanelStoreConstructor {
   selectedTabId: string = PanelPage.DDP
+  activeConnectionId = 'default'
+  connections: ConnectionSummary[] = [
+    { displayName: 'Default connection', id: 'default' },
+  ]
 
   activeObjectTitle: string | null = null
   activeObject: ViewableObject = null
@@ -41,6 +45,8 @@ export class PanelStoreConstructor {
   constructor() {
     makeObservable(this, {
       selectedTabId: observable,
+      activeConnectionId: observable,
+      connections: observable,
       activeObjectTitle: observable,
       activeObject: observable,
       activeStackTrace: observableShallow,
@@ -51,6 +57,8 @@ export class PanelStoreConstructor {
       setActiveObject: action,
       setActiveStackTrace: action,
       setSelectedTabId: action,
+      setActiveConnectionId: action,
+      setConnections: action,
       setHelpDrawerVisible: action,
       getSubscriptionById: action,
       setGitCommitHash: action,
@@ -74,6 +82,22 @@ export class PanelStoreConstructor {
 
   setSelectedTabId(selectedTabId: string) {
     this.selectedTabId = selectedTabId
+  }
+
+  setActiveConnectionId(connectionId: string) {
+    if (this.connections.some(connection => connection.id === connectionId)) {
+      this.activeConnectionId = connectionId
+      this.subscriptionStore.setCollection([])
+      this.minimongoStore.setCollections({})
+    }
+  }
+
+  setConnections(connections: ConnectionSummary[]) {
+    this.connections = connections
+
+    if (!connections.some(({ id }) => id === this.activeConnectionId)) {
+      this.activeConnectionId = connections[0]?.id ?? 'default'
+    }
   }
 
   setHelpDrawerVisible(isHelpDrawerVisible: boolean) {

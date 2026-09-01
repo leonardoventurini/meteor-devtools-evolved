@@ -46,6 +46,7 @@ type EventType =
   | 'stats'
   | 'meteor-data-performance'
   | 'cache:clear'
+  | 'connections:get'
 
 interface Message<T> {
   eventType: EventType
@@ -105,6 +106,19 @@ interface DDPLog {
   connectionId: string
 }
 
+interface ConnectionSummary {
+  displayName: string
+  id: string
+}
+
+interface ConnectionRequest {
+  connectionId: string
+}
+
+interface ConnectionListPayload {
+  connections: ConnectionSummary[]
+}
+
 interface Bookmark {
   id?: string
   timestamp: number
@@ -150,8 +164,14 @@ interface RawCollectionMetadata {
 }
 
 interface MinimongoSnapshotPayload {
+  connectionId: string
   collections: RawCollections
   metadata: Record<string, RawCollectionMetadata>
+}
+
+interface SubscriptionSnapshotPayload {
+  connectionId: string
+  subscriptions: string
 }
 
 type ViewableObject = object | null

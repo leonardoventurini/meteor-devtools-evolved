@@ -89,4 +89,23 @@ describe('Meteor compatibility fixtures', () => {
       ).toContain("import './local-collections'")
     },
   )
+
+  it.each(Object.keys(maintainedFixtures))(
+    '%s creates an additional DDP connection',
+    fixtureName => {
+      const source = readFileSync(
+        path.join(projectRoot, fixtureName, 'client/additional-connection.js'),
+        'utf8',
+      )
+
+      expect(source).toContain('DDP.connect(Meteor.absoluteUrl())')
+      expect(source).toContain('connection: additionalConnection')
+      expect(
+        readFileSync(
+          path.join(projectRoot, fixtureName, 'client/main.jsx'),
+          'utf8',
+        ),
+      ).toContain("import './additional-connection'")
+    },
+  )
 })

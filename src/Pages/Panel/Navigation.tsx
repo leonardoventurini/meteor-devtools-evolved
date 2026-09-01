@@ -2,7 +2,7 @@ import { PanelPage } from '@/Constants'
 import React, { FunctionComponent, useEffect } from 'react'
 import { usePanelStore } from '@/Stores/PanelStore'
 import { observer } from 'mobx-react-lite'
-import { Bridge, syncSubscriptions } from '@/Bridge'
+import { syncConnectionData, syncMinimongo, syncSubscriptions } from '@/Bridge'
 import { IMenuItem, ITab, TabBar } from '@/Components/TabBar'
 import { Tag } from '@blueprintjs/core'
 import { isNumber } from 'lodash'
@@ -36,10 +36,7 @@ export const Navigation: FunctionComponent = observer(() => {
       icon: 'database',
       handler: () => {
         // Fetch collection data from the page.
-        Bridge.sendContentMessage({
-          eventType: 'minimongo-get-collections',
-          data: null,
-        })
+        syncMinimongo()
       },
     },
     {
@@ -114,6 +111,22 @@ export const Navigation: FunctionComponent = observer(() => {
         tabs={tabs}
         menu={menu}
         onChange={key => panelStore.setSelectedTabId(key)}
+        beforeMenu={
+          <select
+            aria-label='Meteor DDP connection'
+            onChange={event => {
+              panelStore.setActiveConnectionId(event.target.value)
+              syncConnectionData(event.target.value)
+            }}
+            value={panelStore.activeConnectionId}
+          >
+            {panelStore.connections.map(connection => (
+              <option key={connection.id} value={connection.id}>
+                {connection.displayName}
+              </option>
+            ))}
+          </select>
+        }
       />
     </div>
   )

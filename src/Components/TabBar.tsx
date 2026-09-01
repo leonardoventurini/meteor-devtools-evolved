@@ -39,6 +39,15 @@ const TabBarWrapper = styled.div`
     display: flex;
     flex-direction: row;
     margin-left: auto;
+    gap: 0.5rem;
+
+    select {
+      min-width: 9rem;
+      max-width: 16rem;
+      border: 0;
+      color: inherit;
+      background: ${lighten(0.05, backgroundColor)};
+    }
 
     button.menu-item {
       &:hover {
@@ -71,12 +80,18 @@ export interface IMenuItem {
 }
 
 interface Props {
+  beforeMenu?: ReactNode
   tabs: ITab[]
   menu?: IMenuItem[]
   onChange?: (key: string) => void
 }
 
-export const TabBar: FunctionComponent<Props> = ({ tabs, menu, onChange }) => {
+export const TabBar: FunctionComponent<Props> = ({
+  beforeMenu,
+  tabs,
+  menu,
+  onChange,
+}) => {
   const [activeKey, setKey] = useState(tabs[0].key)
 
   const { navigationCollapse } = useBreakpoints()
@@ -134,7 +149,10 @@ export const TabBar: FunctionComponent<Props> = ({ tabs, menu, onChange }) => {
         </Button>
       ))}
 
-      <div className='right-menu'>{rightMenu}</div>
+      <div className='right-menu'>
+        {beforeMenu}
+        {rightMenu}
+      </div>
     </TabBarWrapper>
   )
 }

@@ -7,6 +7,7 @@ export interface LocalCollectionLike {
 
 export interface MongoCollectionLike {
   _collection: LocalCollectionLike
+  _connection?: object | null
   _name: string | null
 }
 
@@ -14,6 +15,11 @@ export interface RegisteredCollection {
   actualName: string | null
   displayName: string
   collection: LocalCollectionLike
+}
+
+interface CollectionListOptions {
+  connection: object
+  includeUnmanaged?: boolean
 }
 
 const LOCAL_COLLECTION_PREFIX = 'Local collection'
@@ -45,6 +51,7 @@ export const createCollectionRegistry = () => {
 
   const list = (
     connectionCollections: Record<string, LocalCollectionLike>,
+    options?: CollectionListOptions,
   ): RegisteredCollection[] => {
     const seen = new Set<LocalCollectionLike>()
     const collections: RegisteredCollection[] = []
@@ -62,6 +69,16 @@ export const createCollectionRegistry = () => {
 
     for (const registered of registeredCollections) {
       if (seen.has(registered._collection)) continue
+      if (options && registered._name === null && !options.includeUnmanaged) {
+        continue
+      }
+      if (
+        options &&
+        registered._name !== null &&
+        registered._connection !== options.connection
+      ) {
+        continue
+      }
 
       seen.add(registered._collection)
       collections.push({

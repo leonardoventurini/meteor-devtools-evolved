@@ -4,12 +4,32 @@ import { PanelStore } from '@/Stores/PanelStore'
 import { DateTime } from 'luxon'
 import { StringUtils } from '@/Utils/StringUtils'
 import { browser } from 'wxt/browser'
+import { shouldAcceptConnectionPayload } from '@/Injectors/ConnectionScoping'
 
-export const syncSubscriptions = () =>
+export const syncConnections = () =>
   Bridge.sendContentMessage({
-    eventType: 'sync-subscriptions',
+    eventType: 'connections:get',
     data: null,
   })
+
+export const syncSubscriptions = (
+  connectionId = PanelStore.activeConnectionId,
+) =>
+  Bridge.sendContentMessage({
+    eventType: 'sync-subscriptions',
+    data: { connectionId } satisfies ConnectionRequest,
+  })
+
+export const syncMinimongo = (connectionId = PanelStore.activeConnectionId) =>
+  Bridge.sendContentMessage({
+    eventType: 'minimongo-get-collections',
+    data: { connectionId } satisfies ConnectionRequest,
+  })
+
+export const syncConnectionData = (connectionId: string) => {
+  syncSubscriptions(connectionId)
+  syncMinimongo(connectionId)
+}
 
 export const syncStats = () =>
   Bridge.sendContentMessage({
@@ -75,6 +95,7 @@ export const Bridge = new (class {
     this.chrome()
 
     syncStats()
+    syncConnections()
   }
 })()
 
@@ -99,8 +120,11 @@ Bridge.register('ddp-event', (message: Message<DDPLog>) => {
     filterType,
   }
 
-  if (filterType === 'subscription') {
-    syncSubscriptions()
+  if (
+    filterType === 'subscription' &&
+    message.data.connectionId === PanelStore.activeConnectionId
+  ) {
+    syncSubscriptions(message.data.connectionId)
   }
 
   PanelStore.ddpStore.pushItem(log)
@@ -109,6 +133,15 @@ Bridge.register('ddp-event', (message: Message<DDPLog>) => {
 Bridge.register(
   'minimongo-get-collections',
   (message: Message<MinimongoSnapshotPayload>) => {
+    if (
+      !shouldAcceptConnectionPayload(
+        PanelStore.activeConnectionId,
+        message.data.connectionId,
+      )
+    ) {
+      return
+    }
+
     PanelStore.minimongoStore.setCollections(
       message.data.collections,
       message.data.metadata,
@@ -116,9 +149,28 @@ Bridge.register(
   },
 )
 
-Bridge.register('sync-subscriptions', (message: Message<any>) => {
-  PanelStore.syncSubscriptions(JSON.parse(message.data.subscriptions))
-})
+Bridge.register(
+  'sync-subscriptions',
+  (message: Message<SubscriptionSnapshotPayload>) => {
+    if (
+      !shouldAcceptConnectionPayload(
+        PanelStore.activeConnectionId,
+        message.data.connectionId,
+      )
+    ) {
+      return
+    }
+
+    PanelStore.syncSubscriptions(JSON.parse(message.data.subscriptions))
+  },
+)
+
+Bridge.register(
+  'connections:get',
+  (message: Message<ConnectionListPayload>) => {
+    PanelStore.setConnections(message.data.connections)
+  },
+)
 
 Bridge.register('stats', (message: Message<any>) => {
   console.log(message.data)
