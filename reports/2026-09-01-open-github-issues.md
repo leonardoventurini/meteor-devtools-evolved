@@ -1,8 +1,8 @@
 # Open GitHub Issues Analysis
 
-**Repository:** `leonardoventurini/meteor-devtools-evolved`  
-**Analysis date:** 2026-09-01  
-**Code baseline:** `73661a0` (`development`)  
+**Repository:** `leonardoventurini/meteor-devtools-evolved`<br>
+**Analysis date:** 2026-09-01<br>
+**Code baseline:** `73661a0` (`development`)<br>
 **Scope:** All open GitHub issues; pull requests and security alerts excluded
 
 ## Executive summary
@@ -47,7 +47,7 @@ Recommended headline actions:
 
 ### #34 — Performance Issues
 
-**Opened:** 2022-04-20 · **Last activity:** 2025-10-01 · **Label:** `bug`  
+**Opened:** 2022-04-20 · **Last activity:** 2025-10-01 · **Label:** `bug`<br>
 **Priority:** P0 · **Confidence:** High that material performance risks remain
 
 Several users across macOS and Windows reported severe CPU, memory, rendering,
@@ -95,7 +95,7 @@ substantial engineering project.
 
 ### #33 — Performance Tab empty
 
-**Opened:** 2022-04-19 · **Last activity:** 2022-04-20 · **Label:** `bug`  
+**Opened:** 2022-04-19 · **Last activity:** 2022-04-20 · **Label:** `bug`<br>
 **Priority:** P1 · **Confidence:** Medium
 
 The only report predates the current React, Meteor, manifest, and build stacks,
@@ -120,7 +120,7 @@ instrumentation must be low-overhead before it is expanded.
 
 ### #54 — Collapse collection JSON and/or filter JSON display
 
-**Opened:** 2025-07-29 · **Last activity:** 2025-07-29 · **Label:** none  
+**Opened:** 2025-07-29 · **Last activity:** 2025-07-29 · **Label:** none<br>
 **Priority:** P1 · **Confidence:** High
 
 The issue asks for collapsed-by-default nested JSON, collapse-all controls,
@@ -149,7 +149,7 @@ issue for JSON inspection usability.
 
 ### #16 — Responsive subscription table columns
 
-**Opened:** 2020-10-20 · **Last activity:** 2021-10-07 · **Label:** `bug`  
+**Opened:** 2020-10-20 · **Last activity:** 2021-10-07 · **Label:** `bug`<br>
 **Priority:** P2 · **Confidence:** High
 
 The owner agreed to fix this, but current code still caps both subscription name
@@ -167,7 +167,7 @@ copy action. Verify narrow, medium, and wide panel layouts.
 
 ### #5 — Add support for unnamed collections
 
-**Opened:** 2020-04-06 · **Last activity:** 2021-10-07 · **Label:** `suggestion`  
+**Opened:** 2020-04-06 · **Last activity:** 2021-10-07 · **Label:** `suggestion`<br>
 **Priority:** P2 · **Confidence:** High that it remains unsupported
 
 The current collector reads only
@@ -187,7 +187,7 @@ collections to prevent key collisions.
 
 ### #10 — Additional DDP connections
 
-**Opened:** 2020-06-15 · **Last activity:** 2021-10-07 · **Label:** `suggestion`  
+**Opened:** 2020-06-15 · **Last activity:** 2021-10-07 · **Label:** `suggestion`<br>
 **Priority:** P2 · **Confidence:** High that it remains unsupported
 
 DDP interception, subscription lookup, and Minimongo collection access are all
@@ -210,7 +210,7 @@ Avoid silently merging data from different servers.
 
 ### #27 — MiniMongo shell
 
-**Opened:** 2021-08-05 · **Last activity:** 2021-10-07 · **Label:** `suggestion`  
+**Opened:** 2021-08-05 · **Last activity:** 2021-10-07 · **Label:** `suggestion`<br>
 **Priority:** P3 · **Confidence:** High that it is not implemented
 
 No shell or `find`/`findOne` query interface exists. The current search is a
@@ -230,7 +230,7 @@ rather than an unrestricted shell.
 
 ### #53 — Meteor 3+ support?
 
-**Opened:** 2025-04-27 · **Last activity:** 2026-02-02 · **Label:** none  
+**Opened:** 2025-04-27 · **Last activity:** 2026-02-02 · **Label:** none<br>
 **Priority:** Close · **Confidence:** High
 
 The issue began as a compatibility question with an imprecise accuracy concern.
