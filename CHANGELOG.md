@@ -67,6 +67,8 @@ All notable changes to this project will be documented in this file.
   Corepack enables the repository's pinned Yarn 4 release.
 - Fixed Minimongo capture replacing complete documents with `null` when they
   contain dates, arrays, or valid falsy field values.
+- Recovered additional DDP connections created before extension injection when
+  they are referenced by Meteor's registered Mongo collections.
 
 ### Removed
 

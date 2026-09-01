@@ -15,7 +15,9 @@ identity would make logs, subscriptions, collection names, and status totals
 ambiguous.
 
 The default connection already exists when extension injection initializes.
-Future connections pass through the global `DDP.connect` function.
+Future connections pass through the global `DDP.connect` function. Classic
+Meteor bundles can also create a connection and its Mongo collection before a
+document-start extension script observes the DDP namespace.
 
 ## Decision
 
@@ -23,6 +25,9 @@ Future connections pass through the global `DDP.connect` function.
   `Default connection`.
 - Proxy future `DDP.connect` calls and assign stable session identities
   `connection-1`, `connection-2`, and so on.
+- Recover already-created connections from Meteor's registered Mongo
+  collections before installing future interception. Ignore the default and
+  local collections, and preserve object-identity deduplication.
 - Preserve `DDP.connect` receiver, arguments, return value, and static behavior.
 - Instrument each connection stream once and attach its identity to every DDP
   event.
@@ -46,11 +51,12 @@ names from different connections to collide.
 Independent selectors can put DDP, subscriptions, and Minimongo into
 inconsistent scopes. One global selector makes the active server an invariant.
 
-### Discover connections by scanning global objects
+### Discover connections by scanning arbitrary global objects
 
 Meteor provides no stable public list, and application variables are not
-reliably enumerable. Intercepting the creation API is deterministic for future
-connections.
+reliably enumerable. Intercepting the creation API remains deterministic for
+future connections; the narrow recovery path uses only connections already
+owned by Meteor's registered collections.
 
 ### Infer connection identity from endpoint URL
 
@@ -67,8 +73,9 @@ merging and makes delayed responses safe.
 ## Consequences
 
 - Connection labels are stable for a page session and reset after reload.
-- Connections created before injection cannot be recovered unless referenced by
-  `Meteor.connection`; `document_start` minimizes this window.
+- Connections created before injection are recovered when referenced by a
+  registered Mongo collection. Unreferenced historical connections remain
+  undiscoverable because Meteor exposes no public all-connections registry.
 - Adding a connection updates the selector without reloading DevTools.
 - Existing captures remain in the bounded DDP store and reappear when their
   connection is selected.

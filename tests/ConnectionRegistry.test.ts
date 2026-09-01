@@ -4,8 +4,32 @@ import {
   createConnectionRegistry,
   installDDPConnectRegistry,
 } from '../src/Injectors/ConnectionRegistry'
+import { initializeMeteorConnections } from '../src/Injectors/MeteorConnections'
 
 describe('DDP connection registry', () => {
+  it('recovers connections created before the injector from Mongo collections', () => {
+    const defaultConnection = { name: 'default' }
+    const existingConnection = { name: 'existing' }
+    const ddp = { connect: () => ({ name: 'future' }) }
+    const mongo = {
+      _collections: new Map([
+        ['default', { _connection: defaultConnection }],
+        ['additional', { _connection: existingConnection }],
+        ['local', { _connection: null }],
+      ]),
+    }
+
+    const registry = initializeMeteorConnections(defaultConnection, ddp, mongo)
+
+    expect(registry.list()).toEqual([
+      expect.objectContaining({ id: 'default', connection: defaultConnection }),
+      expect.objectContaining({
+        id: 'connection-1',
+        connection: existingConnection,
+      }),
+    ])
+  })
+
   it('assigns stable identities without duplicate registrations', () => {
     const defaultConnection = { endpoint: 'default' }
     const additionalConnection = { endpoint: 'additional' }

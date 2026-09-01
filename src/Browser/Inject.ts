@@ -120,7 +120,7 @@ export function injectAll() {
       if (typeof Meteor === 'object' && !globalThis.__meteor_devtools_evolved) {
         globalThis.__meteor_devtools_evolved = true
 
-        initializeMeteorConnections(Meteor.connection, DDP)
+        initializeMeteorConnections(Meteor.connection, DDP, Mongo)
         DDPInjector()
         MinimongoInjector()
         MeteorAdapter()

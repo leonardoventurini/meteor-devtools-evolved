@@ -31,6 +31,12 @@ declare const DDP: {
 }
 
 declare const Mongo: {
+  _collections?: Map<
+    unknown,
+    {
+      _connection?: DDPConnection | null
+    }
+  >
   Collection: {
     prototype: Record<string, (...args: unknown[]) => unknown>
   }
