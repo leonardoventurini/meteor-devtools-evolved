@@ -204,7 +204,7 @@ evidence needed to close it.
 
 - [ ] Close #53 with Meteor 3.5.1 fixture evidence and a #34 reference.
 - [ ] Apply a consistent, minimal label taxonomy to the open backlog.
-- [ ] Implement and verify #34 performance foundations.
+- [x] Implement and verify #34 performance foundations.
 - [ ] Implement and verify #33 modern Performance instrumentation.
 - [ ] Implement and verify #54 JSON inspection increments.
 - [ ] Implement and verify #16 responsive subscriptions.
