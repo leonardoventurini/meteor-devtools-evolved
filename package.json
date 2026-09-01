@@ -13,7 +13,7 @@
     "devtools"
   ],
   "scripts": {
-    "setup": "cd devapp-3.5 && meteor npm install && cd ../ && yarn",
+    "setup": "yarn install && cd devapp-3.5 && meteor npm install && cd ../devapp-2.16 && meteor npm install",
     "devapp": "cd devapp-3.5 && meteor npm start",
     "devapp:2": "cd devapp-2.16 && meteor run --port 2200",
     "build:chrome": "wxt build -b chrome",

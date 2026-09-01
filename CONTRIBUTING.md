@@ -1,8 +1,9 @@
 ## Setting the Environment Up
 
-1. Install Node.js `26.5.1`, then install dependencies for `devapp-3.5` and
-   the root project with Yarn. Install [Just](https://just.systems/) 1.57 or
-   newer to use the repository helper recipes.
+1. Install Node.js `26.5.1`, then install dependencies for the root project and
+   both maintained Meteor fixtures with Yarn. Install
+   [Just](https://just.systems/) 1.57 or newer to use the repository helper
+   recipes.
 
 ```shell
 yarn setup
@@ -98,7 +99,7 @@ yarn typecheck
 yarn test
 yarn build:chrome
 yarn validate:chrome
-yarn test:e2e
+yarn test:e2e:all
 yarn build:firefox
 yarn validate:firefox
 yarn audit
@@ -108,10 +109,12 @@ yarn audit:devapp
 `yarn audit:all` additionally reports development-only advisories without
 blocking CI when no patched upstream release exists.
 
-The Playwright suite starts the real Meteor 3.5.1 fixture and loads the
-production Chrome extension. It covers service-worker startup, page injection,
-DDP capture, connections, subscriptions, Minimongo snapshots, and packaged
-panel rendering. Run it after the Chrome build validator.
+The Playwright suite starts the real Meteor 3.5.1 and 2.16 fixtures and loads
+the production Chrome extension against each generation. It covers
+service-worker startup, page injection, DDP capture, connections, subscriptions,
+Minimongo snapshots, and packaged panel rendering. Run it after the Chrome
+build validator. Use `yarn test:e2e` for Meteor 3 only or
+`yarn test:e2e:meteor2` for Meteor 2 only.
 
 Playwright cannot address a custom Chrome DevTools panel through a supported
 page target. Complete that browser-owned boundary manually before release:
@@ -121,6 +124,10 @@ page target. Complete that browser-owned boundary manually before release:
 3. Confirm the default and additional connections are available.
 4. Confirm DDP traffic, all three Minimongo collection types, and the `links`
    subscription contain live fixture data.
+
+Repeat the browser-owned boundary on Meteor 2 by running `yarn devapp:2` and
+`yarn wxt -b chrome` in separate terminals, opening
+`http://127.0.0.1:2200`, and checking the `random` collection and subscriptions.
 
 ## Guidelines & Objectives
 

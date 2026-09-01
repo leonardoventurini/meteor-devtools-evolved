@@ -23,10 +23,9 @@ develop browser="chrome":
 watch browser="chrome":
     if [ "{{ browser }}" = "firefox" ]; then yarn wxt -b firefox --mv2; else yarn wxt -b chrome; fi
 
-# Install root and active-fixture dependencies.
+# Install root and both maintained fixture dependency graphs.
 setup:
-    yarn install
-    cd devapp-3.5 && meteor npm install
+    yarn setup
 
 # Update Meteor in the active development fixture.
 update-meteor:

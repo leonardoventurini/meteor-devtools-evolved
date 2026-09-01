@@ -116,10 +116,10 @@ documentation, a decision update, and the full verification matrix.
 
 ## Executable Checklist
 
-- [ ] Add typed, validated Meteor fixture descriptors and portable commands.
-- [ ] Parameterize the existing production-extension scenario.
-- [ ] Run and stabilize the full scenario against Meteor 2.16 and 3.5.1.
-- [ ] Add isolated fixture matrix legs and fixture-specific diagnostics to CI.
-- [ ] Update contributor documentation and the changelog.
-- [ ] Record the dual-generation browser-testing decision.
+- [x] Add typed, validated Meteor fixture descriptors and portable commands.
+- [x] Parameterize the existing production-extension scenario.
+- [x] Run and stabilize the full scenario against Meteor 2.16 and 3.5.1.
+- [x] Add isolated fixture matrix legs and fixture-specific diagnostics to CI.
+- [x] Update contributor documentation and the changelog.
+- [x] Record the dual-generation browser-testing decision.
 - [ ] Run the complete verification and audit matrix.

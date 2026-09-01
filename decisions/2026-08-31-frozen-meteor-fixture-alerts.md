@@ -1,5 +1,10 @@
 # Frozen Meteor fixture dependency alerts
 
+> The policy consequence for the retained `devapp-2.16` fixture is superseded
+> by [Dual-generation Meteor browser integration](2026-09-01-dual-generation-meteor-browser-integration.md).
+> Meteor 2.16 is now a blocking compatibility runner while its non-production
+> legacy dependency findings remain explicitly report-only.
+
 ## Context
 
 GitHub Dependabot reports vulnerabilities from every supported manifest on the

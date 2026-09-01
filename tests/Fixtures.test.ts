@@ -27,6 +27,17 @@ const readFixturePackage = (fixtureName: string): FixturePackageJson =>
   ) as FixturePackageJson
 
 describe('Meteor compatibility fixtures', () => {
+  it('installs both maintained fixtures through the root setup command', () => {
+    const rootPackageJson = readFixturePackage('.')
+    const setupCommand = rootPackageJson.scripts.setup
+
+    expect(setupCommand).toContain('devapp-3.5')
+    expect(setupCommand).toContain('devapp-2.16')
+    expect(readFileSync(path.join(projectRoot, 'justfile'), 'utf8')).toContain(
+      'yarn setup',
+    )
+  })
+
   it('maintains only the current Meteor 2 and Meteor 3 baselines', () => {
     const fixtureNames = readdirSync(projectRoot)
       .filter(name => /^devapp-\d/.test(name))

@@ -84,8 +84,8 @@ The extension is built with TypeScript, React 19, MobX 7, Blueprint 6,
 Tailwind CSS 4, Sass, and WXT on Vite 8. WXT generates the Chrome Manifest V3
 and Firefox Manifest V2 packages from shared typed entrypoints. Vitest covers
 deterministic core and build-policy logic. Playwright loads the packaged Chrome
-extension in bundled Chromium and exercises it against the active Meteor 3.5.1
-fixture.
+extension in bundled Chromium and exercises it against the maintained Meteor
+3.5.1 and 2.16 fixtures.
 
 ### Requirements
 
@@ -104,7 +104,8 @@ corepack enable
 
 ### Setup
 
-Install the root dependencies and the active Meteor development fixture:
+Install the root dependencies and both maintained Meteor fixtures, then install
+Playwright's pinned Chromium revision:
 
 ```shell
 yarn setup
@@ -138,7 +139,7 @@ yarn typecheck
 yarn test
 yarn build:chrome
 yarn validate:chrome
-yarn test:e2e
+yarn test:e2e:all
 yarn build:firefox
 yarn validate:firefox
 yarn audit
@@ -149,18 +150,24 @@ yarn audit:devapp
 development-only advisories. See the [contributing guide](CONTRIBUTING.md) for
 the complete local workflow.
 
-`yarn test:e2e` starts `devapp-3.5` on port 2100 and loads the production Chrome
-build in Playwright's bundled Chromium. It verifies Manifest V3 startup,
+`yarn test:e2e` covers the default `devapp-3.5` fixture on port 2100;
+`yarn test:e2e:meteor2` covers `devapp-2.16` on port 2200; and
+`yarn test:e2e:all` runs both sequentially. Each command loads the production
+Chrome build in Playwright's bundled Chromium and verifies Manifest V3 startup,
 page-world injection, DDP method/result capture, multiple connections,
 subscriptions, named and unnamed Minimongo documents, and packaged panel
-rendering. Build and validate Chrome first. If a fixture server is already
-running locally, Playwright reuses it; CI always starts a clean server.
+rendering. Build and validate Chrome first. CI runs the fixtures on separate
+matrix runners.
 
 Chrome does not expose custom DevTools panels through a supported Playwright
 page target. Before release, perform the remaining headed smoke with
 `yarn dev:chrome`: open DevTools on `http://127.0.0.1:2100`, select **Meteor**,
 confirm both connections appear, then verify DDP, Minimongo, and Subscriptions
 show live fixture data.
+
+For the same manual boundary on Meteor 2, start `yarn devapp:2`, run
+`yarn wxt -b chrome` in another terminal, open `http://127.0.0.1:2200`, and
+repeat the panel checks against the `random` collections and subscriptions.
 
 Run `just` to list optional helper recipes for development, Meteor maintenance,
 and release packaging.
@@ -170,11 +177,11 @@ Production extension artifacts are written to `.output/chrome-mv3` and
 
 ## Compatibility fixtures
 
-`devapp-3.5` is the active Meteor 3.5.1 development and integration fixture.
-`devapp-2.16` is the single maintained Meteor 2 compatibility fixture. Each
-fixture uses its Meteor release's embedded Node/npm toolchain, so run its npm
-commands through `meteor npm`. Both fixtures exercise multiple unnamed local
-collections and an additional DDP connection.
+`devapp-3.5` is the active Meteor 3.5.1 development fixture. `devapp-2.16` is
+the single maintained Meteor 2 compatibility fixture. Both are blocking Chrome
+browser-integration targets. Each fixture uses its Meteor release's embedded
+Node/npm toolchain, so run its npm commands through `meteor npm`. Both fixtures
+exercise multiple unnamed local collections and an additional DDP connection.
 
 ## Contributing
 
