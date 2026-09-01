@@ -12,9 +12,16 @@ import {
 
 type BufferCallback<T> = ((buffer: T[]) => void) | null
 type FilterFunction<T> = ((collection: T[], search: string) => T[]) | null
+type SearchableOptions = {
+  collectionLimit?: number
+}
 
 export abstract class Searchable<T> {
-  constructor() {
+  private readonly collectionLimit: number | null
+
+  constructor({ collectionLimit }: SearchableOptions = {}) {
+    this.collectionLimit = collectionLimit ?? null
+
     makeObservable(this, {
       collection: observableShallow,
       currentPage: observable,
@@ -78,9 +85,14 @@ export abstract class Searchable<T> {
       this.bufferCallback(this.buffer)
     }
 
-    console.log('submitted')
-
     this.collection.unshift(...this.buffer.toReversed())
+
+    if (
+      this.collectionLimit !== null &&
+      this.collection.length > this.collectionLimit
+    ) {
+      this.collection.splice(this.collectionLimit)
+    }
 
     this.buffer = []
   }
@@ -101,8 +113,6 @@ export abstract class Searchable<T> {
     this.loadingTimeout = setTimeout(
       action(() => {
         this.isLoading = isLoading
-
-        console.log('loading:false')
       }),
       250,
     )

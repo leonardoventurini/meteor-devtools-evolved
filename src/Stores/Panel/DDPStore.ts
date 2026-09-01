@@ -4,6 +4,7 @@ import { Searchable } from '../Common/Searchable'
 import { PanelStore } from '@/Stores/PanelStore'
 import { generatePreview } from '@/Utils/MessageFormatter'
 import { clearCache } from '@/Bridge'
+import { DDP_LOG_RETENTION_LIMIT } from '@/Constants'
 
 export class DDPStore extends Searchable<DDPLog> {
   inboundBytes = 0
@@ -11,7 +12,7 @@ export class DDPStore extends Searchable<DDPLog> {
   newLogs: string[] = []
 
   constructor() {
-    super()
+    super({ collectionLimit: DDP_LOG_RETENTION_LIMIT })
     makeObservable(this, {
       inboundBytes: observable,
       outboundBytes: observable,
