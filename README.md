@@ -38,7 +38,11 @@ Are you beginning with Meteor? Do you want to get a sense of "what is going on" 
 
 ### Distributed Data Protocol (DDP)
 
-Everything you need to track and understand what is going on under the hood of your Meteor application. The extension allows you to filter and search for any DDP message, being able to handle thousands and thousands of messages without a hiccup.
+Inspect, filter, search, and bookmark inbound and outbound DDP messages. Capture
+is bounded to the newest 5,000 events, and actionable outbound calls include
+stack traces. Applications that use additional `DDP.connect` connections get a
+global connection selector; logs, byte totals, subscriptions, and Minimongo
+snapshots remain isolated by server.
 
 ### Bookmarks
 
@@ -46,7 +50,20 @@ The DDP inspection is ephemeral, but you can save as many DDP messages you want 
 
 ### Minimongo
 
-You don't know what data belongs to where? You can rapidly search for anything in your Minimongo data and easily visualize the documents with our blazing fast custom-made Object Treerinator.
+Browse named and unnamed local collections, copy document IDs directly from
+result rows, and inspect nested documents with persisted expansion depth,
+expand/collapse-all controls, and highlighted key/value filtering.
+
+The structured query interface runs only against the captured snapshot. It
+supports dotted selectors, an explicit operator allowlist, sort, projection,
+and a 500-document result ceiling without evaluating arbitrary JavaScript.
+
+### Subscriptions and performance
+
+Inspect subscription parameters, readiness, activity, and duration in a
+responsive table. The Performance panel records explicit Meteor 2 synchronous
+collection calls and Meteor 3 asynchronous settlement timing while preserving
+application return values and errors.
 
 ### Privacy
 
@@ -139,7 +156,8 @@ Production extension artifacts are written to `.output/chrome-mv3` and
 `devapp-3.5` is the active Meteor 3.5.1 development and integration fixture.
 `devapp-2.16` is the single maintained Meteor 2 compatibility fixture. Each
 fixture uses its Meteor release's embedded Node/npm toolchain, so run its npm
-commands through `meteor npm`.
+commands through `meteor npm`. Both fixtures exercise multiple unnamed local
+collections and an additional DDP connection.
 
 ## Contributing
 

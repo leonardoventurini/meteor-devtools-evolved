@@ -202,8 +202,8 @@ evidence needed to close it.
 
 ## Executable checklist
 
-- [ ] Close #53 with Meteor 3.5.1 fixture evidence and a #34 reference.
-- [ ] Apply a consistent, minimal label taxonomy to the open backlog.
+- [x] Close #53 with Meteor 3.5.1 fixture evidence and a #34 reference.
+- [x] Apply a consistent, minimal label taxonomy to the open backlog.
 - [x] Implement and verify #34 performance foundations.
 - [x] Implement and verify #33 modern Performance instrumentation.
 - [x] Implement and verify #54 JSON inspection increments.
@@ -211,7 +211,7 @@ evidence needed to close it.
 - [x] Implement and verify #5 unnamed collections.
 - [x] Implement and verify #10 multiple DDP connections.
 - [x] Implement and verify #27 structured query/projection.
-- [ ] Update the changelog and durable documentation.
-- [ ] Record architecture and product decisions.
+- [x] Update the changelog and durable documentation.
+- [x] Record architecture and product decisions.
 - [ ] Run the complete validation matrix.
-- [ ] Reconcile issue comments/state with verified results.
+- [x] Reconcile issue comments/state with verified results.
