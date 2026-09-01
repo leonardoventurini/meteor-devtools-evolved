@@ -10,6 +10,9 @@ import { syncSubscriptions } from '@/Bridge'
 import { StatusBar } from '@/Components/StatusBar'
 import { Field } from '@/Components/Field'
 import { TextInput } from '@/Components/TextInput'
+import { SUBSCRIPTION_COLUMNS } from './SubscriptionLayout'
+
+export { SUBSCRIPTION_COLUMNS } from './SubscriptionLayout'
 
 interface Props {
   isVisible: boolean
@@ -22,6 +25,22 @@ const Wrapper = styled.div`
   tbody {
     width: 100%;
     max-width: 100%;
+  }
+
+  table {
+    table-layout: fixed;
+  }
+
+  td {
+    overflow: hidden;
+  }
+
+  td span {
+    display: block;
+    max-width: 100%;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
   }
 
   tbody {
@@ -52,6 +71,11 @@ export const Subscriptions: FunctionComponent<Props> = observer(
       <Hideable isVisible={isVisible}>
         <Wrapper className='mde-content'>
           <HTMLTable compact interactive>
+            <colgroup>
+              {SUBSCRIPTION_COLUMNS.map(column => (
+                <col key={column.key} style={{ width: column.width }} />
+              ))}
+            </colgroup>
             <thead>
               <tr>
                 <th>ID</th>
@@ -83,12 +107,12 @@ export const Subscriptions: FunctionComponent<Props> = observer(
                       <Tag minimal>{subscription.id}</Tag>
                     </td>
                     <td>
-                      <Tag style={{ maxWidth: '25vw' }} minimal>
+                      <Tag minimal title={subscription.name}>
                         {subscription.name}
                       </Tag>
                     </td>
                     <td>
-                      <Tag style={{ maxWidth: '25vw' }} minimal>
+                      <Tag minimal title={JSON.stringify(subscription.params)}>
                         {JSON.stringify(subscription.params)}
                       </Tag>
                     </td>

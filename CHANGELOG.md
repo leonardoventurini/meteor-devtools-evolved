@@ -49,6 +49,8 @@ All notable changes to this project will be documented in this file.
 
 ### Fixed
 
+- Made subscription columns responsive by bounding compact metadata and giving
+  Params the remaining table width.
 - Fixed Node 26 CI startup by preventing setup-node from invoking Yarn before
   Corepack enables the repository's pinned Yarn 4 release.
 - Fixed Minimongo capture replacing complete documents with `null` when they
