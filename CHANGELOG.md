@@ -24,7 +24,8 @@ All notable changes to this project will be documented in this file.
 - Added root Vitest coverage for pagination, circular JSON serialization, and
   string utilities.
 - Added Node 26 CI verification for immutable installs, linting, typechecking,
-  tests, Chrome and Firefox production builds, and dependency audits.
+  tests, Chrome and Firefox production builds, dependency audits, and a
+  parallel Meteor 3 browser-integration gate with failure diagnostics.
 - Added pinned, strictly typed Playwright Chromium integration coverage for the
   packaged extension's injection, DDP, connection, subscription, Minimongo, and
   panel-rendering boundaries against the active Meteor 3.5.1 fixture.

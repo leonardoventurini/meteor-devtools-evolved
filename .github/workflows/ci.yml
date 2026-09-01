@@ -65,3 +65,54 @@ jobs:
 
       - name: Audit Meteor fixture dependencies
         run: yarn audit:devapp
+
+  meteor-integration:
+    name: Meteor 3 Extension Integration
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v6
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v6
+        with:
+          node-version: 26.5.1
+
+      - name: Install Corepack
+        run: npm install --global corepack@0.36.0
+
+      - name: Enable Corepack
+        run: corepack enable
+
+      - name: Install dependencies
+        run: yarn install --immutable
+
+      - name: Install Meteor CLI
+        run: npm install --global meteor --foreground-script
+
+      - name: Install Meteor fixture dependencies
+        working-directory: devapp-3.5
+        run: meteor npm ci
+
+      - name: Build Chrome extension
+        run: yarn build:chrome
+
+      - name: Validate Chrome extension
+        run: yarn validate:chrome
+
+      - name: Install Playwright Chromium
+        run: yarn playwright install --with-deps chromium
+
+      - name: Run Meteor extension integration tests
+        run: yarn test:e2e
+
+      - name: Upload Playwright failure diagnostics
+        if: failure()
+        uses: actions/upload-artifact@v7
+        with:
+          name: playwright-report
+          path: |
+            playwright-report/
+            test-results/
+          if-no-files-found: ignore
+          retention-days: 7
