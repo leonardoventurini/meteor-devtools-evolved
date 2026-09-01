@@ -209,7 +209,7 @@ evidence needed to close it.
 - [x] Implement and verify #54 JSON inspection increments.
 - [x] Implement and verify #16 responsive subscriptions.
 - [x] Implement and verify #5 unnamed collections.
-- [ ] Implement and verify #10 multiple DDP connections.
+- [x] Implement and verify #10 multiple DDP connections.
 - [ ] Implement and verify #27 structured query/projection.
 - [ ] Update the changelog and durable documentation.
 - [ ] Record architecture and product decisions.
