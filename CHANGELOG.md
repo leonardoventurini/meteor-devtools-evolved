@@ -84,7 +84,8 @@ All notable changes to this project will be documented in this file.
 - Updated vulnerable transitive dependencies where patched releases are
   available and added enforced production and active-fixture audits to CI.
 - Patched active-root AJV and Babel runtime advisories while preserving
-  explicitly documented historical Meteor 2 fixture locks.
+  explicitly documented historical Meteor 2 fixture locks, whose advisories
+  are reported without blocking the compatibility matrix.
 - Removed the deprecated `@types/react-json-tree` stub from the active root
   dependency graph.
 

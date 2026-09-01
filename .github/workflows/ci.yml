@@ -101,6 +101,12 @@ jobs:
         working-directory: ${{ matrix.fixture }}
         run: meteor npm ci
 
+      - name: Report legacy Meteor 2 fixture advisories
+        if: matrix.fixture == 'devapp-2.16'
+        continue-on-error: true
+        working-directory: devapp-2.16
+        run: meteor npm audit
+
       - name: Build Chrome extension
         run: yarn build:chrome
 
