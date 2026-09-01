@@ -213,5 +213,5 @@ evidence needed to close it.
 - [x] Implement and verify #27 structured query/projection.
 - [x] Update the changelog and durable documentation.
 - [x] Record architecture and product decisions.
-- [ ] Run the complete validation matrix.
+- [x] Run the complete validation matrix.
 - [x] Reconcile issue comments/state with verified results.
