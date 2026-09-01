@@ -67,6 +67,12 @@ one-second polling window. The new browser gate is intended to reveal whether
 that is a real compatibility defect. If it fails, fix the production readiness
 mechanism rather than weakening or delaying the test.
 
+Verification exposed the related real-world ordering case: a classic bundle can
+create an additional DDP connection before interception begins. The extension
+now recovers such connections when Meteor's registered Mongo collections retain
+their connection objects, while continuing to intercept future `DDP.connect`
+calls.
+
 The `random` collection fills through ten subscriptions and can be partially
 populated when the first snapshot is requested. Assertions must retry production
 requests until stable boundary documents and subscriptions appear.
@@ -122,4 +128,4 @@ documentation, a decision update, and the full verification matrix.
 - [x] Add isolated fixture matrix legs and fixture-specific diagnostics to CI.
 - [x] Update contributor documentation and the changelog.
 - [x] Record the dual-generation browser-testing decision.
-- [ ] Run the complete verification and audit matrix.
+- [x] Run the complete verification and audit matrix.
