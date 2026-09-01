@@ -22,6 +22,7 @@
     "@rspack/dev-server": "1.1.5",
     "@rspack/plugin-react-refresh": "1.6.0",
     "@svgr/webpack": "^8.1.0",
+    "@swc/core": "1.16.1",
     "react-refresh": "^0.18.0"
   },
   "meteor": {

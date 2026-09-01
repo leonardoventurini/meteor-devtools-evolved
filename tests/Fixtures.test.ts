@@ -80,6 +80,7 @@ describe('Meteor compatibility fixtures', () => {
       '@rspack/core': '1.7.5',
       '@rspack/dev-server': '1.1.5',
       '@rspack/plugin-react-refresh': '1.6.0',
+      '@swc/core': '1.16.1',
     })
   })
 
