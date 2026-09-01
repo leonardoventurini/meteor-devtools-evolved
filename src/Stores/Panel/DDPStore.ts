@@ -21,6 +21,9 @@ export class DDPStore extends Searchable<DDPLog> {
       clearLogs: action,
       filterRegularExpression: computed,
       subscriptionLogs: computed,
+      connectionLogs: computed,
+      connectionInboundBytes: computed,
+      connectionOutboundBytes: computed,
     })
   }
 
@@ -80,10 +83,28 @@ export class DDPStore extends Searchable<DDPLog> {
   }
 
   get subscriptionLogs() {
-    return this.collection.filter(
+    return this.connectionLogs.filter(
       log =>
         log.parsedContent.msg === 'ready' || log.parsedContent.msg === 'sub',
     )
+  }
+
+  get connectionLogs() {
+    return this.collection.filter(log =>
+      isLogForConnection(log, PanelStore.activeConnectionId),
+    )
+  }
+
+  get connectionInboundBytes() {
+    return this.connectionLogs
+      .filter(log => log.isInbound)
+      .reduce((sum, log) => sum + (log.size ?? 0), 0)
+  }
+
+  get connectionOutboundBytes() {
+    return this.connectionLogs
+      .filter(log => log.isOutbound)
+      .reduce((sum, log) => sum + (log.size ?? 0), 0)
   }
 
   getSubscriptionInit(subscription) {

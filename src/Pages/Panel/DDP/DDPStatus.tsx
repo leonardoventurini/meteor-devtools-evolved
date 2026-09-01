@@ -22,8 +22,13 @@ export const DDPStatus: FunctionComponent = observer(() => {
     (type, isEnabled) => settingStore.setFilter(type, isEnabled),
     [settingStore],
   )
-  const collectionLength = ddpStore.collection.length
-  const { inboundBytes, outboundBytes, isLoading, pagination } = ddpStore
+  const collectionLength = ddpStore.connectionLogs.length
+  const {
+    connectionInboundBytes,
+    connectionOutboundBytes,
+    isLoading,
+    pagination,
+  } = ddpStore
 
   return (
     <StatusBar>
@@ -85,12 +90,16 @@ export const DDPStatus: FunctionComponent = observer(() => {
           </Tooltip>
         ) : null}
 
-        {!!inboundBytes && (
-          <Field icon='cloud-download'>{prettyBytes(inboundBytes)}</Field>
+        {!!connectionInboundBytes && (
+          <Field icon='cloud-download'>
+            {prettyBytes(connectionInboundBytes)}
+          </Field>
         )}
 
-        {!!outboundBytes && (
-          <Field icon='cloud-upload'>{prettyBytes(outboundBytes)}</Field>
+        {!!connectionOutboundBytes && (
+          <Field icon='cloud-upload'>
+            {prettyBytes(connectionOutboundBytes)}
+          </Field>
         )}
 
         {isNumber(collectionLength) && (
