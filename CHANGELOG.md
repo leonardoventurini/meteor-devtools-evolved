@@ -25,8 +25,9 @@ All notable changes to this project will be documented in this file.
   string utilities.
 - Added Node 26 CI verification for immutable installs, linting, typechecking,
   tests, Chrome and Firefox production builds, and dependency audits.
-- Added pinned, strictly typed Playwright infrastructure for Chromium extension
-  integration tests against the active Meteor fixture.
+- Added pinned, strictly typed Playwright Chromium integration coverage for the
+  packaged extension's injection, DDP, connection, subscription, Minimongo, and
+  panel-rendering boundaries against the active Meteor 3.5.1 fixture.
 
 ### Changed
 
