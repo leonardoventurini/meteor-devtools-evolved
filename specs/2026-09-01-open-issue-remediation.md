@@ -206,7 +206,7 @@ evidence needed to close it.
 - [ ] Apply a consistent, minimal label taxonomy to the open backlog.
 - [x] Implement and verify #34 performance foundations.
 - [x] Implement and verify #33 modern Performance instrumentation.
-- [ ] Implement and verify #54 JSON inspection increments.
+- [x] Implement and verify #54 JSON inspection increments.
 - [ ] Implement and verify #16 responsive subscriptions.
 - [ ] Implement and verify #5 unnamed collections.
 - [ ] Implement and verify #10 multiple DDP connections.
