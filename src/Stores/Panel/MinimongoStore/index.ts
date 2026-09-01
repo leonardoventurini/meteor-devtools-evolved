@@ -74,6 +74,8 @@ export class MinimongoStore {
       )
 
       this.collectionMetadata[collectionName] = {
+        actualName:
+          this.collectionMetadata[collectionName]?.actualName ?? collectionName,
         collectionSize,
         collectionSizePretty: prettyBytes(collectionSize),
       }
@@ -96,7 +98,15 @@ export class MinimongoStore {
     )
   }
 
-  setCollections(collections: RawCollections) {
+  setCollections(
+    collections: RawCollections,
+    metadata: Record<string, RawCollectionMetadata> = {},
+  ) {
+    this.collectionMetadata = mapValues(metadata, collection => ({
+      ...collection,
+      collectionSize: 0,
+      collectionSizePretty: prettyBytes(0),
+    }))
     this.collections = mapValues(collections, (collection, collectionName) => {
       return collection.map(document =>
         MinimongoStore.wrapDocument(document, collectionName),

@@ -129,6 +129,15 @@ interface IDocument extends Record<string, any> {
 type MinimongoCollections = Record<string, IDocumentWrapper[]>
 type RawCollections = Record<string, IDocument[]>
 
+interface RawCollectionMetadata {
+  actualName: string | null
+}
+
+interface MinimongoSnapshotPayload {
+  collections: RawCollections
+  metadata: Record<string, RawCollectionMetadata>
+}
+
 type ViewableObject = object | null
 
 type MessageHandler = (message: Message<any>) => void
@@ -262,6 +271,7 @@ interface IMeteorSubscription {
 
 interface ICollectionMetadata {
   [key: string]: {
+    actualName: string | null
     collectionSize: number
     collectionSizePretty: string
   }

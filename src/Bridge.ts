@@ -108,8 +108,11 @@ Bridge.register('ddp-event', (message: Message<DDPLog>) => {
 
 Bridge.register(
   'minimongo-get-collections',
-  (message: Message<RawCollections>) => {
-    PanelStore.minimongoStore.setCollections(message.data)
+  (message: Message<MinimongoSnapshotPayload>) => {
+    PanelStore.minimongoStore.setCollections(
+      message.data.collections,
+      message.data.metadata,
+    )
   },
 )
 

@@ -71,4 +71,22 @@ describe('Meteor compatibility fixtures', () => {
       '@rspack/plugin-react-refresh': '1.6.0',
     })
   })
+
+  it.each(Object.keys(maintainedFixtures))(
+    '%s exercises multiple unnamed local collections',
+    fixtureName => {
+      const source = readFileSync(
+        path.join(projectRoot, fixtureName, 'client/local-collections.js'),
+        'utf8',
+      )
+
+      expect(source.match(/new Mongo\.Collection\(null\)/g)).toHaveLength(2)
+      expect(
+        readFileSync(
+          path.join(projectRoot, fixtureName, 'client/main.jsx'),
+          'utf8',
+        ),
+      ).toContain("import './local-collections'")
+    },
+  )
 })
