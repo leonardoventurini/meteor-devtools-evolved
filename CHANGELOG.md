@@ -67,8 +67,9 @@ All notable changes to this project will be documented in this file.
   Corepack enables the repository's pinned Yarn 4 release.
 - Fixed browser-integration CI startup by adding the npm-installed Meteor CLI
   directory to subsequent GitHub Actions steps.
-- Fixed clean-environment Meteor 3 integration startup by pinning Rspack's SWC
-  peer dependency, preventing Meteor's auto-installer from disrupting Rspack.
+- Fixed clean-environment Meteor 3 integration startup by pinning Rspack's
+  complete SWC dependency set, preventing Meteor's auto-installer from
+  disrupting Rspack.
 - Fixed Minimongo capture replacing complete documents with `null` when they
   contain dates, arrays, or valid falsy field values.
 - Recovered additional DDP connections created before extension injection when
