@@ -65,6 +65,8 @@ All notable changes to this project will be documented in this file.
   Params the remaining table width.
 - Fixed Node 26 CI startup by preventing setup-node from invoking Yarn before
   Corepack enables the repository's pinned Yarn 4 release.
+- Fixed browser-integration CI startup by adding the npm-installed Meteor CLI
+  directory to subsequent GitHub Actions steps.
 - Fixed Minimongo capture replacing complete documents with `null` when they
   contain dates, arrays, or valid falsy field values.
 - Recovered additional DDP connections created before extension injection when

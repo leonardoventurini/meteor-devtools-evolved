@@ -95,7 +95,9 @@ jobs:
         run: yarn install --immutable
 
       - name: Install Meteor CLI
-        run: npm install --global meteor --foreground-script
+        run: |
+          npm install --global meteor --foreground-script
+          echo "$HOME/.meteor" >> "$GITHUB_PATH"
 
       - name: Install Meteor fixture dependencies
         working-directory: ${{ matrix.fixture }}
