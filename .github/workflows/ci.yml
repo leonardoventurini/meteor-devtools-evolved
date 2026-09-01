@@ -67,8 +67,15 @@ jobs:
         run: yarn audit:devapp
 
   meteor-integration:
-    name: Meteor 3 Extension Integration
+    name: ${{ matrix.fixture }} Extension Integration
     runs-on: ubuntu-latest
+    timeout-minutes: 30
+    strategy:
+      fail-fast: false
+      matrix:
+        fixture:
+          - devapp-3.5
+          - devapp-2.16
     steps:
       - name: Checkout code
         uses: actions/checkout@v6
@@ -91,7 +98,7 @@ jobs:
         run: npm install --global meteor --foreground-script
 
       - name: Install Meteor fixture dependencies
-        working-directory: devapp-3.5
+        working-directory: ${{ matrix.fixture }}
         run: meteor npm ci
 
       - name: Build Chrome extension
@@ -104,13 +111,13 @@ jobs:
         run: yarn playwright install --with-deps chromium
 
       - name: Run Meteor extension integration tests
-        run: yarn test:e2e
+        run: node scripts/run-e2e.mjs ${{ matrix.fixture }}
 
       - name: Upload Playwright failure diagnostics
         if: failure()
         uses: actions/upload-artifact@v7
         with:
-          name: playwright-report
+          name: playwright-report-${{ matrix.fixture }}
           path: |
             playwright-report/
             test-results/
