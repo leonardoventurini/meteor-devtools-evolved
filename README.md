@@ -83,13 +83,15 @@ for repository metadata and links you explicitly open from the extension.
 The extension is built with TypeScript, React 19, MobX 7, Blueprint 6,
 Tailwind CSS 4, Sass, and WXT on Vite 8. WXT generates the Chrome Manifest V3
 and Firefox Manifest V2 packages from shared typed entrypoints. Vitest covers
-deterministic core and build-policy logic, while the active Meteor fixture
-provides integration coverage.
+deterministic core and build-policy logic. Playwright loads the packaged Chrome
+extension in bundled Chromium and exercises it against the active Meteor 3.5.1
+fixture.
 
 ### Requirements
 
 - Node.js 26.5.1
 - Yarn 4.12.0, selected through Corepack
+- The Meteor CLI used by the pinned fixture release
 - [Just](https://just.systems/) 1.57 or newer for repository helper recipes
 
 Node 26 does not bundle Corepack. Install and enable the pinned compatible
@@ -106,6 +108,7 @@ Install the root dependencies and the active Meteor development fixture:
 
 ```shell
 yarn setup
+yarn test:e2e:install
 ```
 
 Start the default Chrome development environment:
@@ -135,6 +138,7 @@ yarn typecheck
 yarn test
 yarn build:chrome
 yarn validate:chrome
+yarn test:e2e
 yarn build:firefox
 yarn validate:firefox
 yarn audit
@@ -144,6 +148,19 @@ yarn audit:devapp
 `yarn audit:all` reports the complete dependency graph, including
 development-only advisories. See the [contributing guide](CONTRIBUTING.md) for
 the complete local workflow.
+
+`yarn test:e2e` starts `devapp-3.5` on port 2100 and loads the production Chrome
+build in Playwright's bundled Chromium. It verifies Manifest V3 startup,
+page-world injection, DDP method/result capture, multiple connections,
+subscriptions, named and unnamed Minimongo documents, and packaged panel
+rendering. Build and validate Chrome first. If a fixture server is already
+running locally, Playwright reuses it; CI always starts a clean server.
+
+Chrome does not expose custom DevTools panels through a supported Playwright
+page target. Before release, perform the remaining headed smoke with
+`yarn dev:chrome`: open DevTools on `http://127.0.0.1:2100`, select **Meteor**,
+confirm both connections appear, then verify DDP, Minimongo, and Subscriptions
+show live fixture data.
 
 Run `just` to list optional helper recipes for development, Meteor maintenance,
 and release packaging.

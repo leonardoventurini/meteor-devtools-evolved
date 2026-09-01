@@ -6,7 +6,12 @@
 
 ```shell
 yarn setup
+yarn test:e2e:install
 ```
+
+The second command installs the Chromium revision pinned to Playwright. The
+browser binary is cached outside the repository and is not part of Yarn's
+dependency graph.
 
 The repository pins Yarn through the `packageManager` field. Because Node 26
 does not bundle Corepack, install and enable it first when your Node
@@ -93,6 +98,7 @@ yarn typecheck
 yarn test
 yarn build:chrome
 yarn validate:chrome
+yarn test:e2e
 yarn build:firefox
 yarn validate:firefox
 yarn audit
@@ -101,6 +107,20 @@ yarn audit:devapp
 
 `yarn audit:all` additionally reports development-only advisories without
 blocking CI when no patched upstream release exists.
+
+The Playwright suite starts the real Meteor 3.5.1 fixture and loads the
+production Chrome extension. It covers service-worker startup, page injection,
+DDP capture, connections, subscriptions, Minimongo snapshots, and packaged
+panel rendering. Run it after the Chrome build validator.
+
+Playwright cannot address a custom Chrome DevTools panel through a supported
+page target. Complete that browser-owned boundary manually before release:
+
+1. Run `yarn dev:chrome` and open `http://127.0.0.1:2100`.
+2. Open DevTools and select the **Meteor** panel.
+3. Confirm the default and additional connections are available.
+4. Confirm DDP traffic, all three Minimongo collection types, and the `links`
+   subscription contain live fixture data.
 
 ## Guidelines & Objectives
 

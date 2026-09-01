@@ -124,16 +124,16 @@ verification infrastructure rather than shipped runtime behavior.
 
 ## Executable Checklist
 
-- [ ] Add pinned Playwright dependency, strict configuration, ignored artifacts,
+- [x] Add pinned Playwright dependency, strict configuration, ignored artifacts,
       and root scripts.
-- [ ] Add an initially failing integration scenario for the Meteor 3.5.1
+- [x] Add an initially failing integration scenario for the Meteor 3.5.1
       fixture and unpacked Chrome extension.
-- [ ] Add only the deterministic fixture behavior required by the scenario.
-- [ ] Verify worker startup, injection, DDP method/result capture, connections,
+- [x] Add only the deterministic fixture behavior required by the scenario.
+- [x] Verify worker startup, injection, DDP method/result capture, connections,
       Minimongo documents, subscriptions, and packaged panel rendering.
-- [ ] Add the browser gate and failure artifacts to CI.
-- [ ] Document browser installation, local execution, coverage boundaries, and
+- [x] Add the browser gate and failure artifacts to CI.
+- [x] Document browser installation, local execution, coverage boundaries, and
       the headed manual DevTools-panel smoke.
-- [ ] Update `CHANGELOG.md` under Unreleased.
-- [ ] Add the architectural decision record.
+- [x] Update `CHANGELOG.md` under Unreleased.
+- [x] Add the architectural decision record.
 - [ ] Run the complete verification matrix and dependency audits.
