@@ -210,7 +210,7 @@ evidence needed to close it.
 - [x] Implement and verify #16 responsive subscriptions.
 - [x] Implement and verify #5 unnamed collections.
 - [x] Implement and verify #10 multiple DDP connections.
-- [ ] Implement and verify #27 structured query/projection.
+- [x] Implement and verify #27 structured query/projection.
 - [ ] Update the changelog and durable documentation.
 - [ ] Record architecture and product decisions.
 - [ ] Run the complete validation matrix.
