@@ -77,10 +77,10 @@ requests with explanatory comments. No release is created by this work.
 
 ## Executable checklist
 
-- [ ] Inventory every open pull request and current check state.
-- [ ] Compare every diff with current `development`.
-- [ ] Merge each valid, verified request.
-- [ ] Close each obsolete, duplicate, superseded, or failing request.
-- [ ] Confirm no open pull requests remain.
-- [ ] Record the final disposition and consequences in a decision record.
-- [ ] Verify and commit the repository-owned triage records.
+- [x] Inventory every open pull request and current check state.
+- [x] Compare every diff with current `development`.
+- [x] Merge each valid, verified request (none qualified).
+- [x] Close each obsolete, duplicate, superseded, or failing request.
+- [x] Confirm no open pull requests remain.
+- [x] Record the final disposition and consequences in a decision record.
+- [x] Verify and commit the repository-owned triage records.
