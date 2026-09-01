@@ -8,6 +8,7 @@ import styled from 'styled-components'
 import { MinimongoStatus } from '@/Pages/Panel/Minimongo/MinimongoStatus'
 import { Button } from '@/Components/Button'
 import prettyBytes from 'pretty-bytes'
+import { MinimongoQueryDialog } from './MinimongoQueryDialog'
 
 interface Props {
   isVisible: boolean
@@ -115,6 +116,7 @@ export const Minimongo: FunctionComponent<Props> = observer(({ isVisible }) => {
       <MinimongoStatus />
 
       <MinimongoNavigator />
+      <MinimongoQueryDialog />
     </Hideable>
   )
 })

@@ -43,18 +43,18 @@ export const MinimongoContainer: FunctionComponent<Props> = observer(
 
     const store = usePanelStore()
 
-    const { activeCollectionDocuments, activeCollection } = store.minimongoStore
+    const { activeCollection, queriedDocuments } = store.minimongoStore
 
     const { width, height } = useDimensions(contentRef, [isVisible])
 
     return (
       <div className='container' ref={contentRef}>
         <List
-          rowCount={activeCollectionDocuments.filtered.length}
+          rowCount={queriedDocuments.length}
           rowHeight={28}
           rowComponent={Row}
           rowProps={{
-            items: activeCollectionDocuments.filtered,
+            items: queriedDocuments,
             activeCollection,
             setActiveObject: document => store.setActiveObject(document),
             setActiveCollection: collectionName =>

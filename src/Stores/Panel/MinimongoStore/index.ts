@@ -5,6 +5,19 @@ import { JSONUtils } from '@/Utils/JSONUtils'
 import { StringUtils } from '@/Utils/StringUtils'
 import prettyBytes from 'pretty-bytes'
 import { mapValues } from '@/Utils/Objects'
+import {
+  executeMinimongoQueryEntries,
+  parseMinimongoQuery,
+  type MinimongoQuery,
+  type MinimongoQueryInput,
+} from '@/Utils/MinimongoQuery'
+
+export const DEFAULT_MINIMONGO_QUERY_INPUT: MinimongoQueryInput = {
+  limit: '100',
+  projection: '{}',
+  selector: '{}',
+  sort: '{}',
+}
 
 export class MinimongoStore {
   activeCollectionDocuments = new CollectionStore()
@@ -15,6 +28,10 @@ export class MinimongoStore {
   search: string = ''
   collectionColorMap: Record<string, string> = {}
   isNavigatorVisible = false
+  isQueryVisible = false
+  query: MinimongoQuery | null = null
+  queryError: string | null = null
+  queryInput: MinimongoQueryInput = DEFAULT_MINIMONGO_QUERY_INPUT
 
   constructor() {
     makeObservable(this, {
@@ -24,16 +41,24 @@ export class MinimongoStore {
       search: observable,
       collectionColorMap: observable,
       isNavigatorVisible: observable,
+      isQueryVisible: observable,
+      query: observable,
+      queryError: observable,
+      queryInput: observable,
       totalDocuments: computed,
       collectionNames: computed,
       filteredCollectionNames: computed,
       totalSize: computed,
+      queriedDocuments: computed,
       getMetadata: action,
       computeCollectionSizes: action,
       syncDocuments: action,
       setCollections: action,
       setActiveCollection: action,
       setNavigatorVisible: action,
+      setQueryVisible: action,
+      applyQuery: action,
+      clearQuery: action,
     })
   }
 
@@ -59,6 +84,16 @@ export class MinimongoStore {
     return Object.entries(this.collectionMetadata).reduce(
       (sum, [collectionName, metadata]) => sum + metadata.collectionSize,
       0,
+    )
+  }
+
+  get queriedDocuments(): IDocumentWrapper[] {
+    const documents = this.activeCollectionDocuments.filtered
+
+    if (!this.query) return documents
+
+    return executeMinimongoQueryEntries(documents, this.query).map(entry =>
+      MinimongoStore.wrapDocument(entry.document, entry.collectionName),
     )
   }
 
@@ -131,6 +166,27 @@ export class MinimongoStore {
 
   setNavigatorVisible(isVisible: boolean) {
     this.isNavigatorVisible = isVisible
+  }
+
+  setQueryVisible(isVisible: boolean) {
+    this.isQueryVisible = isVisible
+  }
+
+  applyQuery(input: MinimongoQueryInput) {
+    try {
+      this.query = parseMinimongoQuery(input)
+      this.queryInput = input
+      this.queryError = null
+    } catch (error) {
+      this.queryError =
+        error instanceof Error ? error.message : 'Unable to parse query.'
+    }
+  }
+
+  clearQuery() {
+    this.query = null
+    this.queryError = null
+    this.queryInput = DEFAULT_MINIMONGO_QUERY_INPUT
   }
 
   static wrapDocument(

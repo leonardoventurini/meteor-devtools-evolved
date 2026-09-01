@@ -39,9 +39,21 @@ export const MinimongoStatus: FunctionComponent = observer(() => {
           }
         />
 
-        <Field icon='eye-open'>
-          {minimongoStore.activeCollectionDocuments.pagination.length}
-        </Field>
+        <Button
+          active={!!minimongoStore.query}
+          icon='filter'
+          onClick={() => minimongoStore.setQueryVisible(true)}
+        >
+          Query
+        </Button>
+
+        {minimongoStore.query && (
+          <Button icon='cross' onClick={() => minimongoStore.clearQuery()}>
+            Clear query
+          </Button>
+        )}
+
+        <Field icon='eye-open'>{minimongoStore.queriedDocuments.length}</Field>
       </div>
     </StatusBar>
   )
