@@ -11,6 +11,7 @@ type AccCallData = {
   averageRuntime: number
   updatedAt: number
   calls: number
+  timing: CallData['timing']
 }
 
 export class PerformanceStore<T> {
@@ -54,9 +55,10 @@ export class PerformanceStore<T> {
         method: data.key,
         args: data.args,
         runtime,
-        averageRuntime: runtime / existingData.calls,
+        averageRuntime: runtime / (existingData.calls + 1),
         updatedAt: Date.now(),
         calls: existingData.calls + 1,
+        timing: data.timing,
       })
     } else {
       this.callMap.set(key, {
@@ -68,6 +70,7 @@ export class PerformanceStore<T> {
         averageRuntime: data?.runtime,
         updatedAt: Date.now(),
         calls: 1,
+        timing: data.timing,
       })
     }
 

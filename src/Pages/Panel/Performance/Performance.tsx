@@ -40,6 +40,7 @@ export const Performance = observer(
               <tr>
                 <th>Collection</th>
                 <th>Method</th>
+                <th>Timing</th>
                 <th>Arguments</th>
                 <th>Total</th>
                 <th>Average</th>
@@ -54,6 +55,9 @@ export const Performance = observer(
                   </td>
                   <td>
                     <Tag minimal>{data.method}</Tag>
+                  </td>
+                  <td>
+                    <Tag minimal>{data.timing}</Tag>
                   </td>
                   <td>
                     <Tag style={{ maxWidth: '50vw' }} minimal>

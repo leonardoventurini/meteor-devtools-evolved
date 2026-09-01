@@ -19,6 +19,9 @@ All notable changes to this project will be documented in this file.
   per-document console diagnostics from capture hot paths.
 - Limited stack collection to actionable outbound DDP messages and changed
   Minimongo snapshots from per-message work to explicit panel refreshes.
+- Restored Performance capture for non-enumerable Meteor collection methods,
+  added Meteor 3 async operations and settlement timing, and corrected average
+  runtime calculations.
 - Modernized Chrome and Firefox manifests, set Firefox 140 desktop and Firefox
   142 Android as the supported baselines, aligned HTTP(S) injection scope, and
   synchronized packaged versions with `package.json`.

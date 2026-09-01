@@ -272,4 +272,5 @@ type CallData = {
   key: string
   args: string
   runtime: number
+  timing: 'sync' | 'async'
 }
