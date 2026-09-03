@@ -67,5 +67,5 @@ complete CI matrix before merge. No staged runtime rollout is required.
 - [x] Extend the bounded production discovery window.
 - [x] Update the changelog and architectural decision record.
 - [x] Run local static and unit verification.
-- [ ] Push the PR branch and verify the full CI matrix.
-- [ ] Merge PR #85.
+- [x] Push the PR branch and verify the full CI matrix.
+- [x] Merge PR #85.
