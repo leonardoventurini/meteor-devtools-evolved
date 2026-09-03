@@ -243,6 +243,43 @@ a {
   outline-offset: 2px;
 }
 
+.fixture-controls {
+  padding: var(--spacing-lg);
+  margin-bottom: var(--spacing-xl);
+}
+
+.fixture-summary {
+  color: var(--color-muted);
+  margin-bottom: var(--spacing-md);
+}
+
+.fixture-actions {
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--spacing-sm);
+}
+
+.fixture-actions .button {
+  flex: 1 1 150px;
+}
+
+.fixture-status {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(140px, 1fr));
+  gap: var(--spacing-md);
+  margin-top: var(--spacing-lg);
+}
+
+.fixture-status dt {
+  color: var(--color-muted);
+  font-size: 0.75rem;
+  text-transform: uppercase;
+}
+
+.fixture-status dd {
+  font-weight: 600;
+}
+
 /* ============ Resources Section ============ */
 .section-title {
   font-size: 1.5rem;

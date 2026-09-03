@@ -1,12 +1,15 @@
 import { Meteor } from 'meteor/meteor'
 import { LinksCollection } from '/imports/api/links'
 import { Random } from 'meteor/random'
+import { seedFixtureCollections } from './fixture-server'
 
 async function insertLink({ title, url }) {
   await LinksCollection.insertAsync({ title, url, createdAt: new Date() })
 }
 
 Meteor.startup(async () => {
+  await seedFixtureCollections()
+
   // If the Links collection is empty, add some data.
   if ((await LinksCollection.find().countAsync()) === 0) {
     await insertLink({

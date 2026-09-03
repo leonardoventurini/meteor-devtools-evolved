@@ -1,18 +1,13 @@
-import { Meteor } from 'meteor/meteor'
 import { Mongo } from 'meteor/mongo'
+import { FIXTURE_COLLECTION_NAMES } from '/imports/api/fixture-data'
 
-Meteor.startup(async () => {
-  const firstLocalCollection = new Mongo.Collection(null)
-  const secondLocalCollection = new Mongo.Collection(null)
+export const FirstLocalCollection = new Mongo.Collection(null)
+export const SecondLocalCollection = new Mongo.Collection(null)
+export const ClientOps = new Mongo.Collection(FIXTURE_COLLECTION_NAMES.clientOps, { connection: null })
 
+export async function initializeLocalCollections() {
   await Promise.all([
-    firstLocalCollection.insertAsync({
-      _id: 'local-one',
-      fixture: 'Meteor 3.5.1',
-    }),
-    secondLocalCollection.insertAsync({
-      _id: 'local-two',
-      fixture: 'Meteor 3.5.1',
-    }),
+    FirstLocalCollection.upsertAsync('local-one', { $set: { fixture: 'Meteor 3.5.1' } }),
+    SecondLocalCollection.upsertAsync('local-two', { $set: { fixture: 'Meteor 3.5.1' } }),
   ])
-})
+}

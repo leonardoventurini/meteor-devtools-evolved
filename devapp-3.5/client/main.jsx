@@ -4,8 +4,10 @@ import { App } from '/imports/ui/App'
 import '/imports/ui/styles.css'
 import './local-collections'
 import './additional-connection'
+import { initializeFixtureClient } from './fixture-client'
 
-Meteor.startup(() => {
+Meteor.startup(async () => {
+  await initializeFixtureClient()
   const container = document.getElementById('react-target')
   const root = createRoot(container)
   root.render(<App />)

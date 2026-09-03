@@ -1,11 +1,12 @@
 import { DDP } from 'meteor/ddp-client'
-import { Meteor } from 'meteor/meteor'
 import { Mongo } from 'meteor/mongo'
+import { Meteor } from 'meteor/meteor'
+import { FIXTURE_COLLECTION_NAMES } from '/imports/api/fixture-data'
 
-Meteor.startup(() => {
-  const additionalConnection = DDP.connect(Meteor.absoluteUrl())
+export const additionalConnection = DDP.connect(Meteor.absoluteUrl())
 
-  new Mongo.Collection('additionalLinks', {
-    connection: additionalConnection,
-  })
+export const RemoteCollection = new Mongo.Collection(FIXTURE_COLLECTION_NAMES.remote, {
+  connection: additionalConnection,
 })
+
+export const remoteSubscription = additionalConnection.subscribe('fixture.remote')
