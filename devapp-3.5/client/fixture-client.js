@@ -98,6 +98,9 @@ export const fixtureApi = {
 
 export async function initializeFixtureClient() {
   await initializeLocalCollections()
+  // Keep the generated app's original collection available to baseline
+  // extension checks independently of React component mount timing.
+  Meteor.subscribe('links')
   Meteor.subscribe('fixture.dashboard', {
     onReady() { publishStatus({ ready: true }) },
     onError(error) { publishStatus({ lastError: { error: error.error, reason: error.reason, details: error.details } }) },
