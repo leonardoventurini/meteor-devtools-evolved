@@ -1,6 +1,10 @@
 import { describe, expect, it } from 'vitest'
 import {
   DEFAULT_METEOR_FIXTURE_ID,
+  FIXTURE_COLLECTION_COUNTS,
+  FIXTURE_CONTRACT_VERSION,
+  FIXTURE_METHODS,
+  FIXTURE_PUBLICATIONS,
   METEOR_FIXTURES,
   resolveMeteorFixture,
 } from './e2e/MeteorFixtures'
@@ -29,5 +33,20 @@ describe('Meteor browser-integration fixtures', () => {
     expect(() => resolveMeteorFixture('devapp-1')).toThrow(
       'Unknown Meteor E2E fixture "devapp-1"',
     )
+  })
+
+  it('defines one exact expanded validation contract for both generations', () => {
+    for (const fixture of Object.values(METEOR_FIXTURES)) {
+      expect(fixture.contractVersion).toBe(FIXTURE_CONTRACT_VERSION)
+      expect(fixture.collectionCounts).toEqual(FIXTURE_COLLECTION_COUNTS)
+      expect(fixture.publications).toEqual(FIXTURE_PUBLICATIONS)
+      expect(fixture.methods).toEqual(FIXTURE_METHODS)
+      expect(
+        fixture.collectionCounts.projects +
+          fixture.collectionCounts.tasks +
+          fixture.collectionCounts.events,
+      ).toBe(750)
+      expect(fixture.collectionCounts.remote).toBe(12)
+    }
   })
 })
