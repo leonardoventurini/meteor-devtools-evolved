@@ -10,7 +10,11 @@ import {
 } from '../imports/api/fixture-data'
 import { RandomCollection } from '../imports/api/random'
 import { FixtureRemote, remoteReady } from './additional-connection'
-import { FixtureClientOps, runLocalPerformanceScenario } from './local-collections'
+import {
+  FixtureClientOps,
+  localCollectionsReady,
+  runLocalPerformanceScenario,
+} from './local-collections'
 
 export const STATUS_EVENT = 'meteor-devtools-fixture-status'
 const WAIT_TIMEOUT_MS = 30_000
@@ -174,7 +178,7 @@ Meteor.startup(async () => {
   const legacyRandomSubscriptions = LEGACY_RANDOM_PUBLICATIONS.map(
     publication => Meteor.subscribe(publication),
   )
-  await remoteReady
+  await Promise.all([remoteReady, localCollectionsReady])
   status.secondary.ready = true
   await waitFor(
     () =>
