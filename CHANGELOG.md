@@ -61,6 +61,8 @@ All notable changes to this project will be documented in this file.
 
 ### Fixed
 
+- Extended bounded page-world discovery so slower classic Meteor bundles can
+  initialize after the former one-second cutoff.
 - Made subscription columns responsive by bounding compact metadata and giving
   Params the remaining table width.
 - Fixed Node 26 CI startup by preventing setup-node from invoking Yarn before
