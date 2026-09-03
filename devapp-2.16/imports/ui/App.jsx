@@ -1,133 +1,73 @@
-import React, { useEffect, useRef, useState } from 'react'
-import { useTracker } from 'meteor/react-meteor-data'
-import { RandomCollection } from '../api/random'
+import React, { useEffect, useState } from 'react'
+import { STATUS_EVENT, fixtureContract } from '../../client/fixture-contract'
+
+const CONTROLS = [
+  ['structuredEcho', 'Structured echo', 'fixture-structured-echo'],
+  ['complexValues', 'Complex values', 'fixture-complex-values'],
+  ['delayedSuccess', 'Delayed success', 'fixture-delayed-success'],
+  ['methodFailure', 'Method failure', 'fixture-method-failure'],
+  ['mutationLifecycle', 'Mutation lifecycle', 'fixture-mutation-lifecycle'],
+  [
+    'publicationLifecycle',
+    'Publication lifecycle',
+    'fixture-publication-lifecycle',
+  ],
+  ['burst', 'Traffic burst', 'fixture-burst'],
+  ['localPerformance', 'Local performance', 'fixture-local-performance'],
+  ['reset', 'Reset scenarios', 'fixture-reset'],
+]
 
 export const App = () => {
-  const [isSpamming, setSpamming] = useState(false)
-  const spammerRef = useRef(0)
-
-  const r1to100 = useTracker(() => {
-    const handle = Meteor.subscribe('random1to100')
-    return {
-      isLoading: !handle.ready(),
-      docs: RandomCollection.find({}).fetch(),
-    }
-  }, [])
-
-  const r101to200 = useTracker(() => {
-    const handle = Meteor.subscribe('random101to200')
-    return {
-      isLoading: !handle.ready(),
-      docs: RandomCollection.find({}).fetch(),
-    }
-  }, [])
-
-  const r201to300 = useTracker(() => {
-    const handle = Meteor.subscribe('random201to300')
-    return {
-      isLoading: !handle.ready(),
-      docs: RandomCollection.find({}).fetch(),
-    }
-  }, [])
-
-  const r301to400 = useTracker(() => {
-    const handle = Meteor.subscribe('random301to400')
-    return {
-      isLoading: !handle.ready(),
-      docs: RandomCollection.find({}).fetch(),
-    }
-  }, [])
-
-  const r401to500 = useTracker(() => {
-    const handle = Meteor.subscribe('random401to500')
-    return {
-      isLoading: !handle.ready(),
-      docs: RandomCollection.find({}).fetch(),
-    }
-  }, [])
-
-  const r501to600 = useTracker(() => {
-    const handle = Meteor.subscribe('random501to600')
-    return {
-      isLoading: !handle.ready(),
-      docs: RandomCollection.find({}).fetch(),
-    }
-  }, [])
-
-  const r601to700 = useTracker(() => {
-    const handle = Meteor.subscribe('random601to700')
-    return {
-      isLoading: !handle.ready(),
-      docs: RandomCollection.find({}).fetch(),
-    }
-  }, [])
-
-  const r701to800 = useTracker(() => {
-    const handle = Meteor.subscribe('random701to800')
-    return {
-      isLoading: !handle.ready(),
-      docs: RandomCollection.find({}).fetch(),
-    }
-  }, [])
-
-  const r801to900 = useTracker(() => {
-    const handle = Meteor.subscribe('random801to900')
-    return {
-      isLoading: !handle.ready(),
-      docs: RandomCollection.find({}).fetch(),
-    }
-  }, [])
-
-  const r901to1000 = useTracker(() => {
-    const handle = Meteor.subscribe('random901to1000')
-    return {
-      isLoading: !handle.ready(),
-      docs: RandomCollection.find({}).fetch(),
-    }
-  }, [])
+  const [status, setStatus] = useState(fixtureContract.getStatus())
 
   useEffect(() => {
-    if (isSpamming && !spammerRef.current) {
-      spammerRef.current = setInterval(() => {
-        Meteor.call('echo', 'Echo')
-      }, 100)
-    } else {
-      if (spammerRef.current) {
-        clearInterval(spammerRef.current)
-        spammerRef.current = 0
-      }
-    }
-  }, [isSpamming])
+    const update = event => setStatus(event.detail)
+    window.addEventListener(STATUS_EVENT, update)
+    fixtureContract.waitUntilReady().then(setStatus).catch(() => {
+      setStatus(fixtureContract.getStatus())
+    })
+
+    return () => window.removeEventListener(STATUS_EVENT, update)
+  }, [])
+
+  const run = name => {
+    fixtureContract[name]().catch(() => {
+      setStatus(fixtureContract.getStatus())
+    })
+  }
 
   return (
-    <div>
-      <h1>Welcome to Meteor!</h1>
+    <main className="fixture-page">
+      <header>
+        <p className="eyebrow">Meteor 2.16 validation fixture</p>
+        <h1>Meteor DevTools scenario catalog</h1>
+        <p>
+          Deterministic data and bounded controls for inspecting DDP,
+          subscriptions, MiniMongo, methods, and local performance.
+        </p>
+      </header>
 
-      <button
-        onClick={() => {
-          setSpamming(!isSpamming)
-        }}
-      >
-        {isSpamming ? 'Spam [On]' : 'Spam [Off]'}
-      </button>
+      <section className="fixture-card" data-testid="fixture-controls">
+        <h2>Fixture controls</h2>
+        <div className="fixture-controls">
+          {CONTROLS.map(([name, label, testId]) => (
+            <button
+              key={name}
+              type="button"
+              data-testid={testId}
+              disabled={Boolean(status.activeScenario) || !status.ready}
+              onClick={() => run(name)}
+            >
+              {label}
+            </button>
+          ))}
+        </div>
+      </section>
 
-      <button
-        onClick={() => {
-          Meteor.call('echo', 'Echo')
-        }}
-      >
-        String
-      </button>
-
-      <button
-        onClick={() => {
-          Meteor.call('echo', {
-            echo: 'Parley gun log poop deck salmagundi gibbet prow chandler gaff boatswain. Loaded to the gunwalls Jack Ketch parrel sheet smartly gabion coffer Admiral of the Black interloper carouser. Rutters booty barque galleon pink gun Barbary Coast run a shot across the bow list marooned.',
-          })
-        }}
-      >
-        Object
-      </button>
-    </div>
+      <section className="fixture-card" aria-live="polite">
+        <h2>Status</h2>
+        <pre data-testid="fixture-status">{JSON.stringify(status, null, 2)}</pre>
+      </section>
+    </main>
   )
 }

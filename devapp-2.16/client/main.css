@@ -1,4 +1,70 @@
 body {
-  padding: 10px;
-  font-family: sans-serif;
+  margin: 0;
+  color: #172032;
+  background: #f4f7fb;
+  font-family: Inter, ui-sans-serif, system-ui, sans-serif;
+}
+
+.fixture-page {
+  width: min(900px, calc(100% - 32px));
+  margin: 40px auto;
+}
+
+.fixture-page header {
+  margin-bottom: 24px;
+}
+
+.fixture-page h1,
+.fixture-page h2,
+.fixture-page p {
+  margin-top: 0;
+}
+
+.eyebrow {
+  color: #596780;
+  font-size: 12px;
+  font-weight: 700;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+}
+
+.fixture-card {
+  margin-bottom: 16px;
+  padding: 20px;
+  border: 1px solid #d8dfeb;
+  border-radius: 12px;
+  background: white;
+  box-shadow: 0 6px 24px rgb(30 43 67 / 8%);
+}
+
+.fixture-controls {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(160px, 1fr));
+  gap: 10px;
+}
+
+.fixture-controls button {
+  padding: 10px 12px;
+  border: 1px solid #aebbd0;
+  border-radius: 8px;
+  color: #172032;
+  background: #f8faff;
+  cursor: pointer;
+}
+
+.fixture-controls button:hover:not(:disabled) {
+  border-color: #516b9d;
+  background: #edf2ff;
+}
+
+.fixture-controls button:disabled {
+  cursor: wait;
+  opacity: 0.55;
+}
+
+.fixture-card pre {
+  max-height: 340px;
+  margin-bottom: 0;
+  overflow: auto;
+  font-size: 12px;
 }
