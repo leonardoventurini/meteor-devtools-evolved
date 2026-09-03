@@ -13,6 +13,18 @@ import { FixtureClientOps, runLocalPerformanceScenario } from './local-collectio
 
 export const STATUS_EVENT = 'meteor-devtools-fixture-status'
 const WAIT_TIMEOUT_MS = 5_000
+const LEGACY_RANDOM_PUBLICATIONS = Object.freeze([
+  'random1to100',
+  'random101to200',
+  'random201to300',
+  'random301to400',
+  'random401to500',
+  'random501to600',
+  'random601to700',
+  'random701to800',
+  'random801to900',
+  'random901to1000',
+])
 const transientSubscriptions = new Set()
 const status = {
   ready: false, activeScenario: null, lastScenario: null, lastResult: null,
@@ -158,6 +170,9 @@ globalThis.__meteorDevtoolsFixture = fixtureContract
 Meteor.startup(async () => {
   const baseline = Meteor.subscribe('fixture.dashboard')
   Meteor.subscribe('fixture.projects')
+  LEGACY_RANDOM_PUBLICATIONS.forEach(publication => {
+    Meteor.subscribe(publication)
+  })
   await remoteReady
   status.secondary.ready = true
   await waitFor(() => baseline.ready()
