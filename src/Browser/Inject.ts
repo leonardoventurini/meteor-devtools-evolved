@@ -6,6 +6,10 @@ import { initializeMeteorConnections } from '@/Injectors/MeteorConnections'
 
 const STACK_TRACE_LIMIT = 50
 const HEARTBEAT_MESSAGES = new Set(['{"msg":"ping"}', '{"msg":"pong"}'])
+const METEOR_DISCOVERY_INTERVAL_MS = 10
+const METEOR_DISCOVERY_TIMEOUT_MS = 10_000
+const METEOR_DISCOVERY_ATTEMPTS =
+  METEOR_DISCOVERY_TIMEOUT_MS / METEOR_DISCOVERY_INTERVAL_MS
 
 export const sendMessage = (eventType: EventType, data: object) => {
   window.postMessage(
@@ -111,8 +115,8 @@ export function injectAll() {
         : 'Initializing on the main page...',
     )
 
-    let attempts = 100
-    let interval = null
+    let attempts = METEOR_DISCOVERY_ATTEMPTS
+    let interval: ReturnType<typeof setInterval> | undefined
 
     function inject() {
       --attempts
@@ -128,7 +132,11 @@ export function injectAll() {
         globalThis.__meteor_devtools_evolved_receiveMessage =
           Registry.run.bind(Registry)
 
-        warning(`Initialized. Attempts: ${100 - attempts}.`)
+        if (interval) clearInterval(interval)
+
+        warning(
+          `Initialized. Attempts: ${METEOR_DISCOVERY_ATTEMPTS - attempts}.`,
+        )
       }
 
       if (attempts === 0) {
@@ -146,6 +154,8 @@ export function injectAll() {
 
     inject()
 
-    interval = globalThis.setInterval(inject, 10)
+    if (!globalThis.__meteor_devtools_evolved) {
+      interval = globalThis.setInterval(inject, METEOR_DISCOVERY_INTERVAL_MS)
+    }
   }
 }
