@@ -21,6 +21,8 @@ All notable changes to this project will be documented in this file.
   Minimongo snapshots by server instead of silently merging their data.
 - Added a safe structured query interface for captured Minimongo snapshots with
   allowlisted selectors, dotted fields, sort, bounded limits, and projection.
+- Added a persisted DDP startup-history option that can preserve cached traffic
+  or atomically begin inspection from newly captured messages.
 - Added root Vitest coverage for pagination, circular JSON serialization, and
   string utilities.
 - Added Node 26 CI verification for immutable installs, linting, typechecking,
@@ -89,6 +91,8 @@ All notable changes to this project will be documented in this file.
 
 ### Security
 
+- Added the extension-local `storage` permission solely to persist the DDP
+  startup-history preference across the Options page and background worker.
 - Reduced Firefox privileges by removing the unnecessary `tabs` permission and
   declared that the extension collects no data.
 - Updated vulnerable transitive dependencies where patched releases are

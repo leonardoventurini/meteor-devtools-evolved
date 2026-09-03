@@ -44,6 +44,11 @@ stack traces. Applications that use additional `DDP.connect` connections get a
 global connection selector; logs, byte totals, subscriptions, and Minimongo
 snapshots remain isolated by server.
 
+The extension Options page controls whether a newly opened DevTools panel shows
+messages captured before it opened or starts from current traffic. **Show
+captured history** remains the default. **Start from now** discards cached rows
+and byte totals for the inspected tab without affecting bookmarks or page data.
+
 ### Bookmarks
 
 The DDP inspection is ephemeral, but you can save as many DDP messages you want for later search and retrieval, from any host. Be careful though, it is saved on IndexedDB.
@@ -68,8 +73,10 @@ application return values and errors.
 ### Privacy
 
 The extension does not collect or send analytics. Bookmarks remain in your
-browser's local IndexedDB storage. Network access is limited to the GitHub API
-for repository metadata and links you explicitly open from the extension.
+browser's local IndexedDB storage. The DDP startup-history preference uses the
+extension's local settings storage and is not transmitted. Network access is
+limited to the GitHub API for repository metadata and links you explicitly open
+from the extension.
 
 ## Install
 

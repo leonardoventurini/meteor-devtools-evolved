@@ -131,16 +131,16 @@ explicitly choose Start from now.
 
 ## Executable checklist
 
-- [ ] Add failing tests for defaulting, validation, persistence, history replay,
+- [x] Add failing tests for defaulting, validation, persistence, history replay,
       cache discard, tab isolation, and the initialization race boundary.
-- [ ] Add typed storage constants and policy helpers.
-- [ ] Refactor the background cache into a testable typed unit.
-- [ ] Apply the policy before replaying and registering the panel port.
-- [ ] Package and implement the Options page.
-- [ ] Add or extend browser-integration coverage where practical.
-- [ ] Update README and `CHANGELOG.md`.
-- [ ] Record the architectural decision.
-- [ ] Run formatting, linting, typechecking, unit tests, Chrome and Firefox
+- [x] Add typed storage constants and policy helpers.
+- [x] Refactor the background cache into a testable typed unit.
+- [x] Apply the policy before replaying and registering the panel port.
+- [x] Package and implement the Options page.
+- [x] Add or extend browser-integration coverage where practical.
+- [x] Update README and `CHANGELOG.md`.
+- [x] Record the architectural decision.
+- [x] Run formatting, linting, typechecking, unit tests, Chrome and Firefox
       builds, build validation, and relevant browser integration.
 
 ## Acceptance criteria
@@ -159,3 +159,28 @@ explicitly choose Start from now.
    manifest validation.
 8. Existing DDP, connection, subscription, Minimongo, and browser-integration
    behavior remains green.
+
+## Verification record
+
+- `yarn lint`: passed.
+- `yarn typecheck`: passed.
+- `yarn test`: passed, 109 tests across 31 files.
+- `yarn build:chrome`: passed; WXT packaged `options.html` and declared the
+  `storage` permission.
+- `yarn build:firefox`: passed; WXT packaged `options.html` and declared the
+  `storage` permission.
+- `yarn validate:builds`: passed for both generated artifacts.
+- `yarn playwright test tests/e2e/options.spec.ts`: passed; the packaged Options
+  page defaulted to Show captured history and persisted Start from now across a
+  reload.
+- `yarn test:e2e:all`: attempted but the pre-existing Meteor process on port
+  2100 served a build error referencing missing `_build/test` entrypoints. All
+  three Meteor 3 tests failed in their shared readiness setup before exercising
+  extension behavior; Meteor 2 was therefore not started by the sequential
+  runner. The process was left untouched because it was already running outside
+  this task.
+
+Acceptance criteria 1–7 are covered by executed unit, build, validation, and
+Options-page browser checks. Criterion 8 is supported by the passing unit suite
+but its live Meteor compatibility portion remains unverified in this run due to
+the external server state described above.
