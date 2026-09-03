@@ -20,6 +20,7 @@ export const createManifest = (browser: TargetBrowser) => ({
     default_title: 'Meteor',
     default_icon: '/icons/meteor-48.png',
   },
+  permissions: ['storage'],
   host_permissions: ['https://api.github.com/*'],
   web_accessible_resources: [
     {

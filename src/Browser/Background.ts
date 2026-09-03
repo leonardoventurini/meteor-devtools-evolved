@@ -1,4 +1,6 @@
 import { browser } from 'wxt/browser'
+import { BackgroundMessageCache } from './BackgroundMessageCache'
+import { getDDPHistoryPolicy } from './DDPHistoryPolicy'
 
 type Connection = Map<number, ReturnType<typeof browser.runtime.connect>>
 
@@ -33,7 +35,7 @@ declare global {
   }
 }
 
-const Cache = new Map<number, unknown[]>()
+const cache = new BackgroundMessageCache()
 
 const connections: Connection = new Map()
 
@@ -41,18 +43,16 @@ const panelListener = () => {
   browser.runtime.onConnect.addListener(port => {
     console.debug('runtime.onConnect', port)
 
-    port.onMessage.addListener(request => {
+    port.onMessage.addListener(async request => {
       console.debug('port.onMessage', request)
 
       if (isInitializationRequest(request)) {
-        connections.set(request.tabId, port)
+        const policy = await getDDPHistoryPolicy()
 
-        // Pick things from cache and send it to the panel.
-        if (Cache.has(request.tabId)) {
-          for (const message of Cache.get(request.tabId)) {
-            port.postMessage(message)
-          }
-        }
+        cache.initializePanel(request.tabId, policy, message =>
+          port.postMessage(message),
+        )
+        connections.set(request.tabId, port)
 
         port.onDisconnect.addListener(() => {
           connections.delete(request.tabId)
@@ -66,10 +66,8 @@ const tabRemovalListener = () => {
   browser.tabs.onRemoved.addListener(tabId => {
     console.debug('tabs.onRemoved', tabId)
 
-    if (connections.has(tabId)) {
-      connections.delete(tabId)
-      Cache.delete(tabId)
-    }
+    connections.delete(tabId)
+    cache.clear(tabId)
   })
 }
 
@@ -94,7 +92,7 @@ const contentListener = () => {
       // The message event has to from the panel to the content and then through here.
       if (isMessage(request) && request.eventType === 'cache:clear') {
         console.debug('clear cache')
-        Cache.delete(tabId)
+        cache.clear(tabId)
         return
       }
 
@@ -103,17 +101,7 @@ const contentListener = () => {
         return
       }
 
-      if (Cache.has(tabId)) {
-        const entry = Cache.get(tabId)
-
-        if (entry.length >= 10_000) {
-          entry.shift()
-        }
-
-        entry.push(request)
-      } else {
-        Cache.set(tabId, [request])
-      }
+      cache.push(tabId, request)
 
       if (connections.has(tabId)) {
         connections.get(tabId).postMessage(request)

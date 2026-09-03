@@ -1,0 +1,47 @@
+@use 'sass:color';
+
+$background-color: #30404d;
+$text-color: #f6f7f9;
+
+html,
+body {
+  min-height: 100%;
+}
+
+body {
+  margin: 0;
+  background: $background-color;
+  color: $text-color;
+  font-family: system-ui, sans-serif;
+}
+
+.options-layout {
+  box-sizing: border-box;
+  width: min(680px, 100%);
+  margin: 0 auto;
+  padding: 48px 24px;
+
+  > p {
+    color: color.adjust($text-color, $lightness: -15%);
+  }
+
+  .bp6-card {
+    margin-top: 24px;
+  }
+}
+
+.options-heading {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+
+  h2 {
+    margin-top: 0;
+  }
+}
+
+.option-description {
+  margin: -4px 0 16px 26px;
+  color: #5f6b7c;
+  line-height: 1.5;
+}

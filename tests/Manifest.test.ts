@@ -45,4 +45,9 @@ describe('browser manifest policy', () => {
     expect(firefoxManifest.host_permissions).not.toContain(analyticsOrigin)
     expect(firefoxManifest.host_permissions).not.toContain('tabs')
   })
+
+  it('uses extension-local storage for cross-context settings', () => {
+    expect(chromeManifest.permissions).toEqual(['storage'])
+    expect(firefoxManifest.permissions).toEqual(['storage'])
+  })
 })
