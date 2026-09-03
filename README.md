@@ -161,8 +161,9 @@ the complete local workflow.
 `yarn test:e2e:meteor2` covers `devapp-2.16` on port 2200; and
 `yarn test:e2e:all` runs both sequentially. Each command loads the production
 Chrome build in Playwright's bundled Chromium and verifies Manifest V3 startup,
-page-world injection, DDP method/result capture, multiple connections,
-subscriptions, named and unnamed Minimongo documents, and packaged panel
+page-world injection, rich deterministic Minimongo snapshots, isolated
+secondary-connection data, correlated method success and failure, publication
+lifecycles, mutations, bounded traffic, Performance capture, and packaged panel
 rendering. Build and validate Chrome first. CI runs the fixtures on separate
 matrix runners.
 
@@ -187,8 +188,21 @@ Production extension artifacts are written to `.output/chrome-mv3` and
 `devapp-3.5` is the active Meteor 3.5.1 development fixture. `devapp-2.16` is
 the single maintained Meteor 2 compatibility fixture. Both are blocking Chrome
 browser-integration targets. Each fixture uses its Meteor release's embedded
-Node/npm toolchain, so run its npm commands through `meteor npm`. Both fixtures
-exercise multiple unnamed local collections and an additional DDP connection.
+Node/npm toolchain, so run its npm commands through `meteor npm`.
+
+Both fixtures expose the same versioned validation catalog. Their primary
+connection publishes 20 projects, 220 tasks, and 510 events with deterministic
+nested values, dates, arrays, null/missing fields, Unicode, multiline text, and
+long strings. A real additional connection subscribes to 12 isolated records.
+Meteor 2 exercises callback calls and synchronous collection operations;
+Meteor 3 exercises Promise calls and asynchronous collection operations.
+
+The fixture page includes bounded controls for structured and delayed methods,
+controlled failures, mutation and publication lifecycles, traffic bursts,
+local Performance operations, and reset. Wait for the displayed fixture status
+to become ready before triggering scenarios. Automation can use the stable
+fixture-only `globalThis.__meteorDevtoolsFixture` contract; this hook is not an
+extension public API.
 
 ## Contributing
 

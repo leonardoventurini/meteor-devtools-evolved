@@ -212,20 +212,37 @@ behavior changes, so no staged user rollout is required.
 
 ## Executable checklist
 
-- [ ] Add failing root tests for the shared semantic contract.
-- [ ] Implement deterministic generators and expanded Meteor 2 fixture.
-- [ ] Implement deterministic generators and expanded Meteor 3 fixture.
-- [ ] Add native generator/contract tests to both fixtures.
-- [ ] Add visible scenario controls and stable page-world hooks.
-- [ ] Populate and subscribe the additional DDP connection.
-- [ ] Expand shared Playwright assertions for data, methods, publications,
+- [x] Add failing root tests for the shared semantic contract.
+- [x] Implement deterministic generators and expanded Meteor 2 fixture.
+- [x] Implement deterministic generators and expanded Meteor 3 fixture.
+- [x] Add native generator/contract tests to both fixtures.
+- [x] Add visible scenario controls and stable page-world hooks.
+- [x] Populate and subscribe the additional DDP connection.
+- [x] Expand shared Playwright assertions for data, methods, publications,
       mutations, lifecycle events, isolation, and performance.
-- [ ] Preserve and run existing integration assertions.
-- [ ] Update README and `CHANGELOG.md`.
-- [ ] Record the fixture architecture decision.
-- [ ] Run lint, typecheck, root tests, both production builds and validators,
+- [x] Preserve and run existing integration assertions.
+- [x] Update README and `CHANGELOG.md`.
+- [x] Record the fixture architecture decision.
+- [x] Run lint, typecheck, root tests, both production builds and validators,
       both fixture-native test suites, and both Playwright fixture suites.
-- [ ] Commit every independently verified unit with semantic messages.
+- [x] Commit every independently verified unit with semantic messages.
+
+## Verification record
+
+- `yarn lint`: passed.
+- `yarn typecheck`: passed.
+- `yarn test`: passed, 114 tests across 32 files.
+- `yarn build:chrome && yarn validate:chrome`: passed.
+- `yarn build:firefox && yarn validate:firefox`: passed.
+- Meteor 2 native server suite: 6 passed on isolated port 3202.
+- Meteor 3 native server suite: 6 passed on isolated port 3203.
+- `yarn test:e2e:meteor2`: 6 passed, including the existing baseline, three
+  expanded catalog scenarios, panel navigation, and Options persistence.
+- `yarn test:e2e`: 6 passed with the equivalent Meteor 3 coverage.
+
+All ten acceptance criteria are verified. The browser suites complete in under
+15 seconds locally after fixture startup. CI duration remains to be confirmed
+on the pushed commit, where each generation runs on an independent matrix job.
 
 ## Acceptance criteria
 

@@ -31,6 +31,10 @@ All notable changes to this project will be documented in this file.
 - Added pinned, strictly typed Playwright Chromium integration coverage for the
   packaged extension's injection, DDP, connection, subscription, Minimongo, and
   panel-rendering boundaries against the Meteor 3.5.1 and 2.16 fixtures.
+- Added equivalent Meteor 2.16 and 3.5.1 validation catalogs with 750-record
+  deterministic datasets, isolated secondary connections, rich publications
+  and methods, controlled lifecycle scenarios, manual controls, and expanded
+  packaged-extension coverage.
 
 ### Changed
 
