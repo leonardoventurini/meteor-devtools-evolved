@@ -8,11 +8,12 @@ import {
   FIXTURE_COLLECTION_NAMES, FIXTURE_CONTRACT_VERSION, FIXTURE_COUNTS,
   FIXTURE_METHODS, FIXTURE_MUTATION_ID, FIXTURE_PUBLICATIONS,
 } from '../imports/api/fixture-data'
+import { RandomCollection } from '../imports/api/random'
 import { FixtureRemote, remoteReady } from './additional-connection'
 import { FixtureClientOps, runLocalPerformanceScenario } from './local-collections'
 
 export const STATUS_EVENT = 'meteor-devtools-fixture-status'
-const WAIT_TIMEOUT_MS = 5_000
+const WAIT_TIMEOUT_MS = 30_000
 const LEGACY_RANDOM_PUBLICATIONS = Object.freeze([
   'random1to100',
   'random101to200',
@@ -170,17 +171,22 @@ globalThis.__meteorDevtoolsFixture = fixtureContract
 Meteor.startup(async () => {
   const baseline = Meteor.subscribe('fixture.dashboard')
   Meteor.subscribe('fixture.projects')
-  LEGACY_RANDOM_PUBLICATIONS.forEach(publication => {
-    Meteor.subscribe(publication)
-  })
+  const legacyRandomSubscriptions = LEGACY_RANDOM_PUBLICATIONS.map(
+    publication => Meteor.subscribe(publication),
+  )
   await remoteReady
   status.secondary.ready = true
-  await waitFor(() => baseline.ready()
-    && FixtureProjects.find().count() === FIXTURE_COUNTS.projects
-    && FixtureTasks.find().count() === FIXTURE_COUNTS.tasks
-    && FixtureEvents.find().count() === FIXTURE_COUNTS.events
-    && FixtureRemote.find().count() === FIXTURE_COUNTS.remote,
-  'deterministic fixture data')
+  await waitFor(
+    () =>
+      baseline.ready() &&
+      FixtureProjects.find().count() === FIXTURE_COUNTS.projects &&
+      FixtureTasks.find().count() === FIXTURE_COUNTS.tasks &&
+      FixtureEvents.find().count() === FIXTURE_COUNTS.events &&
+      FixtureRemote.find().count() === FIXTURE_COUNTS.remote &&
+      legacyRandomSubscriptions.every(handle => handle.ready()) &&
+      RandomCollection.find().count() === 1_000,
+    'deterministic fixture data',
+  )
   status.ready = true
   publishStatus()
 })
