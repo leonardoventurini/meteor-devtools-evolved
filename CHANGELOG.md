@@ -92,6 +92,9 @@ All notable changes to this project will be documented in this file.
 
 ### Fixed
 
+- Ensured development and E2E commands cleaned up their owned Meteor process
+  trees on failure or interruption and reported occupied ports without
+  terminating unrelated processes.
 - Prevented top-toolbar utility labels from being ellipsized when their full
   actions fit the available width.
 - Prevented stale content scripts from reporting uncaught extension-context

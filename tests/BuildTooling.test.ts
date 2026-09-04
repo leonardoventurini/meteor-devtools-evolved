@@ -37,8 +37,21 @@ describe('extension build tooling', () => {
     expect(packageJson.scripts['build:firefox']).toBe(
       'wxt build -b firefox --mv2',
     )
-    expect(packageJson.scripts['dev:chrome']).toContain('wxt -b chrome')
-    expect(packageJson.scripts['dev:firefox']).toContain('wxt -b firefox --mv2')
+    expect(packageJson.scripts['dev:chrome']).toBe(
+      'node scripts/run-development.mjs chrome',
+    )
+    expect(packageJson.scripts['dev:firefox']).toBe(
+      'node scripts/run-development.mjs firefox',
+    )
+
+    const developmentRunner = readFileSync(
+      path.join(projectRoot, 'scripts/run-development.mjs'),
+      'utf8',
+    )
+    expect(developmentRunner).toContain("arguments: ['wxt', '-b', 'chrome']")
+    expect(developmentRunner).toContain(
+      "arguments: ['wxt', '-b', 'firefox', '--mv2']",
+    )
   })
 
   it('contains WXT entrypoints and no Webpack configuration', () => {
