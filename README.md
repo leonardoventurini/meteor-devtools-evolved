@@ -44,10 +44,12 @@ stack traces. Applications that use additional `DDP.connect` connections get a
 global connection selector; logs, byte totals, subscriptions, and Minimongo
 snapshots remain isolated by server.
 
-The extension Options page controls whether a newly opened DevTools panel shows
-messages captured before it opened or starts from current traffic. **Show
-captured history** remains the default. **Start from now** discards cached rows
-and byte totals for the inspected tab without affecting bookmarks or page data.
+The bottom-anchored **Settings** tab controls whether a newly opened DevTools
+panel shows messages captured before it opened or starts from current traffic.
+**Show captured history** remains the default. **Start from now** discards
+cached rows and byte totals for the inspected tab without affecting bookmarks
+or page data; the panel prompts for an explicit reload before applying a changed
+startup policy to the active session.
 
 ### Bookmarks
 

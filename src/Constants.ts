@@ -9,4 +9,5 @@ export enum PanelPage {
   MINIMONGO = 'minimongo',
   SUBSCRIPTIONS = 'subscriptions',
   PERFORMANCE = 'performance',
+  SETTINGS = 'settings',
 }

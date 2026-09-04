@@ -44,6 +44,9 @@ All notable changes to this project will be documented in this file.
 
 ### Changed
 
+- Moved the DDP startup-history setting into a bottom-anchored DevTools sidebar
+  page with an explicit reload action for applying changes to the active
+  inspection session.
 - Replaced the native connection control with a flat toolbar-style selector
   featuring keyboard navigation, prefix typeahead, resilient connection
   fallback, and accessible Blueprint popover and menu primitives.
@@ -82,6 +85,8 @@ All notable changes to this project will be documented in this file.
 
 ### Removed
 
+- Removed the standalone browser Options page after moving its setting into the
+  DevTools panel.
 - Removed the obsolete author website action and Galaxy partner card from the
   Help drawer.
 
@@ -125,7 +130,7 @@ All notable changes to this project will be documented in this file.
 ### Security
 
 - Added the extension-local `storage` permission solely to persist the DDP
-  startup-history preference across the Options page and background worker.
+  startup-history preference across the Settings page and background worker.
 - Reduced Firefox privileges by removing the unnecessary `tabs` permission and
   declared that the extension collects no data.
 - Updated vulnerable transitive dependencies where patched releases are

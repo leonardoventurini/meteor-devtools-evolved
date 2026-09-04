@@ -19,6 +19,7 @@ import {
 } from '@/Styles/Constants'
 import { Performance } from '@/Pages/Panel/Performance/Performance'
 import { HelpDrawer } from './Panel/HelpDrawer'
+import { Settings } from './Panel/Settings/Settings'
 
 Bridge.init()
 
@@ -98,6 +99,7 @@ const PanelObserverComponent: FunctionComponent = observer(() => {
         <Subscriptions
           isVisible={store.selectedTabId === PanelPage.SUBSCRIPTIONS}
         />
+        <Settings isVisible={store.selectedTabId === PanelPage.SETTINGS} />
       </div>
     </Layout>
   )

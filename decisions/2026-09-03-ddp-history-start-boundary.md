@@ -1,5 +1,8 @@
 # DDP History Start Boundary
 
+> The standalone Options-page placement in this decision was superseded by
+> `2026-09-04-devtools-native-settings.md`.
+
 **Date:** 2026-09-03<br>
 **Project:** `meteor-devtools-evolved`<br>
 **Project root:** `/Users/leonardo/Repositories/leonardoventurini/meteor-devtools-evolved`<br>

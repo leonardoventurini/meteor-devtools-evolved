@@ -53,6 +53,12 @@ export const Navigation: FunctionComponent = observer(() => {
       content: 'Performance',
       icon: 'lightning',
     },
+    {
+      key: PanelPage.SETTINGS,
+      content: 'Settings',
+      icon: 'cog',
+      placement: 'bottom',
+    },
   ]
 
   const menu: IMenuItem[] = [

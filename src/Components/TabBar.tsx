@@ -5,6 +5,7 @@ import { Button } from './Button'
 import { lighten } from 'polished'
 import { NAVBAR_HEIGHT } from '@/Styles/Constants'
 import { useBreakpoints } from '@/Utils/Hooks/useBreakpoints'
+import classnames from 'classnames'
 
 const backgroundColor = '#202b33'
 const METEOR_LOGO_PATH = '/icons/meteor-32.png'
@@ -117,6 +118,10 @@ const Sidebar = styled.nav`
       background-color: ${lighten(0.05, backgroundColor)};
     }
   }
+
+  button.mde-tab-bottom {
+    margin-top: auto;
+  }
 `
 
 export interface ITab {
@@ -125,6 +130,7 @@ export interface ITab {
   icon: IconName
   shine?: boolean
   handler?: () => void
+  placement?: 'bottom'
 }
 
 export interface IMenuItem {
@@ -208,7 +214,9 @@ export const TabBar: FunctionComponent<Props> = ({
               if (onChange) onChange(tab.key)
               if (tab.handler) tab.handler()
             }}
-            className='mde-tab'
+            className={classnames('mde-tab', {
+              'mde-tab-bottom': tab.placement === 'bottom',
+            })}
             icon={tab.icon}
             shine={tab.shine}
           >

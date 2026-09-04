@@ -55,9 +55,9 @@ describe('extension build tooling', () => {
     expect(
       existsSync(path.join(projectRoot, 'src/entrypoints/devtools/index.html')),
     ).toBe(true)
-    expect(
-      existsSync(path.join(projectRoot, 'src/entrypoints/options/index.html')),
-    ).toBe(true)
+    expect(existsSync(path.join(projectRoot, 'src/entrypoints/options'))).toBe(
+      false,
+    )
     expect(existsSync(path.join(projectRoot, 'webpack'))).toBe(false)
   })
 

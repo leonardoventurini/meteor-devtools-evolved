@@ -453,6 +453,7 @@ test('renders the packaged DevTools panel navigation', async ({
     'Minimongo',
     'Subscriptions',
     'Performance',
+    'Settings',
   ]) {
     await expect(page.getByRole('button', { name: tabName })).toBeVisible()
   }
@@ -461,6 +462,32 @@ test('renders the packaged DevTools panel navigation', async ({
   await expect(
     page.getByRole('combobox', { name: 'Meteor DDP connection' }),
   ).toBeVisible()
+})
+
+test('persists startup history from the DevTools Settings tab', async ({
+  extensionId,
+  page,
+}) => {
+  await page.goto(`chrome-extension://${extensionId}/devtools-panel.html`)
+  await page.getByRole('button', { name: 'Settings' }).click()
+
+  const showHistory = page.getByRole('radio', {
+    name: 'Show captured history',
+  })
+  const startFromNow = page.getByRole('radio', { name: 'Start from now' })
+
+  await expect(showHistory).toBeChecked()
+  await page.getByText('Start from now', { exact: true }).click()
+  await expect(startFromNow).toBeChecked()
+  const reloadPanel = page.getByRole('button', { name: 'Reload panel' })
+  await expect(reloadPanel).toBeVisible()
+
+  await reloadPanel.click()
+  await page.getByRole('button', { name: 'Settings' }).click()
+  await expect(startFromNow).toBeChecked()
+
+  await page.getByText('Show captured history', { exact: true }).click()
+  await expect(showHistory).toBeChecked()
 })
 
 test('exposes the shared rich fixture contract and isolated snapshots', async ({

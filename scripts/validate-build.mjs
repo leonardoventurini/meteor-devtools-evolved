@@ -44,7 +44,7 @@ assert.ok(!('default_popup' in (manifest.action ?? manifest.browser_action)))
 for (const icon of Object.values(manifest.icons)) assertOutputFile(icon)
 for (const script of manifest.content_scripts[0].js) assertOutputFile(script)
 assertOutputFile(manifest.devtools_page)
-assertOutputFile(manifest.options_ui.page)
+assert.ok(!('options_ui' in manifest))
 assertOutputFile(
   browser === 'chrome'
     ? manifest.background.service_worker
@@ -75,11 +75,7 @@ if (browser === 'firefox') {
   ])
 }
 
-for (const htmlFile of [
-  'devtools.html',
-  'devtools-panel.html',
-  'options.html',
-]) {
+for (const htmlFile of ['devtools.html', 'devtools-panel.html']) {
   const html = readFileSync(path.join(outputDirectory, htmlFile), 'utf8')
   const localReferences = [...html.matchAll(/(?:src|href)="([^"#]+)"/g)]
     .map(match => match[1])

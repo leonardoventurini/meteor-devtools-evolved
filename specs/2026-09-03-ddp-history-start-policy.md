@@ -1,5 +1,9 @@
 # DDP History Start Policy
 
+> The standalone Options-page placement in this specification was superseded
+> by `2026-09-04-devtools-settings-page.md`; the storage and startup-boundary
+> contracts remain current.
+
 **Date:** 2026-09-03<br>
 **Project:** `meteor-devtools-evolved`<br>
 **Project root:** `/Users/leonardo/Repositories/leonardoventurini/meteor-devtools-evolved`<br>
