@@ -58,12 +58,12 @@ const Sidebar = styled.nav`
   overflow-y: auto;
   border-right: 1px solid ${lighten(0.1, backgroundColor)};
   background-color: ${backgroundColor};
-  padding: 8px 0;
+  padding: 0;
 
   button.mde-tab {
-    flex: 0 0 40px;
+    flex: 0 0 32px;
     width: 100%;
-    height: 40px;
+    height: 32px;
     padding: 0 12px;
 
     &.active {

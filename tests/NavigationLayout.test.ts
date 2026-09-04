@@ -29,6 +29,9 @@ describe('panel navigation layout', () => {
     expect(tabBar).toContain("className='mde-sidebar'")
     expect(tabBar).toContain("aria-label='Panel navigation'")
     expect(tabBar).toContain('active={activeKey === tab.key}')
+    expect(tabBar).toContain('padding: 0;')
+    expect(tabBar).toContain('flex: 0 0 32px;')
+    expect(tabBar).toContain('height: 32px;')
     expect(tabBar).not.toContain('useState')
   })
 

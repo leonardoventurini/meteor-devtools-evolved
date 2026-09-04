@@ -41,6 +41,7 @@ All notable changes to this project will be documented in this file.
 
 ### Changed
 
+- Compacted sidebar navigation to 32px rows and removed its outer vertical gap.
 - Moved primary panel navigation into a fixed 160px left sidebar below a taller,
   more reliable top toolbar while preserving connection and utility actions at
   the top right.

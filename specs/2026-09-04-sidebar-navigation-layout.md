@@ -28,7 +28,8 @@ and make panel geometry derive from shared constants.
   controls.
 - Sidebar begins below the toolbar and occupies the remaining panel height.
 - Main panel content is offset by the exact sidebar width and toolbar height.
-- Sidebar items have stable full-width hit targets and vertical scrolling.
+- Sidebar items have stable 32px full-width hit targets, no outer vertical
+  inset, and vertical scrolling.
 - Active navigation derives from the authoritative panel store.
 - Preserve existing handlers, icons, accessible labels, menu collapse, and
   connection behavior.

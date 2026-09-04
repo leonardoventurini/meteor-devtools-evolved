@@ -14,7 +14,7 @@ Move primary panel navigation into a fixed 160px left sidebar beginning beneath
 a 36px top toolbar. Keep connection and utility controls right-aligned in the
 top toolbar. Derive toolbar, sidebar, content, and status geometry from shared
 constants, and make the selected panel store the sole source of active-tab
-state.
+state. Use compact 32px sidebar rows without an outer vertical inset.
 
 ## Rejected alternatives
 
