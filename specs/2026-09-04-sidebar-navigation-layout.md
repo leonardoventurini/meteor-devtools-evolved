@@ -17,7 +17,7 @@ DevTools width changes, making the toolbar appear squashed and fragile.
 
 ## Desired outcome
 
-Move primary navigation into a fixed 160px left sidebar beginning below a 36px
+Move primary navigation into a fixed 160px left sidebar beginning below a 40px
 top toolbar. Keep the connection selector and utility actions at the top right,
 and make panel geometry derive from shared constants.
 
@@ -51,7 +51,7 @@ removing the sidebar offset.
 
 - [x] Add structural tests for toolbar/sidebar separation and geometry.
 - [x] Add controlled active-tab coverage.
-- [x] Introduce shared 160px sidebar and 36px toolbar constants.
+- [x] Introduce shared 160px sidebar and 40px toolbar constants.
 - [x] Split `TabBar` into top-toolbar and sidebar regions.
 - [x] Offset the panel layout using shared constants.
 - [x] Keep status-bar sizing independent.

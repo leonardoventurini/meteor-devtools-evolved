@@ -12,7 +12,7 @@ const readSource = (relativePath: string) =>
 
 describe('panel navigation layout', () => {
   it('uses stable shared dimensions for the toolbar, sidebar, and status bar', () => {
-    expect(NAVBAR_HEIGHT).toBe(36)
+    expect(NAVBAR_HEIGHT).toBe(40)
     expect(SIDEBAR_WIDTH).toBe(160)
     expect(STATUS_HEIGHT).toBe(29)
 
