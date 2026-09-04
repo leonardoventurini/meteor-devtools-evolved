@@ -33,21 +33,29 @@ const TopToolbar = styled.div`
       min-width: 9rem;
       max-width: 16rem;
       margin: 4px 0;
-      border-radius: 3px;
-      overflow: hidden;
-      background: ${lighten(0.05, backgroundColor)};
 
-      & > select {
+      .mde-connection-trigger {
         height: 100%;
-        padding: 0 28px 0 10px;
-        border: 0;
-        color: inherit;
-        background: transparent;
-        text-overflow: ellipsis;
+        width: 100%;
+        padding: 0 10px;
+        border-radius: 3px;
+        background: ${lighten(0.05, backgroundColor)};
       }
 
-      & > .bp6-icon {
-        color: inherit;
+      .mde-connection-trigger-content {
+        display: flex;
+        align-items: center;
+        gap: 8px;
+        min-width: 0;
+        width: 100%;
+      }
+
+      .mde-connection-label {
+        flex: 1 1 auto;
+        min-width: 0;
+        overflow: hidden;
+        text-overflow: ellipsis;
+        white-space: nowrap;
       }
     }
 

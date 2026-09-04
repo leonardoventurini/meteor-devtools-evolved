@@ -11,19 +11,14 @@ describe('global DDP connection selection', () => {
     const panelStore = readSource('src/Stores/PanelStore.tsx')
     const tabBar = readSource('src/Components/TabBar.tsx')
 
-    expect(navigation).toContain(
-      "import { HTMLSelect, Tag } from '@blueprintjs/core'",
-    )
-    expect(navigation).toContain('<HTMLSelect')
-    expect(navigation).not.toMatch(/<select\b/)
-    expect(navigation).toContain("aria-label='Meteor DDP connection'")
-    expect(navigation).toContain("className='mde-connection-selector'")
-    expect(navigation).toContain('syncConnectionData(event.target.value)')
+    expect(navigation).toContain('<ConnectionSelector')
+    expect(navigation).not.toContain('HTMLSelect')
+    expect(navigation).toContain('syncConnectionData(connectionId)')
     expect(panelStore).toContain(
       'minimongoStore.setActiveConnectionId(connectionId)',
     )
     expect(tabBar).toContain('margin: 4px 0;')
-    expect(tabBar).toContain('padding: 0 28px 0 10px;')
+    expect(tabBar).toContain('padding: 0 10px;')
     expect(tabBar).toContain('border-radius: 3px;')
   })
 
