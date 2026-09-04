@@ -92,6 +92,8 @@ All notable changes to this project will be documented in this file.
 
 ### Fixed
 
+- Preserved responsive padding around Settings content inside the shared panel
+  layout.
 - Kept the bottom-anchored Settings navigation item inside the visible sidebar.
 - Ensured development and E2E commands cleaned up their owned Meteor process
   trees on failure or interruption and reported occupied ports without

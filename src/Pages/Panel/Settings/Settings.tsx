@@ -22,10 +22,13 @@ interface Props {
 const SettingsContent = styled(Hideable)`
   box-sizing: border-box;
   overflow-y: auto !important;
-  padding: 24px;
+  padding: 0;
 
   .mde-settings-content {
-    max-width: 640px;
+    box-sizing: border-box;
+    width: 100%;
+    max-width: 688px;
+    padding: clamp(16px, 3vw, 24px);
   }
 
   h1 {

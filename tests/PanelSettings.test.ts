@@ -35,6 +35,17 @@ describe('DevTools settings page', () => {
     expect(settings).toContain('Reload panel')
   })
 
+  it('keeps readable, responsive spacing inside the shared panel shell', () => {
+    const settings = readSource('src/Pages/Panel/Settings/Settings.tsx')
+
+    expect(settings).toContain('padding: 0;')
+    expect(settings).toContain('width: 100%;')
+    expect(settings).toContain('max-width: 688px;')
+    expect(settings).toContain('padding: clamp(16px, 3vw, 24px);')
+    expect(settings).toContain('box-sizing: border-box;')
+    expect(settings).toContain('overflow-y: auto !important;')
+  })
+
   it('removes the standalone browser Options surface', () => {
     expect(existsSync(path.join(projectRoot, 'src/entrypoints/options'))).toBe(
       false,
