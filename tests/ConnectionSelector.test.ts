@@ -8,11 +8,15 @@ const readSource = (relativePath: string) =>
 describe('global DDP connection selection', () => {
   it('exposes an accessible selector that refreshes scoped panel data', () => {
     const navigation = readSource('src/Pages/Panel/Navigation.tsx')
+    const panelStore = readSource('src/Stores/PanelStore.tsx')
     const tabBar = readSource('src/Components/TabBar.tsx')
 
     expect(navigation).toContain("aria-label='Meteor DDP connection'")
     expect(navigation).toContain("className='mde-connection-selector'")
     expect(navigation).toContain('syncConnectionData(event.target.value)')
+    expect(panelStore).toContain(
+      'minimongoStore.setActiveConnectionId(connectionId)',
+    )
     expect(tabBar).toContain('margin: 3px 0;')
     expect(tabBar).toContain('padding: 0 28px 0 10px;')
     expect(tabBar).toContain('border-radius: 3px;')

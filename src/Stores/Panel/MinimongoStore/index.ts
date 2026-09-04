@@ -11,6 +11,14 @@ import {
   type MinimongoQuery,
   type MinimongoQueryInput,
 } from '@/Utils/MinimongoQuery'
+import {
+  getDefaultQueryScope,
+  getQueryStorage,
+  loadQueryState,
+  type QueryStorage,
+  removeQueryState,
+  saveQueryState,
+} from './QueryPersistence'
 
 export const DEFAULT_MINIMONGO_QUERY_INPUT: MinimongoQueryInput = {
   limit: '100',
@@ -20,6 +28,10 @@ export const DEFAULT_MINIMONGO_QUERY_INPUT: MinimongoQueryInput = {
 }
 
 export class MinimongoStore {
+  private readonly queryScope: string
+  private readonly queryStorage: QueryStorage | null
+
+  activeConnectionId = 'default'
   activeCollectionDocuments = new CollectionStore()
 
   collections: MinimongoCollections = {}
@@ -32,9 +44,17 @@ export class MinimongoStore {
   query: MinimongoQuery | null = null
   queryError: string | null = null
   queryInput: MinimongoQueryInput = DEFAULT_MINIMONGO_QUERY_INPUT
+  queryDraftInput: MinimongoQueryInput = DEFAULT_MINIMONGO_QUERY_INPUT
 
-  constructor() {
+  constructor(
+    queryStorage: QueryStorage | null = getQueryStorage(),
+    queryScope = getDefaultQueryScope(),
+  ) {
+    this.queryScope = queryScope
+    this.queryStorage = queryStorage
+
     makeObservable(this, {
+      activeConnectionId: observable,
       collections: observable,
       collectionMetadata: observable,
       activeCollection: observable,
@@ -45,6 +65,7 @@ export class MinimongoStore {
       query: observable,
       queryError: observable,
       queryInput: observable,
+      queryDraftInput: observable,
       totalDocuments: computed,
       collectionNames: computed,
       filteredCollectionNames: computed,
@@ -59,7 +80,11 @@ export class MinimongoStore {
       setQueryVisible: action,
       applyQuery: action,
       clearQuery: action,
+      setActiveConnectionId: action,
+      setQueryDraftField: action,
     })
+
+    this.restoreQueryState()
   }
 
   get totalDocuments() {
@@ -172,7 +197,21 @@ export class MinimongoStore {
     this.isQueryVisible = isVisible
   }
 
+  setActiveConnectionId(connectionId: string) {
+    if (connectionId === this.activeConnectionId) return
+
+    this.activeConnectionId = connectionId
+    this.restoreQueryState()
+  }
+
+  setQueryDraftField(field: keyof MinimongoQueryInput, value: string) {
+    this.queryDraftInput = { ...this.queryDraftInput, [field]: value }
+    this.persistQueryState()
+  }
+
   applyQuery(input: MinimongoQueryInput) {
+    this.queryDraftInput = input
+
     try {
       this.query = parseMinimongoQuery(input)
       this.queryInput = input
@@ -181,12 +220,54 @@ export class MinimongoStore {
       this.queryError =
         error instanceof Error ? error.message : 'Unable to parse query.'
     }
+
+    this.persistQueryState()
   }
 
   clearQuery() {
     this.query = null
     this.queryError = null
     this.queryInput = DEFAULT_MINIMONGO_QUERY_INPUT
+    this.queryDraftInput = DEFAULT_MINIMONGO_QUERY_INPUT
+    removeQueryState(
+      this.queryStorage,
+      this.queryScope,
+      this.activeConnectionId,
+    )
+  }
+
+  private persistQueryState() {
+    saveQueryState(
+      this.queryStorage,
+      this.queryScope,
+      this.activeConnectionId,
+      {
+        appliedInput: this.query ? this.queryInput : null,
+        draftInput: this.queryDraftInput,
+      },
+    )
+  }
+
+  private restoreQueryState() {
+    const state = loadQueryState(
+      this.queryStorage,
+      this.queryScope,
+      this.activeConnectionId,
+    )
+
+    this.query = null
+    this.queryError = null
+    this.queryInput = DEFAULT_MINIMONGO_QUERY_INPUT
+    this.queryDraftInput = state?.draftInput ?? DEFAULT_MINIMONGO_QUERY_INPUT
+
+    if (!state?.appliedInput) return
+
+    try {
+      this.query = parseMinimongoQuery(state.appliedInput)
+      this.queryInput = state.appliedInput
+    } catch {
+      // Stale persisted queries fail closed while their draft remains editable.
+    }
   }
 
   static wrapDocument(

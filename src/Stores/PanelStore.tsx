@@ -87,6 +87,7 @@ export class PanelStoreConstructor {
   setActiveConnectionId(connectionId: string) {
     if (this.connections.some(connection => connection.id === connectionId)) {
       this.activeConnectionId = connectionId
+      this.minimongoStore.setActiveConnectionId(connectionId)
       this.subscriptionStore.setCollection([])
       this.minimongoStore.setCollections({})
     }
@@ -97,6 +98,7 @@ export class PanelStoreConstructor {
 
     if (!connections.some(({ id }) => id === this.activeConnectionId)) {
       this.activeConnectionId = connections[0]?.id ?? 'default'
+      this.minimongoStore.setActiveConnectionId(this.activeConnectionId)
     }
   }
 
