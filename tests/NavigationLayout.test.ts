@@ -46,6 +46,7 @@ describe('panel navigation layout', () => {
     expect(tabBar).toContain("alt='Meteor DevTools'")
     expect(tabBar).toContain('height: 24px;')
     expect(tabBar).toContain('padding: 0 12px;')
+    expect(tabBar).not.toContain('transform: translate(')
   })
 
   it('uses the independent status-bar height', () => {
