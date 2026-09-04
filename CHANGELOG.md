@@ -92,6 +92,7 @@ All notable changes to this project will be documented in this file.
 
 ### Fixed
 
+- Kept the bottom-anchored Settings navigation item inside the visible sidebar.
 - Ensured development and E2E commands cleaned up their owned Meteor process
   trees on failure or interruption and reported occupied ports without
   terminating unrelated processes.

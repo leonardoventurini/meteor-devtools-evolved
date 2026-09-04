@@ -20,7 +20,11 @@ describe('panel navigation layout', () => {
     expect(panel).toContain('padding-top: ${NAVBAR_HEIGHT}px')
     expect(panel).toContain('padding-left: ${SIDEBAR_WIDTH}px')
     expect(panel).toContain('top: ${NAVBAR_HEIGHT}px')
+    expect(panel).toContain('bottom: 0;')
     expect(panel).toContain('width: ${SIDEBAR_WIDTH}px')
+
+    const tabBar = readSource('src/Components/TabBar.tsx')
+    expect(tabBar).not.toContain('height: 100%;\n  overflow-y: auto;')
   })
 
   it('separates primary navigation from top-right controls', () => {

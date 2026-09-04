@@ -98,7 +98,6 @@ const Sidebar = styled.nav`
   display: flex;
   flex-direction: column;
   width: 100%;
-  height: 100%;
   overflow-y: auto;
   border-right: 1px solid ${lighten(0.1, backgroundColor)};
   background-color: ${backgroundColor};
