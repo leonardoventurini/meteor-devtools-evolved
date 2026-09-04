@@ -20,4 +20,11 @@ describe('Minimongo query drawer', () => {
     expect(source).toContain('form={MINIMONGO_QUERY_FORM_ID}')
     expect(source).not.toMatch(/<Dialog\b/)
   })
+
+  it('advertises field-scoped text and regex syntax', () => {
+    expect(source).toContain('$contains')
+    expect(source).toContain('$regex')
+    expect(source).toContain('$options')
+    expect(source).toContain('/pattern/flags')
+  })
 })

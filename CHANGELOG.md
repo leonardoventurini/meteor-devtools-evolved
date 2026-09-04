@@ -23,7 +23,8 @@ All notable changes to this project will be documented in this file.
   Minimongo snapshots by server instead of silently merging their data.
 - Added a safe right-side query drawer for captured Minimongo snapshots with
   Compass-style object syntax, blank-field defaults, allowlisted selectors,
-  dotted fields, sort, positive integer limits, and projection.
+  dotted fields, field-scoped substring and native regular-expression matching,
+  sort, positive integer limits, and projection.
 - Added reload-safe Minimongo query and draft persistence isolated by inspected
   tab and DDP connection.
 - Added a persisted DDP startup-history option that can preserve cached traffic

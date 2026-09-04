@@ -38,6 +38,88 @@ describe('structured Minimongo queries', () => {
     expect(executeMinimongoQuery(values, query)).toEqual([{ name: 'Ada' }])
   })
 
+  it('supports literal substring matching on string fields', () => {
+    const query = parseMinimongoQuery({
+      limit: '100',
+      projection: '{}',
+      selector: '{"profile.name": {$contains: "da"}}',
+      sort: '{}',
+    })
+
+    expect(executeMinimongoQuery(documents, query)).toEqual([documents[0]])
+  })
+
+  it('supports Mongo regex objects with native options', () => {
+    const query = parseMinimongoQuery({
+      limit: '100',
+      projection: '{}',
+      selector: '{"profile.name": {$regex: "^(ada|grace)$", $options: "i"}}',
+      sort: '{}',
+    })
+
+    expect(executeMinimongoQuery(documents, query)).toEqual(
+      documents.slice(0, 2),
+    )
+  })
+
+  it('combines literal and object-form regex options', () => {
+    const query = parseMinimongoQuery({
+      limit: '100',
+      projection: '{}',
+      selector: '{status: {$regex: /^ACTIVE$/, $options: "i"}}',
+      sort: '{}',
+    })
+
+    expect(executeMinimongoQuery(documents, query)).toEqual(
+      documents.slice(0, 2),
+    )
+  })
+
+  it('parses Compass regex literals with escapes and character classes', () => {
+    const values = [
+      { path: 'docs/readme', code: 'A/1' },
+      { path: 'src/index', code: 'B/2' },
+    ]
+    const query = parseMinimongoQuery({
+      limit: '100',
+      projection: '{}',
+      selector: String.raw`{path: /^docs\/readme$/i, code: {$regex: /^[A-C]\/\d$/}}`,
+      sort: '{}',
+    })
+
+    expect(executeMinimongoQuery(values, query)).toEqual([values[0]])
+  })
+
+  it('supports regex literals in membership operators', () => {
+    const query = parseMinimongoQuery({
+      limit: '100',
+      projection: '{}',
+      selector: '{"profile.name": {$in: [/^ad/i, /^lin/i]}}',
+      sort: '{}',
+    })
+
+    expect(executeMinimongoQuery(documents, query)).toEqual([
+      documents[0],
+      documents[2],
+    ])
+  })
+
+  it('resets stateful native regexes between documents and executions', () => {
+    const query = parseMinimongoQuery({
+      limit: '100',
+      projection: '{}',
+      selector: '{status: /^active$/g}',
+      sort: '{}',
+    })
+
+    expect(executeMinimongoQuery(documents, query)).toEqual(
+      documents.slice(0, 2),
+    )
+    expect(executeMinimongoQuery(documents, query)).toEqual(
+      documents.slice(0, 2),
+    )
+  })
+
   it('treats blank object fields as empty objects', () => {
     const query = parseMinimongoQuery({
       limit: '100',
@@ -93,6 +175,10 @@ describe('structured Minimongo queries', () => {
     ['{}', '{"status":0,"profile.name":1}', '100'],
     ['{}', '{}', '0'],
     ['{}', '{}', '1.5'],
+    ['{name: {$contains: 42}}', '{}', '100'],
+    ['{name: {$options: "i"}}', '{}', '100'],
+    ['{name: {$regex: "["}}', '{}', '100'],
+    ['{name: /unterminated}', '{}', '100'],
   ])('rejects unsafe or invalid input', (selector, projection, limit) => {
     expect(() =>
       parseMinimongoQuery({ projection, selector, sort: '{}', limit }),

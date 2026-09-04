@@ -44,7 +44,9 @@ export const MinimongoQueryDrawer: FunctionComponent = observer(() => {
           <Callout intent='primary'>
             Queries run against the captured snapshot. Compass-style object
             syntax is supported. Field operators: $eq, $ne, $gt, $gte, $lt,
-            $lte, $in, $nin, and $exists. Logical operators: $and and $or.
+            $lte, $in, $nin, $exists, $contains, $regex, and $options. Regex
+            forms include {'{ field: { $regex: "pattern", $options: "i" } }'}
+            and {'{ field: /pattern/flags }'}. Logical operators: $and and $or.
             Arbitrary JavaScript is never evaluated.
           </Callout>
 

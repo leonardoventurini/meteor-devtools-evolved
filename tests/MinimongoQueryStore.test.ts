@@ -95,6 +95,23 @@ describe('Minimongo query store', () => {
     expect(restored.query?.limit).toBe(1000)
   })
 
+  it('rehydrates persisted Compass regex literals without changing raw input', () => {
+    const storage = new MemoryStorage()
+    const selector = '{name: /^ada$/i}'
+    const store = new MinimongoStore(storage)
+
+    store.applyQuery({ ...DEFAULT_MINIMONGO_QUERY_INPUT, selector })
+
+    const restored = new MinimongoStore(storage)
+    restored.setCollections({ people: [{ name: 'Ada' }, { name: 'Grace' }] })
+    restored.setActiveCollection('people')
+
+    expect(restored.queryInput.selector).toBe(selector)
+    expect(restored.queriedDocuments.map(entry => entry.document)).toEqual([
+      { name: 'Ada' },
+    ])
+  })
+
   it('isolates persisted state by connection and restores it when switching', () => {
     const storage = new MemoryStorage()
     const store = new MinimongoStore(storage)

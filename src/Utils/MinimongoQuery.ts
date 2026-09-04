@@ -10,6 +10,9 @@ const FIELD_OPERATORS = new Set([
   '$in',
   '$nin',
   '$exists',
+  '$contains',
+  '$regex',
+  '$options',
 ])
 const LOGICAL_OPERATORS = new Set(['$and', '$or'])
 const UNSAFE_PATH_SEGMENTS = new Set(['__proto__', 'constructor', 'prototype'])
@@ -45,6 +48,166 @@ export class MinimongoQueryError extends Error {
 const isRecord = (value: unknown): value is QueryRecord =>
   typeof value === 'object' && value !== null && !Array.isArray(value)
 
+interface RegexLiteralParseResult {
+  source: string
+  tokens: Map<string, RegExp>
+}
+
+/**
+ * Converts regex literals only in object/array value positions into temporary
+ * JSON strings. JSON5 remains the authoritative object parser, and only tokens
+ * created during this parse are hydrated back into RegExp instances.
+ */
+const extractRegexLiterals = (source: string): RegexLiteralParseResult => {
+  const tokens = new Map<string, RegExp>()
+  let output = ''
+  let index = 0
+  let previousSignificantCharacter = ''
+
+  while (index < source.length) {
+    const character = source[index]
+
+    if (character === '"' || character === "'") {
+      const quote = character
+      output += character
+      index += 1
+
+      while (index < source.length) {
+        const stringCharacter = source[index]
+        output += stringCharacter
+        index += 1
+
+        if (stringCharacter === '\\') {
+          output += source[index] ?? ''
+          index += 1
+        } else if (stringCharacter === quote) {
+          break
+        }
+      }
+
+      previousSignificantCharacter = quote
+      continue
+    }
+
+    if (character === '/' && source[index + 1] === '/') {
+      const commentEnd = source.indexOf('\n', index)
+      const end = commentEnd === -1 ? source.length : commentEnd
+      output += source.slice(index, end)
+      index = end
+      continue
+    }
+
+    if (character === '/' && source[index + 1] === '*') {
+      const commentEnd = source.indexOf('*/', index + 2)
+      if (commentEnd === -1) {
+        throw new MinimongoQueryError(
+          'Selector contains an unterminated comment.',
+        )
+      }
+      output += source.slice(index, commentEnd + 2)
+      index = commentEnd + 2
+      continue
+    }
+
+    const isRegexValue =
+      character === '/' && ':,['.includes(previousSignificantCharacter)
+
+    if (isRegexValue) {
+      const literalStart = index
+      let inCharacterClass = false
+      let isEscaped = false
+      index += 1
+
+      regexPattern: while (index < source.length) {
+        const patternCharacter = source[index]
+
+        if (isEscaped) {
+          isEscaped = false
+        } else {
+          switch (patternCharacter) {
+            case '\\': {
+              isEscaped = true
+              break
+            }
+            case '[': {
+              inCharacterClass = true
+              break
+            }
+            case ']': {
+              inCharacterClass = false
+              break
+            }
+            case '/': {
+              if (!inCharacterClass) break regexPattern
+              break
+            }
+            case '\n':
+            case '\r': {
+              throw new MinimongoQueryError(
+                'Selector contains an unterminated regular expression.',
+              )
+            }
+          }
+        }
+
+        index += 1
+      }
+
+      if (source[index] !== '/') {
+        throw new MinimongoQueryError(
+          'Selector contains an unterminated regular expression.',
+        )
+      }
+
+      const pattern = source.slice(literalStart + 1, index)
+      index += 1
+      const flagsStart = index
+      while (/[a-z]/i.test(source[index] ?? '')) index += 1
+      const flags = source.slice(flagsStart, index)
+      let expression: RegExp
+
+      try {
+        expression = new RegExp(pattern, flags)
+      } catch {
+        throw new MinimongoQueryError(
+          'Selector contains an invalid regular expression.',
+        )
+      }
+
+      const token = `__MDE_REGEX_LITERAL_${crypto.randomUUID()}__`
+      tokens.set(token, expression)
+      output += JSON.stringify(token)
+      previousSignificantCharacter = 'v'
+      continue
+    }
+
+    output += character
+    index += 1
+
+    if (!/\s/.test(character)) previousSignificantCharacter = character
+  }
+
+  return { source: output, tokens }
+}
+
+const hydrateRegexLiterals = (
+  value: unknown,
+  tokens: ReadonlyMap<string, RegExp>,
+): unknown => {
+  if (typeof value === 'string') return tokens.get(value) ?? value
+  if (Array.isArray(value)) {
+    return value.map(item => hydrateRegexLiterals(item, tokens))
+  }
+  if (!isRecord(value)) return value
+
+  return Object.fromEntries(
+    Object.entries(value).map(([key, nestedValue]) => [
+      key,
+      hydrateRegexLiterals(nestedValue, tokens),
+    ]),
+  )
+}
+
 const assertSafePath = (path: string): void => {
   if (
     !path ||
@@ -54,12 +217,25 @@ const assertSafePath = (path: string): void => {
   }
 }
 
-const parseRecord = (source: string, label: string): QueryRecord => {
+const parseRecord = (
+  source: string,
+  label: string,
+  allowRegexLiterals = false,
+): QueryRecord => {
   let value: unknown
 
   try {
-    value = JSON5.parse(source.trim() || '{}')
-  } catch {
+    const normalizedSource = source.trim() || '{}'
+    const extracted = allowRegexLiterals
+      ? extractRegexLiterals(normalizedSource)
+      : { source: normalizedSource, tokens: new Map<string, RegExp>() }
+    value = hydrateRegexLiterals(
+      JSON5.parse(extracted.source),
+      extracted.tokens,
+    )
+  } catch (error) {
+    if (error instanceof MinimongoQueryError) throw error
+
     throw new MinimongoQueryError(
       `${label} must be a valid Compass-style object.`,
     )
@@ -73,6 +249,7 @@ const parseRecord = (source: string, label: string): QueryRecord => {
 }
 
 const validateFieldCondition = (condition: unknown): void => {
+  if (condition instanceof RegExp) return
   if (!isRecord(condition)) return
 
   const operatorKeys = Object.keys(condition).filter(key => key.startsWith('$'))
@@ -103,8 +280,77 @@ const validateFieldCondition = (condition: unknown): void => {
     if (operator === '$exists' && typeof operand !== 'boolean') {
       throw new MinimongoQueryError('$exists requires a boolean.')
     }
+
+    if (operator === '$contains' && typeof operand !== 'string') {
+      throw new MinimongoQueryError('$contains requires a string.')
+    }
+
+    if (
+      operator === '$regex' &&
+      typeof operand !== 'string' &&
+      !(operand instanceof RegExp)
+    ) {
+      throw new MinimongoQueryError(
+        '$regex requires a string or regex literal.',
+      )
+    }
+
+    if (operator === '$options' && typeof operand !== 'string') {
+      throw new MinimongoQueryError('$options requires a string.')
+    }
+  }
+
+  if ('$options' in condition && !('$regex' in condition)) {
+    throw new MinimongoQueryError('$options requires $regex.')
+  }
+
+  if ('$regex' in condition) {
+    compileRegex(condition.$regex, condition.$options)
   }
 }
+
+const compileRegex = (pattern: unknown, options?: unknown): RegExp => {
+  const source =
+    pattern instanceof RegExp ? pattern.source : (pattern as string)
+  let flags = ''
+
+  if (options !== undefined) {
+    const optionFlags = String(options)
+    flags =
+      pattern instanceof RegExp
+        ? [...new Set(pattern.flags + optionFlags)].join('')
+        : optionFlags
+  } else if (pattern instanceof RegExp) flags = pattern.flags
+
+  try {
+    return new RegExp(source, flags)
+  } catch {
+    throw new MinimongoQueryError(
+      'Selector contains an invalid regular expression.',
+    )
+  }
+}
+
+const normalizeFieldCondition = (condition: unknown): unknown => {
+  if (!isRecord(condition) || !('$regex' in condition)) return condition
+
+  return Object.fromEntries([
+    ...Object.entries(condition).filter(
+      ([operator]) => operator !== '$regex' && operator !== '$options',
+    ),
+    ['$regex', compileRegex(condition.$regex, condition.$options)],
+  ])
+}
+
+const normalizeSelector = (selector: QueryRecord): QueryRecord =>
+  Object.fromEntries(
+    Object.entries(selector).map(([field, condition]) => [
+      field,
+      field === '$and' || field === '$or'
+        ? (condition as QueryRecord[]).map(nested => normalizeSelector(nested))
+        : normalizeFieldCondition(condition),
+    ]),
+  )
 
 const validateSelector = (selector: QueryRecord): void => {
   for (const [field, condition] of Object.entries(selector)) {
@@ -167,7 +413,7 @@ const parseProjection = (source: string): Record<string, 0 | 1> => {
 export const parseMinimongoQuery = (
   input: MinimongoQueryInput,
 ): MinimongoQuery => {
-  const selector = parseRecord(input.selector, 'Selector')
+  const selector = parseRecord(input.selector, 'Selector', true)
   validateSelector(selector)
 
   const limit = Number(input.limit)
@@ -178,7 +424,7 @@ export const parseMinimongoQuery = (
   return {
     limit,
     projection: parseProjection(input.projection),
-    selector,
+    selector: normalizeSelector(selector),
     sort: parseSort(input.sort),
   }
 }
@@ -197,7 +443,24 @@ const getPath = (value: unknown, path: string): unknown => {
 const valuesEqual = (left: unknown, right: unknown): boolean =>
   JSON.stringify(left) === JSON.stringify(right)
 
+const matchesRegex = (value: unknown, expression: RegExp): boolean => {
+  if (typeof value !== 'string') return false
+
+  expression.lastIndex = 0
+  const matches = expression.test(value)
+  expression.lastIndex = 0
+
+  return matches
+}
+
+const matchesOperand = (value: unknown, operand: unknown): boolean =>
+  operand instanceof RegExp
+    ? matchesRegex(value, operand)
+    : valuesEqual(value, operand)
+
 const matchesCondition = (value: unknown, condition: unknown): boolean => {
+  if (condition instanceof RegExp) return matchesRegex(value, condition)
+
   if (
     !isRecord(condition) ||
     !Object.keys(condition).some(key => key.startsWith('$'))
@@ -230,13 +493,19 @@ const matchesCondition = (value: unknown, condition: unknown): boolean => {
         return value <= operand
       }
       case '$in': {
-        return (operand as unknown[]).some(item => valuesEqual(value, item))
+        return (operand as unknown[]).some(item => matchesOperand(value, item))
       }
       case '$nin': {
-        return !(operand as unknown[]).some(item => valuesEqual(value, item))
+        return !(operand as unknown[]).some(item => matchesOperand(value, item))
       }
       case '$exists': {
         return (value !== undefined) === operand
+      }
+      case '$contains': {
+        return typeof value === 'string' && value.includes(operand as string)
+      }
+      case '$regex': {
+        return matchesRegex(value, operand as RegExp)
       }
       default: {
         return false
