@@ -455,12 +455,14 @@ test('renders the packaged DevTools panel navigation', async ({
     'Performance',
     'Settings',
   ]) {
-    await expect(page.getByRole('button', { name: tabName })).toBeVisible()
+    await expect(
+      page.getByRole('button', { name: tabName, exact: true }),
+    ).toBeVisible()
   }
 
   await expect(page.getByRole('button', { name: 'Help' })).toBeVisible()
   await expect(
-    page.getByRole('combobox', { name: 'Meteor DDP connection' }),
+    page.getByRole('button', { name: /Meteor DDP connection:/ }),
   ).toBeVisible()
 })
 
@@ -479,10 +481,20 @@ test('persists startup history from the DevTools Settings tab', async ({
   await expect(showHistory).toBeChecked()
   await page.getByText('Start from now', { exact: true }).click()
   await expect(startFromNow).toBeChecked()
-  const reloadPanel = page.getByRole('button', { name: 'Reload panel' })
-  await expect(reloadPanel).toBeVisible()
+  const reloadDialog = page.getByRole('alertdialog', {
+    name: 'Reload DevTools panel?',
+  })
+  await expect(reloadDialog).toBeVisible()
 
-  await reloadPanel.click()
+  await reloadDialog.getByRole('button', { name: 'Later' }).click()
+  await expect(reloadDialog).toBeHidden()
+
+  await page.getByText('Show captured history', { exact: true }).click()
+  await expect(showHistory).toBeChecked()
+  await page.getByText('Start from now', { exact: true }).click()
+  await expect(reloadDialog).toBeVisible()
+
+  await reloadDialog.getByRole('button', { name: 'Reload now' }).click()
   await page.getByRole('button', { name: 'Settings' }).click()
   await expect(startFromNow).toBeChecked()
 

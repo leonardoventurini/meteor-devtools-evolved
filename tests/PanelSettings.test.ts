@@ -24,15 +24,19 @@ describe('DevTools settings page', () => {
     expect(tabBar).toContain('margin-top: auto;')
   })
 
-  it('persists policy changes and exposes an explicit reload boundary', () => {
+  it('persists policy changes and prompts to reload after a successful save', () => {
     const settings = readSource('src/Pages/Panel/Settings/Settings.tsx')
 
     expect(settings).toContain('getDDPHistoryPolicy()')
     expect(settings).toContain('setDDPHistoryPolicy(nextPolicy)')
-    expect(settings).toContain('initialPolicy !== policy')
-    expect(settings).toContain("intent='warning'")
+    expect(settings).toContain('setReloadDialogOpen(')
+    expect(settings).toContain('initialPolicy !== nextPolicy')
+    expect(settings).toContain("role='alertdialog'")
+    expect(settings).toContain("title='Reload DevTools panel?'")
     expect(settings).toContain('location.reload()')
-    expect(settings).toContain('Reload panel')
+    expect(settings).toContain('Reload now')
+    expect(settings).toContain('Later')
+    expect(settings).not.toContain("title='Reload required'")
   })
 
   it('keeps readable, responsive spacing inside the shared panel shell', () => {

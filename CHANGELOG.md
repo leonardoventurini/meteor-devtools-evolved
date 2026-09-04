@@ -44,6 +44,8 @@ All notable changes to this project will be documented in this file.
 
 ### Changed
 
+- Replaced the bulky inline Settings reload warning with an immediate,
+  dismissible reload dialog after successful preference changes.
 - Moved the DDP startup-history setting into a bottom-anchored DevTools sidebar
   page with an explicit reload action for applying changes to the active
   inspection session.

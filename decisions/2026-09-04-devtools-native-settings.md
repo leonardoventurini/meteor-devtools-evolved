@@ -13,10 +13,10 @@ through a gear tab anchored to the bottom of the existing sidebar. Reuse the
 same extension-local storage contract and background-worker consumer.
 
 Persist changes immediately but never discard an active inspection session as
-a side effect of selecting a radio option. When the saved choice differs from
-the policy loaded for the current session, show an explicit Reload panel action.
-Remove the standalone WXT Options entrypoint and its `options_ui` manifest
-surface.
+a side effect of selecting a radio option. After a successful change that
+differs from the policy loaded for the current session, immediately show an
+accessible confirmation dialog with `Reload now` and `Later` actions. Remove
+the standalone WXT Options entrypoint and its `options_ui` manifest surface.
 
 ## Rejected alternatives
 
@@ -26,6 +26,9 @@ surface.
   preference change should not unexpectedly destroy the active investigation.
 - Automatically reloading on selection was rejected because it interrupts the
   user without an explicit action.
+- Keeping a large warning callout inside the settings card was rejected because
+  it distorted the page hierarchy and made a transient decision look like
+  persistent settings content.
 - Placing Settings among the primary data pages was rejected in favor of a
   stable bottom anchor convention for utility navigation.
 

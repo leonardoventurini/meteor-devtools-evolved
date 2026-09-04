@@ -24,9 +24,12 @@ after policy changes.
 - Render a panel-native, vertically scrollable Settings page.
 - Reuse `DDPHistoryPolicy`, its storage key, validation, and persistence helpers.
 - Persist radio changes immediately without clearing the active panel session.
-- When the saved choice differs from the session's initially loaded policy,
-  show a Reload panel action that calls `location.reload()`.
-- Hide the reload notice if the user restores the session's initial choice.
+- After successfully saving a choice that differs from the session's initially
+  loaded policy, immediately open an accessible reload dialog.
+- Offer `Reload now`, which calls `location.reload()`, and `Later`, which
+  dismisses the dialog while retaining the saved choice.
+- Do not prompt after a failed save or when the user restores the session's
+  initial choice.
 - Preserve loading, saving, and storage-error feedback.
 - Remove the standalone Options component, WXT entrypoint, stylesheet,
   `options_ui` build expectation, and obsolete E2E route.
@@ -49,7 +52,7 @@ unchanged, so rollback requires no data migration.
 
 - [x] Add failing panel routing, bottom-anchor, settings UI, and build tests.
 - [x] Add the Settings page and sidebar route.
-- [x] Add explicit reload-required behavior.
+- [x] Add an immediate reload dialog with reload-now and later actions.
 - [x] Remove the standalone Options surface and update build validation.
 - [x] Migrate packaged E2E coverage and user documentation.
 - [x] Record the architectural decision and changelog outcome.
