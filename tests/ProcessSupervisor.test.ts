@@ -24,6 +24,10 @@ describe('development process lifecycle', () => {
     expect(readFileSync('scripts/run-e2e.mjs', 'utf8')).toContain(
       'runManagedCommand',
     )
+
+    const playwrightConfig = readFileSync('playwright.config.ts', 'utf8')
+    expect(playwrightConfig).toContain("signal: 'SIGTERM'")
+    expect(playwrightConfig).toContain('METEOR_SHUTDOWN_TIMEOUT_MS')
   })
 
   it('reports occupied ports without treating their owner as managed', () => {

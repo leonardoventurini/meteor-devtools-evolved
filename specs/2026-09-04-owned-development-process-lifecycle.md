@@ -14,6 +14,8 @@ The failed launch left an orphaned process group rooted at `yarn devapp`, includ
 - Refuse to start when a required port is occupied. Report the owner when the platform can identify it and provide a cleanup command; never kill an unowned process automatically.
 - Put every launched command in an owned process group on POSIX systems.
 - On exit or interruption, send `SIGTERM`, wait briefly, then send `SIGKILL` only to owned groups that remain alive.
+- Give Playwright's nested fixture supervisor enough graceful-shutdown time to
+  terminate its detached Meteor group before Playwright escalates.
 - Preserve child exit status and clean siblings when any managed child fails.
 
 ## Uncertainty and constraints

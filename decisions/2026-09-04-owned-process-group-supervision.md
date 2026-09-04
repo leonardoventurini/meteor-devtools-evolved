@@ -10,6 +10,10 @@ All repository-owned development and E2E launch paths use a shared Node supervis
 
 Required ports are checked before launch. Occupied ports produce owner diagnostics through `lsof` when available, but discovered owners are never added to the cleanup registry or signalled automatically.
 
+Playwright requests `SIGTERM` and grants its nested fixture launcher an explicit
+shutdown window so the inner supervisor can finish cleaning its detached
+Meteor group before the outer runner exits.
+
 ## Rejected alternatives
 
 - Keeping `concurrently` was rejected because shell-level sibling termination did not reliably cover descendant process groups.

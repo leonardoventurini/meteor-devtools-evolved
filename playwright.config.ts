@@ -3,6 +3,7 @@ import path from 'node:path'
 import { resolveMeteorFixture } from './tests/e2e/MeteorFixtures'
 
 const METEOR_STARTUP_TIMEOUT_MS = 300_000
+const METEOR_SHUTDOWN_TIMEOUT_MS = 10_000
 const meteorFixture = resolveMeteorFixture()
 
 export default defineConfig({
@@ -32,6 +33,10 @@ export default defineConfig({
   },
   webServer: {
     command: meteorFixture.startCommand,
+    gracefulShutdown: {
+      signal: 'SIGTERM',
+      timeout: METEOR_SHUTDOWN_TIMEOUT_MS,
+    },
     url: meteorFixture.url,
     reuseExistingServer: !process.env.CI,
     timeout: METEOR_STARTUP_TIMEOUT_MS,
