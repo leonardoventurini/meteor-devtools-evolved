@@ -38,6 +38,16 @@ describe('panel navigation layout', () => {
     expect(tabBar).not.toContain('useState')
   })
 
+  it('anchors the packaged Meteor logo at the left of the toolbar', () => {
+    const tabBar = readSource('src/Components/TabBar.tsx')
+
+    expect(tabBar).toContain("const METEOR_LOGO_PATH = '/icons/meteor-32.png'")
+    expect(tabBar).toContain("className='mde-toolbar-brand'")
+    expect(tabBar).toContain("alt='Meteor DevTools'")
+    expect(tabBar).toContain('height: 24px;')
+    expect(tabBar).toContain('padding: 0 12px;')
+  })
+
   it('uses the independent status-bar height', () => {
     const statusBar = readSource('src/Components/StatusBar.tsx')
     expect(statusBar).toContain(

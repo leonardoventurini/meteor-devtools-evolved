@@ -7,6 +7,7 @@ import { NAVBAR_HEIGHT } from '@/Styles/Constants'
 import { useBreakpoints } from '@/Utils/Hooks/useBreakpoints'
 
 const backgroundColor = '#202b33'
+const METEOR_LOGO_PATH = '/icons/meteor-32.png'
 
 const TopToolbar = styled.div`
   user-select: none;
@@ -16,6 +17,19 @@ const TopToolbar = styled.div`
   width: 100%;
   border-bottom: 1px solid ${lighten(0.1, backgroundColor)};
   background-color: ${backgroundColor};
+
+  .mde-toolbar-brand {
+    display: flex;
+    flex: 0 0 auto;
+    align-items: center;
+    padding: 0 12px;
+
+    img {
+      display: block;
+      width: 24px;
+      height: 24px;
+    }
+  }
 
   .right-menu {
     display: flex;
@@ -176,6 +190,9 @@ export const TabBar: FunctionComponent<Props> = ({
   return (
     <>
       <TopToolbar className='mde-top-toolbar'>
+        <div className='mde-toolbar-brand'>
+          <img alt='Meteor DevTools' draggable={false} src={METEOR_LOGO_PATH} />
+        </div>
         <div className='right-menu'>
           {beforeMenu}
           {rightMenu}

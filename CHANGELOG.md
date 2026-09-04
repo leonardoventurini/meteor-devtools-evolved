@@ -8,6 +8,7 @@ All notable changes to this project will be documented in this file.
 
 ### Added
 
+- Added the Meteor brand mark to the left side of the panel toolbar.
 - Added accessible expand-all and collapse-all JSON controls with a persisted
   default tree depth.
 - Added a dedicated, copyable document ID field to every Minimongo result row.
