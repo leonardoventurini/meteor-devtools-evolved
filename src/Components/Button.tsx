@@ -1,8 +1,4 @@
-import React, {
-  ButtonHTMLAttributes,
-  FunctionComponent,
-  ReactElement,
-} from 'react'
+import React, { ButtonHTMLAttributes, ReactElement, forwardRef } from 'react'
 import styled from 'styled-components'
 import { Icon, IconName, Intent } from '@blueprintjs/core'
 import { centerItems, truncate } from '@/Styles/Mixins'
@@ -119,17 +115,20 @@ interface Props extends ButtonHTMLAttributes<HTMLButtonElement> {
   subtitle?: string
 }
 
-export const Button: FunctionComponent<Props> = ({
-  icon,
-  children,
-  intent,
-  className,
-  shine,
-  active,
-  subtitle,
-  title,
-  ...rest
-}) => {
+export const Button = forwardRef<HTMLButtonElement, Props>(function Button(
+  {
+    icon,
+    children,
+    intent,
+    className,
+    shine,
+    active,
+    subtitle,
+    title,
+    ...rest
+  },
+  ref,
+) {
   const classes = classnames(
     {
       shine,
@@ -147,7 +146,7 @@ export const Button: FunctionComponent<Props> = ({
         interactionKind='hover'
         className='inline-flex items-center'
       >
-        <ButtonWrapper className={classes} {...rest}>
+        <ButtonWrapper className={classes} ref={ref} {...rest}>
           <div className='button-wrapper'>
             {icon &&
               (isString(icon) ? (
@@ -168,7 +167,7 @@ export const Button: FunctionComponent<Props> = ({
   }
 
   return (
-    <ButtonWrapper className={classes} {...rest}>
+    <ButtonWrapper className={classes} ref={ref} {...rest}>
       <div className='button-wrapper'>
         {icon &&
           (isString(icon) ? (
@@ -185,4 +184,4 @@ export const Button: FunctionComponent<Props> = ({
       </div>
     </ButtonWrapper>
   )
-}
+})

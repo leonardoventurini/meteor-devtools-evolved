@@ -16,14 +16,21 @@ connection-scoped refresh behavior.
 
 ## Scope and contracts
 
-- Display the active connection name in a toolbar-style button with a trailing
-  caret.
+- Display the active connection name in the same flat, full-height button
+  surface as adjacent toolbar actions, with a trailing caret.
 - Open a Blueprint menu aligned below the trigger.
 - Mark the active connection and close after a selection.
+- Preserve a valid active connection and select the first available connection
+  when the current ID disappears.
+- Support arrow-key wraparound, Home/End navigation, Enter/Space selection,
+  Escape dismissal, and case-insensitive prefix typeahead without a search
+  field.
 - Expose button popup, expanded, and controlled-menu relationships to assistive
   technology.
 - Keep long trigger labels truncated within the existing width bounds while
   menu labels remain readable.
+- Keep the trigger flexible between 144px and 256px without shrinking adjacent
+  toolbar actions.
 - Preserve `PanelStore.setActiveConnectionId` and `syncConnectionData` as the
   selection effects.
 - Add no production dependency.
@@ -41,7 +48,7 @@ state. Reverting to `HTMLSelect` restores the previous implementation.
 
 ## Executable checklist
 
-- [x] Add structural accessibility and dismissal coverage.
+- [x] Add executable model coverage and structural integration coverage.
 - [x] Create a typed reusable connection-selector component.
 - [x] Replace `HTMLSelect` without changing selection effects.
 - [x] Style the trigger like existing toolbar actions.

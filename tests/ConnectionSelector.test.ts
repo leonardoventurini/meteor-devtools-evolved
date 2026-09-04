@@ -17,9 +17,11 @@ describe('global DDP connection selection', () => {
     expect(panelStore).toContain(
       'minimongoStore.setActiveConnectionId(connectionId)',
     )
-    expect(tabBar).toContain('margin: 4px 0;')
+    expect(tabBar).toContain('height: 100%;')
+    expect(tabBar).toContain('min-width: 9rem;')
+    expect(tabBar).toContain('max-width: 16rem;')
     expect(tabBar).toContain('padding: 0 10px;')
-    expect(tabBar).toContain('border-radius: 3px;')
+    expect(tabBar).not.toContain('border-radius: 3px;')
   })
 
   it('does not hard-code the default connection in data injectors', () => {

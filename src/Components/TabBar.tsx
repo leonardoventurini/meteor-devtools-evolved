@@ -32,14 +32,12 @@ const TopToolbar = styled.div`
       flex: 0 1 16rem;
       min-width: 9rem;
       max-width: 16rem;
-      margin: 4px 0;
+      height: 100%;
 
       .mde-connection-trigger {
         height: 100%;
         width: 100%;
         padding: 0 10px;
-        border-radius: 3px;
-        background: ${lighten(0.05, backgroundColor)};
       }
 
       .mde-connection-trigger-content {

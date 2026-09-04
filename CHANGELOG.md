@@ -41,8 +41,9 @@ All notable changes to this project will be documented in this file.
 
 ### Changed
 
-- Replaced the native connection control with a toolbar-style custom selector
-  using Blueprint's accessible popover and menu primitives.
+- Replaced the native connection control with a flat toolbar-style selector
+  featuring keyboard navigation, prefix typeahead, resilient connection
+  fallback, and accessible Blueprint popover and menu primitives.
 - Compacted sidebar navigation to 32px rows and removed its outer vertical gap.
 - Moved primary panel navigation into a fixed 160px left sidebar below a
   reliable 40px top toolbar while preserving connection and utility actions at

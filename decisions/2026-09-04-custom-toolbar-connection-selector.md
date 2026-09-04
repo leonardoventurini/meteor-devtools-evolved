@@ -12,7 +12,14 @@ state in the dropdown.
 Build a typed `ConnectionSelector` from the existing toolbar `Button` and
 Blueprint's controlled `PopoverNext`, `Menu`, and `MenuItem` primitives. Keep
 the active connection controlled by `PanelStore`, use local state only for the
-popover, identify choices by connection ID, and close after selection.
+popover, identify choices by connection ID, and close after selection. The
+trigger uses the shared button's flat, full-height toolbar surface; only its
+bounded label and trailing caret distinguish its selector role.
+
+The interaction model provides wraparound arrow navigation, Home/End jumps,
+Enter/Space selection, Escape dismissal, and prefix typeahead. If a connection
+disappears, selection moves to the first available connection so the toolbar
+and scoped panel data cannot retain an orphaned ID.
 
 ## Rejected alternatives
 
@@ -36,4 +43,6 @@ panel data.
 The trigger exposes `aria-haspopup`, `aria-expanded`, and `aria-controls`, and
 truncates only unusually long active labels within its bounded toolbar width.
 The menu shows full connection labels and marks the active item. The component
-adds local open-state logic but no dependency or persisted state.
+adds local open, focus, and transient typeahead state but no dependency or
+persisted state. The trigger remains flexible from 144px to 256px while sibling
+actions retain their intrinsic widths.
