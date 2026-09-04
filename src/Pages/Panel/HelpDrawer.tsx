@@ -2,7 +2,6 @@ import { Classes, Drawer, DrawerSize, Icon } from '@blueprintjs/core'
 import React, { FunctionComponent } from 'react'
 import { GridItem, PartnersGrid } from './PartnersGrid'
 import AuthorLogo from '@/Assets/leonardoventurini.png'
-import MeteorCloudLogo from '@/Assets/meteor-cloud-logo.png'
 
 const people: GridItem[] = [
   {
@@ -15,19 +14,6 @@ const people: GridItem[] = [
       'If you need help with extension related issues or general Node.js or Meteor consulting',
     slack: 'https://meteor-community.slack.com/archives/DRKE6HDD5/',
     linkedin: 'https://www.linkedin.com/in/leonardo-venturini/',
-    website: 'https://leonardoventurini.tech/',
-  },
-]
-
-const orgs: GridItem[] = [
-  {
-    name: 'Galaxy',
-    title: 'Organization',
-    role: 'Partner',
-    website: 'https://social.meteor.com/devtools-evolved/',
-    imageUrl: MeteorCloudLogo,
-    description:
-      'If you want a full service cloud offering for deploying, hosting, and scaling your apps with zero DevOps',
   },
 ]
 
@@ -60,11 +46,6 @@ export const HelpDrawer: FunctionComponent<Props> = ({
             <div className='section'>
               <h2 className='section-title'>Extension</h2>
               <PartnersGrid items={people} />
-            </div>
-
-            <div className='section'>
-              <h2 className='section-title'>Meteor & Development</h2>
-              <PartnersGrid items={orgs} />
             </div>
 
             <div className='section'>

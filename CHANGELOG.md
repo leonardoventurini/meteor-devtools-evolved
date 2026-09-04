@@ -70,6 +70,11 @@ All notable changes to this project will be documented in this file.
 - Replaced shell-sourced `.envrc` helpers with documented Just recipes for
   development, Meteor maintenance, and release packaging.
 
+### Removed
+
+- Removed the obsolete author website action and Galaxy partner card from the
+  Help drawer.
+
 ### Fixed
 
 - Made overflowing Minimongo query drawer content vertically scrollable while
