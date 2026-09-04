@@ -41,6 +41,9 @@ All notable changes to this project will be documented in this file.
 
 ### Changed
 
+- Moved primary panel navigation into a fixed 160px left sidebar below a taller,
+  more reliable top toolbar while preserving connection and utility actions at
+  the top right.
 - Removed the fixed 500-document Minimongo query limit while retaining
   positive-integer validation.
 - Bounded retained DDP history to 5,000 events and removed per-batch and

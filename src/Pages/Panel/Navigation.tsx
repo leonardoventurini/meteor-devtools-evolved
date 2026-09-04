@@ -106,29 +106,28 @@ export const Navigation: FunctionComponent = observer(() => {
   }
 
   return (
-    <div className='mde-navbar'>
-      <TabBar
-        tabs={tabs}
-        menu={menu}
-        onChange={key => panelStore.setSelectedTabId(key)}
-        beforeMenu={
-          <select
-            aria-label='Meteor DDP connection'
-            className='mde-connection-selector'
-            onChange={event => {
-              panelStore.setActiveConnectionId(event.target.value)
-              syncConnectionData(event.target.value)
-            }}
-            value={panelStore.activeConnectionId}
-          >
-            {panelStore.connections.map(connection => (
-              <option key={connection.id} value={connection.id}>
-                {connection.displayName}
-              </option>
-            ))}
-          </select>
-        }
-      />
-    </div>
+    <TabBar
+      activeKey={panelStore.selectedTabId}
+      tabs={tabs}
+      menu={menu}
+      onChange={key => panelStore.setSelectedTabId(key)}
+      beforeMenu={
+        <select
+          aria-label='Meteor DDP connection'
+          className='mde-connection-selector'
+          onChange={event => {
+            panelStore.setActiveConnectionId(event.target.value)
+            syncConnectionData(event.target.value)
+          }}
+          value={panelStore.activeConnectionId}
+        >
+          {panelStore.connections.map(connection => (
+            <option key={connection.id} value={connection.id}>
+              {connection.displayName}
+            </option>
+          ))}
+        </select>
+      }
+    />
   )
 })

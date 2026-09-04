@@ -1,6 +1,6 @@
 import React, { FunctionComponent, PropsWithChildren } from 'react'
 import styled from 'styled-components'
-import { NAVBAR_HEIGHT } from '@/Styles/Constants'
+import { STATUS_HEIGHT } from '@/Styles/Constants'
 import { lighten } from 'polished'
 import { centerItems } from '@/Styles/Mixins'
 
@@ -11,7 +11,7 @@ const Wrapper = styled.div`
   display: flex;
   box-sizing: border-box;
   flex-direction: row;
-  height: ${NAVBAR_HEIGHT}px;
+  height: ${STATUS_HEIGHT}px;
   width: 100%;
 
   background-color: ${backgroundColor};

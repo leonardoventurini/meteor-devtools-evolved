@@ -14,6 +14,7 @@ import styled from 'styled-components'
 import {
   MIN_LAYOUT_WIDTH,
   NAVBAR_HEIGHT,
+  SIDEBAR_WIDTH,
   STATUS_HEIGHT,
 } from '@/Styles/Constants'
 import { Performance } from '@/Pages/Panel/Performance/Performance'
@@ -24,20 +25,31 @@ Bridge.init()
 const Layout = styled.div`
   display: flex;
   flex-direction: column;
+  box-sizing: border-box;
 
   position: relative;
 
   padding-top: ${NAVBAR_HEIGHT}px;
   padding-bottom: ${STATUS_HEIGHT}px;
-  max-height: 100vh;
+  padding-left: ${SIDEBAR_WIDTH}px;
+  height: 100vh;
 
   min-width: ${MIN_LAYOUT_WIDTH}px;
 
-  .mde-navbar {
+  .mde-top-toolbar {
     position: absolute;
     top: 0;
     left: 0;
     right: 0;
+    z-index: 1;
+  }
+
+  .mde-sidebar {
+    position: absolute;
+    top: ${NAVBAR_HEIGHT}px;
+    bottom: 0;
+    left: 0;
+    width: ${SIDEBAR_WIDTH}px;
   }
 
   .mde-layout__tab-panel {

@@ -1,12 +1,6 @@
-import React, {
-  FunctionComponent,
-  ReactElement,
-  ReactNode,
-  useState,
-} from 'react'
+import React, { FunctionComponent, ReactElement, ReactNode } from 'react'
 import styled from 'styled-components'
 import { IconName, Menu, MenuItem, PopoverNext } from '@blueprintjs/core'
-import classnames from 'classnames'
 import { Button } from './Button'
 import { lighten } from 'polished'
 import { NAVBAR_HEIGHT } from '@/Styles/Constants'
@@ -14,36 +8,26 @@ import { useBreakpoints } from '@/Utils/Hooks/useBreakpoints'
 
 const backgroundColor = '#202b33'
 
-const TabBarWrapper = styled.div`
+const TopToolbar = styled.div`
   user-select: none;
   display: flex;
   box-sizing: border-box;
-  flex-direction: row;
   height: ${NAVBAR_HEIGHT}px;
   width: 100%;
   border-bottom: 1px solid ${lighten(0.1, backgroundColor)};
-
   background-color: ${backgroundColor};
-
-  button.mde-tab {
-    &.active {
-      background-color: ${lighten(0.1, backgroundColor)};
-    }
-
-    &:hover:not(.active) {
-      background-color: ${lighten(0.05, backgroundColor)};
-    }
-  }
 
   .right-menu {
     display: flex;
     flex-direction: row;
     margin-left: auto;
     gap: 0.5rem;
+    min-width: 0;
 
     .mde-connection-selector {
       min-width: 9rem;
       max-width: 16rem;
+      text-overflow: ellipsis;
       margin: 3px 0;
       padding: 0 28px 0 10px;
       border: 0;
@@ -60,6 +44,34 @@ const TabBarWrapper = styled.div`
       .bp6-icon {
         margin-bottom: 2px;
       }
+    }
+  }
+`
+
+const Sidebar = styled.nav`
+  user-select: none;
+  box-sizing: border-box;
+  display: flex;
+  flex-direction: column;
+  width: 100%;
+  height: 100%;
+  overflow-y: auto;
+  border-right: 1px solid ${lighten(0.1, backgroundColor)};
+  background-color: ${backgroundColor};
+  padding: 8px 0;
+
+  button.mde-tab {
+    flex: 0 0 40px;
+    width: 100%;
+    height: 40px;
+    padding: 0 12px;
+
+    &.active {
+      background-color: ${lighten(0.1, backgroundColor)};
+    }
+
+    &:hover:not(.active) {
+      background-color: ${lighten(0.05, backgroundColor)};
     }
   }
 `
@@ -83,6 +95,7 @@ export interface IMenuItem {
 }
 
 interface Props {
+  activeKey: string
   beforeMenu?: ReactNode
   tabs: ITab[]
   menu?: IMenuItem[]
@@ -90,13 +103,12 @@ interface Props {
 }
 
 export const TabBar: FunctionComponent<Props> = ({
+  activeKey,
   beforeMenu,
   tabs,
   menu,
   onChange,
 }) => {
-  const [activeKey, setKey] = useState(tabs[0].key)
-
   const { navigationCollapse } = useBreakpoints()
 
   const rightMenu = navigationCollapse ? (
@@ -115,7 +127,7 @@ export const TabBar: FunctionComponent<Props> = ({
       }
       placement='bottom-start'
     >
-      <Button icon='menu' style={{ height: 28 }} />
+      <Button icon='menu' style={{ height: NAVBAR_HEIGHT }} />
     </PopoverNext>
   ) : (
     menu?.map(item => (
@@ -133,29 +145,31 @@ export const TabBar: FunctionComponent<Props> = ({
   )
 
   return (
-    <TabBarWrapper>
-      {tabs.map(tab => (
-        <Button
-          key={tab.key}
-          onClick={() => {
-            setKey(tab.key)
-            if (onChange) onChange(tab.key)
-            if (tab.handler) tab.handler()
-          }}
-          className={classnames('mde-tab', {
-            active: activeKey === tab.key,
-          })}
-          icon={tab.icon}
-          shine={tab.shine}
-        >
-          {tab.content}
-        </Button>
-      ))}
+    <>
+      <TopToolbar className='mde-top-toolbar'>
+        <div className='right-menu'>
+          {beforeMenu}
+          {rightMenu}
+        </div>
+      </TopToolbar>
 
-      <div className='right-menu'>
-        {beforeMenu}
-        {rightMenu}
-      </div>
-    </TabBarWrapper>
+      <Sidebar aria-label='Panel navigation' className='mde-sidebar'>
+        {tabs.map(tab => (
+          <Button
+            active={activeKey === tab.key}
+            key={tab.key}
+            onClick={() => {
+              if (onChange) onChange(tab.key)
+              if (tab.handler) tab.handler()
+            }}
+            className='mde-tab'
+            icon={tab.icon}
+            shine={tab.shine}
+          >
+            {tab.content}
+          </Button>
+        ))}
+      </Sidebar>
+    </>
   )
 }
