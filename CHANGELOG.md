@@ -83,6 +83,8 @@ All notable changes to this project will be documented in this file.
 
 ### Fixed
 
+- Prevented top-toolbar utility labels from being ellipsized when their full
+  actions fit the available width.
 - Prevented stale content scripts from reporting uncaught extension-context
   errors after an extension reload or update.
 - Made overflowing Minimongo query drawer content vertically scrollable while

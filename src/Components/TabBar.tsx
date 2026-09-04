@@ -24,6 +24,10 @@ const TopToolbar = styled.div`
     gap: 0.5rem;
     min-width: 0;
 
+    & > :not(.mde-connection-selector) {
+      flex: 0 0 auto;
+    }
+
     .mde-connection-selector {
       flex: 0 1 16rem;
       min-width: 9rem;
@@ -48,8 +52,16 @@ const TopToolbar = styled.div`
     }
 
     button.menu-item {
+      width: max-content;
+      white-space: nowrap;
+
       &:hover {
         background-color: ${lighten(0.05, backgroundColor)};
+      }
+
+      .content {
+        overflow: visible;
+        text-overflow: clip;
       }
 
       .bp6-icon {

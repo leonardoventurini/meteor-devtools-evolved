@@ -32,6 +32,9 @@ describe('panel navigation layout', () => {
     expect(tabBar).toContain('padding: 0;')
     expect(tabBar).toContain('flex: 0 0 32px;')
     expect(tabBar).toContain('height: 32px;')
+    expect(tabBar).toContain('width: max-content;')
+    expect(tabBar).toContain('white-space: nowrap;')
+    expect(tabBar).toContain('text-overflow: clip;')
     expect(tabBar).not.toContain('useState')
   })
 
