@@ -68,6 +68,7 @@ All notable changes to this project will be documented in this file.
 
 ### Fixed
 
+- Added standard content padding to the Minimongo query drawer.
 - Improved connection selector spacing so its background no longer touches the
   navigation bar edges.
 - Extended bounded page-world discovery so slower classic Meteor bundles can

@@ -7,6 +7,7 @@ import {
   InputGroup,
   TextArea,
 } from '@blueprintjs/core'
+import classnames from 'classnames'
 import { observer } from 'mobx-react-lite'
 import React, { FormEvent, FunctionComponent, useEffect, useState } from 'react'
 import { usePanelStore } from '@/Stores/PanelStore'
@@ -48,7 +49,9 @@ export const MinimongoQueryDrawer: FunctionComponent = observer(() => {
     >
       <form className='flex h-full flex-col' onSubmit={apply}>
         <div className={Classes.DRAWER_BODY}>
-          <div className='flex flex-col gap-4'>
+          <div
+            className={classnames(Classes.DIALOG_BODY, 'flex flex-col gap-4')}
+          >
             <Callout intent='primary'>
               Queries run against the captured snapshot. Compass-style object
               syntax is supported. Field operators: $eq, $ne, $gt, $gte, $lt,
