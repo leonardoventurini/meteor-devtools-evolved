@@ -81,6 +81,8 @@ All notable changes to this project will be documented in this file.
 
 ### Fixed
 
+- Prevented stale content scripts from reporting uncaught extension-context
+  errors after an extension reload or update.
 - Made overflowing Minimongo query drawer content vertically scrollable while
   keeping its action footer visible.
 - Added standard content padding to the Minimongo query drawer.

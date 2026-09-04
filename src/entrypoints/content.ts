@@ -1,6 +1,7 @@
 import { browser } from 'wxt/browser'
 import { defineContentScript } from 'wxt/utils/define-content-script'
 import { injectScript } from 'wxt/utils/inject-script'
+import { trySendRuntimeMessage } from '@/Browser/RuntimeMessage'
 
 const WEB_PAGE_MATCHES = ['http://*/*', 'https://*/*']
 const MESSAGE_SOURCE = 'meteor-devtools-evolved'
@@ -17,8 +18,13 @@ export default defineContentScript({
       if (event.source !== globalThis.window) return
       if (!isRecord(event.data) || event.data.source !== MESSAGE_SOURCE) return
 
-      browser.runtime.sendMessage(event.data).catch(() => {
-        globalThis.removeEventListener('message', messageHandler)
+      void trySendRuntimeMessage(
+        message => browser.runtime.sendMessage(message),
+        event.data,
+      ).then(wasSent => {
+        if (!wasSent) {
+          globalThis.removeEventListener('message', messageHandler)
+        }
       })
     }
 
