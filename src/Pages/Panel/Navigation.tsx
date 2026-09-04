@@ -114,6 +114,7 @@ export const Navigation: FunctionComponent = observer(() => {
         beforeMenu={
           <select
             aria-label='Meteor DDP connection'
+            className='mde-connection-selector'
             onChange={event => {
               panelStore.setActiveConnectionId(event.target.value)
               syncConnectionData(event.target.value)

@@ -41,10 +41,13 @@ const TabBarWrapper = styled.div`
     margin-left: auto;
     gap: 0.5rem;
 
-    select {
+    .mde-connection-selector {
       min-width: 9rem;
       max-width: 16rem;
+      margin: 3px 0;
+      padding: 0 28px 0 10px;
       border: 0;
+      border-radius: 3px;
       color: inherit;
       background: ${lighten(0.05, backgroundColor)};
     }

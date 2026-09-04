@@ -68,6 +68,8 @@ All notable changes to this project will be documented in this file.
 
 ### Fixed
 
+- Improved connection selector spacing so its background no longer touches the
+  navigation bar edges.
 - Extended bounded page-world discovery so slower classic Meteor bundles can
   initialize after the former one-second cutoff.
 - Made subscription columns responsive by bounding compact metadata and giving
