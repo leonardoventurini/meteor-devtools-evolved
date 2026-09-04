@@ -70,6 +70,8 @@ All notable changes to this project will be documented in this file.
 
 ### Fixed
 
+- Made overflowing Minimongo query drawer content vertically scrollable while
+  keeping its action footer visible.
 - Added standard content padding to the Minimongo query drawer.
 - Improved connection selector spacing so its background no longer touches the
   navigation bar edges.

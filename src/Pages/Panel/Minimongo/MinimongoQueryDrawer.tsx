@@ -47,8 +47,10 @@ export const MinimongoQueryDrawer: FunctionComponent = observer(() => {
       size='50%'
       title='Query captured Minimongo documents'
     >
-      <form className='flex h-full flex-col' onSubmit={apply}>
-        <div className={Classes.DRAWER_BODY}>
+      <form className='flex min-h-0 flex-1 flex-col' onSubmit={apply}>
+        <div
+          className={classnames(Classes.DRAWER_BODY, 'min-h-0 overflow-y-auto')}
+        >
           <div
             className={classnames(Classes.DIALOG_BODY, 'flex flex-col gap-4')}
           >
@@ -99,7 +101,7 @@ export const MinimongoQueryDrawer: FunctionComponent = observer(() => {
             </FormGroup>
           </div>
         </div>
-        <div className={Classes.DRAWER_FOOTER}>
+        <div className={classnames(Classes.DRAWER_FOOTER, 'shrink-0')}>
           <div className={Classes.DIALOG_FOOTER_ACTIONS}>
             <Button onClick={close}>Cancel</Button>
             <Button intent='primary' type='submit'>

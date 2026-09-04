@@ -16,6 +16,8 @@ describe('Minimongo query drawer', () => {
     expect(source).toContain("position='right'")
     expect(source).toContain('Classes.DIALOG_BODY')
     expect(source).toContain("'flex flex-col gap-4'")
+    expect(source).toContain("'flex min-h-0 flex-1 flex-col'")
+    expect(source).toContain("'min-h-0 overflow-y-auto'")
     expect(source).not.toMatch(/<Dialog\b/)
   })
 })
