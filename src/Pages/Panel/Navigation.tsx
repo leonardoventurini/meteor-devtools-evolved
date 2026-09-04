@@ -4,7 +4,7 @@ import { usePanelStore } from '@/Stores/PanelStore'
 import { observer } from 'mobx-react-lite'
 import { syncConnectionData, syncMinimongo, syncSubscriptions } from '@/Bridge'
 import { IMenuItem, ITab, TabBar } from '@/Components/TabBar'
-import { Tag } from '@blueprintjs/core'
+import { HTMLSelect, Tag } from '@blueprintjs/core'
 import { isNumber } from 'lodash'
 import { openTab } from '@/Utils/BackgroundEvents'
 
@@ -112,9 +112,12 @@ export const Navigation: FunctionComponent = observer(() => {
       menu={menu}
       onChange={key => panelStore.setSelectedTabId(key)}
       beforeMenu={
-        <select
+        <HTMLSelect
           aria-label='Meteor DDP connection'
           className='mde-connection-selector'
+          fill
+          iconName='caret-down'
+          minimal
           onChange={event => {
             panelStore.setActiveConnectionId(event.target.value)
             syncConnectionData(event.target.value)
@@ -126,7 +129,7 @@ export const Navigation: FunctionComponent = observer(() => {
               {connection.displayName}
             </option>
           ))}
-        </select>
+        </HTMLSelect>
       }
     />
   )

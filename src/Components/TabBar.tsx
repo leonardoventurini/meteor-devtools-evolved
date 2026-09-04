@@ -25,15 +25,26 @@ const TopToolbar = styled.div`
     min-width: 0;
 
     .mde-connection-selector {
+      flex: 0 1 16rem;
       min-width: 9rem;
       max-width: 16rem;
-      text-overflow: ellipsis;
-      margin: 3px 0;
-      padding: 0 28px 0 10px;
-      border: 0;
+      margin: 4px 0;
       border-radius: 3px;
-      color: inherit;
+      overflow: hidden;
       background: ${lighten(0.05, backgroundColor)};
+
+      & > select {
+        height: 100%;
+        padding: 0 28px 0 10px;
+        border: 0;
+        color: inherit;
+        background: transparent;
+        text-overflow: ellipsis;
+      }
+
+      & > .bp6-icon {
+        color: inherit;
+      }
     }
 
     button.menu-item {
