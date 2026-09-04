@@ -26,6 +26,29 @@ describe('structured Minimongo queries', () => {
     )
   })
 
+  it('accepts Compass-style keys and null operands', () => {
+    const query = parseMinimongoQuery({
+      limit: '100',
+      projection: '{}',
+      selector: '{ "name": { $ne: null } }',
+      sort: '{name: 1}',
+    })
+    const values = [{ name: 'Ada' }, { name: null }, {}]
+
+    expect(executeMinimongoQuery(values, query)).toEqual([{ name: 'Ada' }])
+  })
+
+  it('treats blank object fields as empty objects', () => {
+    const query = parseMinimongoQuery({
+      limit: '100',
+      projection: ' ',
+      selector: '',
+      sort: '\n',
+    })
+
+    expect(query).toMatchObject({ projection: {}, selector: {}, sort: {} })
+  })
+
   it('sorts, limits, and applies an inclusion projection with _id', () => {
     const query = parseMinimongoQuery({
       limit: '2',

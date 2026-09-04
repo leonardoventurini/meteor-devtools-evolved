@@ -19,8 +19,9 @@ All notable changes to this project will be documented in this file.
   connection and every additional connection created through `DDP.connect`.
 - Added a global connection selector that isolates DDP logs, subscriptions, and
   Minimongo snapshots by server instead of silently merging their data.
-- Added a safe structured query interface for captured Minimongo snapshots with
-  allowlisted selectors, dotted fields, sort, bounded limits, and projection.
+- Added a safe right-side query drawer for captured Minimongo snapshots with
+  Compass-style object syntax, blank-field defaults, allowlisted selectors,
+  dotted fields, sort, bounded limits, and projection.
 - Added a persisted DDP startup-history option that can preserve cached traffic
   or atomically begin inspection from newly captured messages.
 - Added root Vitest coverage for pagination, circular JSON serialization, and

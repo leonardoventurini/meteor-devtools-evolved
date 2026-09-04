@@ -1,3 +1,5 @@
+import JSON5 from 'json5'
+
 export const MAXIMUM_QUERY_RESULTS = 500
 
 const FIELD_OPERATORS = new Set([
@@ -58,13 +60,15 @@ const parseRecord = (source: string, label: string): QueryRecord => {
   let value: unknown
 
   try {
-    value = JSON.parse(source)
+    value = JSON5.parse(source.trim() || '{}')
   } catch {
-    throw new MinimongoQueryError(`${label} must be valid JSON.`)
+    throw new MinimongoQueryError(
+      `${label} must be a valid Compass-style object.`,
+    )
   }
 
   if (!isRecord(value)) {
-    throw new MinimongoQueryError(`${label} must be a JSON object.`)
+    throw new MinimongoQueryError(`${label} must be an object.`)
   }
 
   return value
@@ -208,9 +212,13 @@ const matchesCondition = (value: unknown, condition: unknown): boolean => {
   return Object.entries(condition).every(([operator, operand]) => {
     switch (operator) {
       case '$eq': {
+        if (operand === null) return value === null || value === undefined
+
         return valuesEqual(value, operand)
       }
       case '$ne': {
+        if (operand === null) return value !== null && value !== undefined
+
         return !valuesEqual(value, operand)
       }
       case '$gt': {
