@@ -49,6 +49,17 @@ describe('structured Minimongo queries', () => {
     expect(query).toMatchObject({ projection: {}, selector: {}, sort: {} })
   })
 
+  it('accepts positive integer limits without an upper bound', () => {
+    const query = parseMinimongoQuery({
+      limit: '1000',
+      projection: '{}',
+      selector: '{}',
+      sort: '{}',
+    })
+
+    expect(query.limit).toBe(1000)
+  })
+
   it('sorts, limits, and applies an inclusion projection with _id', () => {
     const query = parseMinimongoQuery({
       limit: '2',
@@ -81,7 +92,7 @@ describe('structured Minimongo queries', () => {
     ['{"$where":"this.profile.age > 30"}', '{}', '100'],
     ['{}', '{"status":0,"profile.name":1}', '100'],
     ['{}', '{}', '0'],
-    ['{}', '{}', '501'],
+    ['{}', '{}', '1.5'],
   ])('rejects unsafe or invalid input', (selector, projection, limit) => {
     expect(() =>
       parseMinimongoQuery({ projection, selector, sort: '{}', limit }),

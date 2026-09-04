@@ -23,8 +23,9 @@ spacing.
 - Match MongoDB's null selector behavior: `$eq: null` includes null or missing
   fields, while `$ne: null` requires an existing, non-null field.
 - Treat blank or whitespace-only selector, sort, and projection inputs as `{}`.
-- Preserve the existing operator allowlist, unsafe-path checks, numeric limit,
-  and prohibition on JavaScript evaluation.
+- Preserve the existing operator allowlist, unsafe-path checks, positive-integer
+  limit validation, and prohibition on JavaScript evaluation. Do not impose an
+  upper limit on the requested result count.
 - Add visible spacing between the informational callout, an optional validation
   callout, and the form fields.
 
@@ -57,7 +58,8 @@ change.
 
 ## Verification
 
-Acceptance requires the reported selector to match existing non-null names, blank object
-inputs to parse as empty objects, invalid/unsafe operators to remain rejected,
-the UI source to use a right-side drawer with explicit spacing, and the Chrome
-extension to build successfully.
+Acceptance requires the reported selector to match existing non-null names,
+blank object inputs to parse as empty objects, positive integer limits above 500
+to be accepted, invalid/unsafe operators to remain rejected, the UI source to
+use a right-side drawer with explicit spacing, and the Chrome extension to
+build successfully.

@@ -29,7 +29,8 @@ evaluation or new page privileges.
 - Support stable ordered sort fields with directions `1` and `-1`.
 - Support Mongo-style inclusion or exclusion projection, with `_id` as the only
   permitted exception to mode mixing.
-- Bound results to 1–500 documents.
+- Require a positive integer result limit. A later decision removed the original
+  500-document upper bound so users can inspect larger captured snapshots.
 - Preserve the previous valid query when new input fails validation and display
   a typed validation error.
 - Never use `eval`, `Function`, or an equivalent arbitrary execution mechanism.
@@ -53,11 +54,12 @@ Operators involving JavaScript, regex compilation, geospatial state, or server
 semantics create disproportionate risk and ambiguity. The allowlist covers the
 common inspection cases and can grow through separately tested decisions.
 
-### Unlimited results
+### Unlimited results (superseded)
 
 An unlimited query could recreate the rendering and memory problems addressed
-by #34. A fixed maximum keeps query output within an explicit interactive
-budget.
+by #34. A fixed maximum originally kept query output within an explicit
+interactive budget; `2026-09-04-unbounded-minimongo-query-limits.md` supersedes
+that maximum in favor of a user-selected positive limit.
 
 ## Rationale
 

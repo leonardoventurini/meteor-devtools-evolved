@@ -1,7 +1,5 @@
 import JSON5 from 'json5'
 
-export const MAXIMUM_QUERY_RESULTS = 500
-
 const FIELD_OPERATORS = new Set([
   '$eq',
   '$ne',
@@ -173,10 +171,8 @@ export const parseMinimongoQuery = (
   validateSelector(selector)
 
   const limit = Number(input.limit)
-  if (!Number.isInteger(limit) || limit < 1 || limit > MAXIMUM_QUERY_RESULTS) {
-    throw new MinimongoQueryError(
-      `Limit must be an integer from 1 to ${MAXIMUM_QUERY_RESULTS}.`,
-    )
+  if (!Number.isInteger(limit) || limit < 1) {
+    throw new MinimongoQueryError('Limit must be a positive integer.')
   }
 
   return {

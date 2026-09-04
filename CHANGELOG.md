@@ -39,6 +39,8 @@ All notable changes to this project will be documented in this file.
 
 ### Changed
 
+- Removed the fixed 500-document Minimongo query limit while retaining
+  positive-integer validation.
 - Bounded retained DDP history to 5,000 events and removed per-batch and
   per-document console diagnostics from capture hot paths.
 - Limited stack collection to actionable outbound DDP messages and changed
