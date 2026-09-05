@@ -744,6 +744,16 @@ end-to-end contracts.
 
 ## Direct rollout
 
+Additional implementation evidence: the saved-record validator and format
+reference now cover strict versioned parsing, immutable snapshot contracts,
+revision metadata, mandatory standard credential masks, explicit redaction
+metadata, and fresh IDs on import. Fourteen procedural unit tests passed. The
+additive Dexie database applies writes and quota checks in a transaction spanning
+both tables; real-browser transaction and UI review verification remains pending.
+The sequential scheduler and scoped observed-name catalog passed twenty unit
+tests for bounds, cancellation, provenance, examples, and eviction. These are
+implemented foundations; they do not establish the packaged rollout criteria.
+
 Ship all included capabilities together in the next user-authorized release.
 Do not invent a version or release date. No feature flag or staged product release
 is required. Opening the Playground is passive; explicit actions start probes or
