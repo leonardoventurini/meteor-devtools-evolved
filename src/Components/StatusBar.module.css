@@ -1,0 +1,34 @@
+.wrapper {
+  user-select: none;
+  display: flex;
+  box-sizing: border-box;
+  flex-direction: row;
+  height: var(--mde-status-height);
+  width: 100%;
+
+  background-color: var(--mde-color-chrome);
+
+  button {
+    height: 100%;
+    flex: 1 1 auto;
+
+    &:hover {
+      background-color: var(--mde-color-chrome-hover);
+    }
+  }
+
+  :global(.left-group),
+  :global(.right-group) {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+  }
+
+  :global(.right-group) {
+    margin-left: auto;
+  }
+
+  & > * + * {
+    margin-left: var(--mde-space-2);
+  }
+}

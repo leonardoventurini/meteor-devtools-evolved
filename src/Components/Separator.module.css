@@ -1,0 +1,12 @@
+.separator {
+  margin: 0 3px;
+  background-color: rgba(0, 0, 0, 0.05);
+}
+
+.horizontal {
+  height: 1px;
+}
+
+.vertical {
+  width: 1px;
+}

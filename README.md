@@ -196,6 +196,11 @@ Browser tests run headlessly. The Playground suite exercises the packaged panel
 using a test-only `inspectedWindow` host shim that evaluates commands in the real
 fixture tab; this remains distinct from the native DevTools panel smoke below.
 
+After building Chrome, `yarn test:ui` runs the packaged panel's headless layout,
+keyboard, and dialog checks without a Meteor server. Custom UI styling uses
+CSS Modules and shared design tokens; see the
+[UI architecture guidelines](CONTRIBUTING.md#ui-architecture).
+
 Chrome does not expose custom DevTools panels through a supported Playwright
 page target. Automated tests remain headless. For optional interactive
 development, `yarn dev:chrome` opens a development browser: inspect

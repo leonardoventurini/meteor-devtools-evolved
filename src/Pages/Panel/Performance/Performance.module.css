@@ -1,0 +1,17 @@
+.root {
+  overflow-y: auto !important;
+
+  table,
+  tbody {
+    width: 100%;
+    max-width: 100%;
+  }
+
+  table,
+  tbody,
+  tr,
+  td,
+  td span {
+    font-size: 11px !important;
+  }
+}

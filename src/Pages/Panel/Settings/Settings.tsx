@@ -10,7 +10,7 @@ import {
   Spinner,
 } from '@blueprintjs/core'
 import React, { FunctionComponent, useEffect, useState } from 'react'
-import styled from 'styled-components'
+import styles from './Settings.module.css'
 import {
   DDPHistoryPolicy,
   getDDPHistoryPolicy,
@@ -21,61 +21,6 @@ import { Hideable } from '@/Utils/Hideable'
 interface Props {
   isVisible: boolean
 }
-
-const SettingsContent = styled(Hideable)`
-  box-sizing: border-box;
-  overflow-y: auto !important;
-  padding: 0;
-
-  .mde-settings-content {
-    box-sizing: border-box;
-    width: 100%;
-    max-width: 688px;
-    padding: clamp(16px, 3vw, 24px);
-  }
-
-  h1 {
-    margin: 0 0 8px;
-    font-size: 20px;
-  }
-
-  .mde-settings-intro {
-    margin: 0 0 20px;
-    color: #abb3bf;
-  }
-
-  .mde-settings-card {
-    background: rgba(16, 22, 26, 0.35);
-  }
-
-  .mde-settings-heading {
-    display: flex;
-    align-items: center;
-    justify-content: space-between;
-    margin-bottom: 16px;
-
-    h2 {
-      margin: 0;
-      font-size: 15px;
-    }
-  }
-
-  .mde-settings-description {
-    margin: -4px 0 14px 26px;
-    color: #abb3bf;
-    line-height: 1.5;
-  }
-`
-
-const ReloadDialog = styled(Dialog)`
-  width: min(440px, calc(100vw - 32px));
-
-  .mde-settings-reload-copy {
-    margin: 0;
-    color: #abb3bf;
-    line-height: 1.5;
-  }
-`
 
 export const Settings: FunctionComponent<Props> = ({ isVisible }) => {
   const [initialPolicy, setInitialPolicy] = useState<DDPHistoryPolicy | null>(
@@ -122,8 +67,9 @@ export const Settings: FunctionComponent<Props> = ({ isVisible }) => {
   }
 
   return (
-    <SettingsContent className='mde-content' isVisible={isVisible}>
-      <ReloadDialog
+    <Hideable className={`mde-content ${styles.root}`} isVisible={isVisible}>
+      <Dialog
+        className={styles.reloadDialog}
         icon='refresh'
         isOpen={isReloadDialogOpen}
         onClose={() => setReloadDialogOpen(false)}
@@ -131,7 +77,7 @@ export const Settings: FunctionComponent<Props> = ({ isVisible }) => {
         title='Reload DevTools panel?'
       >
         <DialogBody useOverflowScrollContainer={false}>
-          <p className='mde-settings-reload-copy'>
+          <p className={styles.reloadCopy}>
             Your preference is saved. Reload the DevTools panel to apply it to
             the current inspection session.
           </p>
@@ -150,16 +96,16 @@ export const Settings: FunctionComponent<Props> = ({ isVisible }) => {
             </>
           }
         />
-      </ReloadDialog>
+      </Dialog>
 
-      <div className='mde-settings-content'>
+      <div className={styles.content}>
         <h1>Settings</h1>
-        <p className='mde-settings-intro'>
+        <p className={styles.intro}>
           Configure how this extension begins each DDP inspection session.
         </p>
 
-        <Card className='mde-settings-card'>
-          <div className='mde-settings-heading'>
+        <Card className={styles.card}>
+          <div className={styles.heading}>
             <h2>DDP startup history</h2>
             {isSaving && <Spinner aria-label='Saving' size={16} />}
           </div>
@@ -178,7 +124,7 @@ export const Settings: FunctionComponent<Props> = ({ isVisible }) => {
                 label='Show captured history'
                 value={DDPHistoryPolicy.SHOW_HISTORY}
               />
-              <p className='mde-settings-description'>
+              <p className={styles.description}>
                 Replay messages captured before the DevTools panel opened. This
                 is the default and is useful when investigating earlier
                 activity.
@@ -188,7 +134,7 @@ export const Settings: FunctionComponent<Props> = ({ isVisible }) => {
                 label='Start from now'
                 value={DDPHistoryPolicy.START_FROM_NOW}
               />
-              <p className='mde-settings-description'>
+              <p className={styles.description}>
                 Discard cached messages and byte totals for the inspected tab,
                 then show only newly captured traffic.
               </p>
@@ -202,6 +148,6 @@ export const Settings: FunctionComponent<Props> = ({ isVisible }) => {
           )}
         </Card>
       </div>
-    </SettingsContent>
+    </Hideable>
   )
 }

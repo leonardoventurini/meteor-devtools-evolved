@@ -1,0 +1,22 @@
+/** Shared UI values preserve the established panel geometry and palette. */
+:root {
+  --mde-min-layout-width: 600px;
+  --mde-toolbar-height: 40px;
+  --mde-sidebar-width: 160px;
+  --mde-status-height: 29px;
+  --mde-navigation-row-height: 32px;
+
+  --mde-color-canvas: #30404d;
+  --mde-color-chrome: #202b33;
+  --mde-color-chrome-hover: #2a3843;
+  --mde-color-chrome-active: #344552;
+  --mde-color-text: #eee;
+  --mde-color-text-muted: #ccc;
+  --mde-color-focus: #48aff0;
+
+  --mde-space-1: 4px;
+  --mde-space-2: 8px;
+  --mde-space-3: 12px;
+  --mde-space-4: 16px;
+  --mde-space-6: 24px;
+}

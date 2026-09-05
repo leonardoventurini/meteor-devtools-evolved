@@ -1,0 +1,37 @@
+.root {
+  overflow-y: auto !important;
+
+  table,
+  tbody {
+    width: 100%;
+    max-width: 100%;
+  }
+
+  table {
+    table-layout: fixed;
+  }
+
+  td {
+    overflow: hidden;
+  }
+
+  td span {
+    display: block;
+    max-width: 100%;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+  }
+
+  tbody {
+    font-family: monospace;
+  }
+
+  table,
+  tbody,
+  tr,
+  td,
+  td span {
+    font-size: 11px !important;
+  }
+}

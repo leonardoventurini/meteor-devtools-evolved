@@ -28,6 +28,7 @@
     "postinstall": "wxt prepare",
     "lint": "eslint .",
     "test": "vitest run",
+    "test:ui": "playwright test --config playwright.ui.config.ts",
     "test:e2e": "node scripts/run-e2e.mjs devapp-3.5",
     "test:e2e:meteor2": "node scripts/run-e2e.mjs devapp-2.16",
     "test:e2e:all": "node scripts/run-e2e.mjs devapp-3.5 devapp-2.16",
@@ -57,7 +58,6 @@
     "mobx": "^7.0.3",
     "mobx-react-lite": "^5.0.3",
     "normalize.css": "8.0.1",
-    "polished": "^4.3.1",
     "pretty-bytes": "^7.1.2",
     "react": "^19.2.8",
     "react-dom": "^19.2.8",
@@ -65,7 +65,6 @@
     "react-window": "^2.3.0",
     "react-window-infinite-loader": "^2.0.1",
     "sass": "^1.103.1",
-    "styled-components": "^6.5.3",
     "tailwindcss": "^4.3.3",
     "tslib": "^2.8.1",
     "typescript": "5.9.3"

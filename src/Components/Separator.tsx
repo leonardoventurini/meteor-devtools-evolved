@@ -1,17 +1,16 @@
-import React, { FunctionComponent } from 'react'
-import styled from 'styled-components'
+import React, { type FunctionComponent } from 'react'
+import classnames from 'classnames'
+import styles from './Separator.module.css'
 
-interface WrapperProps {
+interface Props {
   horizontal?: boolean
 }
 
-const Wrapper = styled.div<WrapperProps>`
-  width: ${({ horizontal }: WrapperProps) => (horizontal ? undefined : '1px')};
-  height: ${({ horizontal }: WrapperProps) => (horizontal ? '1px' : undefined)};
-  margin: 0 3px;
-  background-color: rgba(0, 0, 0, 0.05);
-`
-
-export const Separator: FunctionComponent<WrapperProps> = props => (
-  <Wrapper {...props} />
+export const Separator: FunctionComponent<Props> = ({ horizontal }) => (
+  <div
+    className={classnames(
+      styles.separator,
+      horizontal ? styles.horizontal : styles.vertical,
+    )}
+  />
 )

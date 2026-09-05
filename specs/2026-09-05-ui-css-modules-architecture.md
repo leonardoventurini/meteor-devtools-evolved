@@ -81,13 +81,13 @@ semantic contract checks; retain existing behavioral tests.
 
 ## Executable checklist and direct rollout
 
-- [ ] Commit the spec and establish headless browser baseline coverage.
-- [ ] Migrate shared controls and panel shell to modules and shared tokens.
-- [ ] Migrate inspection features and JSON tree styles.
-- [ ] Split Playground presentation components and migrate Playground/Settings.
-- [ ] Remove obsolete styling infrastructure and dependency; update affected tests.
-- [ ] Run full verification, review cascade and dynamic styles, fix regressions.
-- [ ] Update documentation, record the decision and verification, commit handoff.
+- [x] Commit the spec and establish headless browser baseline coverage.
+- [x] Migrate shared controls and panel shell to modules and shared tokens.
+- [x] Migrate inspection features and JSON tree styles.
+- [x] Split Playground presentation components and migrate Playground/Settings.
+- [x] Remove obsolete styling infrastructure and dependency; update affected tests.
+- [x] Run full verification, review cascade and dynamic styles, fix regressions.
+- [x] Update documentation, record the decision and verification, commit handoff.
 
 Independent feature scopes may be implemented concurrently; commits use explicit
 paths and are serialized. Integrate in reviewable units and deliver one direct
@@ -103,3 +103,49 @@ CSS variable defaults must exist for both panel and popup entrypoints.
 No persisted data migration or permission change is required. Roll back by reverting
 the task commits in reverse order and reinstalling the lockfile dependencies, then
 rebuild both extension artifacts. Preserve unrelated release ZIPs and user processes.
+
+## Verification and reviewer handoff
+
+Implemented on 2026-09-05. No material scope deviation: UI presentation and styling
+changed; stores, adapters, public messages, persistence, manifests, and version did
+not. The unused polished dependency was removed with its styled-components callers.
+
+| Criterion              | Executed evidence                                                                                                                                                                                                                                                                         |
+| ---------------------- | ----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| 1 — Runtime removal    | Architecture guard passed; source/package/lock searches found no styled-components or polished references; both built artifacts contained no styled-components runtime markers.                                                                                                           |
+| 2 — Packaging          | Chrome and Firefox production builds and both artifact validators passed. Manifest versions remain 2.0.0; manifest configuration was untouched.                                                                                                                                           |
+| 3 — Rendered parity    | Four headless baseline tests passed against the original build; five tests passed against the migrated build, adding subscription/JSON inspection coverage. Full suites passed 31 tests on Meteor 3.5.1 and 31 on Meteor 2.16; runner exit 0 after owned-fixture cleanup described below. |
+| 4 — Shared controls    | Headless checks verified keyboard activation, input styling, selector dimensions, active/hover colors, Settings dialog and padding. Review confirmed className/ref propagation and typed dynamic height/orientation without styling-only DOM props.                                       |
+| 5 — Feature boundaries | Playground became a 54-line composition with eight focused presentation components. Existing execution, Accounts, storage, transfer, matrix, EJSON, and cross-profile integration tests all passed.                                                                                       |
+| 6 — Quality checks     | 387 unit tests in 63 files passed; lint, typecheck, immutable install, and production dependency audit passed.                                                                                                                                                                            |
+| 7 — Handoff            | README, CONTRIBUTING, Unreleased changelog, this spec, and the associated decision were updated and included in the task commits.                                                                                                                                                         |
+
+The architecture guard was run before migration and failed on both the dependency
+and the eighteen source imports. Source-string layout assertions were removed where
+rendered checks now cover the same contract. Existing unit behavior checks remain.
+The new standalone command is `yarn test:ui` after `yarn build:chrome`.
+
+### Limitations and warnings
+
+Both full-profile test runs completed their assertions but stalled during fixture
+teardown. Detached Meteor/Rspack descendants retained inherited output pipes after
+their launcher exited, preventing Playwright's child `close` event. Confirmed
+process groups created by this run were stopped with the existing
+`terminateOwnedProcessGroup` helper; the original runner then reported both suites
+passed and exited 0. No test was skipped or rerun to conceal this limitation, and
+no launcher code changed. Unrelated user processes were left untouched.
+
+Browser execution was headless Chromium only. Firefox builds were validated, but
+Firefox runtime and native browser-owned DevTools docking were not exercised in
+this task. The checks establish representative layout and interaction parity, not
+an exhaustive pixel comparison of every possible application state.
+
+Existing React/react-dom peer warnings remain in Yarn, as does the build's greater
+than 500 kB chunk warning. The production audit initially could not resolve the
+registry inside the sandbox; it passed with registry access. Fixture dependency
+audits were not rerun because fixture dependencies were unchanged.
+
+Review `Tokens.css` and `PanelLayout` first, then shared controls, inspection
+modules, Playground composition, and the rendered tests. The decision record is
+`decisions/2026-09-05-ui-css-modules-architecture.md`. Roll back the refactor commit,
+restore dependencies with the lockfile, and rebuild; no data recovery is required.

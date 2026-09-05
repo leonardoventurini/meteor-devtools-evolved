@@ -1,0 +1,4 @@
+.wrapper button.button {
+  display: inline-block;
+  height: var(--mde-popover-button-height);
+}

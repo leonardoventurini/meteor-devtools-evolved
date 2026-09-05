@@ -1,24 +1,8 @@
+import styles from './Field.module.css'
 import React, { FunctionComponent, PropsWithChildren } from 'react'
-import styled from 'styled-components'
-import { centerItems } from '@/Styles/Mixins'
 import { Icon, IconName } from '@blueprintjs/core'
 import { exists } from '@/Utils'
 import classnames from 'classnames'
-
-const Wrapper = styled.span`
-  ${centerItems};
-  height: 100%;
-  padding: 0 8px;
-
-  .icon + span {
-    margin-left: 4px;
-  }
-
-  &.warning {
-    background-color: rgba(217, 130, 43, 0.25);
-    color: #ffb366;
-  }
-`
 
 interface Props {
   icon?: IconName
@@ -33,6 +17,7 @@ export const Field: FunctionComponent<PropsWithChildren<Props>> = ({
   intent,
 }) => {
   const classes = classnames(
+    styles.wrapper,
     {
       warning: intent === 'warning',
     },
@@ -40,9 +25,9 @@ export const Field: FunctionComponent<PropsWithChildren<Props>> = ({
   )
 
   return (
-    <Wrapper className={classes}>
-      {icon && <Icon icon={icon} className='icon' size={12} />}
+    <span className={classes}>
+      {icon && <Icon icon={icon} className={styles.icon} size={12} />}
       {exists(children) && <span>{children}</span>}
-    </Wrapper>
+    </span>
   )
 }

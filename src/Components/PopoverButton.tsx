@@ -1,23 +1,15 @@
-import React, { FunctionComponent } from 'react'
-import { IconName } from '@blueprintjs/core'
+import React, { type CSSProperties, type FunctionComponent } from 'react'
+import { IconName, PopoverNext, type PopoverNextProps } from '@blueprintjs/core'
 import { Button } from '@/Components/Button'
-import styled from 'styled-components'
-import { PopoverNext, type PopoverNextProps } from '@blueprintjs/core'
-
-interface WrapperProps {
-  height: number
-}
-
-const Wrapper = styled.span<WrapperProps>`
-  button.popover-button {
-    display: inline-block;
-    height: ${(props: WrapperProps) => props.height}px;
-  }
-`
+import styles from './PopoverButton.module.css'
 
 interface Props extends PopoverNextProps {
   icon: IconName
   height?: number
+}
+
+interface PopoverButtonStyle extends CSSProperties {
+  '--mde-popover-button-height': string
 }
 
 export const PopoverButton: FunctionComponent<Props> = ({
@@ -25,12 +17,18 @@ export const PopoverButton: FunctionComponent<Props> = ({
   children,
   height = 28,
   ...rest
-}) => (
-  <Wrapper height={height}>
-    <PopoverNext {...rest}>
-      <Button icon={icon} className='popover-button'>
-        {children}
-      </Button>
-    </PopoverNext>
-  </Wrapper>
-)
+}) => {
+  const style: PopoverButtonStyle = {
+    '--mde-popover-button-height': `${height}px`,
+  }
+
+  return (
+    <span className={styles.wrapper} style={style}>
+      <PopoverNext {...rest}>
+        <Button icon={icon} className={styles.button}>
+          {children}
+        </Button>
+      </PopoverNext>
+    </span>
+  )
+}

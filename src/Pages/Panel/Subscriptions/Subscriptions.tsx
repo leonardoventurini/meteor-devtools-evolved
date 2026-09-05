@@ -1,3 +1,4 @@
+import styles from './Subscriptions.module.css'
 import { PanelPage } from '@/Constants'
 import { parseParameters } from '@/Playground/Values'
 import { usePanelStore } from '@/Stores/PanelStore'
@@ -5,7 +6,6 @@ import { Hideable } from '@/Utils/Hideable'
 import { observer } from 'mobx-react-lite'
 import React, { FormEvent, FunctionComponent } from 'react'
 import { HTMLTable, Tag } from '@blueprintjs/core'
-import styled from 'styled-components'
 import { sortBy } from 'lodash'
 import { useInterval } from '@/Utils/Hooks/useInterval'
 import { syncSubscriptions } from '@/Bridge'
@@ -20,44 +20,6 @@ interface Props {
   isVisible: boolean
 }
 
-const Wrapper = styled.div`
-  overflow-y: auto !important;
-
-  table,
-  tbody {
-    width: 100%;
-    max-width: 100%;
-  }
-
-  table {
-    table-layout: fixed;
-  }
-
-  td {
-    overflow: hidden;
-  }
-
-  td span {
-    display: block;
-    max-width: 100%;
-    overflow: hidden;
-    text-overflow: ellipsis;
-    white-space: nowrap;
-  }
-
-  tbody {
-    font-family: monospace;
-  }
-
-  table,
-  tbody,
-  tr,
-  td,
-  td span {
-    font-size: 11px !important;
-  }
-`
-
 export const Subscriptions: FunctionComponent<Props> = observer(
   ({ isVisible }) => {
     useInterval(() => isVisible && syncSubscriptions(), 5000)
@@ -71,7 +33,7 @@ export const Subscriptions: FunctionComponent<Props> = observer(
 
     return (
       <Hideable isVisible={isVisible}>
-        <Wrapper className='mde-content'>
+        <div className={`mde-content ${styles.root}`}>
           <HTMLTable compact interactive>
             <colgroup>
               {SUBSCRIPTION_COLUMNS.map(column => (
@@ -173,7 +135,7 @@ export const Subscriptions: FunctionComponent<Props> = observer(
               })}
             </tbody>
           </HTMLTable>
-        </Wrapper>
+        </div>
 
         <StatusBar>
           <TextInput

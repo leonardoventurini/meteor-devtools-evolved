@@ -1,0 +1,24 @@
+.wrapper {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  height: 100%;
+  padding: 0 var(--mde-space-2);
+  background-color: rgba(0, 0, 0, 0.2);
+
+  .icon {
+    margin-right: 6px;
+  }
+
+  input[type='text'] {
+    border: none;
+    background: transparent;
+    height: 100%;
+
+    color: var(--mde-color-text);
+
+    ::placeholder {
+      color: #aaa;
+    }
+  }
+}

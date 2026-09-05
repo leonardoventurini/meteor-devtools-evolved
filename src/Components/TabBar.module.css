@@ -1,0 +1,112 @@
+.topToolbar {
+  user-select: none;
+  display: flex;
+  box-sizing: border-box;
+  height: var(--mde-toolbar-height);
+  width: 100%;
+  border-bottom: 1px solid var(--mde-color-chrome-active);
+  background-color: var(--mde-color-chrome);
+
+  .brand {
+    display: flex;
+    flex: 0 0 auto;
+    align-items: center;
+    padding: 0 var(--mde-space-3);
+
+    img {
+      display: block;
+      width: 24px;
+      height: 24px;
+    }
+  }
+
+  .rightMenu {
+    display: flex;
+    flex-direction: row;
+    margin-left: auto;
+    gap: 0.5rem;
+    min-width: 0;
+
+    & > :not(:global(.mde-connection-selector)) {
+      flex: 0 0 auto;
+    }
+
+    :global(.mde-connection-selector) {
+      flex: 0 1 16rem;
+      min-width: 9rem;
+      max-width: 16rem;
+      height: 100%;
+
+      :global(.mde-connection-trigger) {
+        height: 100%;
+        width: 100%;
+        padding: 0 10px;
+      }
+
+      :global(.mde-connection-trigger-content) {
+        display: flex;
+        align-items: center;
+        gap: 8px;
+        min-width: 0;
+        width: 100%;
+      }
+
+      :global(.mde-connection-label) {
+        flex: 1 1 auto;
+        min-width: 0;
+        overflow: hidden;
+        text-overflow: ellipsis;
+        white-space: nowrap;
+      }
+    }
+
+    button:global(.menu-item) {
+      width: max-content;
+      white-space: nowrap;
+
+      &:hover {
+        background-color: var(--mde-color-chrome-hover);
+      }
+
+      :global(.content) {
+        overflow: visible;
+        text-overflow: clip;
+      }
+
+      :global(.bp6-icon) {
+        margin-bottom: 2px;
+      }
+    }
+  }
+}
+
+.sidebar {
+  user-select: none;
+  box-sizing: border-box;
+  display: flex;
+  flex-direction: column;
+  width: 100%;
+  overflow-y: auto;
+  border-right: 1px solid var(--mde-color-chrome-active);
+  background-color: var(--mde-color-chrome);
+  padding: 0;
+
+  button:global(.mde-tab) {
+    flex: 0 0 var(--mde-navigation-row-height);
+    width: 100%;
+    height: var(--mde-navigation-row-height);
+    padding: 0 var(--mde-space-3);
+
+    &:global(.active) {
+      background-color: var(--mde-color-chrome-active);
+    }
+
+    &:hover:not(:global(.active)) {
+      background-color: var(--mde-color-chrome-hover);
+    }
+  }
+
+  button:global(.mde-tab-bottom) {
+    margin-top: auto;
+  }
+}

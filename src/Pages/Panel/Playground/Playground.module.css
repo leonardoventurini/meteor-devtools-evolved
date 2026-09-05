@@ -1,0 +1,123 @@
+.root {
+  overflow: auto !important;
+  padding: var(--mde-space-4) !important;
+  font-size: 12px;
+  h1 {
+    font-size: 20px;
+    margin: 0 0 8px;
+  }
+  h2 {
+    font-size: 15px;
+    margin: 0 0 12px;
+  }
+  h3 {
+    font-size: 13px;
+  }
+  section {
+    border: 1px solid rgba(128, 128, 128, 0.35);
+    padding: 14px;
+    border-radius: 5px;
+    margin-bottom: 14px;
+  }
+  label {
+    display: flex;
+    flex-direction: column;
+    gap: 5px;
+    min-width: 0;
+  }
+  input,
+  select,
+  textarea {
+    border: 1px solid rgba(128, 128, 128, 0.5);
+    border-radius: 3px;
+    color: inherit;
+    background: transparent;
+    padding: 7px;
+    width: 100%;
+    box-sizing: border-box;
+  }
+  option {
+    color: var(--mde-color-chrome);
+    background: white;
+  }
+  textarea {
+    font-family: monospace;
+    resize: vertical;
+  }
+  button {
+    border: 1px solid rgba(128, 128, 128, 0.5);
+    border-radius: 3px;
+    padding: 6px 10px;
+    color: inherit;
+    background: rgba(128, 128, 128, 0.12);
+    cursor: pointer;
+  }
+  button:disabled {
+    opacity: 0.5;
+    cursor: default;
+  }
+  button:focus-visible,
+  input:focus-visible,
+  select:focus-visible,
+  textarea:focus-visible {
+    outline: 2px solid var(--mde-color-focus);
+    outline-offset: 2px;
+  }
+  button.primary {
+    background: #137cbd;
+    color: white;
+  }
+  .grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(min(100%, 210px), 1fr));
+    gap: var(--mde-space-3);
+    margin-bottom: 12px;
+  }
+  .actions {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    gap: var(--mde-space-2);
+    margin: 10px 0;
+  }
+  .check {
+    flex-direction: row;
+    align-items: center;
+  }
+  .check input {
+    width: auto;
+  }
+  .muted {
+    opacity: 0.8;
+  }
+  .notice {
+    border-left: 3px solid #137cbd;
+    padding: 8px;
+  }
+  .error {
+    border-left: 3px solid #db3737;
+    padding: 8px;
+  }
+  pre {
+    max-height: 280px;
+    overflow: auto;
+    white-space: pre-wrap;
+    overflow-wrap: anywhere;
+    font-size: 11px;
+    margin: 8px 0;
+  }
+  ul {
+    padding-left: 20px;
+  }
+  li {
+    margin-bottom: 8px;
+    overflow-wrap: anywhere;
+  }
+  details {
+    margin: 12px 0;
+  }
+  summary {
+    cursor: pointer;
+    padding: 6px 0;
+  }
+}

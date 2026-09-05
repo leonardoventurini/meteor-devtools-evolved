@@ -21,7 +21,6 @@ describe('DevTools settings page', () => {
     expect(panel).toContain('<Settings')
     expect(panel).toContain('PanelPage.SETTINGS')
     expect(tabBar).toContain("tab.placement === 'bottom'")
-    expect(tabBar).toContain('margin-top: auto;')
   })
 
   it('persists policy changes and prompts to reload after a successful save', () => {
@@ -37,17 +36,6 @@ describe('DevTools settings page', () => {
     expect(settings).toContain('Reload now')
     expect(settings).toContain('Later')
     expect(settings).not.toContain("title='Reload required'")
-  })
-
-  it('keeps readable, responsive spacing inside the shared panel shell', () => {
-    const settings = readSource('src/Pages/Panel/Settings/Settings.tsx')
-
-    expect(settings).toContain('padding: 0;')
-    expect(settings).toContain('width: 100%;')
-    expect(settings).toContain('max-width: 688px;')
-    expect(settings).toContain('padding: clamp(16px, 3vw, 24px);')
-    expect(settings).toContain('box-sizing: border-box;')
-    expect(settings).toContain('overflow-y: auto !important;')
   })
 
   it('removes the standalone browser Options surface', () => {

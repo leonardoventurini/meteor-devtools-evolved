@@ -1,0 +1,16 @@
+.wrapper {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  height: 100%;
+  padding: 0 var(--mde-space-2);
+
+  .icon + span {
+    margin-left: var(--mde-space-1);
+  }
+
+  &:global(.warning) {
+    background-color: rgba(217, 130, 43, 0.25);
+    color: #ffb366;
+  }
+}

@@ -1,31 +1,13 @@
+import styles from './Performance.module.css'
 import React, { PropsWithChildren } from 'react'
 import { Hideable } from '@/Utils/Hideable'
 import { HTMLTable, Tag } from '@blueprintjs/core'
 import { usePanelStore } from '@/Stores/PanelStore'
 import { observer } from 'mobx-react-lite'
-import styled from 'styled-components'
 import { StatusBar } from '@/Components/StatusBar'
 import { Button } from '@/Components/Button'
 
 type Props = { isVisible: boolean }
-
-const Wrapper = styled.div`
-  overflow-y: auto !important;
-
-  table,
-  tbody {
-    width: 100%;
-    max-width: 100%;
-  }
-
-  table,
-  tbody,
-  tr,
-  td,
-  td span {
-    font-size: 11px !important;
-  }
-`
 
 export const Performance = observer(
   ({ isVisible }: PropsWithChildren<Props>) => {
@@ -34,7 +16,7 @@ export const Performance = observer(
 
     return (
       <Hideable isVisible={isVisible}>
-        <Wrapper className='mde-content'>
+        <div className={`mde-content ${styles.root}`}>
           <HTMLTable compact interactive>
             <thead>
               <tr>
@@ -77,7 +59,7 @@ export const Performance = observer(
               ))}
             </tbody>
           </HTMLTable>
-        </Wrapper>
+        </div>
 
         <StatusBar>
           <div className='right-group'>

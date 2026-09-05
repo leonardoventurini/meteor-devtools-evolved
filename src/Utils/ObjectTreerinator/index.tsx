@@ -1,3 +1,4 @@
+import styles from './ObjectTreerinator.module.css'
 import {
   isArray,
   isBoolean,
@@ -16,7 +17,6 @@ import { ObjectRenderer } from '@/Utils/ObjectTreerinator/ObjectRenderer'
 import { BooleanRenderer } from '@/Utils/ObjectTreerinator/BooleanRenderer'
 import { NumberRenderer } from '@/Utils/ObjectTreerinator/NumberRenderer'
 import { NullRenderer } from '@/Utils/ObjectTreerinator/NullRenderer'
-import styled from 'styled-components'
 import {
   DEFAULT_TREE_DEPTH,
   MAXIMUM_TREE_DEPTH,
@@ -29,81 +29,6 @@ import { TreeExpansionContext } from './TreeExpansionContext'
 import { Button, InputGroup } from '@blueprintjs/core'
 import { filterJsonTree } from './TreeFilter'
 import { TreeSearchContext } from './TreeSearchContext'
-
-const TreeWrapper = styled.div`
-  font-family: monospace;
-  font-size: 12px;
-  padding: 1rem;
-
-  span[role='collapsible-property'] {
-    color: #669eff;
-  }
-
-  span[role='property'] {
-    color: #ff6e4a;
-  }
-
-  span[role='index'] {
-    color: #808080;
-  }
-
-  span[role='string'] {
-    color: #c88953;
-  }
-
-  span[role='null'] {
-    color: #c274c2;
-  }
-
-  span[role='number'] {
-    color: #ad99ff;
-  }
-
-  span[role='boolean'] {
-    color: #c274c2;
-  }
-
-  mark {
-    padding: 0;
-    color: inherit;
-    background: #8a6d1d;
-    outline: 1px solid #d99e0b;
-  }
-
-  span[role='expand'],
-  span[role='collapse'] {
-    font-family: monospace;
-    color: #808080;
-    margin-left: 0.33rem;
-    cursor: pointer;
-    user-select: none;
-  }
-
-  ul,
-  ol {
-    list-style: none;
-    padding-left: 1rem;
-    margin: 0;
-  }
-
-  & > ul,
-  & > ol {
-    padding: 0;
-  }
-`
-
-const TreeToolbar = styled.div`
-  display: flex;
-  align-items: center;
-  gap: 0.5rem;
-  padding: 0.5rem 1rem 0;
-
-  label {
-    display: inline-flex;
-    align-items: center;
-    gap: 0.33rem;
-  }
-`
 
 export const ObjectTreeNode: FunctionComponent<{
   object: { [key: string]: any }
@@ -183,7 +108,7 @@ export const ObjectTreerinator: FunctionComponent<{
       value={{ defaultDepth, mode: effectiveMode }}
     >
       <TreeSearchContext.Provider value={search}>
-        <TreeToolbar aria-label='JSON tree controls'>
+        <div className={styles.toolbar} aria-label='JSON tree controls'>
           <InputGroup
             aria-label='Filter JSON keys and values'
             leftIcon='search'
@@ -227,14 +152,14 @@ export const ObjectTreerinator: FunctionComponent<{
               ))}
             </select>
           </label>
-        </TreeToolbar>
-        <TreeWrapper>
+        </div>
+        <div className={styles.tree}>
           {visibleObject ? (
             <ObjectTreeNode object={visibleObject} level={1} />
           ) : (
             <p role='status'>No matching keys or values.</p>
           )}
-        </TreeWrapper>
+        </div>
       </TreeSearchContext.Provider>
     </TreeExpansionContext.Provider>
   )

@@ -6,6 +6,21 @@ All notable changes to this project will be documented in this file.
 
 ## [Unreleased]
 
+### Changed
+
+- Replaced runtime styled-components styling with component-scoped CSS Modules
+  and shared design tokens, and separated Playground presentation into focused
+  components while retaining existing workflows.
+
+### Added
+
+- Added a headless packaged-panel layout check that runs without a Meteor server.
+
+### Removed
+
+- Removed styled-components, its unused polished helper, and obsolete runtime
+  styling mixins and breakpoint definitions from the extension.
+
 ## [2.0.0]
 
 ### Added

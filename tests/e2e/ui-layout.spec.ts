@@ -6,6 +6,107 @@ const STATUS_HEIGHT = 29
 const MINIMUM_PANEL_WIDTH = 600
 const VIEWPORT_HEIGHT = 720
 
+interface PanelMessageScope {
+  chrome: {
+    devtools: unknown
+    runtime: { connect: (options: { name: string }) => unknown }
+  }
+  deliverPanelMessage(message: unknown): void
+}
+
+test('keeps subscription columns bounded and JSON inspection interactive', async ({
+  page,
+}) => {
+  /**
+   * Supply the DevTools host bridge only. The packaged store, subscription
+   * rendering, drawer, and JSON controls process the normal snapshot message.
+   */
+  await page.addInitScript(() => {
+    const scope = globalThis as unknown as PanelMessageScope
+    const connect = scope.chrome.runtime.connect.bind(scope.chrome.runtime)
+    scope.chrome.devtools = { inspectedWindow: { tabId: 1, eval() {} } }
+    scope.chrome.runtime.connect = options =>
+      options.name === 'panel'
+        ? {
+            postMessage() {},
+            onMessage: {
+              addListener(listener: (message: unknown) => void) {
+                scope.deliverPanelMessage = listener
+              },
+            },
+          }
+        : connect(options)
+  })
+  await page.reload()
+  const name = Array.from(
+    { length: 12 },
+    (_, index) => `publication${index}`,
+  ).join('.')
+  const params = [
+    {
+      nested: { match: 'needle-value', other: 'excluded-value' },
+      array: [1, 2, 3],
+    },
+  ]
+  await page.evaluate(
+    ({ name, params }) => {
+      const scope = globalThis as unknown as PanelMessageScope
+      scope.deliverPanelMessage({
+        eventType: 'sync-subscriptions',
+        data: {
+          connectionId: 'default',
+          subscriptions: JSON.stringify({
+            sample: {
+              id: 'sample',
+              name,
+              params,
+              inactive: false,
+              ready: true,
+            },
+          }),
+        },
+      })
+    },
+    { name, params },
+  )
+  await page.getByRole('button', { name: 'Subscriptions', exact: true }).click()
+  const table = page.getByRole('table')
+  await expect(table).toBeVisible()
+  await expect(table).toHaveCSS('table-layout', 'fixed')
+  const row = table.getByRole('row').filter({ hasText: name })
+  const nameTag = row.locator('[title]').filter({ hasText: name })
+  await expect(nameTag).toHaveCSS('text-overflow', 'ellipsis')
+  await expect(nameTag).toHaveCSS('white-space', 'nowrap')
+  expect(
+    await nameTag
+      .locator('span')
+      .evaluate(element => element.scrollWidth > element.clientWidth),
+  ).toBe(true)
+  const tableBox = await table.boundingBox()
+  expect(tableBox?.width).toBe(1280 - SIDEBAR_WIDTH)
+  await expect(row.getByRole('cell').nth(3)).toHaveText('true')
+  await expect(row.getByRole('cell').nth(4)).toHaveText('true')
+  await row.getByRole('cell').first().click()
+  const expand = page.getByRole('button', { name: 'Expand all JSON nodes' })
+  await expect(expand).toBeVisible()
+  await expand.click()
+  await expect(page.getByText('"needle-value"', { exact: true })).toBeVisible()
+  await page.getByRole('button', { name: 'Collapse all JSON nodes' }).click()
+  await expect(page.getByText('"needle-value"', { exact: true })).toBeHidden()
+  const filter = page.getByRole('searchbox', {
+    name: 'Filter JSON keys and values',
+  })
+  await filter.fill('needle')
+  await expect(page.locator('mark')).toHaveText('needle')
+  await expect(page.getByText('"excluded-value"', { exact: true })).toBeHidden()
+  await filter.fill('absent-value')
+  await expect(
+    page
+      .getByRole('status', { name: '' })
+      .filter({ hasText: 'No matching keys or values.' }),
+  ).toBeVisible()
+})
+
 test.beforeEach(async ({ page, extensionId }) => {
   // Remote repository metadata must not make toolbar geometry nondeterministic.
   await page.route('https://**/*', route => route.abort())
@@ -22,6 +123,16 @@ for (const width of [1280, 480]) {
     const content = page.locator('.mde-ddp').first()
 
     await expect(toolbar).toHaveCSS('height', `${TOOLBAR_HEIGHT}px`)
+    const connectionTrigger = page.locator('.mde-connection-trigger')
+    // The toolbar border occupies one pixel of the full-height control's parent.
+    await expect(connectionTrigger).toHaveCSS(
+      'height',
+      `${TOOLBAR_HEIGHT - 1}px`,
+    )
+    await expect(connectionTrigger).toHaveCSS('padding', '0px 10px')
+    const connectionSelector = page.locator('.mde-connection-selector')
+    await expect(connectionSelector).toHaveCSS('min-width', '108px')
+    await expect(connectionSelector).toHaveCSS('max-width', '192px')
     await expect(sidebar).toHaveCSS('width', `${SIDEBAR_WIDTH}px`)
     await expect(content).toHaveCSS(
       'height',
@@ -44,7 +155,9 @@ for (const width of [1280, 480]) {
     const settingsButtonBox = await settingsButton.boundingBox()
     expect(settingsButtonBox?.y).toBe(VIEWPORT_HEIGHT - 32)
     await settingsButton.click()
-    const settings = page.locator('.mde-settings-content')
+    const settings = page
+      .getByRole('heading', { name: 'Settings', exact: true })
+      .locator('..')
     await expect(settings).toBeVisible()
     const padding = Math.min(24, Math.max(16, width * 0.03))
     await expect(settings).toHaveCSS('padding-left', `${padding}px`)

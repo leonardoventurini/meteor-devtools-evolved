@@ -1,11 +1,10 @@
+import styles from './DDPLog.module.css'
 import { Tag, Tooltip } from '@blueprintjs/core'
 import classnames from 'classnames'
 import React, { CSSProperties, FunctionComponent } from 'react'
 import { DDPLogDirection } from './DDPLogDirection'
 import { DDPLogPreview } from './DDPLogPreview'
 import { DateTime } from 'luxon'
-import styled from 'styled-components'
-import { truncate } from '@/Styles/Mixins'
 import { DDPLogMenu } from '@/Pages/Panel/DDP/DDPLogMenu'
 
 interface Props {
@@ -15,58 +14,6 @@ interface Props {
   isStarred: boolean
 }
 
-const DDPLogWrapper = styled.div`
-  display: flex;
-  align-items: center;
-  flex-direction: row;
-  justify-content: space-between;
-  padding: 5px 15px;
-
-  transition: background-color 0.5s ease;
-
-  &.m-new {
-    background-color: #30594d;
-  }
-
-  &.m-starred {
-    background-color: #304066;
-  }
-
-  div + div {
-    margin-left: 10px;
-  }
-
-  .time {
-    font-size: 11px;
-    font-family: inherit;
-  }
-
-  .content {
-    display: flex;
-    flex: 1;
-    align-items: center;
-    min-width: 0;
-
-    .content-icon {
-      margin-right: 10px;
-    }
-
-    .content-preview {
-      flex: 0 1 auto;
-      min-width: 0;
-
-      code {
-        font-family: monospace;
-        ${truncate}
-      }
-    }
-  }
-
-  &:hover {
-    background-color: #394b59;
-  }
-`
-
 export const DDPLog: FunctionComponent<Props> = ({
   log,
   style,
@@ -75,15 +22,16 @@ export const DDPLog: FunctionComponent<Props> = ({
 }) => {
   const classes = classnames(
     {
-      'm-new': isNew,
-      'm-starred': isStarred,
+      [styles.new]: isNew,
+      [styles.starred]: isStarred,
     },
     'group',
+    styles.root,
   )
 
   return (
-    <DDPLogWrapper className={classes} style={style}>
-      <div className='time'>
+    <div className={classes} style={style}>
+      <div className={styles.time}>
         <Tooltip
           content={
             log.timestampLong ||
@@ -103,7 +51,7 @@ export const DDPLog: FunctionComponent<Props> = ({
           isInbound={log.isInbound}
         />
       </div>
-      <div className='content'>
+      <div className={styles.content}>
         <DDPLogPreview
           parsedContent={log.parsedContent}
           preview={log.preview}
@@ -116,6 +64,6 @@ export const DDPLog: FunctionComponent<Props> = ({
       <div className='size'>
         <Tag minimal>{log.sizePretty}</Tag>
       </div>
-    </DDPLogWrapper>
+    </div>
   )
 }

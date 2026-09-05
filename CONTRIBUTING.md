@@ -117,6 +117,10 @@ Minimongo snapshots, Performance events, and packaged panel rendering. Run it
 after the Chrome build validator. Use `yarn test:e2e` for Meteor 3 only or
 `yarn test:e2e:meteor2` for Meteor 2 only.
 
+For UI work, build Chrome and run `yarn test:ui` for headless packaged-panel
+geometry, keyboard, and dialog checks without starting Meteor. The same tests
+also run in the full integration suites. Browser tests always run headlessly.
+
 Each fixture renders a **Fixture controls** catalog for repeatable manual
 validation. Wait until its status is ready, then trigger one bounded scenario
 at a time while inspecting the corresponding DevTools panel. Use **Reset
@@ -139,6 +143,30 @@ Repeat the browser-owned boundary on Meteor 2 by running `yarn devapp:2` and
 `yarn wxt -b chrome` in separate terminals, opening
 `http://127.0.0.1:2200`, and repeating the catalog checks with the Meteor 2
 callback/synchronous implementation.
+
+## UI architecture
+
+Custom component styles use co-located `.module.css` files. Shared palette,
+spacing, and shell dimensions live in `src/Styles/Tokens.css`, loaded by the
+application stylesheet. Use tokens for shared values and local classes for
+component-owned elements. Keep Tailwind utilities and Blueprint controls where
+already used; do not introduce another runtime styling engine.
+
+`src/Components` owns reusable controls and their DOM/ref contracts.
+`src/Pages/Panel/PanelLayout.tsx` owns shell geometry. Feature directories own
+their presentation; Playground composes separate editor, results, catalog,
+matrix, saved-record, comparison, transfer, and evidence components. State
+and side effects stay in the existing stores and adapters.
+
+Use scoped `:global(...)` selectors only for intentional cross-component hooks
+or Blueprint classes. Apply dialog module classes directly to portaled dialog
+roots. Use typed CSS custom properties for dynamic dimensions. Preserve the
+shared Button's `active` and `content` hooks used by navigation and collection
+controls. Do not pass styling-only props to native elements.
+
+Verify rendered geometry and interactions in headless browser tests; avoid
+tests that assert CSS template text in React source. See
+`specs/2026-09-05-ui-css-modules-architecture.md` for the migration contracts.
 
 ## Guidelines & Objectives
 

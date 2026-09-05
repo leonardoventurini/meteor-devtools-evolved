@@ -1,0 +1,51 @@
+.root {
+  display: flex;
+  flex-direction: row;
+  height: 100%;
+
+  .sidebar {
+    display: flex;
+    height: 100%;
+    width: 222px;
+    overflow-y: auto;
+    font-size: 11px;
+    font-family: monospace;
+
+    nav {
+      display: flex;
+      flex: 1;
+      flex-direction: column;
+      width: 100%;
+
+      button {
+        flex: 0 0 20px;
+        width: 100%;
+
+        &:global(.active) {
+          background: rgba(255, 255, 255, 0.15);
+        }
+
+        &:hover:not(:global(.active)) {
+          background: rgba(255, 255, 255, 0.1);
+        }
+      }
+    }
+  }
+
+  :global(.container) {
+    height: 100%;
+    min-width: 0;
+    flex-grow: 1;
+    flex-shrink: 1;
+
+    :global(.row) {
+      display: flex;
+      align-items: center;
+      padding: 5px 15px;
+
+      & > * + * {
+        margin-left: 8px;
+      }
+    }
+  }
+}
