@@ -852,13 +852,11 @@ export class PlaygroundStore {
   }
   previewExport(caseIds?: string[], snapshotIds?: string[]): void {
     this.transferPreview = previewExport(
-      toJS(
-        this.cases.filter(record => !caseIds || caseIds.includes(record.id)),
+      toJS(this.cases).filter(
+        record => !caseIds || caseIds.includes(record.id),
       ),
-      toJS(
-        this.snapshots.filter(
-          record => !snapshotIds || snapshotIds.includes(record.id),
-        ),
+      toJS(this.snapshots).filter(
+        record => !snapshotIds || snapshotIds.includes(record.id),
       ),
       {},
     )

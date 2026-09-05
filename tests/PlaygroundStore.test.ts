@@ -349,6 +349,15 @@ describe('reviewed saved playground workflows', () => {
     expect(store.transferPreview?.snapshots[0]?.caseRevision).toBe(1)
     await store.confirmTransfer()
     expect(store.snapshots).toHaveLength(1)
+    expect(() =>
+      store.previewExport(
+        store.cases.map(item => item.id),
+        store.snapshots.map(item => item.id),
+      ),
+    ).not.toThrow()
+    expect(store.transferPreview?.cases).toHaveLength(1)
+    expect(store.transferPreview?.snapshots).toHaveLength(1)
+    store.cancelTransfer()
     store.handleEvent({
       kind: 'run',
       record: {
