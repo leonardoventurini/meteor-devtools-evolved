@@ -1,0 +1,35 @@
+export const PLAYGROUND_LIMITS = {
+  waitMs: 10_000,
+  minWaitMs: 1000,
+  maxWaitMs: 60_000,
+  observationMs: 60_000,
+  matrixVariants: 20,
+  matrixDelayMs: 250,
+  minMatrixDelayMs: 100,
+  maxMatrixDelayMs: 5000,
+  matrixDurationMs: 120_000,
+  activeOperations: 3,
+  ownedConnections: 3,
+  requestBytes: 256 * 1024,
+  runFrames: 1000,
+  runBytes: 2 * 1024 * 1024,
+  documents: 1000,
+  historyRuns: 100,
+  historyBytes: 20 * 1024 * 1024,
+  savedCases: 200,
+  savedSnapshots: 100,
+  storageBytes: 20 * 1024 * 1024,
+  importBytes: 10 * 1024 * 1024,
+  importRecords: 300,
+  valueDepth: 50,
+  valueCount: 100_000,
+  requestLedger: 10_000,
+  catalogNames: 500,
+  catalogExamples: 3,
+  leaseRenewMs: 5000,
+  leaseDurationMs: 30_000,
+} as const
+
+export const PLAYGROUND_PROTOCOL_VERSION = 1
+export const PLAYGROUND_FORMAT_VERSION = 1
+export const PLAYGROUND_FILE_FORMAT = 'meteor-devtools-playground'

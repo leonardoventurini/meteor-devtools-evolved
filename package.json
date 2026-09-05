@@ -32,7 +32,7 @@
     "test:e2e:meteor2": "node scripts/run-e2e.mjs devapp-2.16",
     "test:e2e:all": "node scripts/run-e2e.mjs devapp-3.5 devapp-2.16",
     "test:e2e:install": "playwright install chromium",
-    "typecheck": "tsc --noEmit && tsc --noEmit --project tests/e2e/tsconfig.json",
+    "typecheck": "tsc --noEmit && tsc --noEmit --project tests/e2e/tsconfig.json && tsc --noEmit --project tsconfig.playground.json",
     "audit": "yarn npm audit --recursive --environment production --severity high",
     "audit:all": "yarn npm audit --recursive --severity high",
     "audit:devapp": "npm audit --prefix devapp-3.5 --audit-level high"

@@ -614,7 +614,7 @@ ownership, and storage mutations coordinated.
 
 - [x] Resolve the three approval choices and record the actual authorization in
       this spec and decision.
-- [ ] Activate the requested implementation goal after committing these records.
+- [x] Activate the requested implementation goal after committing these records.
 - [ ] Establish adapter/fixture tests for connection-specific invocation,
       no-retry semantics, session reuse, and isolated transport disposal before
       building UI on those assumptions. Stop for a material design deviation if
@@ -647,6 +647,20 @@ ownership, and storage mutations coordinated.
       any unavailable native-panel boundary rather than inferring success.
 - [ ] Review implementation against A1–A18, verify documentation and manifests
       agree, and commit the completed work with hooks and signing enabled.
+
+## Implementation evidence
+
+The encoded-value foundation now has 13 passing tests covering EJSON encoding
+preservation, parameter validation, UTF-8 size, nesting/value limits, canonical
+comparison, and unsafe object shapes. The initial test run failed because the
+module was absent; the implemented module then passed. The existing three
+build-tooling tests also passed. `yarn typecheck`, focused ESLint, and Prettier
+checks passed. A dedicated strict TypeScript project now checks playground code
+and its unit tests through the existing `yarn typecheck` command.
+
+This establishes a shared input foundation, not completion of A3's live runtime
+round trip or any other end-to-end acceptance criterion. Compatibility and
+authentication fixture work is in progress.
 
 ## Direct rollout
 
