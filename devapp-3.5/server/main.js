@@ -1,3 +1,4 @@
+import './playground'
 import { Meteor } from 'meteor/meteor'
 import { LinksCollection } from '/imports/api/links'
 import { Random } from 'meteor/random'

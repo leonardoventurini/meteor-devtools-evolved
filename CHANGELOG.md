@@ -40,7 +40,9 @@ All notable changes to this project will be documented in this file.
 - Added equivalent Meteor 2.16 and 3.5.1 validation catalogs with 750-record
   deterministic datasets, isolated secondary connections, rich publications
   and methods, controlled lifecycle scenarios, manual controls, and expanded
-  packaged-extension coverage.
+  packaged-extension coverage. Extended both fixtures with real Accounts sessions,
+  access-control scenarios, EJSON round trips, and retry/ownership compatibility
+  checks for the planned DDP Playground.
 
 ### Changed
 

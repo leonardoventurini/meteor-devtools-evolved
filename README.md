@@ -206,6 +206,14 @@ to become ready before triggering scenarios. Automation can use the stable
 fixture-only `globalThis.__meteorDevtoolsFixture` contract; this hook is not an
 extension public API.
 
+Both fixtures also provide `__meteorDevtoolsPlaygroundFixture` for DDP Playground
+compatibility tests. Its `login('Account A')`, `login('Account B')`, and `logout()`
+helpers use real Meteor Accounts sessions through a passwordless handler that
+exists only in the development fixtures. The playground scenarios include
+account-scoped and deliberately permissive access, automatic publication data,
+readiness timeouts, and delayed methods with server-side invocation counters.
+These fixture helpers are not packaged in the extension.
+
 ## Contributing
 
 Contributions are welcome. Read [CONTRIBUTING.md](CONTRIBUTING.md) for setup,

@@ -684,6 +684,32 @@ Prettier, and the combined strict playground typecheck passed. The combined
 foundation suite now has 48 passing tests. Scheduler and UI behavior remain
 unimplemented, so this is not yet evidence of complete A15 execution.
 
+The initial native-runtime compatibility gate passed on both maintained releases:
+six browser tests cover exact callback-based method correlation at emission,
+`noRetry`, independent shared handles, dedicated connection disposal, generated
+EJSON round trips, and forced reconnect with server invocation count remaining
+one. A seventh test proves real Accounts resume for both procedural accounts,
+anonymous identity, denied/permissive access, rejected invalid resume, and source
+credential preservation. Meteor 3.5.1 passed all seven together; Meteor 2.16
+passed the six core tests and the corrected Accounts test separately.
+
+Tests revealed two required adapter details: wait for initial owned connection
+readiness before sending `noRetry`, and use `onResultReceived` rather than the
+async promise/final callback for interrupted outcomes. Earlier failing test runs
+exposed these differences and were corrected; their orphaned task-owned fixture
+processes were identified and stopped. The final Meteor 3 run exited cleanly.
+Fixture syntax, targeted E2E ESLint/Prettier, and strict E2E TypeScript passed.
+These tests exercise native capabilities through the packaged-extension browser
+harness; they do not yet verify the new playground adapter or UI.
+
+Successful runtime commands used the existing managed process wrapper to invoke
+`yarn playwright test playground-compatibility.spec.ts playground-auth-compatibility.spec.ts`
+with `E2E_METEOR_FIXTURE=devapp-3.5` (7 passed, exit 0). The equivalent Meteor 2
+run passed its six compatibility tests before the Accounts readiness correction;
+`E2E_METEOR_FIXTURE=devapp-2.16 yarn playwright test playground-auth-compatibility.spec.ts`
+then passed the corrected Accounts test (1 passed, exit 0). Browser execution
+required sandbox escalation for macOS runtime inspection and local servers.
+
 ## Direct rollout
 
 Ship all included capabilities together in the next user-authorized release.

@@ -22,3 +22,4 @@ static-html@1.5.0             # Define static page content in .html files
 react-meteor-data       # React higher-order component for reactively tracking Meteor data
 
 rspack@1.2.0                  # Integrate Rspack into Meteor for client and server app bundling
+accounts-base
