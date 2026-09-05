@@ -286,3 +286,22 @@ it('does not retain credential matrix candidates for authentication cases', () =
   expect(file.cases[0]?.redactedPaths).toContain('/matrix')
   expect(file.cases[0]).not.toHaveProperty('matrix')
 })
+
+it.each(['resetPassword', 'changePassword'])(
+  'masks positional %s credentials',
+  name => {
+    const record = makeCase()
+    record.operation = {
+      kind: 'method',
+      name,
+      parameters: ['first-secret', { $digest: 'second-secret' }, 'unrelated'],
+    }
+    const file = previewExport([record], [], {}, 1)
+    expect(file.cases[0]?.operation.parameters).toEqual([
+      null,
+      null,
+      'unrelated',
+    ])
+    expect(JSON.stringify(file)).not.toContain('secret')
+  },
+)

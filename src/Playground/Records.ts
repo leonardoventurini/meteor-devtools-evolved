@@ -570,7 +570,12 @@ export const credentialPaths = (
   prefix = '/operation',
 ): string[] => {
   if (op.kind !== 'method' || !AUTHENTICATION_METHODS.has(op.name)) return []
-  return credentialValuePaths(op.parameters, `${prefix}/parameters`)
+  const paths = credentialValuePaths(op.parameters, `${prefix}/parameters`)
+  if (op.name === 'resetPassword' || op.name === 'changePassword')
+    for (const index of [0, 1])
+      if (index < op.parameters.length)
+        paths.push(`${prefix}/parameters/${index}`)
+  return paths
 }
 /**
  * Returns the complete file for explicit review; this function neither downloads

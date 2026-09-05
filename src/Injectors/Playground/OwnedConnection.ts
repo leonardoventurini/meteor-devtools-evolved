@@ -21,7 +21,14 @@ const NATIVE_ONLINE_LISTENER = 'bound _online'
  * Listener interception exists only on the supplied event target for that call.
  */
 export const createOwnedConnection = <TConnection extends OwnedTransport>(
-  registry: ConnectionRegistry<TConnection>,
+  registry: Pick<
+    ConnectionRegistry<TConnection>,
+    | 'list'
+    | 'listOwned'
+    | 'getConstructionOwnership'
+    | 'createOwned'
+    | 'disposeOwned'
+  >,
   ownership: ConnectionOwnership,
   factory: () => TConnection,
   eventTarget: EventTarget = globalThis,

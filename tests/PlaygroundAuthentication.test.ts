@@ -60,6 +60,7 @@ it('uses the selected owned transport, noRetry and only sanitized result identit
   const capability = resolveSessionReuse(source, accounts)
   expect(Object.keys(capability).toSorted()).toEqual([
     'authenticate',
+    'dispose',
     'isCurrent',
     'userId',
   ])
@@ -222,4 +223,36 @@ it('requires a distinct owned descriptor and supported source endpoint', async (
   ).rejects.toThrow(/authentication failed/)
   source.connection._stream.rawUrl = 'https://user:private-token@fixture.test'
   expect(() => resolveSessionReuse(source, accounts)).toThrow(/unavailable/)
+})
+
+it('aborts authentication without retaining its timer or replaying late callbacks', async () => {
+  vi.useFakeTimers()
+  const { source, accounts, owned, apply } = fixture()
+  let callback: Callback | undefined
+  apply.mockImplementation((_name, _args, options) => {
+    callback = options.onResultReceived
+  })
+  const capability = resolveSessionReuse(source, accounts),
+    controller = new AbortController()
+  const pending = capability.authenticate(owned, controller.signal)
+  controller.abort()
+  await expect(pending).rejects.toThrow('stopped')
+  expect(vi.getTimerCount()).toBe(0)
+  callback?.(undefined, { id: 'account-a', token: 'private-late-token' })
+  capability.dispose()
+  expect(capability.isCurrent()).toBe(false)
+  await expect(capability.authenticate(owned)).rejects.toThrow('changed')
+  expect(apply).toHaveBeenCalledOnce()
+})
+it('rejects pre-aborted authentication without calling Meteor', async () => {
+  const { source, accounts, owned, apply } = fixture(),
+    controller = new AbortController()
+  controller.abort()
+  await expect(
+    resolveSessionReuse(source, accounts).authenticate(
+      owned,
+      controller.signal,
+    ),
+  ).rejects.toThrow()
+  expect(apply).not.toHaveBeenCalled()
 })

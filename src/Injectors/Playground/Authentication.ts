@@ -82,6 +82,7 @@ export const resolveSessionReuse = (
   let userId: string
   let token: string
   let endpoint: string
+  let disposed = false
   try {
     if (source.ownership || !isAccounts(accountsCandidate))
       throw new Error(REUSE_UNAVAILABLE)
@@ -117,6 +118,7 @@ export const resolveSessionReuse = (
   const isCurrent = (): boolean => {
     try {
       return (
+        !disposed &&
         accounts.connection === source.connection &&
         !accounts._useHttpOnlyCookies &&
         !accounts.loggingIn() &&
@@ -134,8 +136,10 @@ export const resolveSessionReuse = (
 
   const authenticate = async (
     owned: ConnectionDescriptor<AuthenticationConnection>,
+    signal?: AbortSignal,
   ): Promise<{ userId: string }> => {
-    if (!isCurrent()) throw new Error('Session reuse source context changed')
+    if (signal?.aborted || !isCurrent())
+      throw new Error('Session reuse source context changed')
     try {
       if (
         !owned.ownership ||
@@ -150,14 +154,24 @@ export const resolveSessionReuse = (
     }
     return new Promise((resolve, reject) => {
       let settled = false
+      const abort = () => {
+        if (settled) return
+        settled = true
+        clearTimeout(timeout)
+        signal?.removeEventListener('abort', abort)
+        reject(new Error('Session reuse authentication stopped'))
+      }
       const timeout = setTimeout(() => {
         settled = true
+        signal?.removeEventListener('abort', abort)
         reject(new Error('Session reuse authentication timed out'))
       }, timeoutMs)
+      signal?.addEventListener('abort', abort, { once: true })
       const onResultReceived: ResultCallback = (error, result) => {
         if (settled) return
         settled = true
         clearTimeout(timeout)
+        signal?.removeEventListener('abort', abort)
         try {
           if (
             error ||
@@ -189,5 +203,13 @@ export const resolveSessionReuse = (
     })
   }
 
-  return { userId, isCurrent, authenticate }
+  return {
+    userId,
+    isCurrent,
+    authenticate,
+    dispose: () => {
+      disposed = true
+      token = ''
+    },
+  }
 }
