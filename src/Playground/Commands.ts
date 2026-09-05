@@ -32,7 +32,7 @@ export type RunCommand = SessionIdentity &
 export type PlaygroundCommand =
   | RunCommand
   | (SessionIdentity & { kind: 'open' | 'renew' | 'close' | 'stop-all' })
-  | (SessionIdentity & { kind: 'stop'; requestId: string })
+  | (SessionIdentity & { kind: 'stop' | 'snapshot'; requestId: string })
 
 const SESSION_KEYS = ['version', 'kind', 'panelSessionId', 'pageEpoch'] as const
 const RUN_KEYS = [
@@ -102,11 +102,11 @@ export const parseCommand = (input: unknown): PlaygroundCommand => {
       return { ...identity, kind: value.kind }
     }
   }
-  if (value.kind === 'stop') {
+  if (value.kind === 'stop' || value.kind === 'snapshot') {
     allowKeys(value, [...SESSION_KEYS, 'requestId'])
     return {
       ...identity,
-      kind: 'stop',
+      kind: value.kind,
       requestId: text(value.requestId, 'request ID'),
     }
   }

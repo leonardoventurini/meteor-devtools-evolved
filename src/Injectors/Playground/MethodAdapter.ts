@@ -1,6 +1,7 @@
 import type { Operation } from '../../Playground/Commands'
 import type { MethodSignal } from '../../Playground/MethodRun'
 import { validateValue, type EncodedValue } from '../../Playground/Values'
+import { markPlaygroundFrame } from './CaptureProvenance'
 import { observeStream, type ObservableStream } from './StreamObserver'
 
 type Callback = (error?: unknown, result?: unknown) => void
@@ -142,6 +143,7 @@ export const invokeMethod = ({
         if (invoker?._onResultReceived !== onResultReceived) return
         if (methodId !== undefined) return
         methodId = frame.id
+        markPlaygroundFrame(connection._stream, raw)
         signal({ kind: 'dispatch', at: now(), methodId })
         // Observation cannot veto transport traffic; altered native methods can only be diagnosed here.
         if (!invoker.noRetry) {

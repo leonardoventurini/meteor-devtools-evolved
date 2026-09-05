@@ -1,5 +1,6 @@
 /* eslint-disable unicorn/no-this-outside-of-class -- Receiver preservation is a transport contract. */
 import { describe, expect, it, vi } from 'vitest'
+import { getFrameProvenance } from '../src/Injectors/Playground/CaptureProvenance'
 import { invokeMethod } from '../src/Injectors/Playground/MethodAdapter'
 import type { MethodSignal } from '../src/Playground/MethodRun'
 import type { EncodedValue } from '../src/Playground/Values'
@@ -95,6 +96,30 @@ const fixture = () => {
 }
 
 describe('connection-specific method adapter', () => {
+  it('marks the exact native method ID before ordinary capture', () => {
+    const runtime = fixture()
+    const captured: string[] = []
+    runtime.stream.send.mockImplementation(function (raw) {
+      captured.push(getFrameProvenance(runtime.stream, raw))
+      return 'sent'
+    })
+    const handle = invokeMethod({
+      connection: runtime.connection,
+      operation,
+      codec,
+      emit: () => {},
+    })
+    expect(captured).toEqual(['playground'])
+    runtime.stream.send(
+      JSON.stringify({
+        msg: 'method',
+        id: 'application',
+        method: operation.name,
+      }),
+    )
+    expect(captured).toEqual(['playground', 'application'])
+    handle.stopObserving()
+  })
   it('correlates identical concurrent calls by exact invoker callback identity', () => {
     const runtime = fixture()
     const first: MethodSignal[] = []

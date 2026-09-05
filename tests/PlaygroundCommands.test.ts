@@ -18,6 +18,22 @@ const run = (requestId = 'request-1'): RunCommand => ({
 })
 
 describe('playground command validation', () => {
+  it('accepts an owned snapshot request with strict lifecycle fields', () => {
+    const command = {
+      version: 1,
+      kind: 'snapshot',
+      panelSessionId: 'panel',
+      pageEpoch: 'page',
+      requestId: 'request',
+    }
+    expect(parseCommand(command)).toEqual(command)
+    expect(() =>
+      parseCommand({ ...command, operation: run().operation }),
+    ).toThrow('Unknown')
+    expect(() => parseCommand({ ...command, requestId: '' })).toThrow(
+      'request ID',
+    )
+  })
   it('accepts and narrows validated operation and lifecycle commands', () => {
     expect(parseCommand(run())).toEqual(run())
     expect(

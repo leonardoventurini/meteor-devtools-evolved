@@ -1,6 +1,8 @@
 import { sendLogMessage } from '@/Browser/Inject'
 import { getMeteorConnections } from './MeteorConnections'
 import type { ConnectionDescriptor } from './ConnectionRegistry'
+import { getFrameProvenance } from './Playground/CaptureProvenance'
+import { playgroundPageEpoch } from './Playground/PageEpoch'
 
 type MessageCallback = (message: DDPLog) => void
 
@@ -30,6 +32,8 @@ export const instrumentDDPConnection = (
 
     callback({
       connectionId,
+      pageEpoch: playgroundPageEpoch,
+      provenance: getFrameProvenance(stream, args[0]),
       id: generateId(),
       content: args[0],
       isOutbound: true,
@@ -42,6 +46,8 @@ export const instrumentDDPConnection = (
   stream.on('message', (...args) => {
     callback({
       connectionId,
+      pageEpoch: playgroundPageEpoch,
+      provenance: getFrameProvenance(stream, args[0]),
       id: generateId(),
       content: args[0],
       isInbound: true,

@@ -53,6 +53,9 @@ type EventType =
   | 'meteor-data-performance'
   | 'cache:clear'
   | 'connections:get'
+  | 'playground:hello'
+  | 'playground:command'
+  | 'playground:event'
 
 interface Message<T> {
   eventType: EventType
@@ -95,6 +98,9 @@ interface DDPLogContent {
 }
 
 interface DDPLog {
+  pageEpoch?: string
+  provenance?: 'application' | 'playground'
+  internal?: boolean
   id: string
   content: string
   parsedContent?: DDPLogContent
