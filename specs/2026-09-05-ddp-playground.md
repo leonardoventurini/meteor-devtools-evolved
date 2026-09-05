@@ -662,6 +662,13 @@ This establishes a shared input foundation, not completion of A3's live runtime
 round trip or any other end-to-end acceptance criterion. Compatibility and
 authentication fixture work is in progress.
 
+The command/session foundation adds 17 passing tests for strict operation and
+context validation, whole-command size, page/panel identity, lease expiry,
+retirement callbacks, and duplicate-command protection at capacity. Its initial
+test run failed before the modules existed; focused lint, formatting, and strict
+typechecking then passed with the implementation. These pure tests do not yet
+prove browser cleanup or end-to-end dispatch behavior.
+
 ## Direct rollout
 
 Ship all included capabilities together in the next user-authorized release.
