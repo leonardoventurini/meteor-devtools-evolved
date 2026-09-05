@@ -12,6 +12,9 @@ export const instrumentDDPConnection = (
   descriptor: ConnectionDescriptor<DDPConnection>,
   callback: MessageCallback,
 ) => {
+  // Owned traffic bypasses ordinary capture, including internal login frames.
+  if (descriptor.ownership) return
+
   const { connection, id: connectionId } = descriptor
   const { _stream: stream } = connection
 

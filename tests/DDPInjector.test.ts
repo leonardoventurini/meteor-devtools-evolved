@@ -56,3 +56,29 @@ describe('connection-scoped DDP instrumentation', () => {
     expect(stream.on).toHaveBeenCalledOnce()
   })
 })
+
+it('never attaches generic capture to owned streams before internal authentication', () => {
+  const stream = { on: vi.fn(), send: vi.fn() }
+  const callback = vi.fn()
+  const originalSend = stream.send
+  instrumentDDPConnection(
+    {
+      connection: { _stream: stream },
+      id: 'owned-1',
+      displayName: 'Owned',
+      ownership: {
+        parentConnectionId: 'default',
+        pageEpoch: 'epoch',
+        panelSessionId: 'panel',
+        requestId: 'request',
+      },
+    },
+    callback,
+  )
+  stream.send(
+    '{"msg":"method","method":"login","params":[{"resume":"secret"}]}',
+  )
+  expect(stream.send).toBe(originalSend)
+  expect(stream.on).not.toHaveBeenCalled()
+  expect(callback).not.toHaveBeenCalled()
+})

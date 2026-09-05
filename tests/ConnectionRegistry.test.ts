@@ -85,3 +85,73 @@ describe('DDP connection registry', () => {
     expect(registry.get('connection-1')?.connection).toBe(connection)
   })
 })
+
+describe('owned connections', () => {
+  const owner = {
+    parentConnectionId: 'default',
+    pageEpoch: 'epoch',
+    panelSessionId: 'panel',
+    requestId: 'request',
+  }
+
+  it('marks ownership before notifying and excludes children from app selection', () => {
+    const registry = createConnectionRegistry({ name: 'app' })
+    const ddp = { connect: () => ({ name: 'owned' }) }
+    installDDPConnectRegistry(ddp, registry)
+    const listener = vi.fn(descriptor => {
+      expect(descriptor.ownership).toEqual(owner)
+      expect(registry.list()).toHaveLength(1)
+    })
+    registry.subscribe(listener)
+    const descriptor = registry.createOwned(owner, () => ddp.connect())
+    expect(descriptor.ownership).toEqual(owner)
+    expect(registry.listOwned()).toEqual([descriptor])
+    expect(listener).toHaveBeenCalledOnce()
+    registry.disposeOwned(descriptor.id)
+    registry.disposeOwned(descriptor.id)
+    expect(registry.get(descriptor.id)).toBeUndefined()
+    expect(registry.listOwned()).toEqual([])
+    expect(() => registry.register(descriptor.connection)).toThrow(/disposed/)
+    expect(() => registry.disposeOwned('default')).toThrow(/application/)
+  })
+
+  it('consumes ownership before nested construction and listener reentrancy', () => {
+    const registry = createConnectionRegistry({ name: 'app' })
+    const ddp = {
+      connect: (nested = false): { name: string } => {
+        if (!nested) ddp.connect(true)
+        return { name: nested ? 'nested app' : 'owned' }
+      },
+    }
+    installDDPConnectRegistry(ddp, registry)
+    registry.subscribe(descriptor => {
+      if (descriptor.ownership) registry.register({ name: 'listener app' })
+    })
+    registry.createOwned(owner, () => ddp.connect())
+    expect(registry.list().map(item => item.connection.name)).toEqual([
+      'app',
+      'nested app',
+      'listener app',
+    ])
+    expect(registry.listOwned().map(item => item.connection.name)).toEqual([
+      'owned',
+    ])
+  })
+
+  it('resets pending ownership after constructor failure and rejects existing app objects', () => {
+    const app = { name: 'app' }
+    const registry = createConnectionRegistry(app)
+    expect(() =>
+      registry.createOwned(owner, () => {
+        throw new Error('constructor')
+      }),
+    ).toThrow('constructor')
+    expect(registry.register({ name: 'later' }).ownership).toBeUndefined()
+    expect(() => registry.createOwned(owner, () => app)).toThrow(/application/)
+    expect(() =>
+      registry.createOwned({ ...owner, parentConnectionId: 'missing' }, () => ({
+        name: 'bad',
+      })),
+    ).toThrow(/parent/)
+  })
+})
