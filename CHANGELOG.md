@@ -6,6 +6,8 @@ All notable changes to this project will be documented in this file.
 
 ## [Unreleased]
 
+## [2.0.0]
+
 ### Added
 
 - Added a DDP Playground with editable connection-specific method calls,

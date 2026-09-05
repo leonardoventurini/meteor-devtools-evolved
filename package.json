@@ -1,6 +1,6 @@
 {
   "name": "meteor-devtools-evolved",
-  "version": "1.8.1",
+  "version": "2.0.0",
   "description": "Meteor DevTools Evolved",
   "repository": "https://github.com/leonardoventurini/meteor-devtools-evolved",
   "packageManager": "yarn@4.12.0",
