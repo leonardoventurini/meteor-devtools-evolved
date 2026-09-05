@@ -669,6 +669,13 @@ test run failed before the modules existed; focused lint, formatting, and strict
 typechecking then passed with the implementation. These pure tests do not yet
 prove browser cleanup or end-to-end dispatch behavior.
 
+Matrix generation adds 18 passing procedural tests for exact safe JSON Pointers,
+one-change variants, numeric/string boundaries, wrong-type candidates, deduplication,
+baseline-inclusive limits, and positional deletion constraints. Focused ESLint,
+Prettier, and the combined strict playground typecheck passed. The combined
+foundation suite now has 48 passing tests. Scheduler and UI behavior remain
+unimplemented, so this is not yet evidence of complete A15 execution.
+
 ## Direct rollout
 
 Ship all included capabilities together in the next user-authorized release.
