@@ -732,11 +732,15 @@ of the requested rollout. Remaining integration work includes the runner,
 publication observation, bounded catalog/history, saved formats/database,
 scheduler, UI, and A1–A18 workflows.
 
-Before exposing execution, resolve unsupported-client no-retry preflight: the
-adapter requests the verified native option, but a detected mismatched invoker
-flag is currently diagnostic and does not veto transport traffic. Do not claim
-that unsupported-runtime refusal or the packaged credential boundary is verified
-until the runner and corresponding browser tests establish those contracts.
+The no-retry preflight now exercises the native allocator on a detached inert
+receiver before real invocation. Two unit cases passed, and the exact helper
+passed against both real fixtures without sending a method, advancing the source
+method counter, or changing its invokers. The Meteor 2 test required terminating
+its verified orphaned fixture tool during teardown; Playwright then exited zero.
+The allocator check is a native capability check, not a defense against a page
+replacing its own implementation with malicious closures. Runner integration and
+packaged credential-boundary tests are still required before claiming those
+end-to-end contracts.
 
 ## Direct rollout
 

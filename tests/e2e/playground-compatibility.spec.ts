@@ -1,5 +1,6 @@
 import { expect, test } from './fixtures'
 import { resolveMeteorFixture } from './MeteorFixtures'
+import { assertNoRetryCapability } from '../../src/Injectors/Playground/NoRetryCapability'
 
 const fixture = resolveMeteorFixture()
 const ECHO_METHOD = 'fixture.echo'
@@ -82,6 +83,45 @@ test.beforeEach(async ({ page }) => {
       () => (globalThis as unknown as Runtime).Meteor.release,
     ),
   ).toBe(fixture.release)
+})
+
+test('checks no-retry allocation without advancing or sending on the real connection', async ({
+  page,
+}) => {
+  const state = await page.evaluateHandle(() => {
+    const connection = (globalThis as unknown as Runtime).Meteor.connection
+    const nextId: unknown = Reflect.get(connection, '_nextMethodId')
+    const invokerIds = Object.keys(connection._methodInvokers)
+    const frames: string[] = []
+    const original = connection._stream.send
+    connection._stream.send = function (raw) {
+      frames.push(raw)
+      // eslint-disable-next-line unicorn/no-this-outside-of-class -- Preserve the transport receiver in the browser probe.
+      return original.call(this, raw)
+    }
+    return { connection, nextId, invokerIds, frames, original }
+  })
+  try {
+    const connection = await state.getProperty('connection')
+    await page.evaluate(assertNoRetryCapability, connection)
+    expect(
+      await state.evaluate(state => ({
+        nextUnchanged:
+          Reflect.get(state.connection, '_nextMethodId') === state.nextId,
+        invokersUnchanged:
+          JSON.stringify(Object.keys(state.connection._methodInvokers)) ===
+          JSON.stringify(state.invokerIds),
+        methodsSent: state.frames.filter(
+          raw => JSON.parse(raw).msg === 'method',
+        ).length,
+      })),
+    ).toEqual({ nextUnchanged: true, invokersUnchanged: true, methodsSent: 0 })
+  } finally {
+    await state.evaluate(state => {
+      state.connection._stream.send = state.original
+    })
+    await state.dispose()
+  }
 })
 
 test('allocates distinct synchronous method IDs and correlates result and writes signals', async ({
