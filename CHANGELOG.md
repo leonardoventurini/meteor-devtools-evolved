@@ -48,7 +48,8 @@ All notable changes to this project will be documented in this file.
   and methods, controlled lifecycle scenarios, manual controls, and expanded
   packaged-extension coverage. Extended both fixtures with real Accounts sessions,
   access-control scenarios, EJSON round trips, and retry/ownership compatibility
-  checks for the planned DDP Playground.
+  checks for DDP Playground, including headless reviewed-transfer and
+  server-execution workflows on both fixtures.
 
 ### Changed
 

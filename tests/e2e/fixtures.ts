@@ -19,7 +19,7 @@ interface ExtensionFixtures {
   extensionWorker: Worker
 }
 
-const launchExtensionContext = async (): Promise<BrowserContext> => {
+export const launchExtensionContext = async (): Promise<BrowserContext> => {
   if (!existsSync(CHROME_EXTENSION_MANIFEST)) {
     throw new Error(
       `Chrome extension build not found at ${CHROME_EXTENSION_MANIFEST}. Run yarn build:chrome first.`,

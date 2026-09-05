@@ -3,10 +3,11 @@
 **Date:** 2026-09-05<br>
 **Project:** `meteor-devtools-evolved`<br>
 **Project root:** `/Users/leonardo/Repositories/leonardoventurini/meteor-devtools-evolved`<br>
-**Status:** Ready for implementation; the user approved the recommended scope and
-architectural options on 2026-09-05. Implementation and runtime verification are
-not yet complete.<br>
+**Status:** Implemented and verified on 2026-09-05. Automated browser tests run
+headlessly as directed; Firefox runtime was unavailable. No publishing occurred.<br>
 **Related decision:** [DDP Playground rollout](../decisions/2026-09-05-ddp-playground.md)
+
+**Final evidence:** [Acceptance verification and reviewer handoff](../docs/ddp-playground-verification.md).
 
 ## Outcome
 
@@ -580,11 +581,11 @@ duplicate commands; checking only the UI is insufficient to establish no retry.
 
 Native Chrome DevTools panels are not exposed through a supported Playwright page
 target in the existing harness. Use the repository's packaged-panel harness for
-automatable rendering and bridge checks, and retain a headed native DevTools
-smoke for the actual panel lifecycle and keyboard/layout flow. Firefox production
-build and manifest validation are mandatory; perform a headed Firefox smoke for
-execution and cleanup and disclose if that environment is unavailable. Never
-describe Chrome automation alone as Firefox runtime verification.
+headless rendering and bridge checks. Earlier native-panel smoke evidence is
+retained, but the user's later instruction requires automated browser tests to
+remain headless. Firefox production build and manifest validation are mandatory;
+disclose unavailable runtime execution rather than describing Chrome automation
+as Firefox verification.
 
 ### Acceptance criteria and required evidence
 
@@ -609,9 +610,10 @@ describe Chrome automation alone as Firefox runtime verification.
 | A17 | The UI is keyboard-accessible and usable in narrow/wide DevTools layouts; limits and identity uncertainty are visible.           | Component checks and headed UI review                         |
 | A18 | Existing inspection/performance behavior, both builds/manifests, and maintained Meteor compatibility checks remain green.        | Repository verification commands and regression suite         |
 
-Acceptance remains **in progress**. Unit and native-capability evidence below
-supports individual contracts; packaged workflows and headed checks are being
-verified separately. Do not infer complete acceptance from implemented controls.
+Acceptance evidence is recorded for each row in the
+[final verification report](../docs/ddp-playground-verification.md). That report
+distinguishes unit, packaged headless, and earlier native-panel checks, and
+discloses the unavailable Firefox execution environment.
 
 ## Executable implementation checklist
 
@@ -643,20 +645,25 @@ ownership, and storage mutations coordinated.
       including preview and interruption behavior.
 - [x] Implement the separate Dexie schema, reviewed save/import/export,
       redaction, transactional quotas, and cross-session snapshot selection.
-- [ ] Complete procedural authenticated fixtures and production-extension
+- [x] Complete procedural authenticated fixtures and production-extension
       integration for every acceptance criterion on both Meteor releases.
-- [ ] Update README and privacy wording, add the public format reference, update
+- [x] Update README and privacy wording, add the public format reference, update
       `CHANGELOG.md` under Unreleased, and revise the decision to implemented.
-- [ ] Run formatting checks, `yarn lint`, `yarn typecheck`, `yarn test`,
+- [x] Run formatting checks, `yarn lint`, `yarn typecheck`, `yarn test`,
       `yarn build:chrome`, `yarn validate:chrome`, `yarn test:e2e:all`,
       `yarn build:firefox`, and `yarn validate:firefox`. Run the repository audit
       checks required by CI; record environmental/pre-existing failures honestly.
-- [ ] Perform headed Chrome and Firefox smoke checks; record exact coverage and
-      any unavailable native-panel boundary rather than inferring success.
-- [ ] Review implementation against A1–A18, verify documentation and manifests
+- [x] Keep automated browser tests headless as the user subsequently directed.
+      Retain already completed native Chrome smoke evidence and disclose the
+      unavailable Firefox runtime; do not launch further headed test windows.
+- [x] Review implementation against A1–A18, verify documentation and manifests
       agree, and commit the completed work with hooks and signing enabled.
 
-## Implementation evidence
+## Implementation evidence (historical checkpoints)
+
+The following entries record earlier work-unit checks. Their pending statements
+describe those checkpoints; final results are in the current integration section
+and linked verification report.
 
 The encoded-value foundation now has 13 passing tests covering EJSON encoding
 preservation, parameter validation, UTF-8 size, nesting/value limits, canonical
@@ -742,69 +749,53 @@ end-to-end contracts.
 
 ## Current integration evidence
 
-The native provider, leased runner, publication reducer, panel store, composer,
-results, comparisons, matrix controls, saved records, and reviewed transfers are
-now connected. The latest full unit run passed 381 tests across 61 files.
-Repository-wide typechecking and lint passed; the current Firefox production
-build passed with the existing chunk-size warning. The first packaged manual
-workflow passed selected default/secondary connection invocation and correlated
-result plus writes completion. Publication and persistence workflows are still
-under investigation/verification; headed native DevTools automation is in
-progress. Firefox was not found at `/Applications/Firefox.app`.
+The complete approved feature set is connected and verified. The final unit run
+passed 389 tests across 62 files. Repository-wide lint and typechecking passed,
+including strict Playground and E2E projects. Chrome and Firefox production
+builds and artifact/manifest validation passed. The final `yarn test:e2e:all`
+run passed 52 headless tests: 26 on Meteor 3.5.1 and 26 on Meteor 2.16, exit zero.
+The twelve packaged Playground workflows on each runtime include two-profile
+account evidence transfer/comparison, composer EJSON, server invocation counts
+for duplicate/Stop behavior, and passive capture/bookmark editing.
 
-Integration exposed and corrected a passive session-discovery race, duplicate
-background retention of run events, unreviewed case writes, unresolved redacted
-request dispatch, and loss of native EJSON types in subscription drafts. Each
-correction has focused regression coverage. Browser harness locator and tab
-discovery corrections did not expand extension permissions.
+Integration corrected passive startup discovery, duplicate background retention,
+unreviewed case writes, unresolved redacted-request execution, observable export
+cloning, and native EJSON preservation in subscription drafts. Each has focused
+regression coverage. The native Meteor 3 subscription queue allocates a handle
+before sending its DDP frame; ownership therefore verifies a fresh native
+registry ID and correlates its later dispatch. Existing application handles are
+never adopted. Completed reducers/raw buffers are released, and custom decoders
+receive clones of encoded parameters to preserve immutable request evidence.
+Document identities work on ordinary HTTP pages; endpoint labels retain the
+actual origin without URL credentials. Execution still uses the selected native
+endpoint. These refinements remain within the approved architecture.
 
-Manual authentication requests remain executable as specified. Their user-entered
-values and responses can exist in ephemeral inspection history; mandatory
-standard credential masks apply before saving/export. The stronger no-capture
-guarantee applies to internal session reuse, whose entire owned connection
-bypasses ordinary DDP capture.
+Manual authentication requests remain executable as specified. User-entered
+values/responses can exist in ephemeral inspection history; mandatory standard
+credential masks apply before persistence/export. The stronger internal-reuse
+capture guarantee is enforced by owned-connection exclusion before ordinary
+DDP capture, demonstrated through browser message inspection with a deterministic
+ordinary-login fence.
 
-Both current artifact validators passed. `yarn audit` exited zero with no audit
-suggestions. `yarn audit:devapp` exited zero at the configured high-severity
-threshold and reported eight moderate advisories in the fixture dependency tree
-(`qs` and `uuid` and their dependents). No automatic dependency upgrade was made.
+`yarn audit` exited zero with no suggestions at the configured production
+high-severity threshold. `yarn audit:devapp` exited zero and reported eight
+moderate advisories involving `qs`, `uuid`, and their dependents. No automatic
+upgrade was made. Builds retain the existing chunk-size warning.
 
-The packaged publication test exposed a native Meteor 3 async-stub queue detail:
-the subscription handle is allocated before its DDP send. Synchronous send alone
-cannot be required as ownership proof. The adapter now verifies
-a fresh native subscription registry ID before correlating the later frame;
-pre-existing application IDs remain protected. This is an implementation
-correction within the approved native ownership contract, not a new retry or
-raw-protocol execution mechanism.
+Earlier real native Chromium 151 DevTools checks passed on both Meteor releases,
+without the test host shim: selected connection identity, result and writes
+completion, visible keyboard focus, and a 700px panel without horizontal overflow.
+Temporary reports/screenshots are under `/private/tmp/playground-native-meteor2/`
+and `/private/tmp/playground-native-meteor3/`. The user subsequently directed
+browser tests to run headlessly; the final aggregate run did so and no headed
+option is shipped in the tests. Firefox was absent from the standard application
+locations and executable path, so Firefox runtime execution was not claimed.
 
-After that correction, all eight packaged Playground workflows passed on Meteor
-3.5.1 (27.1 seconds, exit zero). They exercise selected connection routing,
-identical shared-subscription preservation, anonymous/reused identity and a
-credential capture fence, isolated readiness and ambient attribution, reviewed
-case/snapshot persistence and export/import comparison, sequential matrices,
-timeout/navigation behavior, and quota rollback across both real IndexedDB
-tables. The latest unit suite passed 387 tests across 61 files; typechecking and
-lint also passed. The equivalent Meteor 2 suite and additional explicit
-cross-profile/server-counter acceptance checks are pending.
-
-A real headed Chromium 151 native DevTools smoke passed on Meteor 3.5.1 without
-the packaged test host shim. The registered Meteor panel invoked
-`playground.identity`, showed result and writes completion, and returned the
-same connection session ID read through native `chrome.devtools.inspectedWindow`.
-Keyboard Tab moved from the name field to parameters with visible focus.
-Temporary evidence is in `/private/tmp/playground-native-evidence.json` and
-`/private/tmp/playground-native-result.png`; a reproducible smoke script and
-Meteor 2/narrow-layout checks are in progress.
-
-Additional implementation evidence: the saved-record validator and format
-reference now cover strict versioned parsing, immutable snapshot contracts,
-revision metadata, mandatory standard credential masks, explicit redaction
-metadata, and fresh IDs on import. Fourteen procedural unit tests passed. The
-additive Dexie database applies writes and quota checks in a transaction spanning
-both tables; real-browser transaction and UI review verification remains pending.
-The sequential scheduler and scoped observed-name catalog passed twenty unit
-tests for bounds, cancellation, provenance, examples, and eviction. These are
-implemented foundations; they do not establish the packaged rollout criteria.
+All test-owned browser profiles and fixture servers were closed. Unrelated
+release ZIPs and the user's separate beta server were untouched. The
+[verification report](../docs/ddp-playground-verification.md) maps A1–A18 to
+executed evidence, documents remaining environmental/product limitations, and
+provides the reviewer handoff and rollback guidance.
 
 ## Direct rollout
 

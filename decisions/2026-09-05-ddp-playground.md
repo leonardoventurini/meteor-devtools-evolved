@@ -3,14 +3,20 @@
 **Date:** 2026-09-05<br>
 **Project:** `meteor-devtools-evolved`<br>
 **Project root:** `/Users/leonardo/Repositories/leonardoventurini/meteor-devtools-evolved`<br>
-**Status:** Accepted for implementation on 2026-09-05; not yet implemented.<br>
+**Status:** Implemented and verified on 2026-09-05; Firefox runtime unavailable.<br>
 **Specification:** [DDP Playground: complete rollout](../specs/2026-09-05-ddp-playground.md)
+
+**Browser automation preference:** The user directed browser tests to run
+headlessly during verification. Automated contexts remain headless; previously
+completed native headed smoke evidence is retained, with no further headed runs.
+
+**Verification:** [Acceptance evidence and handoff](../docs/ddp-playground-verification.md).
 
 ## Context
 
 The user requested a balanced feature set for DDP-based debugging and targeted
 security testing, then explicitly included every proposed follow-up in one
-rollout. Existing replay uses the default Meteor connection without run
+rollout. The original replay used the default Meteor connection without run
 correlation. Connection-scoped capture, local Dexie storage, and Meteor 2/3
 fixtures provide reusable infrastructure, but execution ownership, authentication
 handling, saved cases, and comparisons need explicit contracts.
@@ -104,8 +110,8 @@ native endpoint, so clearer snapshot labels do not change routing.
 Both maintained native transports retain an online listener after permanent
 disconnect. The owned-connection helper captures and removes that specific
 constructor-time listener, preserving application listeners. Standard constructor
-capability is tested at the unit boundary; packaged runner integration must
-still verify this cleanup against real runtimes before rollout completion.
+capability is tested at the unit boundary, with packaged isolated execution and
+shared-subscription preservation verified on both maintained runtimes.
 
 This is a substantial single rollout whose release gate includes authentication,
 cleanup, protocol correlation, quotas, and storage tests, not only UI completion.
@@ -114,6 +120,5 @@ the maintained standard configurations must work in both fixtures.
 
 The playground can trigger real server effects. Timeout or local stop cannot undo
 them. Reverting the feature leaves new saved records inert and preserves existing
-bookmarks, but cannot reverse remote mutations. Update this record with
-implementation deviations and verification before declaring the
-rollout complete.
+bookmarks, but cannot reverse remote mutations. The linked verification report
+records final checks, environmental limits, review order, and rollback scope.

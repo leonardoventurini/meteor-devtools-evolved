@@ -192,18 +192,16 @@ lifecycles, mutations, bounded traffic, Performance capture, and packaged panel
 rendering. Build and validate Chrome first. CI runs the fixtures on separate
 matrix runners.
 
-The Playground suite exercises the packaged panel using a test-only
-`inspectedWindow` host shim that evaluates commands in the real fixture tab.
-`E2E_HEADED=1 yarn test:e2e` runs the same tests in a visible Chromium window;
-this remains distinct from the native DevTools panel smoke below.
+Browser tests run headlessly. The Playground suite exercises the packaged panel
+using a test-only `inspectedWindow` host shim that evaluates commands in the real
+fixture tab; this remains distinct from the native DevTools panel smoke below.
 
 Chrome does not expose custom DevTools panels through a supported Playwright
-page target. Before release, perform the remaining headed smoke with
-`yarn dev:chrome`: open DevTools on `http://127.0.0.1:2100`, select **Meteor**,
-confirm both connections appear, then verify DDP, Minimongo, and Subscriptions
-show live fixture data.
+page target. Automated tests remain headless. For optional interactive
+development, `yarn dev:chrome` opens a development browser: inspect
+`http://127.0.0.1:2100`, select **Meteor**, and check the live fixture data.
 
-For the same manual boundary on Meteor 2, start `yarn devapp:2`, run
+For optional interactive development on Meteor 2, start `yarn devapp:2`, run
 `yarn wxt -b chrome` in another terminal, open `http://127.0.0.1:2200`, and
 repeat the panel checks against the `random` collections and subscriptions.
 
