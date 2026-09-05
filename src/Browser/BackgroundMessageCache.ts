@@ -12,6 +12,19 @@ export class BackgroundMessageCache {
   ) {}
 
   push(tabId: number, message: unknown): void {
+    /**
+     * Playground records already have a bounded panel history and a session
+     * lease. Replaying them into a later panel would retain duplicate payloads
+     * outside that budget and revive stale session handshakes.
+     */
+    if (
+      message !== null &&
+      typeof message === 'object' &&
+      'eventType' in message &&
+      message.eventType === 'playground:event'
+    )
+      return
+
     const entries = this.entries.get(tabId) ?? []
 
     entries.push(message)

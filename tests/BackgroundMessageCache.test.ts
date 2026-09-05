@@ -8,6 +8,14 @@ const message = (id: string): Message<{ id: string }> => ({
 })
 
 describe('background message cache', () => {
+  it('does not duplicate leased playground records in ordinary capture history', () => {
+    const cache = new BackgroundMessageCache()
+    cache.push(1, {
+      eventType: 'playground:event',
+      data: { kind: 'run', record: { private: true } },
+    })
+    expect(cache.get(1)).toEqual([])
+  })
   it('replays captured messages in capture order', () => {
     const cache = new BackgroundMessageCache()
     const postMessage = vi.fn()

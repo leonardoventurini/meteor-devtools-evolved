@@ -5,6 +5,7 @@ export const DEVELOPMENT = import.meta.env.MODE === 'development'
 
 export enum PanelPage {
   DDP = 'ddp',
+  PLAYGROUND = 'playground',
   BOOKMARKS = 'bookmarks',
   MINIMONGO = 'minimongo',
   SUBSCRIPTIONS = 'subscriptions',

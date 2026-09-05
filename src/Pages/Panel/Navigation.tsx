@@ -27,6 +27,11 @@ export const Navigation: FunctionComponent = observer(() => {
       icon: 'changes',
     },
     {
+      key: PanelPage.PLAYGROUND,
+      content: 'Playground',
+      icon: 'lab-test',
+    },
+    {
       key: PanelPage.BOOKMARKS,
       content: 'Bookmarks',
       icon: 'star',

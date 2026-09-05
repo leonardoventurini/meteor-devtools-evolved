@@ -4,6 +4,11 @@ import { initializeMeteorConnections } from '../src/Injectors/MeteorConnections'
 import { MeteorAdapter } from '../src/Injectors/MeteorAdapter'
 import { MinimongoInjector } from '../src/Injectors/MinimongoInjector'
 import { injectAll } from '../src/Browser/Inject'
+import { initializePlayground } from '../src/Injectors/Playground/Bootstrap'
+
+vi.mock('../src/Injectors/Playground/Bootstrap', () => ({
+  initializePlayground: vi.fn(),
+}))
 
 vi.mock('../src/Injectors/DDPInjector', () => ({ DDPInjector: vi.fn() }))
 vi.mock('../src/Injectors/MeteorConnections', () => ({
@@ -61,6 +66,7 @@ describe('Meteor injection readiness', () => {
     expect(DDPInjector).toHaveBeenCalledOnce()
     expect(MinimongoInjector).toHaveBeenCalledOnce()
     expect(MeteorAdapter).toHaveBeenCalledOnce()
+    expect(initializePlayground).toHaveBeenCalledOnce()
     expect(globalThis.__meteor_devtools_evolved).toBe(true)
     expect(vi.getTimerCount()).toBe(0)
 

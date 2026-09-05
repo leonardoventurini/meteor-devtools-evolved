@@ -3,6 +3,7 @@ import { MinimongoInjector } from '@/Injectors/MinimongoInjector'
 import { MeteorAdapter } from '@/Injectors/MeteorAdapter'
 import { parseStackTrace } from '@/Utils/StackTrace'
 import { initializeMeteorConnections } from '@/Injectors/MeteorConnections'
+import { initializePlayground } from '@/Injectors/Playground/Bootstrap'
 
 const STACK_TRACE_LIMIT = 50
 const HEARTBEAT_MESSAGES = new Set(['{"msg":"ping"}', '{"msg":"pong"}'])
@@ -128,6 +129,11 @@ export function injectAll() {
         DDPInjector()
         MinimongoInjector()
         MeteorAdapter()
+        initializePlayground({
+          register: (eventType, handler) =>
+            Registry.register(eventType, handler),
+          emit: event => sendMessage('playground:event', event),
+        })
 
         globalThis.__meteor_devtools_evolved_receiveMessage =
           Registry.run.bind(Registry)

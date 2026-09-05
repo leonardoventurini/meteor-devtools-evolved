@@ -105,12 +105,6 @@ export const instrumentCollectionPrototype = (
 }
 
 export const MeteorAdapter = () => {
-  Registry.register('ddp-run-method', (message: Message<any>) => {
-    const { method, params } = message.data
-
-    Meteor.call(method, ...params)
-  })
-
   const sendConnections = () => {
     sendMessage('connections:get', {
       connections: getMeteorConnections()

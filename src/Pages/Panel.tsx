@@ -19,6 +19,7 @@ import {
 } from '@/Styles/Constants'
 import { Performance } from '@/Pages/Panel/Performance/Performance'
 import { HelpDrawer } from './Panel/HelpDrawer'
+import { Playground } from './Panel/Playground/Playground'
 import { Settings } from './Panel/Settings/Settings'
 
 Bridge.init()
@@ -91,6 +92,7 @@ const PanelObserverComponent: FunctionComponent = observer(() => {
 
       <div className='mde-layout__tab-panel' ref={panelRef}>
         <DDP isVisible={store.selectedTabId === PanelPage.DDP} />
+        <Playground isVisible={store.selectedTabId === PanelPage.PLAYGROUND} />
         <Bookmarks isVisible={store.selectedTabId === PanelPage.BOOKMARKS} />
         <Minimongo isVisible={store.selectedTabId === PanelPage.MINIMONGO} />
         <Performance

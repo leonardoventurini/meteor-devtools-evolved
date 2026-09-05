@@ -1,3 +1,5 @@
+import { PanelPage } from '@/Constants'
+import { parseParameters } from '@/Playground/Values'
 import { usePanelStore } from '@/Stores/PanelStore'
 import { Hideable } from '@/Utils/Hideable'
 import { observer } from 'mobx-react-lite'
@@ -110,6 +112,37 @@ export const Subscriptions: FunctionComponent<Props> = observer(
                       <Tag minimal title={subscription.name}>
                         {subscription.name}
                       </Tag>
+                      <button
+                        type='button'
+                        aria-label={`Probe ${subscription.name}`}
+                        onClick={event => {
+                          event.stopPropagation()
+                          panelStore.setSelectedTabId(PanelPage.PLAYGROUND)
+                          void panelStore.playgroundStore.attempt(() => {
+                            if (!subscription.playgroundParameters)
+                              throw new Error(
+                                subscription.playgroundParametersError ??
+                                  'Encoded EJSON parameters are unavailable for this subscription. Refresh subscriptions or compose the request explicitly.',
+                              )
+                            panelStore.playgroundStore.openDraft(
+                              {
+                                kind: 'subscription',
+                                name: subscription.name,
+                                parameters: parseParameters(
+                                  JSON.stringify(
+                                    subscription.playgroundParameters,
+                                  ),
+                                ),
+                              },
+                              panelStore.activeConnectionId,
+                              panelStore.playgroundStore.pageEpoch,
+                            )
+                            panelStore.setSelectedTabId(PanelPage.PLAYGROUND)
+                          })
+                        }}
+                      >
+                        Probe
+                      </button>
                     </td>
                     <td>
                       <Tag minimal title={JSON.stringify(subscription.params)}>

@@ -5,6 +5,7 @@ import { DateTime } from 'luxon'
 import { StringUtils } from '@/Utils/StringUtils'
 import { browser } from 'wxt/browser'
 import { shouldAcceptConnectionPayload } from '@/Injectors/ConnectionScoping'
+import { startPlaygroundHandshake } from '@/Playground/PanelHandshake'
 
 export const syncConnections = () =>
   Bridge.sendContentMessage({
@@ -94,6 +95,26 @@ export const Bridge = new (class {
     // FIXME : Need to confirm if using `chrome` instead of `browser` breaking any communication
     this.chrome()
 
+    PanelStore.playgroundStore.connect(command => {
+      this.sendContentMessage({
+        eventType: 'playground:command',
+        data: command,
+      })
+    })
+    const stopHandshake = startPlaygroundHandshake(
+      () =>
+        this.sendContentMessage({ eventType: 'playground:hello', data: null }),
+      () => PanelStore.playgroundStore.sessionReady,
+    )
+    globalThis.addEventListener(
+      'pagehide',
+      () => {
+        stopHandshake()
+        PanelStore.playgroundStore.dispose()
+      },
+      { once: true },
+    )
+
     syncStats()
     syncConnections()
   }
@@ -128,6 +149,11 @@ Bridge.register('ddp-event', (message: Message<DDPLog>) => {
   }
 
   PanelStore.ddpStore.pushItem(log)
+  PanelStore.playgroundStore.observeLog(log)
+})
+
+Bridge.register('playground:event', (message: Message<unknown>) => {
+  PanelStore.playgroundStore.handleEvent(message.data)
 })
 
 Bridge.register(

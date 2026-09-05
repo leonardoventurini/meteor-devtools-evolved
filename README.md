@@ -55,6 +55,25 @@ startup policy to the active session.
 
 The DDP inspection is ephemeral, but you can save as many DDP messages you want for later search and retrieval, from any host. Be careful though, it is saved on IndexedDB.
 
+### DDP Playground
+
+Use **Edit and run** on a captured call or **Probe in Playground** on a
+subscription, or enter a method/publication name and encoded EJSON parameter
+array directly. Opening a draft is passive. Select a live connection and press
+Run to invoke it; older bookmarks and imported cases require an explicit target.
+
+The Playground supports application-connection calls and shared subscription
+probes, dedicated anonymous connections, and explicit reuse of a compatible
+Accounts session. Results distinguish server responses, writes reflected,
+readiness, local timeout, interruption, and late evidence. Stopping observation
+cannot cancel or undo work already handed to Meteor.
+
+Save reusable cases and immutable labeled snapshots, compare structured evidence,
+define declarative expectations, and preview bounded sequential parameter
+matrices. Reviewed JSON import/export supports cross-profile comparisons without
+transferring session credentials. See the [usage guide](docs/ddp-playground.md)
+and [file format](docs/ddp-playground-format.md) for limits and evidence semantics.
+
 ### Minimongo
 
 Browse named and unnamed local collections, copy document IDs directly from
@@ -75,10 +94,14 @@ application return values and errors.
 ### Privacy
 
 The extension does not collect or send analytics. Bookmarks remain in your
-browser's local IndexedDB storage. The DDP startup-history preference uses the
-extension's local settings storage and is not transmitted. Network access is
-limited to the GitHub API for repository metadata and links you explicitly open
-from the extension.
+browser's local IndexedDB storage. Playground cases and snapshots use a separate
+local database. The DDP startup-history preference uses the extension's local
+settings storage and is not transmitted. Playground runs send explicit requests
+to the selected application's server. Internal session-reuse credentials stay in
+the inspected page and bypass ordinary capture and persistence; manually entered
+payloads can contain secrets and remain visible in ephemeral inspection history.
+Review redaction before saving or exporting. Other network access includes the
+GitHub API for repository metadata and links explicitly opened from the extension.
 
 ## Install
 
@@ -168,6 +191,11 @@ secondary-connection data, correlated method success and failure, publication
 lifecycles, mutations, bounded traffic, Performance capture, and packaged panel
 rendering. Build and validate Chrome first. CI runs the fixtures on separate
 matrix runners.
+
+The Playground suite exercises the packaged panel using a test-only
+`inspectedWindow` host shim that evaluates commands in the real fixture tab.
+`E2E_HEADED=1 yarn test:e2e` runs the same tests in a visible Chromium window;
+this remains distinct from the native DevTools panel smoke below.
 
 Chrome does not expose custom DevTools panels through a supported Playwright
 page target. Before release, perform the remaining headed smoke with

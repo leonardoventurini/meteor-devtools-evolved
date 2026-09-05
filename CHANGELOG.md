@@ -8,6 +8,12 @@ All notable changes to this project will be documented in this file.
 
 ### Added
 
+- Added a DDP Playground with editable connection-specific method calls,
+  shared and isolated publication probes, observed endpoint discovery,
+  bounded parameter matrices, and structured evidence comparisons.
+- Added reviewed Playground cases, immutable labeled snapshots, and versioned
+  JSON transfers in separate local storage with credential redaction.
+
 - Added a modern, optically centered Meteor brand mark across browser extension
   chrome and the panel toolbar.
 - Added accessible expand-all and collapse-all JSON controls with a persisted
@@ -45,6 +51,9 @@ All notable changes to this project will be documented in this file.
   checks for the planned DDP Playground.
 
 ### Changed
+
+- Replaced immediate DDP replay with a passive Playground draft that requires
+  an explicit Run action and a live target before execution.
 
 - Replaced the bulky inline Settings reload warning with an immediate,
   dismissible reload dialog after successful preference changes.

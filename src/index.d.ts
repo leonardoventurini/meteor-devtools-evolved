@@ -46,7 +46,6 @@ type MessageSource = 'meteor-devtools-evolved'
 type EventType =
   | 'ddp-event'
   | 'minimongo-get-collections'
-  | 'ddp-run-method'
   | 'console'
   | 'sync-subscriptions'
   | 'stats'
@@ -310,6 +309,8 @@ interface ISettings {
 type ConsoleType = 'log' | 'info' | 'warn' | 'error'
 
 interface IMeteorSubscription {
+  playgroundParameters?: import('./Playground/Values').EncodedValue[]
+  playgroundParametersError?: string
   id: string
   name: string
   params: any[]

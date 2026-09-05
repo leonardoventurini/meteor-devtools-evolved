@@ -6,5 +6,10 @@
     "noImplicitOverride": true,
     "noUncheckedIndexedAccess": true
   },
-  "include": ["src/Playground/**/*.ts", "tests/Playground*.test.ts"]
+  "include": [
+    "src/index.d.ts",
+    "src/Playground/**/*.ts",
+    "src/Database/PlaygroundDatabase.ts",
+    "tests/Playground*.test.ts"
+  ]
 }

@@ -17,6 +17,7 @@ import { MinimongoStore } from './Panel/MinimongoStore'
 import { PanelPage } from '@/Constants'
 import { SettingStore } from '@/Stores/Panel/SettingStore'
 import { SubscriptionStore } from '@/Stores/Panel/SubscriptionStore'
+import { PlaygroundStore } from './Panel/PlaygroundStore'
 import { PerformanceStore } from './Panel/PerformanceStore'
 
 export class PanelStoreConstructor {
@@ -41,6 +42,7 @@ export class PanelStoreConstructor {
   subscriptionStore = new SubscriptionStore()
   settingStore = new SettingStore()
   performanceStore = new PerformanceStore()
+  playgroundStore = new PlaygroundStore()
 
   constructor() {
     makeObservable(this, {
@@ -64,6 +66,7 @@ export class PanelStoreConstructor {
       setGitCommitHash: action,
     })
 
+    this.playgroundStore.setConnections(this.connections)
     this.bookmarkStore.sync().catch(console.error)
   }
 
@@ -87,6 +90,7 @@ export class PanelStoreConstructor {
   setActiveConnectionId(connectionId: string) {
     if (this.connections.some(connection => connection.id === connectionId)) {
       this.activeConnectionId = connectionId
+      this.playgroundStore.selectConnection(connectionId)
       this.minimongoStore.setActiveConnectionId(connectionId)
       this.subscriptionStore.setCollection([])
       this.minimongoStore.setCollections({})
@@ -95,6 +99,7 @@ export class PanelStoreConstructor {
 
   setConnections(connections: ConnectionSummary[]) {
     this.connections = connections
+    this.playgroundStore.setConnections(connections)
 
     if (!connections.some(({ id }) => id === this.activeConnectionId)) {
       this.activeConnectionId = connections[0]?.id ?? 'default'
