@@ -68,7 +68,17 @@ const setup = () => {
           JSON.stringify({ msg: 'method', id, method: name, params: args }),
         )
       }),
-      subscribe: vi.fn(() => ({ subscriptionId: 'owned', stop })),
+      subscribe: vi.fn(() => {
+        stream.send(
+          JSON.stringify({
+            msg: 'sub',
+            name: 'items',
+            id: 'owned',
+            params: [],
+          }),
+        )
+        return { subscriptionId: 'owned', stop }
+      }),
     },
   }
   Object.assign(target.connection, {
@@ -101,7 +111,10 @@ const setup = () => {
   }
   return { runner, events, target, receive, callbacks, openIsolated, stop }
 }
-afterEach(() => vi.useRealTimers())
+afterEach(() => {
+  vi.useRealTimers()
+  vi.restoreAllMocks()
+})
 describe('playground runner', () => {
   it('never echoes credential parameters from rejected malformed commands', () => {
     const fixture = setup()
@@ -250,3 +263,70 @@ describe('playground runner', () => {
     fixture.runner.dispose()
   })
 })
+it('treats thrown source status as interruption and still expires owned leases', () => {
+  vi.useFakeTimers()
+  const fixture = setup()
+  fixture.runner.handle({
+    ...command(),
+    operation: { kind: 'subscription', name: 'items', parameters: [] },
+    waitMs: 60_000,
+  })
+  fixture.target.sourceCurrent = () => {
+    throw new Error('private-source-detail')
+  }
+  expect(() => vi.advanceTimersByTime(5000)).not.toThrow()
+  expect(fixture.stop).toHaveBeenCalledOnce()
+  expect(JSON.stringify(fixture.events)).not.toContain('private-source-detail')
+  const final = fixture.events.findLast(event => event.kind === 'run')
+  expect(final?.kind === 'run' && final.record.phase).toBe('interrupted')
+  fixture.runner.dispose()
+})
+it('publishes a failed run if opening an isolated target throws synchronously', () => {
+  const fixture = setup()
+  fixture.openIsolated.mockImplementation(() => {
+    throw new Error('private-setup-detail')
+  })
+  fixture.runner.handle(command('isolated', true))
+  const final = fixture.events.findLast(event => event.kind === 'run')
+  expect(final?.kind === 'run' && final.record.finished).toBe(true)
+  expect(final?.kind === 'run' && final.record.phase).toBe('local-error')
+  expect(JSON.stringify(fixture.events)).not.toContain('private-setup-detail')
+  fixture.runner.dispose()
+})
+
+import { PublicationDocuments } from '../src/Playground/Documents'
+it.each([false, true])(
+  'retains completed publication evidence without keeping a live snapshot handle (synchronous: %s)',
+  synchronous => {
+    const fixture = setup()
+    if (synchronous)
+      fixture.target.connection.subscribe = vi.fn(() => {
+        fixture.target.connection._stream.send(
+          JSON.stringify({
+            msg: 'sub',
+            name: 'items',
+            id: 'owned',
+            params: [],
+          }),
+        )
+        fixture.receive({ msg: 'nosub', id: 'owned' })
+        return { subscriptionId: 'owned', stop: fixture.stop }
+      })
+    fixture.runner.handle({
+      ...command(),
+      operation: { kind: 'subscription', name: 'items', parameters: [] },
+    })
+    if (!synchronous) {
+      fixture.receive({ msg: 'ready', subs: ['owned'] })
+      fixture.runner.handle({ ...identity, kind: 'stop', requestId: 'run' })
+    }
+    const snapshot = vi.spyOn(PublicationDocuments.prototype, 'snapshot')
+    fixture.runner.handle({ ...identity, kind: 'snapshot', requestId: 'run' })
+    expect(snapshot).not.toHaveBeenCalled()
+    expect(fixture.callbacks.message).toEqual([])
+    expect(fixture.callbacks.disconnect).toEqual([])
+    expect(fixture.stop).toHaveBeenCalledOnce()
+    snapshot.mockRestore()
+    fixture.runner.dispose()
+  },
+)

@@ -4,13 +4,18 @@ import {
   type DocumentSnapshot,
 } from '../../Playground/Documents'
 import type { EvidenceSnapshot } from '../../Playground/Evidence'
-import { validateValue, type EncodedValue } from '../../Playground/Values'
+import {
+  serializedBytes,
+  validateValue,
+  type EncodedValue,
+} from '../../Playground/Values'
 import { PLAYGROUND_LIMITS } from '../../Playground/Limits'
 import type { MethodCodec } from './MethodAdapter'
 import { markPlaygroundFrame } from './CaptureProvenance'
 import { observeStream, type ObservableStream } from './StreamObserver'
 
 export interface PublicationConnection {
+  _subscriptions?: unknown
   _stream: ObservableStream
   status(): { connected: boolean }
   subscribe(
@@ -65,6 +70,25 @@ interface Request {
   waitMs?: number
   disposeConnection?(): void
 }
+const record = (value: unknown): value is Record<string, unknown> =>
+  value !== null && typeof value === 'object' && !Array.isArray(value)
+/**
+ * Meteor 3 queues subscription sends behind async stubs. A freshly allocated
+ * native registry record proves ownership before that send without bypassing the
+ * native queue or claiming an existing application handle.
+ */
+const nativeRecord = (
+  value: unknown,
+  id: string,
+  name: string,
+  connection: PublicationConnection,
+): boolean =>
+  record(value) &&
+  value.id === id &&
+  value.name === name &&
+  value.connection === connection &&
+  typeof value.stop === 'function' &&
+  typeof value.remove === 'function'
 const noop = () => {}
 
 /**
@@ -89,11 +113,13 @@ export const startPublication = ({
   let outcome: EvidenceSnapshot['outcome'] = 'pending'
   let serverError: EncodedValue | undefined
   let subscription: ReturnType<PublicationConnection['subscribe']> | undefined
+  let subscriptionOwned = false
   let active = true
   let ready = false
   let subscribing = false
   let observedSubscriptionId: string | undefined
-  const pendingFrames: Array<Record<string, unknown>> = []
+  const pendingFrames: string[] = []
+  let pendingBytes = 0
   let release = noop
   let waitTimer: ReturnType<typeof setTimeout> | undefined
   let budgetTimer: ReturnType<typeof setTimeout> | undefined
@@ -108,12 +134,14 @@ export const startPublication = ({
   const finish = (reason: PublicationStopReason) => {
     if (!active) return
     active = false
+    pendingFrames.length = 0
+    pendingBytes = 0
     clearTimeout(waitTimer)
     clearTimeout(budgetTimer)
     release()
     if (outcome === 'pending') outcome = 'unknown'
     try {
-      subscription?.stop()
+      if (subscriptionOwned) subscription?.stop()
     } catch {
       documents.incomplete('The native subscription stop operation failed.')
     }
@@ -179,6 +207,30 @@ export const startPublication = ({
       })
     }
   }
+  const processRaw = (raw: string) => {
+    if (!active) return
+    const previousReasons = documents.reasons.length
+    documents.observe(raw)
+    if (documents.truncated) {
+      finish('capture-limit')
+      return
+    }
+    if (documents.reasons.length !== previousReasons)
+      emit({
+        kind: 'evidence',
+        at: now(),
+        evidence: snapshot(),
+        reasons: [...documents.reasons],
+      })
+    let frame: unknown
+    try {
+      frame = JSON.parse(raw) as unknown
+    } catch {
+      return
+    }
+    if (frame !== null && typeof frame === 'object' && !Array.isArray(frame))
+      processFrame(frame as Record<string, unknown>)
+  }
   try {
     if (documents.truncated)
       throw new Error('Publication baseline exceeds capture limits.')
@@ -192,17 +244,42 @@ export const startPublication = ({
       waitMs > PLAYGROUND_LIMITS.maxWaitMs
     )
       throw new TypeError('Invalid publication readiness timeout.')
-    const parameters = operation.parameters.map(value => codec.decode(value))
+    const parameters = operation.parameters.map(value =>
+      codec.decode(structuredClone(value)),
+    )
     const initial = snapshot()
+    const registry = connection._subscriptions
+    if (registry !== undefined && !record(registry))
+      throw new Error('Native subscription registry capability unavailable.')
+    const previousIds = new Set(
+      registry === undefined ? [] : Object.keys(registry),
+    )
+    if (
+      registry !== undefined &&
+      Object.values(registry).some(
+        value =>
+          record(value) &&
+          value.inactive === true &&
+          value.name === operation.name,
+      )
+    )
+      throw new Error(
+        'An inactive application subscription prevents safe shared ownership; use isolated mode.',
+      )
     release = observeStream(connection._stream, {
       outbound: raw => {
-        if (!subscribing || observedSubscriptionId !== undefined) return
+        if (
+          (!subscribing && !subscriptionOwned) ||
+          observedSubscriptionId !== undefined
+        )
+          return
         try {
           const frame = JSON.parse(raw) as Record<string, unknown>
           if (
             frame?.msg !== 'sub' ||
             frame.name !== operation.name ||
-            typeof frame.id !== 'string'
+            typeof frame.id !== 'string' ||
+            (!subscribing && frame.id !== subscription?.subscriptionId)
           )
             return
           observedSubscriptionId = frame.id
@@ -213,23 +290,23 @@ export const startPublication = ({
       },
       inbound: raw => {
         if (!active) return
-        documents.observe(raw)
-        if (documents.truncated) {
+        if (subscription) {
+          processRaw(raw)
+          return
+        }
+        pendingBytes += serializedBytes(raw)
+        if (
+          pendingFrames.length >= PLAYGROUND_LIMITS.runFrames ||
+          pendingBytes > PLAYGROUND_LIMITS.runBytes
+        ) {
+          documents.truncated = true
+          documents.incomplete(
+            'Publication capture frame or byte limit reached during subscription setup.',
+          )
           finish('capture-limit')
           return
         }
-        let frame: Record<string, unknown>
-        try {
-          frame = JSON.parse(raw) as Record<string, unknown>
-        } catch {
-          return
-        }
-        if (!frame || typeof frame !== 'object') return
-        if (subscription) {
-          processFrame(frame)
-        } else {
-          pendingFrames.push(frame)
-        }
+        pendingFrames.push(raw)
       },
       disconnect: () => {
         documents.incomplete(
@@ -253,13 +330,29 @@ export const startPublication = ({
       typeof subscription.stop !== 'function'
     )
       throw new Error('Native owned subscription capability unavailable.')
+    const allocated =
+      registry !== undefined &&
+      !previousIds.has(subscription.subscriptionId) &&
+      nativeRecord(
+        registry[subscription.subscriptionId],
+        subscription.subscriptionId,
+        operation.name,
+        connection,
+      )
+    const dispatched = observedSubscriptionId === subscription.subscriptionId
     if (
-      observedSubscriptionId !== undefined &&
-      observedSubscriptionId !== subscription.subscriptionId
+      previousIds.has(subscription.subscriptionId) ||
+      (!allocated && !dispatched) ||
+      (observedSubscriptionId !== undefined && !dispatched)
     )
       throw new Error(
-        'Native subscription identity did not match its dispatched frame.',
+        'Native shared ownership unavailable: a fresh matching subscription allocation or dispatch is required.',
       )
+    markPlaygroundFrame(
+      connection._stream,
+      JSON.stringify({ msg: 'sub', id: subscription.subscriptionId }),
+    )
+    subscriptionOwned = true
     if (!active) {
       subscription.stop()
       return handle
@@ -274,7 +367,7 @@ export const startPublication = ({
           ? 'Ambient server publications may contribute; this is connection-level evidence.'
           : 'Application subscriptions may overlap; this is connection-level evidence.',
     })
-    for (const frame of pendingFrames) processFrame(frame)
+    for (const frame of pendingFrames) processRaw(frame)
     pendingFrames.length = 0
     if (!active) return handle
     waitTimer = ready

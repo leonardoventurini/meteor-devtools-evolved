@@ -117,7 +117,9 @@ export const invokeMethod = ({
       throw new Error(
         'Method correlation capability unavailable on the selected connection.',
       )
-    const parameters = operation.parameters.map(value => codec.decode(value))
+    const parameters = operation.parameters.map(value =>
+      codec.decode(structuredClone(value)),
+    )
     const onResultReceived: Callback = error => {
       if (
         error !== null &&

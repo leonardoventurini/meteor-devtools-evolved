@@ -75,6 +75,15 @@ const emptyEvidence = (): EvidenceSnapshot => ({
   documentBaseline: 'unknown',
   outcome: 'pending',
 })
+const targetCurrent = (target: ExecutionTarget): boolean => {
+  try {
+    return (
+      target.sourceCurrent?.() !== false && target.connection.status().connected
+    )
+  } catch {
+    return false
+  }
+}
 const unfinishedMethod = new Set(['queued', 'running'])
 
 /**
@@ -100,8 +109,8 @@ export class PlaygroundRunner {
       for (const entry of this.entries.values()) {
         if (
           !entry.record.finished &&
-          (entry.source.sourceCurrent?.() === false ||
-            entry.target?.sourceCurrent?.() === false)
+          (!targetCurrent(entry.source) ||
+            (entry.target !== undefined && !targetCurrent(entry.target)))
         )
           this.stop(entry, 'disconnect')
       }
@@ -198,12 +207,13 @@ export class PlaygroundRunner {
         .length >= PLAYGROUND_LIMITS.activeOperations
     )
       throw new Error('Three playground operations are already active.')
-    const source = this.dependencies.resolveTarget(command.connectionId)
-    if (
-      !source ||
-      source.sourceCurrent?.() === false ||
-      !source.connection.status().connected
-    )
+    let source: ExecutionTarget | undefined
+    try {
+      source = this.dependencies.resolveTarget(command.connectionId)
+    } catch {
+      throw new Error('The selected target capability is unavailable.')
+    }
+    if (!source || !targetCurrent(source))
       throw new Error(
         'The selected connection is unavailable; select a live target explicitly.',
       )
@@ -237,8 +247,18 @@ export class PlaygroundRunner {
       this.execute(entry, source)
       return
     }
-    void this.dependencies
-      .openIsolated(source, command, entry.controller.signal)
+    let opening: Promise<ExecutionTarget>
+    try {
+      opening = this.dependencies.openIsolated(
+        source,
+        command,
+        entry.controller.signal,
+      )
+    } catch {
+      this.fail(entry, 'Isolated connection setup or authentication failed.')
+      return
+    }
+    void opening
       .then(target => {
         if (
           entry.record.finished ||
@@ -260,11 +280,7 @@ export class PlaygroundRunner {
   }
   private execute(entry: Entry, target: ExecutionTarget): void {
     entry.target = target
-    if (
-      entry.source.sourceCurrent?.() === false ||
-      target.sourceCurrent?.() === false ||
-      !target.connection.status().connected
-    ) {
+    if (!targetCurrent(entry.source) || !targetCurrent(target)) {
       this.fail(entry, 'The selected connection changed before dispatch.')
       return
     }
@@ -281,7 +297,7 @@ export class PlaygroundRunner {
       if (command.operation.kind === 'method') {
         assertNoRetryCapability(target.connection)
         entry.record.method = createMethodRun(entry.record.startedAt)
-        entry.method = invokeMethod({
+        const method = invokeMethod({
           connection: target.connection,
           operation: command.operation,
           codec: this.dependencies.codec,
@@ -289,9 +305,10 @@ export class PlaygroundRunner {
           emit: signal => this.methodSignal(entry, signal),
         })
         // Native callbacks may finish synchronously before the handle is returned.
-        if (entry.disposed) entry.method.stopObserving()
+        if (entry.disposed) method.stopObserving()
+        else entry.method = method
       } else {
-        entry.publication = startPublication({
+        const publication = startPublication({
           connection: target.connection,
           operation: command.operation,
           codec: this.dependencies.codec,
@@ -303,7 +320,8 @@ export class PlaygroundRunner {
           emit: signal => this.publicationSignal(entry, signal),
           disposeConnection: () => this.disposeTarget(entry),
         })
-        if (entry.disposed) entry.publication.stopObserving()
+        if (entry.disposed) publication.stopObserving()
+        else entry.publication = publication
       }
     } catch {
       this.fail(
@@ -377,6 +395,7 @@ export class PlaygroundRunner {
       }
     }
     this.publish(entry)
+    if (signal.kind === 'stopped') this.release(entry)
   }
   private stop(entry: Entry, kind: 'stop' | 'timeout' | 'disconnect'): void {
     if (entry.record.finished) return
@@ -412,7 +431,7 @@ export class PlaygroundRunner {
     if (entry.record.request.mode !== 'isolated' || !entry.target?.dispose)
       return
     const dispose = entry.target.dispose
-    entry.target = { ...entry.target, dispose: undefined }
+    entry.target = undefined
     try {
       dispose()
     } catch {
@@ -426,7 +445,9 @@ export class PlaygroundRunner {
     clearTimeout(entry.waitTimer)
     clearTimeout(entry.releaseTimer)
     entry.method?.stopObserving()
+    entry.method = undefined
     entry.publication?.stopObserving()
+    entry.publication = undefined
     this.disposeTarget(entry)
   }
   private publish(entry: Entry): void {

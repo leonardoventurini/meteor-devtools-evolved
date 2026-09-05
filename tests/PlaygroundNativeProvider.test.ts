@@ -35,6 +35,7 @@ const connection = () => {
   return {
     _stream: stream,
     _methodInvokers: {},
+    _subscriptions: {},
     status: () => ({ connected }),
     userId: () => userId,
     setUserId: (value: string | null) => {
@@ -329,4 +330,28 @@ it('disposes pending reuse when the source token changes without changing its us
   await result
   expect(state.registry.listOwned()).toEqual([])
   expect(vi.getTimerCount()).toBe(0)
+})
+it('cleans setup timers when an owned native status getter throws', async () => {
+  vi.useFakeTimers()
+  const state = setup()
+  state.connect.mockImplementation(() => {
+    const owned = connection()
+    owned.status = () => {
+      throw new Error('private-status-detail')
+    }
+    state.target.addEventListener(
+      'online',
+      owned._stream._online.bind(owned._stream),
+    )
+    return owned
+  })
+  await expect(
+    state.provider.openIsolated(
+      state.provider.resolveTarget('default')!,
+      command(),
+      new AbortController().signal,
+    ),
+  ).rejects.toThrow('unavailable')
+  expect(vi.getTimerCount()).toBe(0)
+  expect(state.registry.listOwned()).toEqual([])
 })

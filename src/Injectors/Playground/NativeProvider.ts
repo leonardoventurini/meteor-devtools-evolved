@@ -36,7 +36,8 @@ const native = (value: unknown): value is NativeConnection => {
   if (
     !object(value) ||
     !object(value._stream) ||
-    !object(value._methodInvokers)
+    !object(value._methodInvokers) ||
+    !object(value._subscriptions)
   )
     return false
   const stream = value._stream
@@ -179,7 +180,8 @@ export const createNativeProvider = <TConnection extends object>({
       if (bound && object(candidate)) {
         observedLogin = loggingIn(candidate)
         const id = connection.userId?.()
-        if (id === null || typeof id === 'string') observedId = id
+        if (typeof id === 'string') observedId = id
+        else if (id === null) observedId = null
         else bound = false
       }
     } catch {
@@ -310,17 +312,28 @@ export const createNativeProvider = <TConnection extends object>({
     const dispose = () => {
       if (disposed) return
       disposed = true
-      release()
-      reuse?.dispose()
-      reuse = undefined
-      owned.dispose()
+      try {
+        release()
+      } finally {
+        reuse?.dispose()
+        reuse = undefined
+        owned.dispose()
+      }
     }
-    const current = () =>
-      !disposed &&
-      !signal.aborted &&
-      source.sourceCurrent?.() !== false &&
-      transportOptionsSupported(descriptor.connection) &&
-      (reuse?.isCurrent() ?? true)
+    const current = () => {
+      try {
+        return (
+          !disposed &&
+          !signal.aborted &&
+          source.sourceCurrent?.() !== false &&
+          transportOptionsSupported(descriptor.connection) &&
+          (reuse?.isCurrent() ?? true)
+        )
+      } catch {
+        return false
+      }
+    }
+
     try {
       if (
         endpoint(owned.descriptor.connection) !== selectedEndpoint ||
@@ -347,8 +360,13 @@ export const createNativeProvider = <TConnection extends object>({
           else resolve()
         }
         const check = () => {
-          if (!current()) finish(new Error('Owned connection source changed.'))
-          else if (owned.descriptor.connection.status().connected) finish()
+          try {
+            if (!current())
+              finish(new Error('Owned connection source changed.'))
+            else if (owned.descriptor.connection.status().connected) finish()
+          } catch {
+            finish(new Error('Owned connection status capability unavailable.'))
+          }
         }
         const aborted = () =>
           finish(new Error('Owned connection setup stopped.'))
@@ -405,8 +423,13 @@ export const createNativeProvider = <TConnection extends object>({
         endpointLabel: selectedEndpoint,
         authentication,
         baseline: documents.rawDocumentSnapshot(),
-        sourceCurrent: () =>
-          current() && owned.descriptor.connection.status().connected,
+        sourceCurrent: () => {
+          try {
+            return current() && owned.descriptor.connection.status().connected
+          } catch {
+            return false
+          }
+        },
         dispose,
       }
     } catch {

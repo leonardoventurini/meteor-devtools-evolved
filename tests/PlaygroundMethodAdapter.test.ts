@@ -442,3 +442,32 @@ describe('connection-specific method adapter', () => {
     handle.stopObserving()
   })
 })
+it('does not let custom decoders mutate the retained effective request', () => {
+  const state = fixture(),
+    request = structuredClone(operation)
+  const handle = invokeMethod({
+    connection: state.connection,
+    operation: request,
+    codec: {
+      ...codec,
+      decode: value => {
+        if (
+          value !== null &&
+          typeof value === 'object' &&
+          !Array.isArray(value)
+        )
+          value.x = 99
+        return value
+      },
+    },
+    emit: () => {},
+  })
+  expect(request.parameters).toEqual([{ x: 1 }])
+  expect(state.connection.apply).toHaveBeenCalledWith(
+    'fixture.echo',
+    [{ x: 99 }],
+    expect.any(Object),
+    expect.any(Function),
+  )
+  handle.stopObserving()
+})

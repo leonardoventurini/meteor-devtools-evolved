@@ -609,9 +609,9 @@ describe Chrome automation alone as Firefox runtime verification.
 | A17 | The UI is keyboard-accessible and usable in narrow/wide DevTools layouts; limits and identity uncertainty are visible.           | Component checks and headed UI review                         |
 | A18 | Existing inspection/performance behavior, both builds/manifests, and maintained Meteor compatibility checks remain green.        | Repository verification commands and regression suite         |
 
-All acceptance rows are currently **not executed** for this new feature. Update
-this table or add a linked verification record with exact commands, outcomes,
-warnings, and skipped environmental checks during implementation.
+Acceptance remains **in progress**. Unit and native-capability evidence below
+supports individual contracts; packaged workflows and headed checks are being
+verified separately. Do not infer complete acceptance from implemented controls.
 
 ## Executable implementation checklist
 
@@ -627,21 +627,21 @@ ownership, and storage mutations coordinated.
       no-retry semantics, session reuse, and isolated transport disposal before
       building UI on those assumptions. Stop for a material design deviation if
       compatibility requires a different security boundary or dependencies.
-- [ ] Define validated command, EJSON, saved-record, and run-lifecycle contracts
+- [x] Define validated command, EJSON, saved-record, and run-lifecycle contracts
       with generated failing tests and named resource limits.
-- [ ] Implement correlation and invocation adapters; replace default-only replay
+- [x] Implement correlation and invocation adapters; replace default-only replay
       with draft entry and explicit connection routing.
-- [ ] Implement owned connections, pre-capture credential handling, source-session
+- [x] Implement owned connections, pre-capture credential handling, source-session
       capabilities, leases, and cleanup with lifecycle tests.
-- [ ] Implement publication observation, baseline/snapshots, ambient-data labeling,
+- [x] Implement publication observation, baseline/snapshots, ambient-data labeling,
       and bounded reducers; prove shared subscription preservation.
-- [ ] Implement catalog, request editor, results, and connection/context display
+- [x] Implement catalog, request editor, results, and connection/context display
       in the existing navigation.
-- [ ] Implement pure comparisons, exclusions, and declarative expectations, then
+- [x] Implement pure comparisons, exclusions, and declarative expectations, then
       connect them to immutable run snapshots.
-- [ ] Implement deterministic matrices and the bounded sequential scheduler,
+- [x] Implement deterministic matrices and the bounded sequential scheduler,
       including preview and interruption behavior.
-- [ ] Implement the separate Dexie schema, reviewed save/import/export,
+- [x] Implement the separate Dexie schema, reviewed save/import/export,
       redaction, transactional quotas, and cross-session snapshot selection.
 - [ ] Complete procedural authenticated fixtures and production-extension
       integration for every acceptance criterion on both Meteor releases.
@@ -726,11 +726,9 @@ chunks above 500 kB. `yarn test:e2e:all` then passed all 26 tests: 13 on Meteor
 color-environment warning in addition to passing tests. No headed native DevTools
 or Firefox runtime check was performed at this foundation stage.
 
-The new execution modules are not yet wired into a packaged playground UI, so
-these checks establish regression and native-capability evidence, not completion
-of the requested rollout. Remaining integration work includes the runner,
-publication observation, bounded catalog/history, saved formats/database,
-scheduler, UI, and A1–A18 workflows.
+At that foundation checkpoint the execution modules were not wired into a
+packaged UI. Those checks establish regression and native-capability evidence,
+not completion of the requested rollout.
 
 The no-retry preflight now exercises the native allocator on a detached inert
 receiver before real invocation. Two unit cases passed, and the exact helper
@@ -742,7 +740,61 @@ replacing its own implementation with malicious closures. Runner integration and
 packaged credential-boundary tests are still required before claiming those
 end-to-end contracts.
 
-## Direct rollout
+## Current integration evidence
+
+The native provider, leased runner, publication reducer, panel store, composer,
+results, comparisons, matrix controls, saved records, and reviewed transfers are
+now connected. The latest full unit run passed 381 tests across 61 files.
+Repository-wide typechecking and lint passed; the current Firefox production
+build passed with the existing chunk-size warning. The first packaged manual
+workflow passed selected default/secondary connection invocation and correlated
+result plus writes completion. Publication and persistence workflows are still
+under investigation/verification; headed native DevTools automation is in
+progress. Firefox was not found at `/Applications/Firefox.app`.
+
+Integration exposed and corrected a passive session-discovery race, duplicate
+background retention of run events, unreviewed case writes, unresolved redacted
+request dispatch, and loss of native EJSON types in subscription drafts. Each
+correction has focused regression coverage. Browser harness locator and tab
+discovery corrections did not expand extension permissions.
+
+Manual authentication requests remain executable as specified. Their user-entered
+values and responses can exist in ephemeral inspection history; mandatory
+standard credential masks apply before saving/export. The stronger no-capture
+guarantee applies to internal session reuse, whose entire owned connection
+bypasses ordinary DDP capture.
+
+Both current artifact validators passed. `yarn audit` exited zero with no audit
+suggestions. `yarn audit:devapp` exited zero at the configured high-severity
+threshold and reported eight moderate advisories in the fixture dependency tree
+(`qs` and `uuid` and their dependents). No automatic dependency upgrade was made.
+
+The packaged publication test exposed a native Meteor 3 async-stub queue detail:
+the subscription handle is allocated before its DDP send. Synchronous send alone
+cannot be required as ownership proof. The adapter now verifies
+a fresh native subscription registry ID before correlating the later frame;
+pre-existing application IDs remain protected. This is an implementation
+correction within the approved native ownership contract, not a new retry or
+raw-protocol execution mechanism.
+
+After that correction, all eight packaged Playground workflows passed on Meteor
+3.5.1 (27.1 seconds, exit zero). They exercise selected connection routing,
+identical shared-subscription preservation, anonymous/reused identity and a
+credential capture fence, isolated readiness and ambient attribution, reviewed
+case/snapshot persistence and export/import comparison, sequential matrices,
+timeout/navigation behavior, and quota rollback across both real IndexedDB
+tables. The latest unit suite passed 387 tests across 61 files; typechecking and
+lint also passed. The equivalent Meteor 2 suite and additional explicit
+cross-profile/server-counter acceptance checks are pending.
+
+A real headed Chromium 151 native DevTools smoke passed on Meteor 3.5.1 without
+the packaged test host shim. The registered Meteor panel invoked
+`playground.identity`, showed result and writes completion, and returned the
+same connection session ID read through native `chrome.devtools.inspectedWindow`.
+Keyboard Tab moved from the name field to parameters with visible focus.
+Temporary evidence is in `/private/tmp/playground-native-evidence.json` and
+`/private/tmp/playground-native-result.png`; a reproducible smoke script and
+Meteor 2/narrow-layout checks are in progress.
 
 Additional implementation evidence: the saved-record validator and format
 reference now cover strict versioned parsing, immutable snapshot contracts,
@@ -753,6 +805,8 @@ both tables; real-browser transaction and UI review verification remains pending
 The sequential scheduler and scoped observed-name catalog passed twenty unit
 tests for bounds, cancellation, provenance, examples, and eviction. These are
 implemented foundations; they do not establish the packaged rollout criteria.
+
+## Direct rollout
 
 Ship all included capabilities together in the next user-authorized release.
 Do not invent a version or release date. No feature flag or staged product release

@@ -81,6 +81,20 @@ wire dispatch and keeps late evidence without restarting queued matrix work.
 This clarifies the approved execution model without manipulating Meteor's
 internal method completion bookkeeping.
 
+Packaged integration also established that Meteor 3 queues subscription sends
+behind asynchronous stubs. Ownership therefore uses a newly allocated native
+subscription registry ID, then correlates its later DDP frame. It never adopts
+a pre-existing application ID or bypasses Meteor's queue. Completed publication
+adapters release observation state; immutable evidence remains in bounded history.
+Custom EJSON decoders receive cloned encoded values so decoder mutation cannot
+rewrite retained request evidence.
+
+Cases, snapshots, and transfers share an explicit review step before persistence
+or download. Loaded redacted request fields block execution until their
+replacements are explicitly reviewed; intentional null is a user decision.
+The native provider, runner, and panel use the approved separate connection and
+storage architecture without new production dependencies or browser permissions.
+
 Both maintained native transports retain an online listener after permanent
 disconnect. The owned-connection helper captures and removes that specific
 constructor-time listener, preserving application listeners. Standard constructor
