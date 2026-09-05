@@ -623,7 +623,7 @@ ownership, and storage mutations coordinated.
 - [x] Resolve the three approval choices and record the actual authorization in
       this spec and decision.
 - [x] Activate the requested implementation goal after committing these records.
-- [ ] Establish adapter/fixture tests for connection-specific invocation,
+- [x] Establish adapter/fixture tests for connection-specific invocation,
       no-retry semantics, session reuse, and isolated transport disposal before
       building UI on those assumptions. Stop for a material design deviation if
       compatibility requires a different security boundary or dependencies.
@@ -709,6 +709,34 @@ run passed its six compatibility tests before the Accounts readiness correction;
 `E2E_METEOR_FIXTURE=devapp-2.16 yarn playwright test playground-auth-compatibility.spec.ts`
 then passed the corrected Accounts test (1 passed, exit 0). Browser execution
 required sandbox escalation for macOS runtime inspection and local servers.
+
+The implementation now also includes tested method lifecycle, wire observation,
+connection ownership/disposal, and in-memory session reuse modules. The method
+adapter has 14 tests, authentication has 15, method state has 8, and evidence
+comparison/redaction has 18. Owned lifecycle, registry, and capture tests pass.
+Review added explicit cases for real server `invocation-failed` errors, unchanged
+custom EJSON wire values, positional redaction, prototype-related captured keys,
+and source identity/token changes.
+
+The final foundation unit run passed 277 tests across 48 files. Repository-wide
+`yarn typecheck` and `yarn lint` passed after the last edits. Chrome and Firefox
+production builds and manifest validation passed, with the existing warning about
+chunks above 500 kB. `yarn test:e2e:all` then passed all 26 tests: 13 on Meteor
+3.5.1 and 13 on Meteor 2.16, exiting successfully. Its output included only the
+color-environment warning in addition to passing tests. No headed native DevTools
+or Firefox runtime check was performed at this foundation stage.
+
+The new execution modules are not yet wired into a packaged playground UI, so
+these checks establish regression and native-capability evidence, not completion
+of the requested rollout. Remaining integration work includes the runner,
+publication observation, bounded catalog/history, saved formats/database,
+scheduler, UI, and A1–A18 workflows.
+
+Before exposing execution, resolve unsupported-client no-retry preflight: the
+adapter requests the verified native option, but a detected mismatched invoker
+flag is currently diagnostic and does not veto transport traffic. Do not claim
+that unsupported-runtime refusal or the packaged credential boundary is verified
+until the runner and corresponding browser tests establish those contracts.
 
 ## Direct rollout
 

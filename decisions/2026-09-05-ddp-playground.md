@@ -72,6 +72,21 @@ result would overstate the evidence.
 
 ## Consequences
 
+Native compatibility testing established that an isolated transport must finish
+its initial handshake before a no-retry call, and that server outcome must use
+the result signal rather than an async promise or final callback. A call handed
+to Meteor remains in flight while an async stub waits; local Stop cannot promise
+to cancel it. The implementation therefore records invocation separately from
+wire dispatch and keeps late evidence without restarting queued matrix work.
+This clarifies the approved execution model without manipulating Meteor's
+internal method completion bookkeeping.
+
+Both maintained native transports retain an online listener after permanent
+disconnect. The owned-connection helper captures and removes that specific
+constructor-time listener, preserving application listeners. Standard constructor
+capability is tested at the unit boundary; packaged runner integration must
+still verify this cleanup against real runtimes before rollout completion.
+
 This is a substantial single rollout whose release gate includes authentication,
 cleanup, protocol correlation, quotas, and storage tests, not only UI completion.
 Custom authentication and transports may be unavailable with explicit reasons;
