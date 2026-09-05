@@ -251,8 +251,11 @@ failed expectation, disconnect, authentication-context change, timeout, or limit
 exceeded. The user can choose to continue after a server error or failed
 expectation in the preview; disconnects, context changes, and limits always stop.
 
-Stop prevents dispatch of queued variants immediately. It cannot undo a sent
-method. A subscription variant must release its handle before the next begins;
+Stop prevents dispatch of queued variants immediately. A variant already handed
+to Meteor is in flight, including time spent awaiting an async client stub before
+wire dispatch. Stop ends local waiting but cannot promise cancellation of that
+invocation or undo its effects; retain late dispatch/result evidence without
+restarting the matrix. A subscription variant must release its handle before the next begins;
 isolated variants use fresh connections to avoid leftover data or server session
 state. A truncated variant is inconclusive, never a silent pass.
 
@@ -302,7 +305,12 @@ Expose the generated method ID through tested adapter instrumentation; do not
 infer it by searching later traffic for matching arguments. Install run tracking
 before invoking the API so synchronous dispatch cannot race registration.
 
-Track dispatch, local invocation failure, server result, and writes-reflected
+Require a connected application transport before invoking; reject disconnected
+application targets locally. For owned transports, wait for connection readiness
+within the run's wait budget before invoking. Sending `noRetry` during the initial
+handshake can be treated as an interrupted call by Meteor's session reset.
+
+Track invocation start, wire dispatch, local invocation failure, server result, and writes-reflected
 independently. DDP `result` and `updated` may arrive in either order. Display
 server outcome as soon as known and settle a successful method's data-completion
 state only when both signals are known. A server error remains a known server
