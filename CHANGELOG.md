@@ -13,9 +13,13 @@ All notable changes to this project will be documented in this file.
 - Added a DDP Playground with editable connection-specific method calls,
   shared and isolated publication probes, observed endpoint discovery,
   bounded parameter matrices, and structured evidence comparisons.
+- Added anonymous isolated Playground execution and explicit session reuse
+  when the selected connection supports standard Meteor Accounts credentials.
+- Added declarative Playground expectations for outcomes, error codes, field
+  values and presence, numeric bounds, and document counts, with inconclusive
+  results when captured evidence cannot support a definite claim.
 - Added reviewed Playground cases, immutable labeled snapshots, and versioned
   JSON transfers in separate local storage with credential redaction.
-
 - Added a modern, optically centered Meteor brand mark across browser extension
   chrome and the panel toolbar.
 - Added accessible expand-all and collapse-all JSON controls with a persisted
@@ -57,7 +61,6 @@ All notable changes to this project will be documented in this file.
 
 - Replaced immediate DDP replay with a passive Playground draft that requires
   an explicit Run action and a live target before execution.
-
 - Replaced the bulky inline Settings reload warning with an immediate,
   dismissible reload dialog after successful preference changes.
 - Moved the DDP startup-history setting into a bottom-anchored DevTools sidebar
@@ -85,6 +88,8 @@ All notable changes to this project will be documented in this file.
 - Upgraded the development runtime to Node.js 26 and Yarn 4.
 - Upgraded the extension to React 19, MobX 7, Blueprint 6, Tailwind CSS 4,
   DaisyUI 5, and the current WXT and Vite 8 toolchain.
+- Upgraded runtime libraries to Dexie 4, Luxon 3, styled-components 6, and
+  pretty-bytes 7.
 - Replaced the custom Webpack build, manifest copying, and browser launch
   orchestration with typed WXT entrypoints, generated manifests, artifact
   validation, and store packaging.
@@ -105,6 +110,12 @@ All notable changes to this project will be documented in this file.
   DevTools panel.
 - Removed the obsolete author website action and Galaxy partner card from the
   Help drawer.
+- Removed retired Google Analytics telemetry, its UUID dependency, and its
+  external host permission while preserving all navigation actions.
+- Retired the Sponsor toolbar action and its GitHub Sponsors link, and removed
+  the decorative emoji from the Chrome DevTools tab title.
+- Removed the redundant Meteor 2.0, 2.2, and 2.2.4 compatibility fixtures in
+  favor of a single maintained Meteor 2.16 baseline.
 
 ### Fixed
 
@@ -139,15 +150,6 @@ All notable changes to this project will be documented in this file.
   contain dates, arrays, or valid falsy field values.
 - Recovered additional DDP connections created before extension injection when
   they are referenced by Meteor's registered Mongo collections.
-
-### Removed
-
-- Removed retired Google Analytics telemetry, its UUID dependency, and its
-  external host permission while preserving all navigation actions.
-- Retired the Sponsor toolbar action and its GitHub Sponsors link, and removed
-  the decorative emoji from the Chrome DevTools tab title.
-- Removed the redundant Meteor 2.0, 2.2, and 2.2.4 compatibility fixtures in
-  favor of a single maintained Meteor 2.16 baseline.
 
 ### Security
 
