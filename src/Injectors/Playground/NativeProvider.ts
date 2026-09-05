@@ -26,6 +26,7 @@ interface ProviderOptions<TConnection extends object> {
   connect(endpoint: string, options: { retry: false }): TConnection
   accounts(): unknown
   eventTarget?: EventTarget
+  pageUrl?: string
   now?: () => number
 }
 const POLL_MS = 50
@@ -119,8 +120,20 @@ export const createNativeProvider = <TConnection extends object>({
   connect,
   accounts,
   eventTarget = globalThis,
+  pageUrl,
   now = Date.now,
 }: ProviderOptions<TConnection>) => {
+  const endpointLabel = (raw: string): string => {
+    if (!pageUrl || !raw.startsWith('/')) return raw
+    try {
+      const url = new URL(raw, pageUrl)
+      url.username = ''
+      url.password = ''
+      return url.href
+    } catch {
+      return raw
+    }
+  }
   const sources = new WeakMap<
     ExecutionTarget,
     ConnectionDescriptor<NativeConnection>
@@ -202,7 +215,9 @@ export const createNativeProvider = <TConnection extends object>({
     }
     const target: ExecutionTarget = {
       connection,
-      endpointLabel: selectedEndpoint ?? descriptor.displayName,
+      endpointLabel: selectedEndpoint
+        ? endpointLabel(selectedEndpoint)
+        : descriptor.displayName,
       authentication,
       sourceCurrent: () => {
         try {
@@ -420,7 +435,7 @@ export const createNativeProvider = <TConnection extends object>({
       release = noop
       return {
         connection: owned.descriptor.connection,
-        endpointLabel: selectedEndpoint,
+        endpointLabel: endpointLabel(selectedEndpoint),
         authentication,
         baseline: documents.rawDocumentSnapshot(),
         sourceCurrent: () => {

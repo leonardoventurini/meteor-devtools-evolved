@@ -73,7 +73,7 @@ const connection = () => {
     },
   }
 }
-const setup = () => {
+const setup = (pageUrl?: string) => {
   const source = connection(),
     registry = createConnectionRegistry(source),
     target = new EventTarget()
@@ -95,6 +95,7 @@ const setup = () => {
     connect,
     accounts: () => accounts,
     eventTarget: target,
+    pageUrl,
   })
   return {
     source,
@@ -110,6 +111,16 @@ const setup = () => {
 }
 afterEach(() => vi.useRealTimers())
 describe('native playground targets', () => {
+  it('labels relative endpoints with their actual page origin without URL credentials', () => {
+    // eslint-disable-next-line unicorn/prefer-https -- HTTP fixture origins must retain their actual scheme.
+    const state = setup('http://user:password@meteor.example:2200/page')
+    state.source._stream.rawUrl = '/'
+    expect(state.provider.resolveTarget('default')?.endpointLabel).toBe(
+      // eslint-disable-next-line unicorn/prefer-https -- Metadata must not silently upgrade the selected endpoint.
+      'http://meteor.example:2200/',
+    )
+    expect(state.connect).not.toHaveBeenCalled()
+  })
   it('resolves exact app identity while secondary and unsupported targets stay unknown or unavailable', () => {
     const state = setup(),
       secondary = connection()

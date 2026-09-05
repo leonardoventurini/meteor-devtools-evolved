@@ -95,6 +95,12 @@ replacements are explicitly reviewed; intentional null is a user decision.
 The native provider, runner, and panel use the approved separate connection and
 storage architecture without new production dependencies or browser permissions.
 
+Injected document identities use `crypto.getRandomValues`, which does not require
+a secure context; `crypto.randomUUID` remains confined to the secure extension
+context. Relative native endpoint labels resolve against the inspected page's
+origin with URL credentials removed. Execution still uses the original selected
+native endpoint, so clearer snapshot labels do not change routing.
+
 Both maintained native transports retain an online listener after permanent
 disconnect. The owned-connection helper captures and removes that specific
 constructor-time listener, preserving application listeners. Standard constructor

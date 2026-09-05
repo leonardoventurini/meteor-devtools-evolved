@@ -28,6 +28,7 @@ export const initializePlayground = (bridge: PlaygroundBridge): void => {
     const capabilities = resolveRuntimeCapabilities(globalThis)
     const provider = createNativeProvider({
       registry: getMeteorConnections(),
+      pageUrl: globalThis.location.href,
       connect: (endpoint, options) => DDP.connect(endpoint, options),
       accounts: () =>
         runtimeProperty(globalThis, 'Accounts') ??
