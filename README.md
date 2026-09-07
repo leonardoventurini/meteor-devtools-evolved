@@ -74,6 +74,9 @@ matrices. Reviewed JSON import/export supports cross-profile comparisons without
 transferring session credentials. See the [usage guide](docs/ddp-playground.md)
 and [file format](docs/ddp-playground-format.md) for limits and evidence semantics.
 
+For a short walkthrough using the local Meteor 3 fixture, follow the
+[five-minute replay and access-control demo](docs/ddp-playground-demo.md).
+
 ### Minimongo
 
 Browse named and unnamed local collections, copy document IDs directly from
