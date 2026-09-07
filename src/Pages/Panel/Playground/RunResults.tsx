@@ -5,10 +5,12 @@ import { evaluateExpectation } from '@/Playground/Evidence'
 import type { PlaygroundStore } from '@/Stores/Panel/PlaygroundStore'
 import { EvidenceJSON } from './EvidenceJSON'
 import styles from './Playground.module.css'
+import resultsStyles from './RunResults.module.css'
 
 export const RunResults = observer(({ store }: { store: PlaygroundStore }) => {
   const run = store.selectedRun
   let expectations: unknown
+
   try {
     expectations =
       run &&
@@ -20,13 +22,13 @@ export const RunResults = observer(({ store }: { store: PlaygroundStore }) => {
     expectations =
       error instanceof Error ? error.message : 'Invalid expectations.'
   }
+
   return (
-    <section aria-labelledby='playground-results'>
+    <section
+      aria-labelledby='playground-results'
+      className={resultsStyles.root}
+    >
       <h2 id='playground-results'>Runs and results</h2>
-      <p className={styles.muted}>
-        History is local to this panel and bounded to 100 runs / 20 MiB. Save an
-        immutable snapshot to retain evidence across sessions.
-      </p>
       <label>
         Run history
         <select
@@ -45,30 +47,43 @@ export const RunResults = observer(({ store }: { store: PlaygroundStore }) => {
           ))}
         </select>
       </label>
-      {run && (
+      {run ? (
         <>
-          <p>
-            <strong>{run.request.operation.name}</strong> · {run.phase} ·{' '}
-            {run.endpointLabel} · {run.request.mode} /{' '}
-            {run.request.authentication}
-          </p>
-          <p>
+          <div className={resultsStyles.summary}>
+            <strong>{run.request.operation.name}</strong>
+            <span className={resultsStyles.status}>
+              {run.phase} · {run.evidence.outcome}
+            </span>
+            <span>{Math.max(0, run.updatedAt - run.startedAt)} ms elapsed</span>
+          </div>
+          <p className={styles.muted}>
             Session: {run.request.sessionLabel} · observed authentication:{' '}
-            {run.authentication.state} · {run.authentication.provenance}
-          </p>
-          <p>
-            Started {new Date(run.startedAt).toLocaleString()} · elapsed{' '}
-            {Math.max(0, run.updatedAt - run.startedAt)} ms
+            {run.authentication.state}
           </p>
           {run.method && (
-            <p>
+            <p className={styles.muted}>
               Server result:{' '}
               {run.method.resultSeen ? 'received' : 'not received'} · writes
-              reflected: {run.method.writesReflected ? 'yes' : 'not confirmed'}{' '}
-              · wire ID: {run.method.methodId ?? 'not dispatched'}
+              reflected: {run.method.writesReflected ? 'yes' : 'not confirmed'}
               {run.method.lateEvidence
                 ? ' · Late evidence after local waiting ended'
                 : ''}
+            </p>
+          )}
+          {run.reasons.length > 0 && (
+            <ul className={styles.notice} aria-label='Run warnings'>
+              {run.reasons.map((reason, index) => (
+                <li key={index}>{reason}</li>
+              ))}
+            </ul>
+          )}
+          {(run.evidence.truncated ||
+            run.evidence.redactedPaths.length > 0) && (
+            <p className={styles.notice}>
+              {run.evidence.truncated && 'Evidence is truncated. '}
+              {run.evidence.redactedPaths.length > 0 &&
+                'Evidence contains redacted fields. '}
+              Missing values do not establish absence.
             </p>
           )}
           {run.request.operation.kind === 'subscription' && (
@@ -80,13 +95,14 @@ export const RunResults = observer(({ store }: { store: PlaygroundStore }) => {
               {run.evidence.boundary ?? 'live'}.
             </p>
           )}
-          {run.reasons.length > 0 && (
-            <ul>
-              {run.reasons.map((reason, index) => (
-                <li key={index}>{reason}</li>
-              ))}
-            </ul>
-          )}
+          <div className={resultsStyles.response}>
+            <h3>Response</h3>
+            <EvidenceJSON
+              key={run.request.requestId}
+              value={run.evidence.data}
+              label='Response data'
+            />
+          </div>
           <div className={styles.actions}>
             <button
               disabled={run.finished}
@@ -115,32 +131,64 @@ export const RunResults = observer(({ store }: { store: PlaygroundStore }) => {
               </button>
             )}
           </div>
-          <p className={styles.muted}>
-            Stopping cannot undo server effects. A dispatched method may
-            complete after local waiting stops.
-          </p>
-          <details>
-            <summary>Exact submitted request and context</summary>
-            <EvidenceJSON value={run.request} label='Submitted request' />
-          </details>
-          <EvidenceJSON value={run.evidence} label='Run evidence' />
-          {run.readiness && (
-            <details>
-              <summary>Immutable readiness capture</summary>
-              <EvidenceJSON value={run.readiness} label='Readiness evidence' />
-            </details>
-          )}
-          {run.baseline && (
-            <details>
-              <summary>Before-subscription baseline</summary>
-              <EvidenceJSON value={run.baseline} />
-            </details>
+          {!run.finished && (
+            <p className={styles.muted}>
+              Stopping cannot undo server effects. A dispatched method may
+              complete after local waiting stops.
+            </p>
           )}
           <details>
-            <summary>Declarative expectation results</summary>
-            <EvidenceJSON value={expectations} />
+            <summary>Run details</summary>
+            <p>
+              {run.endpointLabel} · {run.request.mode} /{' '}
+              {run.request.authentication} · authentication provenance:{' '}
+              {run.authentication.provenance}
+            </p>
+            <p>Started {new Date(run.startedAt).toLocaleString()}</p>
+            {run.method && (
+              <p>Wire ID: {run.method.methodId ?? 'not dispatched'}</p>
+            )}
+            <details>
+              <summary>Exact submitted request and context</summary>
+              <EvidenceJSON value={run.request} label='Submitted request' />
+            </details>
+            <EvidenceJSON value={run.evidence} label='Run evidence' />
+            {run.readiness && (
+              <details>
+                <summary>Immutable readiness capture</summary>
+                <EvidenceJSON
+                  value={run.readiness}
+                  label='Readiness evidence'
+                />
+              </details>
+            )}
+            {run.baseline && (
+              <details>
+                <summary>Before-subscription baseline</summary>
+                <EvidenceJSON value={run.baseline} />
+              </details>
+            )}
+            <details>
+              <summary>Declarative expectation results</summary>
+              <EvidenceJSON value={expectations} />
+            </details>
+            <p className={styles.muted}>
+              History is local to this panel and bounded to 100 runs / 20 MiB.
+              Save an immutable snapshot to retain evidence across sessions.
+            </p>
           </details>
         </>
+      ) : (
+        <div className={resultsStyles.empty}>
+          <h3>
+            {store.runs.length > 0 ? 'Select a run' : 'Ready for a response'}
+          </h3>
+          <p>
+            {store.runs.length > 0
+              ? 'Choose a run from history to inspect its response and details.'
+              : 'Run a method or subscription to see its response, status, and timing here.'}
+          </p>
+        </div>
       )}
     </section>
   )

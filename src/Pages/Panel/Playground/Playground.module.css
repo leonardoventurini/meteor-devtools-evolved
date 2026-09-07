@@ -1,4 +1,5 @@
 .root {
+  container-type: inline-size;
   overflow: auto !important;
   padding: var(--mde-space-4) !important;
   font-size: 12px;
@@ -120,4 +121,63 @@
     cursor: pointer;
     padding: 6px 0;
   }
+}
+
+.root .tabs {
+  display: flex;
+  gap: var(--mde-space-1);
+  margin-bottom: var(--mde-space-4);
+  border-bottom: 1px solid var(--mde-color-chrome-active);
+  overflow-x: auto;
+}
+
+.root .tabs button {
+  border: 0;
+  border-bottom: 2px solid transparent;
+  border-radius: 0;
+  background: transparent;
+  padding: var(--mde-space-2) var(--mde-space-3);
+  white-space: nowrap;
+}
+
+.root .tabs button[aria-selected='true'] {
+  border-bottom-color: var(--mde-color-focus);
+  background: var(--mde-color-chrome-active);
+}
+
+.runLayout {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr);
+  gap: var(--mde-space-4);
+  align-items: start;
+}
+
+.root .runLayout > section {
+  min-width: 0;
+  margin-bottom: 0;
+}
+
+@container (min-width: 900px) {
+  .runLayout {
+    grid-template-columns: minmax(0, 2fr) minmax(0, 3fr);
+  }
+}
+
+.root .editorHeader {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: var(--mde-space-2);
+}
+
+.root .editorHeader h2 {
+  margin: 0;
+}
+
+.root .requestGrid {
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+}
+
+.root .requestGrid > :last-child {
+  grid-column: 1 / -1;
 }

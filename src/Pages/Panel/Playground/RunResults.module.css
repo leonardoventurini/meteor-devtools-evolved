@@ -1,0 +1,42 @@
+.root {
+  min-width: 0;
+}
+
+.summary {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: var(--mde-space-2);
+  margin-top: 16px;
+  overflow-wrap: anywhere;
+}
+
+.status {
+  border: 1px solid rgba(128, 128, 128, 0.35);
+  border-radius: 4px;
+  padding: 3px 6px;
+}
+
+.root .response {
+  margin-top: 16px;
+  padding: 12px;
+  border: 1px solid rgba(128, 128, 128, 0.25);
+  border-radius: 4px;
+  background: rgba(128, 128, 128, 0.06);
+
+  h3 {
+    margin: 0 0 8px;
+  }
+
+  pre {
+    min-height: 120px;
+    max-height: 55vh;
+    font-size: 12px;
+  }
+}
+
+.empty {
+  padding: 40px 16px;
+  text-align: center;
+  opacity: 0.8;
+}

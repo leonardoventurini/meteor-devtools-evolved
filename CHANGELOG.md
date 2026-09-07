@@ -8,6 +8,9 @@ All notable changes to this project will be documented in this file.
 
 ### Changed
 
+- Reorganized Playground into Run, Compare, Matrix, Catalog, and Saved tabs,
+  with a responsive request/results layout and response data shown before
+  secondary details while preserving drafts and active work across tabs.
 - Replaced runtime styled-components styling with component-scoped CSS Modules
   and shared design tokens, and separated Playground presentation into focused
   components while retaining existing workflows.

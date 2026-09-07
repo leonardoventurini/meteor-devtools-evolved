@@ -58,7 +58,7 @@ Point out that this opens a draft: it has not dispatched another request.
 
 ## 0:45–1:40 — Replay as the owner
 
-In **Request editor**, confirm:
+In the **Run** tab's **Request editor**, expand **Execution settings** and confirm:
 
 - **Target connection**: the app's primary connection, with ID `default`.
 - **Operation**: **Method**.
@@ -67,7 +67,7 @@ In **Request editor**, confirm:
 - **Execution mode**: **Application connection · current session**.
 - **Session label**: `Owner baseline`.
 
-Click **Run method**. In **Runs and results**, show the successful evidence and
+Click **Run method**. In **Runs and results**, show the **Response** and
 the returned `ownerId`, `value`, and `viewedBy`. Point out **Server result** and
 **writes reflected** as separate signals.
 
@@ -76,7 +76,7 @@ EJSON data, not JavaScript. A session label is just a note; it does not log us i
 
 ## 1:40–2:40 — Test anonymous access
 
-Keep the method and parameters unchanged. Set:
+Keep the method and parameters unchanged. In **Execution settings**, set:
 
 - **Execution mode**: **Fresh isolated connection**.
 - **Isolated authentication**: **Anonymous**.
@@ -107,15 +107,16 @@ verdict from the extension.”
 
 ## 3:40–4:35 — Compare the evidence
 
-Find **Baseline snapshot** and choose `Anonymous denied`. In **Comparison
+Open **Compare**. Find **Baseline snapshot** and choose `Anonymous denied`. In **Comparison
 snapshot**, choose `Anonymous permissive`. Show the **Structured comparison**:
-the error evidence has been replaced by returned record data. Expand **Exact
-submitted request and context** for the selected run to show what was sent.
+the error evidence has been replaced by returned record data. Return to **Run**
+and expand **Run details → Exact submitted request and context** for the selected
+run to show what was sent.
 
 Say: “These snapshots preserve the observations. We changed one argument while
 keeping the caller anonymous, so we can explain why the behavior changed.”
 
-If comparison navigation takes too long, use **Run history** to switch between
+If comparison navigation takes too long, use **Run → Run history** to switch between
 the two labeled runs and show their evidence directly.
 
 ## 4:35–5:00 — Close

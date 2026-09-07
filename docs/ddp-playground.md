@@ -5,6 +5,29 @@ on an inspected Meteor application. It reports observed behavior and preserves
 evidence for comparison. A successful response is not by itself a security
 finding: interpret it against the application's intended access rules.
 
+## Workspace tabs
+
+**Run** keeps the request editor and results together: side by side on wide
+panels, stacked on narrow panels. Response data, status, elapsed time, and
+relevant warnings appear first. Expand **Run details** for the full evidence,
+submitted request, authentication provenance, readiness capture, baseline, and
+expectations. Expand **Execution settings** in the editor to change connection
+mode, authentication, session label, and local wait budget.
+
+Use **Compare** for structured comparisons, **Matrix** for parameter variants,
+**Catalog** for observed endpoints and examples, and **Saved** for cases,
+snapshots, and import/export. Switching tabs preserves drafts, selected records,
+expanded controls, and active work. Arrow keys, Home, and End navigate the tabs.
+Opening a captured example or saved case returns to Run; **Inspect run** in a
+matrix opens its result there. Saved snapshot comparison actions open Compare.
+Background results do not switch tabs. Active work and its stop control remain
+visible across the workspace.
+
+Save a case from Run or Saved, and save snapshots from results. Pending save or
+transfer review appears above the tab content so it stays reachable from either
+workflow. Confirming a reviewed transfer retains the existing explicit review
+and redaction requirements.
+
 ## Start with a draft
 
 Open Playground from navigation, edit a captured outbound call, or probe a listed

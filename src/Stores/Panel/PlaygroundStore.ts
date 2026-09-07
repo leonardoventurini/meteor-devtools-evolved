@@ -44,6 +44,7 @@ import {
   validateValue,
 } from '../../Playground/Values'
 import type { RunRecord } from '../../Playground/RunRecord'
+import { PLAYGROUND_TAB, type PlaygroundTab } from './PlaygroundTabs'
 
 interface PlaygroundConnection {
   id: string
@@ -84,6 +85,7 @@ const parseArray = (text: string): unknown[] => {
  * resources; this store only sends explicit commands for the current lease.
  */
 export class PlaygroundStore {
+  activeTab: PlaygroundTab = PLAYGROUND_TAB.RUN
   pageEpoch = ''
   panelSessionId = ''
   sessionReady = false
@@ -408,12 +410,20 @@ export class PlaygroundStore {
     this.connectionId = id
     this.targetConfirmed = true
   }
+  /**
+   * Navigation is presentation state only; it must not interrupt active work or
+   * invalidate drafts and matrix previews as request edits do.
+   */
+  selectTab(tab: PlaygroundTab): void {
+    this.activeTab = tab
+  }
   openDraft(
     operation: Operation,
     connectionId?: string,
     pageEpoch?: string,
   ): void {
     this.scheduler.stop('interrupted')
+    this.activeTab = PLAYGROUND_TAB.RUN
     this.kind = operation.kind
     this.name = operation.name
     this.parametersText = JSON.stringify(operation.parameters, null, 2)
@@ -506,6 +516,9 @@ export class PlaygroundStore {
       | 'transferMasksText',
   >(key: K, value: this[K]): void {
     this[key] = value
+    if (key === 'selectedRunId') this.activeTab = PLAYGROUND_TAB.RUN
+    if (key === 'comparisonLeft' || key === 'comparisonRight')
+      this.activeTab = PLAYGROUND_TAB.COMPARE
     if (
       [
         'name',

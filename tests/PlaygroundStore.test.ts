@@ -22,6 +22,51 @@ const setup = () => {
   return { store, commands }
 }
 describe('playground panel lifecycle and drafts', () => {
+  it('switches workspace tabs without changing the draft, preview, or commands', () => {
+    const { store, commands } = setup()
+
+    store.selectConnection('default')
+    store.setField('name', 'echo')
+    store.setField('parametersText', '[1]')
+    store.previewMatrix()
+
+    const preview = JSON.stringify(store.matrixPreview)
+    const sent = commands.length
+
+    for (const tab of [
+      'compare',
+      'matrix',
+      'catalog',
+      'saved',
+      'run',
+    ] as const) {
+      store.selectTab(tab)
+      expect(store.activeTab).toBe(tab)
+      expect(store.name).toBe('echo')
+      expect(store.parametersText).toBe('[1]')
+      expect(JSON.stringify(store.matrixPreview)).toBe(preview)
+      expect(commands).toHaveLength(sent)
+    }
+    store.dispose()
+  })
+  it('routes explicit draft, run inspection, and comparison actions to their tabs', () => {
+    const { store } = setup()
+
+    store.selectTab('catalog')
+    store.openDraft(
+      { kind: 'method', name: 'echo', parameters: [] },
+      'default',
+      'page',
+    )
+    expect(store.activeTab).toBe('run')
+    store.selectTab('matrix')
+    store.setField('selectedRunId', 'inspected-run')
+    expect(store.activeTab).toBe('run')
+    store.selectTab('saved')
+    store.setField('comparisonLeft', 'snapshot')
+    expect(store.activeTab).toBe('compare')
+    store.dispose()
+  })
   it('opens an explicit session and renews until disposed', () => {
     vi.useFakeTimers()
     const { store, commands } = setup()

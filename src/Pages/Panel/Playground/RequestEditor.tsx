@@ -14,8 +14,10 @@ export const RequestEditor = observer(
     onSelectConnection: (connectionId: string) => void
   }) => (
     <section>
-      <h2>Request editor</h2>
-      <button onClick={store.newDraft}>New request / case</button>
+      <div className={styles.editorHeader}>
+        <h2>Request editor</h2>
+        <button onClick={store.newDraft}>New request / case</button>
+      </div>
       <p role='status'>
         {store.sessionReady
           ? 'Inspected page session ready'
@@ -23,7 +25,7 @@ export const RequestEditor = observer(
         {!store.targetConfirmed &&
           ' · Select an explicit target for this draft'}
       </p>
-      <div className={styles.grid}>
+      <div className={`${styles.grid} ${styles.requestGrid}`}>
         <label>
           Target connection
           <select
@@ -74,10 +76,6 @@ export const RequestEditor = observer(
           }
         />
       </label>
-      <p className={styles.muted}>
-        Use encoded EJSON, for example {`[{"$date": 0}]`}. Custom EJSON types
-        decode only in the inspected application using its registered types.
-      </p>
       {store.unresolvedRequestMasks.length > 0 && (
         <div className={styles.notice}>
           <strong>Masked request fields require replacement review</strong>
@@ -97,76 +95,90 @@ export const RequestEditor = observer(
           </button>
         </div>
       )}
-      <div className={styles.grid}>
-        <label>
-          Execution mode
-          <select
-            value={store.mode}
-            onChange={event =>
-              store.setField(
-                'mode',
-                event.target.value as 'application' | 'isolated',
-              )
-            }
-          >
-            <option value='application'>
-              Application connection · current session
-            </option>
-            <option value='isolated'>Fresh isolated connection</option>
-          </select>
-        </label>
-        {store.mode === 'isolated' && (
+      <p className={styles.muted}>
+        {store.mode === 'application'
+          ? 'Application connection · current session'
+          : `Isolated connection · ${store.isolatedAuthentication === 'reuse' ? 'explicit session reuse' : 'anonymous'}`}
+        {' · '}
+        {store.sessionLabel}
+      </p>
+      <details>
+        <summary>Execution settings</summary>
+        <div className={styles.grid}>
           <label>
-            Isolated authentication
+            Execution mode
             <select
-              value={store.isolatedAuthentication}
+              value={store.mode}
               onChange={event =>
                 store.setField(
-                  'isolatedAuthentication',
-                  event.target.value as 'anonymous' | 'reuse',
+                  'mode',
+                  event.target.value as 'application' | 'isolated',
                 )
               }
             >
-              <option value='anonymous'>Anonymous</option>
-              <option value='reuse'>
-                Reuse current session explicitly (when supported)
+              <option value='application'>
+                Application connection · current session
               </option>
+              <option value='isolated'>Fresh isolated connection</option>
             </select>
           </label>
+          {store.mode === 'isolated' && (
+            <label>
+              Isolated authentication
+              <select
+                value={store.isolatedAuthentication}
+                onChange={event =>
+                  store.setField(
+                    'isolatedAuthentication',
+                    event.target.value as 'anonymous' | 'reuse',
+                  )
+                }
+              >
+                <option value='anonymous'>Anonymous</option>
+                <option value='reuse'>
+                  Reuse current session explicitly (when supported)
+                </option>
+              </select>
+            </label>
+          )}
+          <label>
+            Session label
+            <input
+              value={store.sessionLabel}
+              maxLength={120}
+              onChange={event =>
+                store.setField('sessionLabel', event.target.value)
+              }
+              placeholder='e.g. Account A · project owner'
+            />
+          </label>
+          <label>
+            Local wait timeout (ms)
+            <input
+              type='number'
+              min={1000}
+              max={60_000}
+              value={store.waitMs}
+              onChange={event =>
+                store.setField('waitMs', Number(event.target.value))
+              }
+            />
+          </label>
+        </div>
+        {store.mode === 'isolated' && (
+          <p className={styles.notice}>
+            {store.isolatedAuthentication === 'reuse'
+              ? 'Reuse requests an in-memory credential transfer only when the selected connection exposes a verified supported session capability. It fails explicitly when unavailable; no credential is saved or exported.'
+              : 'Anonymous isolated connections do not inherit the inspected application login.'}{' '}
+            Each isolated run opens a fresh connection to the selected
+            discovered endpoint.
+          </p>
         )}
-        <label>
-          Session label
-          <input
-            value={store.sessionLabel}
-            maxLength={120}
-            onChange={event =>
-              store.setField('sessionLabel', event.target.value)
-            }
-            placeholder='e.g. Account A · project owner'
-          />
-        </label>
-        <label>
-          Local wait timeout (ms)
-          <input
-            type='number'
-            min={1000}
-            max={60_000}
-            value={store.waitMs}
-            onChange={event =>
-              store.setField('waitMs', Number(event.target.value))
-            }
-          />
-        </label>
-      </div>
-      {store.mode === 'isolated' && (
-        <p className={styles.notice}>
-          {store.isolatedAuthentication === 'reuse'
-            ? 'Reuse requests an in-memory credential transfer only when the selected connection exposes a verified supported session capability. It fails explicitly when unavailable; no credential is saved or exported.'
-            : 'Anonymous isolated connections do not inherit the inspected application login.'}{' '}
-          Each isolated run opens a fresh connection to the selected discovered
-          endpoint.
+        <p className={styles.muted}>
+          Parameters use encoded EJSON, for example {`[{"$date": 0}]`}. Custom
+          types decode using the inspected application's registered types.
         </p>
-      )}
+      </details>
       <div className={styles.actions}>
         <button
           className={styles.primary}
@@ -177,8 +189,14 @@ export const RequestEditor = observer(
         >
           {store.kind === 'method' ? 'Run method' : 'Start publication probe'}
         </button>
-        <button onClick={store.stopAll}>Stop all playground operations</button>
+        <button onClick={() => void store.attempt(store.saveCase)}>
+          Review case to save
+        </button>
       </div>
+      <p className={styles.muted}>
+        Each Run is a fresh invocation and may change application or server
+        data.
+      </p>
       <details>
         <summary>
           Case metadata, expectations, and comparison exclusions
