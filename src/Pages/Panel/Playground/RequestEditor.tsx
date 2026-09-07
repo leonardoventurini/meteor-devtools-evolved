@@ -2,6 +2,7 @@ import React from 'react'
 import { observer } from 'mobx-react-lite'
 import type { PlaygroundStore } from '@/Stores/Panel/PlaygroundStore'
 import { EvidenceJSON } from './EvidenceJSON'
+import { EndpointInput } from './EndpointInput'
 import styles from './Playground.module.css'
 
 export const RequestEditor = observer(
@@ -57,14 +58,10 @@ export const RequestEditor = observer(
             <option value='subscription'>Publication subscription</option>
           </select>
         </label>
-        <label>
-          Method or publication name
-          <input
-            value={store.name}
-            onChange={event => store.setField('name', event.target.value)}
-            maxLength={256}
-          />
-        </label>
+        <EndpointInput
+          key={`${store.pageEpoch}:${store.connectionId}:${store.kind}:${store.targetConfirmed}`}
+          store={store}
+        />
       </div>
       <label>
         Parameters (encoded EJSON array)

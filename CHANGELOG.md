@@ -14,6 +14,9 @@ All notable changes to this project will be documented in this file.
 
 ### Added
 
+- Added searchable Playground endpoint suggestions that load the selected name
+  and latest retained arguments from observed traffic, scoped to the connection
+  and operation, with mouse and keyboard selection.
 - Added a headless packaged-panel layout check that runs without a Meteor server.
 
 ### Removed

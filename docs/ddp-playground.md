@@ -14,6 +14,16 @@ importing never execute a request. The catalog contains names observed on the
 selected connection, with application and Playground provenance; it cannot list
 every server endpoint or prove that an unobserved name does not exist.
 
+The name field searches observed endpoints for the selected operation and
+confirmed connection. Click a suggestion, or use the arrow keys and Enter, to
+fill its name and latest retained captured arguments. Typing a name manually
+preserves your parameters; Escape dismisses suggestions. Selection only opens a
+draft and never runs it. Review the replacement parameters before pressing Run.
+If no argument sample was retained, selection clears parameters to `[]` and
+shows a notice. Samples over 4 KiB are omitted, so the latest retained sample
+can be older than the most recent call. The separate catalog still provides
+access to other retained examples.
+
 Parameters are data, not JavaScript. Standard EJSON values retain their encoded
 representation in the panel. Native Meteor decodes them for dispatch; unsupported
 custom types report an error. A request can contain at most 256 KiB, with nesting

@@ -661,6 +661,49 @@ export class PlaygroundStore {
     void this.catalogRevision
     return this.catalog.entries(this.pageEpoch, this.connectionId)
   }
+  get endpointSuggestions() {
+    if (!this.targetConfirmed) return []
+
+    const query = this.name.toLowerCase()
+
+    return this.catalogEntries
+      .filter(
+        entry =>
+          entry.kind === this.kind && entry.name.toLowerCase().includes(query),
+      )
+      .toReversed()
+  }
+  /**
+   * Resolve against the current scope instead of trusting a rendered suggestion.
+   * Selection is a captured draft, never an invocation. Oversized observations
+   * may have no sample, or only an older retained sample available.
+   */
+  selectCatalogEndpoint(name: string): boolean {
+    if (!this.targetConfirmed) return false
+
+    const entry = this.catalogEntries.find(
+      entry => entry.kind === this.kind && entry.name === name,
+    )
+
+    if (!entry) return false
+
+    const sample = entry.examples[0]
+
+    this.openDraft(
+      {
+        kind: entry.kind,
+        name: entry.name,
+        parameters: sample?.parameters ?? [],
+      },
+      this.connectionId,
+      this.pageEpoch,
+    )
+    this.notice = sample
+      ? 'Latest retained captured arguments loaded. Review before running.'
+      : 'No argument sample was retained. Parameters cleared to []. Enter and review parameters before running.'
+
+    return true
+  }
   clearCatalog(): void {
     this.catalog.clear(this.pageEpoch, this.connectionId)
     this.catalogRevision += 1

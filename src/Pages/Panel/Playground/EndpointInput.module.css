@@ -1,0 +1,56 @@
+.root {
+  min-width: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 5px;
+}
+
+.control {
+  position: relative;
+}
+
+.root small {
+  color: var(--mde-color-text-muted);
+}
+
+.popup {
+  position: absolute;
+  top: 100%;
+  left: 0;
+  right: 0;
+  z-index: 2;
+  max-height: 240px;
+  overflow: auto;
+  background: var(--mde-color-chrome);
+  border: 1px solid var(--mde-color-focus);
+  border-radius: 3px;
+  box-shadow: 0 4px 12px #0005;
+}
+
+.root .list {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+}
+
+.list li {
+  padding: var(--mde-space-2);
+  cursor: pointer;
+  overflow-wrap: anywhere;
+}
+
+.list li:hover,
+.list li[aria-selected='true'] {
+  background: var(--mde-color-chrome-active);
+}
+
+.list span {
+  display: block;
+  color: var(--mde-color-text-muted);
+  margin-top: var(--mde-space-1);
+}
+
+.popup p {
+  padding: var(--mde-space-2);
+  margin: 0;
+}

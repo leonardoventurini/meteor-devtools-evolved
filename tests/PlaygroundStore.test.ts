@@ -1,6 +1,8 @@
 import { afterEach, describe, expect, it, vi } from 'vitest'
 import { PlaygroundStore } from '../src/Stores/Panel/PlaygroundStore'
 import type { PlaygroundCommand } from '../src/Playground/Commands'
+import { CATALOG_SAMPLE_BYTES } from '../src/Playground/Catalog'
+import type { EncodedValue } from '../src/Playground/Values'
 
 afterEach(() => vi.useRealTimers())
 const setup = () => {
@@ -105,6 +107,135 @@ describe('playground panel lifecycle and drafts', () => {
       applicationCount: 1,
     })
     expect(commands.filter(command => command.kind === 'run')).toHaveLength(0)
+    store.dispose()
+  })
+})
+
+const observe = (
+  store: PlaygroundStore,
+  name: string,
+  parameters: EncodedValue[] = [],
+  options: {
+    kind?: 'method' | 'subscription'
+    connectionId?: string
+    pageEpoch?: string
+    timestamp?: number
+  } = {},
+): void => {
+  const kind = options.kind ?? 'method'
+
+  store.observeLog({
+    id: name,
+    connectionId: options.connectionId ?? 'default',
+    pageEpoch: options.pageEpoch ?? 'page',
+    timestamp: options.timestamp,
+    content: JSON.stringify({
+      msg: kind === 'method' ? 'method' : 'sub',
+      ...(kind === 'method' ? { method: name } : { name }),
+      params: parameters,
+    }),
+  })
+}
+
+describe('request editor observed endpoint suggestions', () => {
+  it('filters names by case-insensitive substring, operation and target, newest first', () => {
+    const { store } = setup()
+
+    store.selectConnection('default')
+    observe(store, 'records.read', [], { timestamp: 1 })
+    observe(store, 'records.update', [], { timestamp: 2 })
+    observe(store, 'other', [], { timestamp: 3 })
+    observe(store, 'records.subscription', [], { kind: 'subscription' })
+    observe(store, 'records.remote', [], { connectionId: 'second' })
+    observe(store, 'records.stale', [], { pageEpoch: 'previous-page' })
+    store.setField('name', 'CORDS.')
+
+    expect(store.endpointSuggestions.map(entry => entry.name)).toEqual([
+      'records.update',
+      'records.read',
+    ])
+    store.setField('kind', 'subscription')
+    expect(store.endpointSuggestions.map(entry => entry.name)).toEqual([
+      'records.subscription',
+    ])
+    store.dispose()
+  })
+
+  it('loads the latest retained EJSON sample without executing a request', () => {
+    const { store, commands } = setup()
+    const latest: EncodedValue[] = [{ $date: 123 }, { $binary: 'AQI=' }]
+
+    store.selectConnection('default')
+    observe(store, 'records.read', [1])
+    observe(store, 'records.read', latest)
+    observe(store, 'records.read', ['x'.repeat(CATALOG_SAMPLE_BYTES)])
+    store.setField('mode', 'isolated')
+    store.setField('isolatedAuthentication', 'reuse')
+
+    expect(store.selectCatalogEndpoint('records.read')).toBe(true)
+    expect(store.name).toBe('records.read')
+    expect(JSON.parse(store.parametersText)).toEqual(latest)
+    expect(store.context).toEqual({ mode: 'isolated', authentication: 'reuse' })
+    expect(commands.filter(command => command.kind === 'run')).toEqual([])
+    store.dispose()
+  })
+
+  it('uses empty parameters and explains when no sample was retained', () => {
+    const { store } = setup()
+
+    store.selectConnection('default')
+    store.setField('parametersText', '["unrelated"]')
+    observe(store, 'large', ['x'.repeat(CATALOG_SAMPLE_BYTES)])
+
+    expect(store.selectCatalogEndpoint('large')).toBe(true)
+    expect(store.name).toBe('large')
+    expect(JSON.parse(store.parametersText)).toEqual([])
+    expect(store.notice).toMatch(/no .*?(sample|argument)|not retained/i)
+    store.dispose()
+  })
+
+  it('treats captured empty arguments as an available sample', () => {
+    const { store } = setup()
+
+    store.selectConnection('default')
+    observe(store, 'empty')
+
+    expect(store.selectCatalogEndpoint('empty')).toBe(true)
+    expect(JSON.parse(store.parametersText)).toEqual([])
+    expect(store.notice).toMatch(/captured arguments loaded/i)
+    store.dispose()
+  })
+
+  it('rejects stale selections and requires a confirmed target', () => {
+    const { store } = setup()
+
+    observe(store, 'local', [1])
+    observe(store, 'publication', [2], { kind: 'subscription' })
+    store.openDraft({ kind: 'method', name: 'manual', parameters: [9] })
+    expect(store.endpointSuggestions).toEqual([])
+    expect(store.selectCatalogEndpoint('local')).toBe(false)
+    store.selectConnection('default')
+    expect(store.selectCatalogEndpoint('publication')).toBe(false)
+    store.selectConnection('second')
+    expect(store.selectCatalogEndpoint('local')).toBe(false)
+    store.selectConnection('default')
+    store.handleEvent({ kind: 'hello', pageEpoch: 'next-page' })
+    store.selectConnection('default')
+    expect(store.selectCatalogEndpoint('local')).toBe(false)
+    expect(store.name).toBe('manual')
+    expect(JSON.parse(store.parametersText)).toEqual([9])
+    store.dispose()
+  })
+
+  it('preserves edited parameters when typing an observed name manually', () => {
+    const { store } = setup()
+
+    store.selectConnection('default')
+    observe(store, 'known', [1])
+    store.setField('parametersText', '["edited"]')
+    store.setField('name', 'known')
+
+    expect(store.parametersText).toBe('["edited"]')
     store.dispose()
   })
 })

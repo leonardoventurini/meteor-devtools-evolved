@@ -14,6 +14,163 @@ interface PanelMessageScope {
   deliverPanelMessage(message: unknown): void
 }
 
+test('suggests scoped endpoints and loads arguments only on explicit selection', async ({
+  page,
+}, testInfo) => {
+  page.on('pageerror', error => {
+    throw error
+  })
+  await page.addInitScript(() => {
+    const scope = globalThis as unknown as PanelMessageScope
+
+    scope.chrome.devtools = { inspectedWindow: { tabId: 1, eval() {} } }
+    scope.chrome.runtime.connect = () => ({
+      postMessage() {},
+      onMessage: {
+        addListener(listener: (message: unknown) => void) {
+          scope.deliverPanelMessage = listener
+        },
+      },
+    })
+  })
+  await page.reload()
+  await page.evaluate(() => {
+    const scope = globalThis as unknown as PanelMessageScope
+
+    scope.deliverPanelMessage({
+      eventType: 'playground:event',
+      data: { kind: 'hello', pageEpoch: 'suggestions' },
+    })
+    scope.deliverPanelMessage({
+      eventType: 'connections:get',
+      data: {
+        connections: [
+          { id: 'default', displayName: 'Default' },
+          { id: 'second', displayName: 'Second' },
+        ],
+      },
+    })
+    for (const [index, connectionId, msg, name] of [
+      [0, 'default', 'method', 'demo.echo'],
+      [1, 'default', 'method', 'demo.echo'],
+      [2, 'second', 'method', 'demo.other'],
+      [3, 'default', 'sub', 'demo.documents'],
+    ] as const) {
+      scope.deliverPanelMessage({
+        eventType: 'ddp-event',
+        data: {
+          id: `suggestion-${index}`,
+          connectionId,
+          pageEpoch: 'suggestions',
+          content: JSON.stringify({
+            msg,
+            method: name,
+            name,
+            params: [{ index, date: { $date: index } }],
+          }),
+          isOutbound: true,
+          timestamp: index + 1,
+        },
+      })
+    }
+  })
+  await page.getByRole('button', { name: 'Playground', exact: true }).click()
+  await page
+    .getByRole('combobox', { name: 'Target connection', exact: true })
+    .selectOption('default')
+  const name = page.getByRole('combobox', {
+    name: 'Method or publication name',
+    exact: true,
+  })
+  const parameters = page.getByRole('textbox', {
+    name: 'Parameters (encoded EJSON array)',
+    exact: true,
+  })
+
+  await parameters.fill('["keep while typing"]')
+  await name.fill('DEMO')
+  await expect(page.getByRole('option', { name: /demo.echo/ })).toBeVisible()
+  await expect(
+    page.getByRole('option', { name: /demo.other|demo.documents/ }),
+  ).toHaveCount(0)
+  await expect(parameters).toHaveValue('["keep while typing"]')
+  await name.press('ArrowDown')
+  await name.press('Enter')
+  await expect(name).toHaveValue('demo.echo')
+  await expect
+    .poll(async () => JSON.parse(await parameters.inputValue()))
+    .toEqual([{ index: 1, date: { $date: 1 } }])
+  await expect(page.getByRole('listbox')).toHaveCount(0)
+
+  await name.fill('demo')
+  await name.press('Escape')
+  await expect(page.getByRole('listbox')).toHaveCount(0)
+  await name.fill('unobserved.method')
+  await expect(
+    page.getByText(
+      'No matching observed endpoints. You can enter a name manually.',
+    ),
+  ).toBeVisible()
+  await name.press('Tab')
+  await expect(page.getByRole('listbox')).toHaveCount(0)
+
+  await page
+    .getByRole('combobox', { name: 'Operation', exact: true })
+    .selectOption('subscription')
+  await name.fill('demo')
+  await page.getByRole('option', { name: /demo.documents/ }).click()
+  await expect(name).toHaveValue('demo.documents')
+  await expect
+    .poll(async () => JSON.parse(await parameters.inputValue()))
+    .toEqual([{ index: 3, date: { $date: 3 } }])
+  await page
+    .getByRole('combobox', { name: 'Operation', exact: true })
+    .selectOption('method')
+  await page
+    .getByRole('combobox', { name: 'Target connection', exact: true })
+    .selectOption('second')
+  await name.fill('demo')
+  await expect(page.getByRole('option', { name: /demo.other/ })).toBeVisible()
+  await expect(page.getByRole('option', { name: /demo.echo/ })).toHaveCount(0)
+  await page.screenshot({
+    path: testInfo.outputPath('endpoint-suggestions.png'),
+  })
+  const longName = await page.evaluate(() => {
+    const scope = globalThis as unknown as PanelMessageScope
+    const generated = `long.${Array.from({ length: 20 }, (_, index) => `segment${index}`).join('.')}`
+
+    scope.deliverPanelMessage({
+      eventType: 'ddp-event',
+      data: {
+        id: 'long-suggestion',
+        connectionId: 'second',
+        pageEpoch: 'suggestions',
+        content: JSON.stringify({
+          msg: 'method',
+          method: generated,
+          params: [],
+        }),
+        isOutbound: true,
+      },
+    })
+
+    return generated
+  })
+  await page.setViewportSize({ width: 480, height: VIEWPORT_HEIGHT })
+  await name.fill('long.')
+  const list = page.getByRole('listbox')
+
+  await expect(page.getByRole('option', { name: longName })).toBeVisible()
+  expect(
+    await list.evaluate(element => element.scrollWidth <= element.clientWidth),
+  ).toBe(true)
+  await name.press('ArrowUp')
+  await name.press('Enter')
+  await expect(name).toHaveValue(longName)
+  await name.click()
+  await expect(list).toBeVisible()
+})
+
 test('keeps subscription columns bounded and JSON inspection interactive', async ({
   page,
 }) => {

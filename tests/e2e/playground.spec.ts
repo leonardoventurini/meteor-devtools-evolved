@@ -163,7 +163,7 @@ const compose = async (
   parameters: unknown[] = [],
 ) => {
   await panel
-    .getByRole('textbox', { name: 'Method or publication name', exact: true })
+    .getByRole('combobox', { name: 'Method or publication name', exact: true })
     .fill(name)
   await panel
     .getByRole('textbox', {
@@ -938,7 +938,7 @@ test('captured and bookmarked Edit actions open passive connection-aware drafts'
     .getByRole('button', { name: 'Edit in DDP Playground', exact: true })
     .click()
   await expect(
-    panel.getByRole('textbox', {
+    panel.getByRole('combobox', {
       name: 'Method or publication name',
       exact: true,
     }),
