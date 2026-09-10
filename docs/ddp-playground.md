@@ -1,120 +1,202 @@
 # DDP Playground
 
-The Playground is an interactive testing workspace for methods and publications
-on an inspected Meteor application. It reports observed behavior and preserves
-evidence for comparison. A successful response is not by itself a security
-finding: interpret it against the application's intended access rules.
+The Playground runs methods and observes publications on an inspected Meteor
+application. It helps reproduce requests, compare evidence, and build reusable
+checks. A successful response is not by itself a security finding: interpret it
+against the application's intended access rules.
 
-## Workspace tabs
+## Quick start
 
-**Run** keeps the request editor and results together: side by side on wide
-panels, stacked on narrow panels. Response data, status, elapsed time, and
-relevant warnings appear first. Expand **Run details** for the full evidence,
-submitted request, authentication provenance, readiness capture, baseline, and
-expectations. Expand **Execution settings** in the editor to change connection
-mode, authentication, session label, and local wait budget.
+1. Open **Playground**, use **Edit in DDP Playground** on a captured method, or
+   use **Probe in Playground** on a subscription.
+2. In **Run**, confirm the target connection, operation, endpoint name, and
+   encoded EJSON parameter array. Opening or editing a draft never sends it.
+3. Leave the default application connection selected for your first request.
+   It uses the inspected application's current session.
+4. Select **Run method** or **Start publication probe**.
+5. Read the response, status, timing, and warnings beside the editor. Expand
+   **Run details** when you need the submitted request, authentication
+   provenance, readiness evidence, baseline, or expectation results.
 
-Use **Compare** for structured comparisons, **Matrix** for parameter variants,
-**Catalog** for observed endpoints and examples, and **Saved** for cases,
-snapshots, and import/export. Switching tabs preserves drafts, selected records,
-expanded controls, and active work. Arrow keys, Home, and End navigate the tabs.
-Opening a captured example or saved case returns to Run; **Inspect run** in a
-matrix opens its result there. Saved snapshot comparison actions open Compare.
-Background results do not switch tabs. Active work and its stop control remain
-visible across the workspace.
+Each Run is a fresh invocation and may change application or server data.
+Stopping or timing out ends local waiting only; it cannot undo work already
+sent to the server.
 
-Save a case from Run or Saved, and save snapshots from results. Pending save or
-transfer review appears above the tab content so it stays reachable from either
-workflow. Confirming a reviewed transfer retains the existing explicit review
-and redaction requirements.
+## Common recipes
 
-## Start with a draft
+### Replay a captured method
 
-Open Playground from navigation, edit a captured outbound call, or probe a listed
-subscription. Choose the target connection, operation kind, name, encoded EJSON
-parameter array, session label, and wait budget. Opening, editing, loading, and
-importing never execute a request. The catalog contains names observed on the
-selected connection, with application and Playground provenance; it cannot list
-every server endpoint or prove that an unobserved name does not exist.
+1. Open **DDP** before the application sends the method.
+2. Find the outbound method and select **Edit in DDP Playground**.
+3. Review the target, method name, and captured parameters in **Run**.
+4. Select **Run method** and inspect the result.
 
-The name field searches observed endpoints for the selected operation and
-confirmed connection. Click a suggestion, or use the arrow keys and Enter, to
-fill its name and latest retained captured arguments. Typing a name manually
-preserves your parameters; Escape dismisses suggestions. Selection only opens a
-draft and never runs it. Review the replacement parameters before pressing Run.
-If no argument sample was retained, selection clears parameters to `[]` and
-shows a notice. Samples over 4 KiB are omitted, so the latest retained sample
-can be older than the most recent call. The separate catalog still provides
-access to other retained examples.
+The captured request opens as a passive draft. Selecting an observed endpoint
+can replace the parameters with its latest retained example, so review them
+before running. For a fixture-based walkthrough, see the
+[five-minute replay and access-control demo](ddp-playground-demo.md).
 
-Parameters are data, not JavaScript. Standard EJSON values retain their encoded
-representation in the panel. Native Meteor decodes them for dispatch; unsupported
-custom types report an error. A request can contain at most 256 KiB, with nesting
-depth 50 and 100,000 values. Redacted request fields must be supplied before a
-saved or imported case becomes runnable.
+### Call a method manually
 
-## Choose an execution context
+1. Open **Playground → Run** and select a live target connection.
+2. Choose **Method** and enter its name. Suggestions include endpoints observed
+   on the selected connection; you can still enter an unobserved name.
+3. Enter parameters as an encoded EJSON array, such as
+   `["project-id", {"$date": 0}]`.
+4. Select **Run method**.
 
-Application mode uses the selected application's connection and its current
-session. Method calls may execute client stubs and affect application state.
-A shared publication probe stops only the handle returned for that probe; an
-identical subscription already used by the app must remain active. Shared data
-can already exist in Minimongo, so an unknown baseline limits absence claims.
+The endpoint catalog is observational, not a list of every server method. Open
+**Browse observed endpoints** to inspect provenance, older retained examples,
+or endpoints that are not shown in the initial suggestions.
 
-Isolated mode opens an owned native connection to the selected endpoint.
-Anonymous is the default. Explicit session reuse requires a compatible,
-Accounts-bound source with an available standard resume credential; unsupported
-custom authentication, transport requirements, and HttpOnly-only credentials do
-not silently fall back to anonymous. The UI records observed identity and its
-provenance separately from the user-written session label.
+### Inspect a publication
 
-An isolated connection is a separate connection, not a browser profile. Compare
-different users by saving labeled snapshots in their actual sessions/profiles and
-reviewing exports/imports. Cleanup disconnects only owned transports and never
-logs the application out.
+1. Use **Probe in Playground** on a listed subscription, or choose
+   **Publication subscription** in **Run** and enter its name and parameters.
+2. Choose the execution context under **Advanced testing**. Start with the
+   application connection when you want to observe the current session.
+3. Select **Start publication probe**.
+4. Inspect readiness, captured documents, completeness warnings, and the
+   before-subscription baseline under **Run details**.
+5. Use **Capture current documents** at the boundary you want to retain, then
+   stop the live observation when you have enough evidence.
 
-## Read evidence conservatively
+A shared probe stops only the handle opened by the Playground. Existing
+application subscriptions remain active. Ambient publications and merged
+Minimongo data mean captured documents cannot always be attributed to one
+publication.
 
-Method server result and writes-reflected completion are separate signals.
-Timeout, Stop, navigation, and disconnect end local waiting; already dispatched
-server work can continue. Late evidence may enrich the same run, but does not
-restart it or resume a matrix. The Playground never automatically retries a run.
+### Compare authenticated and anonymous behavior
 
-Publication readiness provides an immutable observation boundary. Live evidence
-can change afterward; capture a manual snapshot when needed. Dedicated probes
-show a pre-subscription baseline and connection-level document changes. Ambient
-publications and merged data prevent exact per-publication ownership claims.
+1. Run the request with **Current app connection**.
+2. Review and save its result as a labeled snapshot.
+3. Under **Advanced testing**, choose **Clean isolated connection** and
+   **Anonymous**. Run the same request again and save a second snapshot.
+4. Open **History** and choose the two snapshots in **Compare snapshots**.
 
-Comparison distinguishes missing fields from null, retains EJSON types, and lets
-you exclude volatile JSON Pointer paths. Expectations support outcome, error
-code, field equality/presence/absence, numeric bounds, and document counts.
-Redaction, truncation, and unknown baselines produce inconclusive or unevaluated
-results where evidence cannot support a definite claim.
+An isolated connection is separate from the application connection, but it is
+not a separate browser profile. To compare two signed-in users, capture labeled
+snapshots in their actual sessions or profiles, then use reviewed export and
+import.
 
-## Cases, snapshots, and transfers
+### Save and compare results
 
-Cases hold the operation, context, label-independent configuration, expectations,
-matrix definition, notes, and comparison exclusions. Editing a saved case creates
-a new revision. Snapshots capture an immutable observation with request metadata,
-identity provenance, timing, completion, and completeness information. Saving a
-later observation creates another snapshot.
+Use **Review case to save** to retain the current request, context,
+expectations, matrix, notes, and comparison exclusions. Editing a saved case
+creates a new revision.
 
-Review the payload and redaction masks before persistence or download. Standard
-authentication credential fields receive mandatory masks; arbitrary custom
-application secrets require manual review. Array masks preserve positions.
-Imports are versioned, validated, size bounded, and committed atomically with
-fresh IDs. They do not overwrite existing records, restore a live session, or run
-anything. Invalid stored rows remain available for explicit deletion instead of
-being silently overwritten. See the [format reference](ddp-playground-format.md).
+Use **Review snapshot to save** on a result to retain immutable evidence. Open
+**History** to load cases, inspect saved snapshots, and compare two snapshots.
+Exclude volatile fields with comparison JSON Pointers when timestamps, IDs, or
+other expected differences would obscure the useful change.
 
-## Matrices and limits
+### Test several parameter values
 
-Preview variants before starting a matrix. Each changes one declared JSON Pointer
-at a time; candidates are not combined into a Cartesian product. Baseline inclusion
-is explicit, duplicates are removed, and each variant uses the ordinary runner.
-Execution is sequential, with no retry, and publication variants finish cleanup
-before advancing. Stop cancels queued variants. Context changes interrupt the
-matrix; continuing after an error is an explicit choice.
+1. Compose and check the baseline request in **Run**.
+2. Open **Advanced testing**, then add matrix changes with the guided builder.
+3. For each change, choose a parameter JSON Pointer and add candidate values or
+   boundary cases. Use raw JSON mode only when you need exact copy-and-paste
+   control.
+4. Preview the generated variants, then start the matrix.
+5. Inspect an individual matrix run in **Run** or review its outcomes in the
+   advanced section.
+
+Each change is applied independently to the baseline; changes are not combined
+into a Cartesian product. Execution is sequential and never retries. Stopping
+a matrix cancels queued variants but cannot undo dispatched server work.
+
+### Share reviewed cases and snapshots
+
+1. Open **History** and select the cases and snapshots to export.
+2. Review the generated payload. Use the guided redaction controls to mask
+   sensitive paths; raw JSON Pointer editing remains available.
+3. Confirm the download only after checking request data, results, errors,
+   notes, endpoint labels, and identity evidence.
+4. In the destination profile, review the imported file before confirming it.
+
+Importing never selects a target, restores a live session, or runs a request.
+Imported records receive fresh IDs and cannot overwrite existing records. See
+the [file format reference](ddp-playground-format.md) for the stable version 1
+contract.
+
+## Safety and evidence
+
+### Execution context
+
+**Current app connection** uses the selected application's
+connection. Methods may execute client stubs and affect application state.
+Shared publication data may already exist in Minimongo, so an unknown baseline
+limits claims about absence.
+
+**Clean isolated connection** opens an owned native connection to the selected
+endpoint. Anonymous is the default. Explicit session reuse requires a
+compatible Accounts-bound source with an available standard resume credential.
+Unsupported custom authentication, required custom transports, and
+HttpOnly-only credentials fail visibly instead of falling back to anonymous.
+Cleanup disconnects only owned transports and never logs the application out.
+
+Session labels are notes, not verified identities. The Playground records the
+observed identity and its provenance separately.
+
+### Interpret results conservatively
+
+- Method server result and writes-reflected completion are separate signals.
+- Publication readiness is an immutable observation boundary. Live evidence
+  can change afterward; save a manual snapshot when needed.
+- Timeout, Stop, navigation, and disconnect end local waiting. Already
+  dispatched server work can continue.
+- Late evidence may enrich a run, but does not restart it or resume a matrix.
+- The Playground never automatically retries a run.
+- Missing, redacted, truncated, or unknown evidence produces an inconclusive or
+  unevaluated check when a definite result is not supported.
+
+## Advanced reference
+
+### EJSON parameters and endpoint suggestions
+
+Parameters are data, not JavaScript. Standard EJSON values keep their encoded
+form in the panel and Meteor decodes them for dispatch. Unsupported custom types
+report an error. A request can contain at most 256 KiB, with nesting depth 50
+and 100,000 values.
+
+Suggestions are scoped to the selected operation and confirmed connection.
+Choosing one fills its name and latest retained captured arguments. If no sample
+was retained, parameters become `[]`; samples over 4 KiB are omitted. Typing a
+name manually preserves the current parameters. The catalog retains at most 500
+names and three examples per name.
+
+### Expectations
+
+The guided expectation builder supports outcome, error code, field equality,
+field presence or absence, numeric bounds, and document counts. Switch to raw
+JSON mode for exact authoring or copy and paste. Both modes produce the same
+validated version 1 case data described in the
+[format reference](ddp-playground-format.md#values-expectations-and-matrices).
+
+Equality and field checks use JSON Pointers. Missing and null are distinct.
+Bounds are inclusive. Redacted or incomplete evidence cannot silently pass a
+dependent expectation.
+
+### Matrices
+
+The guided matrix builder and raw JSON mode edit the same matrix definition.
+Preview is required before execution. Baseline inclusion is explicit,
+duplicates are removed, and at most 20 variants run sequentially. Publication
+variants finish cleanup before the next one starts. Context or request changes
+invalidate the preview.
+
+### Comparison exclusions and redaction
+
+Comparisons retain EJSON types and distinguish missing fields from null. Use
+exact JSON Pointer paths to exclude volatile evidence. Transfer masks use paths
+relative to the reviewed record; object properties are removed and array
+positions are preserved with null placeholders.
+
+Standard authentication credential fields receive mandatory masks, but custom
+application secrets require manual review. A redacted request must be completed
+and explicitly reviewed before it can run.
+
+### Storage, limits, and recovery
 
 | Resource                              | Limit                                             |
 | ------------------------------------- | ------------------------------------------------- |
@@ -130,14 +212,13 @@ matrix; continuing after an error is an explicit choice.
 | Import                                | 10 MiB / 300 records                              |
 | Panel lease                           | Renewed every 5 seconds; expires after 30 seconds |
 
-Closing the panel eventually expires its lease even if its unload callback cannot
-reach the page. Navigation creates a new page identity; old connection IDs alone
-cannot authorize execution. Limits stop local collection and clearly qualify the
+Closing the panel eventually expires its lease even when unload cannot reach
+the page. Navigation creates a new page identity; an old connection ID alone
+cannot authorize execution. Limits stop local collection and qualify the
 evidence; they do not reverse server effects.
 
-## Recovery
-
-Reload the inspected page to establish a fresh execution context after a runtime
-failure. Re-select a live target before reusing stale drafts. Export useful saved
-records before deleting them to free quota. A feature rollback leaves its separate
-database inert and keeps bookmarks intact; it cannot undo server mutations.
+Reload the inspected page to establish a fresh execution context after a
+runtime failure. Re-select a live target before reusing stale drafts. Export
+useful saved records before deleting them to free quota. A feature rollback
+leaves its separate database inert and keeps bookmarks intact; it cannot undo
+server mutations.

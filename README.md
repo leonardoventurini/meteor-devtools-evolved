@@ -57,22 +57,25 @@ The DDP inspection is ephemeral, but you can save as many DDP messages you want 
 
 ### DDP Playground
 
-Use **Edit and run** on a captured call or **Probe in Playground** on a
+Use **Edit in DDP Playground** on a captured call or **Probe in Playground** on a
 subscription, or enter a method/publication name and encoded EJSON parameter
 array directly. Opening a draft is passive. Select a live connection and press
 Run to invoke it; older bookmarks and imported cases require an explicit target.
 
-The Playground supports application-connection calls and shared subscription
-probes, dedicated anonymous connections, and explicit reuse of a compatible
-Accounts session. Results distinguish server responses, writes reflected,
-readiness, local timeout, interruption, and late evidence. Stopping observation
-cannot cancel or undo work already handed to Meteor.
+**Run** keeps the ordinary request and response workflow primary. Observed
+endpoint browsing and **Advanced testing** progressively reveal execution
+contexts, guided expectations, and parameter matrices. **History** groups
+reusable cases, immutable snapshots, structured comparison, and reviewed
+import/export without changing their separate record types.
 
-Save reusable cases and immutable labeled snapshots, compare structured evidence,
-define declarative expectations, and preview bounded sequential parameter
-matrices. Reviewed JSON import/export supports cross-profile comparisons without
-transferring session credentials. See the [usage guide](docs/ddp-playground.md)
-and [file format](docs/ddp-playground-format.md) for limits and evidence semantics.
+Application-connection calls and shared publication probes use the current app
+session. Isolated connections support anonymous execution and explicit reuse of
+a compatible Accounts session. Stopping observation cannot cancel or undo work
+already handed to Meteor. Start with the [quick
+start](docs/ddp-playground.md#quick-start), follow the [task
+recipes](docs/ddp-playground.md#common-recipes), and review the [safety
+guide](docs/ddp-playground.md#safety-and-evidence). The [file
+format](docs/ddp-playground-format.md) documents the stable saved-data contract.
 
 For a short walkthrough using the local Meteor 3 fixture, follow the
 [five-minute replay and access-control demo](docs/ddp-playground-demo.md).

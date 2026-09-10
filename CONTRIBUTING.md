@@ -154,9 +154,11 @@ already used; do not introduce another runtime styling engine.
 
 `src/Components` owns reusable controls and their DOM/ref contracts.
 `src/Pages/Panel/PanelLayout.tsx` owns shell geometry. Feature directories own
-their presentation; Playground composes separate editor, results, catalog,
-matrix, saved-record, comparison, transfer, and evidence components. State
-and side effects stay in the existing stores and adapters.
+their presentation. Playground composes **Run** and **History** surfaces, with
+endpoint browsing and advanced testing disclosed from Run. Focused editor,
+result, builder, saved-record, comparison, transfer, and evidence components
+remain separate. State and side effects stay in the existing stores and
+adapters.
 
 Use scoped `:global(...)` selectors only for intentional cross-component hooks
 or Blueprint classes. Apply dialog module classes directly to portaled dialog

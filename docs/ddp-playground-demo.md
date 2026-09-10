@@ -58,16 +58,18 @@ Point out that this opens a draft: it has not dispatched another request.
 
 ## 0:45–1:40 — Replay as the owner
 
-In the **Run** tab's **Request editor**, expand **Execution settings** and confirm:
+In **Run**, review the primary request fields, then expand **Advanced testing**
+to confirm the execution settings:
 
 - **Target connection**: the app's primary connection, with ID `default`.
 - **Operation**: **Method**.
 - **Method or publication name**: `playground.access`.
 - **Parameters (encoded EJSON array)**: `["playground-account-1", true]`.
-- **Execution mode**: **Application connection · current session**.
+- **Execution mode**: **Current app connection**.
 - **Session label**: `Owner baseline`.
 
-Click **Run method**. In **Runs and results**, show the **Response** and
+Collapse **Advanced testing**, then click **Run method**. In **Runs and
+results**, show the **Response** and
 the returned `ownerId`, `value`, and `viewedBy`. Point out **Server result** and
 **writes reflected** as separate signals.
 
@@ -76,13 +78,14 @@ EJSON data, not JavaScript. A session label is just a note; it does not log us i
 
 ## 1:40–2:40 — Test anonymous access
 
-Keep the method and parameters unchanged. In **Execution settings**, set:
+Keep the method and parameters unchanged. Expand **Advanced testing** and set:
 
-- **Execution mode**: **Fresh isolated connection**.
+- **Execution mode**: **Clean isolated connection**.
 - **Isolated authentication**: **Anonymous**.
 - **Session label**: `Anonymous denied`.
 
-Click **Run method**. Show the error code `playground-forbidden` in the evidence.
+Collapse **Advanced testing**, then click **Run method**. Show the error code
+`playground-forbidden` in the evidence.
 Click **Review snapshot to save**, inspect the preview, then click
 **Confirm reviewed snapshot save**.
 
@@ -107,8 +110,9 @@ verdict from the extension.”
 
 ## 3:40–4:35 — Compare the evidence
 
-Open **Compare**. Find **Baseline snapshot** and choose `Anonymous denied`. In **Comparison
-snapshot**, choose `Anonymous permissive`. Show the **Structured comparison**:
+Open **History** and find **Compare snapshots**. For **Baseline snapshot**,
+choose `Anonymous denied`. For **Comparison snapshot**, choose
+`Anonymous permissive`. Show the **Structured comparison**:
 the error evidence has been replaced by returned record data. Return to **Run**
 and expand **Run details → Exact submitted request and context** for the selected
 run to show what was sent.
@@ -128,7 +132,8 @@ exports extend the same workflow when you need repeatable tests.”
 Add: “Stopping local waiting does not undo a method already dispatched.”
 
 Keep publications, matrices, cross-profile transfers, and session reuse out of
-this five-minute walkthrough; see the [usage guide](ddp-playground.md) for those.
+this five-minute walkthrough; see the
+[task recipes](ddp-playground.md#common-recipes) for those.
 
 ## Recovery and rehearsal checklist
 

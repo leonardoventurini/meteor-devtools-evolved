@@ -9,6 +9,10 @@ target, opens an endpoint, authenticates, or executes a request.
 The authoritative runtime contracts are
 [`Records.ts`](../src/Playground/Records.ts). Generated examples and round-trip
 checks live in [`PlaygroundRecords.test.ts`](../tests/PlaygroundRecords.test.ts).
+For UI-based authoring, see the guided
+[expectation](ddp-playground.md#expectations),
+[matrix](ddp-playground.md#matrices), and
+[redaction](ddp-playground.md#comparison-exclusions-and-redaction) instructions.
 
 ## Cases
 
