@@ -2,6 +2,7 @@ import React from 'react'
 import { observer } from 'mobx-react-lite'
 import type { PlaygroundStore } from '@/Stores/Panel/PlaygroundStore'
 import { EvidenceJSON } from './EvidenceJSON'
+import { MatrixEditor } from './MatrixEditor'
 import styles from './Playground.module.css'
 
 export const Matrix = observer(({ store }: { store: PlaygroundStore }) => (
@@ -36,14 +37,7 @@ export const Matrix = observer(({ store }: { store: PlaygroundStore }) => (
         }}
       />
     </details>
-    <label>
-      Matrix definition (JSON)
-      <textarea
-        rows={7}
-        value={store.matrixText}
-        onChange={event => store.setField('matrixText', event.target.value)}
-      />
-    </label>
+    <MatrixEditor store={store} />
     <div className={styles.grid}>
       <label>
         Delay between variants (ms)

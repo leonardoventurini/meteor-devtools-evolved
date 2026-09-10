@@ -5,7 +5,7 @@ import { Hideable } from '@/Utils/Hideable'
 import { RequestEditor } from './RequestEditor'
 import { RunResults } from './RunResults'
 import { Catalog } from './Catalog'
-import { Matrix } from './Matrix'
+import { AdvancedTesting } from './AdvancedTesting'
 import { SavedRecords } from './SavedRecords'
 import { Comparison } from './Comparison'
 import { TransferReview } from './TransferReview'
@@ -17,6 +17,8 @@ import {
 } from '@/Stores/Panel/PlaygroundTabs'
 
 const TABS = Object.values(PLAYGROUND_TAB)
+const PLAYGROUND_GUIDE_URL =
+  'https://github.com/leonardoventurini/meteor-devtools-evolved/blob/development/docs/ddp-playground.md#quick-start'
 
 export const Playground = observer(({ isVisible }: { isVisible: boolean }) => {
   const panel = usePanelStore()
@@ -31,7 +33,16 @@ export const Playground = observer(({ isVisible }: { isVisible: boolean }) => {
   return (
     <Hideable isVisible={isVisible}>
       <div className={`mde-content ${styles.root}`}>
-        <h1>DDP Playground</h1>
+        <div className={styles.workspaceHeader}>
+          <h1>DDP Playground</h1>
+          <a
+            href={PLAYGROUND_GUIDE_URL}
+            target='_blank'
+            rel='noopener noreferrer'
+          >
+            Open Playground guide
+          </a>
+        </div>
         <div
           role='tablist'
           aria-label='Playground sections'
@@ -123,7 +134,7 @@ export const Playground = observer(({ isVisible }: { isVisible: boolean }) => {
                       Advanced testing
                       {store.matrixRunning && ' · matrix running'}
                     </summary>
-                    <Matrix store={store} />
+                    <AdvancedTesting store={store} />
                   </details>
                 </div>
               </>

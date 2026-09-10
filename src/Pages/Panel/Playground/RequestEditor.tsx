@@ -1,7 +1,6 @@
 import React from 'react'
 import { observer } from 'mobx-react-lite'
 import type { PlaygroundStore } from '@/Stores/Panel/PlaygroundStore'
-import { EvidenceJSON } from './EvidenceJSON'
 import { EndpointInput } from './EndpointInput'
 import styles from './Playground.module.css'
 
@@ -102,83 +101,6 @@ export const RequestEditor = observer(
         {' · '}
         {store.sessionLabel}
       </p>
-      <details>
-        <summary>Execution settings</summary>
-        <div className={styles.grid}>
-          <label>
-            Execution mode
-            <select
-              value={store.mode}
-              onChange={event =>
-                store.setField(
-                  'mode',
-                  event.target.value as 'application' | 'isolated',
-                )
-              }
-            >
-              <option value='application'>
-                Application connection · current session
-              </option>
-              <option value='isolated'>Fresh isolated connection</option>
-            </select>
-          </label>
-          {store.mode === 'isolated' && (
-            <label>
-              Isolated authentication
-              <select
-                value={store.isolatedAuthentication}
-                onChange={event =>
-                  store.setField(
-                    'isolatedAuthentication',
-                    event.target.value as 'anonymous' | 'reuse',
-                  )
-                }
-              >
-                <option value='anonymous'>Anonymous</option>
-                <option value='reuse'>
-                  Reuse current session explicitly (when supported)
-                </option>
-              </select>
-            </label>
-          )}
-          <label>
-            Session label
-            <input
-              value={store.sessionLabel}
-              maxLength={120}
-              onChange={event =>
-                store.setField('sessionLabel', event.target.value)
-              }
-              placeholder='e.g. Account A · project owner'
-            />
-          </label>
-          <label>
-            Local wait timeout (ms)
-            <input
-              type='number'
-              min={1000}
-              max={60_000}
-              value={store.waitMs}
-              onChange={event =>
-                store.setField('waitMs', Number(event.target.value))
-              }
-            />
-          </label>
-        </div>
-        {store.mode === 'isolated' && (
-          <p className={styles.notice}>
-            {store.isolatedAuthentication === 'reuse'
-              ? 'Reuse requests an in-memory credential transfer only when the selected connection exposes a verified supported session capability. It fails explicitly when unavailable; no credential is saved or exported.'
-              : 'Anonymous isolated connections do not inherit the inspected application login.'}{' '}
-            Each isolated run opens a fresh connection to the selected
-            discovered endpoint.
-          </p>
-        )}
-        <p className={styles.muted}>
-          Parameters use encoded EJSON, for example {`[{"$date": 0}]`}. Custom
-          types decode using the inspected application's registered types.
-        </p>
-      </details>
       <div className={styles.actions}>
         <button
           className={styles.primary}
@@ -197,66 +119,6 @@ export const RequestEditor = observer(
         Each Run is a fresh invocation and may change application or server
         data.
       </p>
-      <details>
-        <summary>
-          Case metadata, expectations, and comparison exclusions
-        </summary>
-        <div className={styles.grid}>
-          <label>
-            Case title
-            <input
-              value={store.title}
-              onChange={event => store.setField('title', event.target.value)}
-            />
-          </label>
-          <label>
-            Tags (comma-separated)
-            <input
-              value={store.tagsText}
-              onChange={event => store.setField('tagsText', event.target.value)}
-            />
-          </label>
-        </div>
-        <label>
-          Notes
-          <textarea
-            rows={3}
-            value={store.notes}
-            onChange={event => store.setField('notes', event.target.value)}
-          />
-        </label>
-        <label>
-          Declarative expectations (JSON array)
-          <textarea
-            rows={5}
-            value={store.expectationsText}
-            onChange={event =>
-              store.setField('expectationsText', event.target.value)
-            }
-          />
-        </label>
-        <p className={styles.muted}>
-          Kinds: outcome, error-code, equals, exists, absent, number-bounds,
-          document-count. Missing or redacted evidence yields inconclusive
-          results. No scripts run.
-        </p>
-        <EvidenceJSON
-          value={[
-            { kind: 'outcome', outcome: 'error' },
-            { kind: 'error-code', code: 'not-authorized' },
-          ]}
-        />
-        <label>
-          Excluded comparison JSON Pointers (JSON array)
-          <textarea
-            rows={3}
-            value={store.excludedPathsText}
-            onChange={event =>
-              store.setField('excludedPathsText', event.target.value)
-            }
-          />
-        </label>
-      </details>
     </section>
   ),
 )

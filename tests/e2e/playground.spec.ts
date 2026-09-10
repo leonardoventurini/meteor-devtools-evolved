@@ -77,11 +77,19 @@ const openAdvancedTesting = async (panel: Page): Promise<void> => {
     await summary.click()
 }
 const openExecutionSettings = async (panel: Page): Promise<void> => {
-  const summary = panel.getByText('Execution settings', { exact: true })
-  const details = summary.locator('..')
+  await openAdvancedTesting(panel)
+}
+const openRawMatrixEditor = async (panel: Page): Promise<void> => {
+  await openAdvancedTesting(panel)
+  const raw = panel.getByRole('textbox', {
+    name: 'Matrix definition (JSON)',
+    exact: true,
+  })
 
-  if (!(await details.evaluate(element => element.hasAttribute('open'))))
-    await summary.click()
+  if (!(await raw.isVisible()))
+    await panel
+      .getByRole('button', { name: 'Edit raw matrix JSON', exact: true })
+      .click()
 }
 
 /**
@@ -178,7 +186,7 @@ const openPanel = async (
   await panel
     .getByRole('textbox', { name: 'Session label', exact: true })
     .fill('Account A')
-  await panel.getByText('Execution settings', { exact: true }).click()
+  await panel.getByText('Advanced testing', { exact: true }).click()
   return panel
 }
 const compose = async (
@@ -441,16 +449,48 @@ test('real IndexedDB saves reviewed immutable snapshots and imports new local ID
 }) => {
   const panel = await openPanel(page, extensionWorker, extensionId)
   await compose(panel, 'fixture.echo', [{ nested: { value: 42 } }])
-  await panel
-    .getByText('Case metadata, expectations, and comparison exclusions', {
-      exact: true,
-    })
-    .click()
+  await openAdvancedTesting(panel)
   await panel
     .getByRole('textbox', { name: 'Case title', exact: true })
     .fill('Portable echo case')
   await panel
     .getByRole('button', { name: 'Review case to save', exact: true })
+    .click()
+  await expect(
+    panel.getByRole('textbox', {
+      name: 'Additional masks by record ID (JSON)',
+      exact: true,
+    }),
+  ).toBeHidden()
+  await panel
+    .getByRole('button', { name: 'Edit raw redaction JSON', exact: true })
+    .click()
+  await expect(
+    panel.getByRole('textbox', {
+      name: 'Additional masks by record ID (JSON)',
+      exact: true,
+    }),
+  ).toBeVisible()
+  await panel
+    .getByRole('button', { name: 'Use guided redactions', exact: true })
+    .click()
+  await panel
+    .getByRole('textbox', { name: 'JSON Pointer to redact', exact: true })
+    .fill('/notes')
+  await panel
+    .getByRole('button', { name: 'Add redaction', exact: true })
+    .click()
+  await expect(
+    panel.getByRole('button', {
+      name: 'Confirm reviewed case save',
+      exact: true,
+    }),
+  ).toBeDisabled()
+  await panel
+    .getByRole('button', {
+      name: 'Apply redactions and refresh preview',
+      exact: true,
+    })
     .click()
   await panel
     .getByRole('button', { name: 'Confirm reviewed case save', exact: true })
@@ -551,7 +591,7 @@ test('parameter matrices preview first, execute sequentially, and reject excess 
       },
     ],
   }
-  await openAdvancedTesting(panel)
+  await openRawMatrixEditor(panel)
   await panel
     .getByRole('textbox', { name: 'Matrix definition (JSON)', exact: true })
     .fill(JSON.stringify(definition))
@@ -590,7 +630,7 @@ test('parameter matrices preview first, execute sequentially, and reject excess 
     panel.getByRole('tab', { name: 'Run', exact: true }),
   ).toHaveAttribute('aria-selected', 'true')
   await expect(panel.getByLabel('Response data', { exact: true })).toBeVisible()
-  await openAdvancedTesting(panel)
+  await openRawMatrixEditor(panel)
   await panel
     .getByRole('textbox', { name: 'Matrix definition (JSON)', exact: true })
     .fill(
@@ -839,11 +879,7 @@ test('separate browser profiles exchange a case and compare labeled account snap
     ).__meteorDevtoolsPlaygroundFixture.login('Account A'),
   )
   await compose(panelA, 'playground.access', ['playground-account-1', true])
-  await panelA
-    .getByText('Case metadata, expectations, and comparison exclusions', {
-      exact: true,
-    })
-    .click()
+  await openAdvancedTesting(panelA)
   await panelA
     .getByRole('textbox', { name: 'Case title', exact: true })
     .fill('Shared account comparison')

@@ -93,7 +93,7 @@ test.beforeEach(async ({ page, extensionId }) => {
 
 test('presents two focused surfaces and progressively discloses tools', async ({
   page,
-}) => {
+}, testInfo) => {
   const tabs = page.getByRole('tablist', { name: 'Playground sections' })
   const name = page.getByRole('combobox', {
     name: 'Method or publication name',
@@ -106,17 +106,52 @@ test('presents two focused surfaces and progressively discloses tools', async ({
 
   await expect(tabs.getByRole('tab')).toHaveText([...SECTIONS])
   await expect(
+    page.getByRole('link', { name: 'Open Playground guide', exact: true }),
+  ).toHaveAttribute('href', /docs\/ddp-playground\.md#quick-start$/)
+  await expect(
     page.getByRole('tabpanel', { name: 'Run', exact: true }),
   ).toBeVisible()
   await expect(
     page.getByRole('combobox', { name: 'Execution mode', exact: true }),
   ).toBeHidden()
+  await expect(
+    page.getByRole('button', { name: 'Add expectation', exact: true }),
+  ).toBeHidden()
+  await expect(
+    page.getByRole('heading', { name: 'Parameter matrix', exact: true }),
+  ).toBeHidden()
   await name.fill('demo.draft')
   await parameters.fill('[{"draft":true}]')
-  await page.getByText('Execution settings', { exact: true }).click()
+  await page.getByText('Advanced testing', { exact: true }).click()
   await page
     .getByRole('textbox', { name: 'Session label', exact: true })
     .fill('Draft account')
+  await page
+    .getByRole('button', { name: 'Add expectation', exact: true })
+    .click()
+  await page
+    .getByRole('combobox', { name: 'Expectation 1 kind', exact: true })
+    .selectOption('equals')
+  await page
+    .getByRole('textbox', {
+      name: 'Expectation 1 evidence JSON Pointer',
+      exact: true,
+    })
+    .fill('/result/message')
+  await page
+    .getByRole('textbox', {
+      name: 'Expectation 1 expected value (encoded EJSON)',
+      exact: true,
+    })
+    .fill('"expected"')
+  await page.getByRole('heading', { name: 'Parameter matrix' }).click()
+  await page.getByRole('button', { name: 'Edit raw JSON', exact: true }).click()
+  await expect(
+    page.getByRole('textbox', {
+      name: 'Declarative expectations (JSON array)',
+      exact: true,
+    }),
+  ).toContainText('/result/message')
   await tabs.getByRole('tab', { name: 'Run', exact: true }).focus()
   await page.keyboard.press('ArrowRight')
   await expect(
@@ -146,7 +181,32 @@ test('presents two focused surfaces and progressively discloses tools', async ({
   await expect(
     page.getByRole('textbox', { name: 'Session label', exact: true }),
   ).toHaveValue('Draft account')
-  await page.getByText('Advanced testing', { exact: true }).click()
+  await page
+    .getByRole('button', { name: 'Add parameter change', exact: true })
+    .click()
+  await page
+    .getByRole('textbox', {
+      name: 'Parameter change 1 JSON Pointer',
+      exact: true,
+    })
+    .fill('/0/draft')
+  await page.getByRole('button', { name: 'Add candidate', exact: true }).click()
+  await page
+    .getByRole('combobox', { name: 'Candidate 2', exact: true })
+    .selectOption('null')
+  await page.screenshot({
+    path: testInfo.outputPath('playground-guided-builders.png'),
+    fullPage: true,
+  })
+  await page
+    .getByRole('button', { name: 'Edit raw matrix JSON', exact: true })
+    .click()
+  await expect(
+    page.getByRole('textbox', {
+      name: 'Matrix definition (JSON)',
+      exact: true,
+    }),
+  ).toContainText('/0/draft')
   await page
     .getByRole('textbox', { name: 'Matrix definition (JSON)', exact: true })
     .fill('{"includeBaseline":true,"changes":[]}')
@@ -181,7 +241,7 @@ test('presents two focused surfaces and progressively discloses tools', async ({
     .toEqual([{ sample: 1 }])
 })
 
-for (const width of [1440, 800]) {
+for (const width of [1440, 800, 600]) {
   test(`prioritizes results with responsive request placement at ${width}px`, async ({
     page,
   }, testInfo) => {

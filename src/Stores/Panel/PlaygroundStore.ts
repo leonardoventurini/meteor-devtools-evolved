@@ -1,6 +1,7 @@
 import { makeAutoObservable, runInAction, toJS } from 'mobx'
 import { PlaygroundDatabase } from '../../Database/PlaygroundDatabase'
 import { EndpointCatalog } from '../../Playground/Catalog'
+import { parseMaskMap } from '../../Playground/EditorModels'
 import {
   parseCommand,
   type ExecutionContext,
@@ -934,24 +935,12 @@ export class PlaygroundStore {
   }
   applyMasks(): void {
     if (!this.transferPreview) return
-    const masks: unknown = JSON.parse(this.transferMasksText)
-    validateValue(masks)
-    if (
-      !masks ||
-      typeof masks !== 'object' ||
-      Array.isArray(masks) ||
-      Object.values(masks).some(
-        paths =>
-          !Array.isArray(paths) || paths.some(path => typeof path !== 'string'),
-      )
-    )
-      throw new TypeError(
-        'Masks must map record IDs to arrays of JSON Pointers.',
-      )
+    const masks = parseMaskMap(this.transferMasksText)
+
     this.transferPreview = previewExport(
       toJS(this.transferPreview.cases),
       toJS(this.transferPreview.snapshots),
-      masks as Record<string, string[]>,
+      masks,
       this.transferPreview.exportedAt,
     )
     this.transferMasksApplied = this.transferMasksText

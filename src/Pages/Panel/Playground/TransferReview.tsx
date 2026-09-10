@@ -2,6 +2,7 @@ import React from 'react'
 import { observer } from 'mobx-react-lite'
 import type { PlaygroundStore } from '@/Stores/Panel/PlaygroundStore'
 import { EvidenceJSON } from './EvidenceJSON'
+import { TransferMaskEditor } from './TransferMaskEditor'
 import styles from './Playground.module.css'
 
 export const TransferReview = observer(
@@ -21,24 +22,9 @@ export const TransferReview = observer(
           hints, and notes for application-specific secrets; add JSON Pointer
           masks before confirming.
         </p>
-        <label>
-          Additional masks by record ID (JSON)
-          <textarea
-            rows={4}
-            value={store.transferMasksText}
-            onChange={event =>
-              store.setField('transferMasksText', event.target.value)
-            }
-          />
-        </label>
-        <p className={styles.muted}>
-          Example: {`{"record-id": ["/operation/parameters/0/secret"]}`}.
-          Snapshot argument paths start with /request/operation/parameters;
-          evidence paths start with /evidence/data. Masked values remain marked
-          as redacted.
-        </p>
+        <TransferMaskEditor store={store} />
         <button onClick={() => void store.attempt(store.applyMasks)}>
-          Apply masks and refresh preview
+          Apply redactions and refresh preview
         </button>
         <EvidenceJSON
           value={store.transferPreview}

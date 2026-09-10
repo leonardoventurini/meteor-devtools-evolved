@@ -242,7 +242,7 @@ export const parseExpectation = (input: unknown): Expectation => {
     }
   }
 }
-const matrix = (
+export const parseMatrixDefinition = (
   input: EncodedValue,
   parameters: EncodedValue[],
   masked: boolean,
@@ -351,7 +351,13 @@ export const parseCase = (input: unknown): SavedCase => {
     expectations: array(v.expectations).map(item => parseExpectation(item)),
     ...(v.matrix === undefined
       ? {}
-      : { matrix: matrix(v.matrix, op.parameters, masks.length > 0) }),
+      : {
+          matrix: parseMatrixDefinition(
+            v.matrix,
+            op.parameters,
+            masks.length > 0,
+          ),
+        }),
     excludedPaths: pointers(v.excludedPaths),
     redactedPaths: masks,
   }

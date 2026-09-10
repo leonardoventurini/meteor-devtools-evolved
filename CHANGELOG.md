@@ -9,8 +9,10 @@ All notable changes to this project will be documented in this file.
 ### Changed
 
 - Reorganized Playground into focused Run and History workspaces, with observed
-  endpoints and matrix testing progressively disclosed while preserving drafts,
-  active work, saved records, and comparison workflows.
+  endpoints and advanced testing progressively disclosed, guided expectation,
+  matrix, and transfer-redaction builders with optional raw JSON, and a linked
+  task guide while preserving drafts, active work, saved records, and comparison
+  workflows.
 - Replaced runtime styled-components styling with component-scoped CSS Modules
   and shared design tokens, and separated Playground presentation into focused
   components while retaining existing workflows.
