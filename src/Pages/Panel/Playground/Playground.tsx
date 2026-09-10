@@ -68,9 +68,6 @@ export const Playground = observer(({ isVisible }: { isVisible: boolean }) => {
               }}
             >
               {PLAYGROUND_TAB_LABELS[tab]}
-              {tab === PLAYGROUND_TAB.MATRIX &&
-                store.matrixRunning &&
-                ' · running'}
             </button>
           ))}
         </div>
@@ -106,20 +103,37 @@ export const Playground = observer(({ isVisible }: { isVisible: boolean }) => {
             tabIndex={0}
           >
             {tab === PLAYGROUND_TAB.RUN && (
-              <div className={styles.runLayout}>
-                <RequestEditor
-                  store={store}
-                  onSelectConnection={connectionId =>
-                    panel.setActiveConnectionId(connectionId)
-                  }
-                />
-                <RunResults store={store} />
+              <>
+                <div className={styles.runLayout}>
+                  <RequestEditor
+                    store={store}
+                    onSelectConnection={connectionId =>
+                      panel.setActiveConnectionId(connectionId)
+                    }
+                  />
+                  <RunResults store={store} />
+                </div>
+                <div className={styles.secondaryTools}>
+                  <details>
+                    <summary>Browse observed endpoints</summary>
+                    <Catalog store={store} />
+                  </details>
+                  <details>
+                    <summary>
+                      Advanced testing
+                      {store.matrixRunning && ' · matrix running'}
+                    </summary>
+                    <Matrix store={store} />
+                  </details>
+                </div>
+              </>
+            )}
+            {tab === PLAYGROUND_TAB.HISTORY && (
+              <div className={styles.historyLayout}>
+                <SavedRecords store={store} />
+                <Comparison store={store} />
               </div>
             )}
-            {tab === PLAYGROUND_TAB.COMPARE && <Comparison store={store} />}
-            {tab === PLAYGROUND_TAB.MATRIX && <Matrix store={store} />}
-            {tab === PLAYGROUND_TAB.CATALOG && <Catalog store={store} />}
-            {tab === PLAYGROUND_TAB.SAVED && <SavedRecords store={store} />}
           </div>
         ))}
       </div>

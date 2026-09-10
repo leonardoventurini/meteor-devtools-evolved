@@ -157,6 +157,42 @@
   margin-bottom: 0;
 }
 
+.secondaryTools {
+  margin-top: var(--mde-space-4);
+}
+
+.secondaryTools > details {
+  border-top: 1px solid rgba(128, 128, 128, 0.35);
+  margin: 0;
+}
+
+.secondaryTools > details > summary {
+  font-weight: 600;
+  padding: var(--mde-space-3) 0;
+}
+
+.secondaryTools > details > section {
+  margin-top: var(--mde-space-2);
+}
+
+.historyLayout {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr);
+  gap: var(--mde-space-4);
+  align-items: start;
+}
+
+.historyLayout > section {
+  min-width: 0;
+  margin-bottom: 0;
+}
+
+@container (min-width: 900px) {
+  .historyLayout {
+    grid-template-columns: minmax(0, 3fr) minmax(0, 2fr);
+  }
+}
+
 @container (min-width: 900px) {
   .runLayout {
     grid-template-columns: minmax(0, 2fr) minmax(0, 3fr);

@@ -518,7 +518,7 @@ export class PlaygroundStore {
     this[key] = value
     if (key === 'selectedRunId') this.activeTab = PLAYGROUND_TAB.RUN
     if (key === 'comparisonLeft' || key === 'comparisonRight')
-      this.activeTab = PLAYGROUND_TAB.COMPARE
+      this.activeTab = PLAYGROUND_TAB.HISTORY
     if (
       [
         'name',

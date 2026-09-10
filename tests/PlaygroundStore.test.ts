@@ -33,13 +33,7 @@ describe('playground panel lifecycle and drafts', () => {
     const preview = JSON.stringify(store.matrixPreview)
     const sent = commands.length
 
-    for (const tab of [
-      'compare',
-      'matrix',
-      'catalog',
-      'saved',
-      'run',
-    ] as const) {
+    for (const tab of ['history', 'run'] as const) {
       store.selectTab(tab)
       expect(store.activeTab).toBe(tab)
       expect(store.name).toBe('echo')
@@ -52,19 +46,19 @@ describe('playground panel lifecycle and drafts', () => {
   it('routes explicit draft, run inspection, and comparison actions to their tabs', () => {
     const { store } = setup()
 
-    store.selectTab('catalog')
+    store.selectTab('history')
     store.openDraft(
       { kind: 'method', name: 'echo', parameters: [] },
       'default',
       'page',
     )
     expect(store.activeTab).toBe('run')
-    store.selectTab('matrix')
+    store.selectTab('history')
     store.setField('selectedRunId', 'inspected-run')
     expect(store.activeTab).toBe('run')
-    store.selectTab('saved')
+    store.selectTab('run')
     store.setField('comparisonLeft', 'snapshot')
-    expect(store.activeTab).toBe('compare')
+    expect(store.activeTab).toBe('history')
     store.dispose()
   })
   it('opens an explicit session and renews until disposed', () => {

@@ -64,9 +64,17 @@ const settled = async (page: Page, previousId?: string): Promise<RunRecord> => {
 
 const selectPlaygroundTab = async (
   panel: Page,
-  name: 'Run' | 'Compare' | 'Matrix' | 'Catalog' | 'Saved',
+  name: 'Run' | 'History',
 ): Promise<void> => {
   await panel.getByRole('tab', { name, exact: true }).click()
+}
+const openAdvancedTesting = async (panel: Page): Promise<void> => {
+  const summary = panel.getByText('Advanced testing', { exact: true })
+  const details = summary.locator('..')
+
+  await selectPlaygroundTab(panel, 'Run')
+  if (!(await details.evaluate(element => element.hasAttribute('open'))))
+    await summary.click()
 }
 const openExecutionSettings = async (panel: Page): Promise<void> => {
   const summary = panel.getByText('Execution settings', { exact: true })
@@ -263,7 +271,7 @@ test('manual composer dispatches only on Run and correlates selected connections
   await panel.getByText('Run details', { exact: true }).click()
   await expect(panel.getByLabel('Run evidence', { exact: true })).toBeVisible()
   await panel.getByText('Run details', { exact: true }).click()
-  await selectPlaygroundTab(panel, 'Catalog')
+  await selectPlaygroundTab(panel, 'History')
   await expect(panel.getByLabel('Response data', { exact: true })).toBeHidden()
   await selectPlaygroundTab(panel, 'Run')
   await expect(panel.getByLabel('Response data', { exact: true })).toBeVisible()
@@ -467,7 +475,7 @@ test('real IndexedDB saves reviewed immutable snapshots and imports new local ID
     .poll(() => databaseRecords(panel).then(data => data.snapshots.length))
     .toBe(1)
   const before = await databaseRecords(panel)
-  await selectPlaygroundTab(panel, 'Saved')
+  await selectPlaygroundTab(panel, 'History')
   await panel.getByRole('checkbox', { name: /Portable echo case/ }).check()
   await panel
     .getByRole('checkbox', { name: /Account A · fixture.echo/ })
@@ -486,7 +494,7 @@ test('real IndexedDB saves reviewed immutable snapshots and imports new local ID
   const downloadPath = await download.path()
   if (!downloadPath) throw new Error('Reviewed export download unavailable.')
   const exported = await readFile(downloadPath, 'utf8')
-  await selectPlaygroundTab(panel, 'Saved')
+  await selectPlaygroundTab(panel, 'History')
   await panel
     .getByLabel('Import playground file', { exact: true })
     .setInputFiles({
@@ -508,7 +516,7 @@ test('real IndexedDB saves reviewed immutable snapshots and imports new local ID
     after.snapshots.find(snapshot => snapshot.id === before.snapshots[0]?.id),
   ).toEqual(before.snapshots[0])
   expect(new Set(after.snapshots.map(snapshot => snapshot.id)).size).toBe(2)
-  await selectPlaygroundTab(panel, 'Compare')
+  await selectPlaygroundTab(panel, 'History')
   await panel
     .getByRole('combobox', { name: 'Baseline snapshot', exact: true })
     .selectOption(after.snapshots[0]!.id)
@@ -543,7 +551,7 @@ test('parameter matrices preview first, execute sequentially, and reject excess 
       },
     ],
   }
-  await selectPlaygroundTab(panel, 'Matrix')
+  await openAdvancedTesting(panel)
   await panel
     .getByRole('textbox', { name: 'Matrix definition (JSON)', exact: true })
     .fill(JSON.stringify(definition))
@@ -582,7 +590,7 @@ test('parameter matrices preview first, execute sequentially, and reject excess 
     panel.getByRole('tab', { name: 'Run', exact: true }),
   ).toHaveAttribute('aria-selected', 'true')
   await expect(panel.getByLabel('Response data', { exact: true })).toBeVisible()
-  await selectPlaygroundTab(panel, 'Matrix')
+  await openAdvancedTesting(panel)
   await panel
     .getByRole('textbox', { name: 'Matrix definition (JSON)', exact: true })
     .fill(
@@ -715,7 +723,7 @@ test('reviewed import exceeding storage quota rolls back both IndexedDB tables',
     exportedAt: Date.now(),
     ...original,
   }
-  await selectPlaygroundTab(panel, 'Saved')
+  await selectPlaygroundTab(panel, 'History')
   await panel
     .getByLabel('Import playground file', { exact: true })
     .setInputFiles({
@@ -774,7 +782,7 @@ test('duplicate commands and Stop never repeat a dispatched server invocation', 
     .toBe(true)
   const invoked = await latest(page)
   if (!invoked) throw new Error('Expected dispatched method.')
-  await selectPlaygroundTab(panel, 'Saved')
+  await selectPlaygroundTab(panel, 'History')
   await selectPlaygroundTab(panel, 'Run')
   await expect(
     panel.getByRole('button', { name: 'Stop local waiting', exact: true }),
@@ -860,7 +868,7 @@ test('separate browser profiles exchange a case and compare labeled account snap
   await expect
     .poll(() => databaseRecords(panelA).then(data => data.snapshots.length))
     .toBe(1)
-  await selectPlaygroundTab(panelA, 'Saved')
+  await selectPlaygroundTab(panelA, 'History')
   await panelA
     .getByRole('checkbox', { name: /Shared account comparison/ })
     .check()
@@ -896,7 +904,7 @@ test('separate browser profiles exchange a case and compare labeled account snap
         globalThis as unknown as InspectedRuntime
       ).__meteorDevtoolsPlaygroundFixture.login('Account B'),
     )
-    await selectPlaygroundTab(panelB, 'Saved')
+    await selectPlaygroundTab(panelB, 'History')
     await panelB
       .getByLabel('Import playground file', { exact: true })
       .setInputFiles({
@@ -950,7 +958,7 @@ test('separate browser profiles exchange a case and compare labeled account snap
     )
     expect(snapshotA?.caseId).toBe(snapshotB?.caseId)
     expect(snapshotA?.caseRevision).toBe(snapshotB?.caseRevision)
-    await selectPlaygroundTab(panelB, 'Compare')
+    await selectPlaygroundTab(panelB, 'History')
     await panelB
       .getByRole('combobox', { name: 'Baseline snapshot', exact: true })
       .selectOption(snapshotA!.id)

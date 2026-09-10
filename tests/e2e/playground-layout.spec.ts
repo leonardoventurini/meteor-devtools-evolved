@@ -2,7 +2,7 @@ import type { RunCommand } from '../../src/Playground/Commands'
 import type { RunRecord } from '../../src/Playground/RunRecord'
 import { expect, test } from './fixtures'
 
-const SECTIONS = ['Run', 'Compare', 'Matrix', 'Catalog', 'Saved'] as const
+const SECTIONS = ['Run', 'History'] as const
 const PAGE_EPOCH = 'playground-layout'
 
 interface PlaygroundHost {
@@ -91,7 +91,7 @@ test.beforeEach(async ({ page, extensionId }) => {
     .selectOption('default')
 })
 
-test('separates sections with keyboard navigation and preserves drafts and controls', async ({
+test('presents two focused surfaces and progressively discloses tools', async ({
   page,
 }) => {
   const tabs = page.getByRole('tablist', { name: 'Playground sections' })
@@ -120,14 +120,14 @@ test('separates sections with keyboard navigation and preserves drafts and contr
   await tabs.getByRole('tab', { name: 'Run', exact: true }).focus()
   await page.keyboard.press('ArrowRight')
   await expect(
-    tabs.getByRole('tab', { name: 'Compare', exact: true }),
+    tabs.getByRole('tab', { name: 'History', exact: true }),
   ).toBeFocused()
   await expect(
-    page.getByRole('tabpanel', { name: 'Compare', exact: true }),
+    page.getByRole('tabpanel', { name: 'History', exact: true }),
   ).toBeVisible()
   await page.keyboard.press('End')
   await expect(
-    tabs.getByRole('tab', { name: 'Saved', exact: true }),
+    tabs.getByRole('tab', { name: 'History', exact: true }),
   ).toBeFocused()
   await page.keyboard.press('ArrowRight')
   await expect(
@@ -135,7 +135,7 @@ test('separates sections with keyboard navigation and preserves drafts and contr
   ).toBeFocused()
   await page.keyboard.press('ArrowLeft')
   await expect(
-    tabs.getByRole('tab', { name: 'Saved', exact: true }),
+    tabs.getByRole('tab', { name: 'History', exact: true }),
   ).toBeFocused()
   await page.keyboard.press('Home')
   await expect(name).toHaveValue('demo.draft')
@@ -146,7 +146,7 @@ test('separates sections with keyboard navigation and preserves drafts and contr
   await expect(
     page.getByRole('textbox', { name: 'Session label', exact: true }),
   ).toHaveValue('Draft account')
-  await tabs.getByRole('tab', { name: 'Matrix', exact: true }).click()
+  await page.getByText('Advanced testing', { exact: true }).click()
   await page
     .getByRole('textbox', { name: 'Matrix definition (JSON)', exact: true })
     .fill('{"includeBaseline":true,"changes":[]}')
@@ -155,8 +155,8 @@ test('separates sections with keyboard navigation and preserves drafts and contr
       name: 'Continue after server error or failed expectation',
     })
     .check()
+  await tabs.getByRole('tab', { name: 'History', exact: true }).click()
   await tabs.getByRole('tab', { name: 'Run', exact: true }).click()
-  await tabs.getByRole('tab', { name: 'Matrix', exact: true }).click()
   await expect(
     page.getByRole('textbox', {
       name: 'Matrix definition (JSON)',
@@ -168,7 +168,7 @@ test('separates sections with keyboard navigation and preserves drafts and contr
       name: 'Continue after server error or failed expectation',
     }),
   ).toBeChecked()
-  await tabs.getByRole('tab', { name: 'Catalog', exact: true }).click()
+  await page.getByText('Browse observed endpoints', { exact: true }).click()
   await page
     .getByRole('button', { name: 'Edit example 1', exact: false })
     .click()
@@ -228,7 +228,7 @@ for (const outcome of ['success', 'error'] as const) {
       })
       .fill('demo.echo')
     await page.getByRole('button', { name: 'Run method', exact: true }).click()
-    await page.getByRole('tab', { name: 'Catalog', exact: true }).click()
+    await page.getByRole('tab', { name: 'History', exact: true }).click()
     await page.evaluate(outcome => {
       const host = globalThis as unknown as PlaygroundHost
       const request = host.pendingRun
@@ -275,7 +275,7 @@ for (const outcome of ['success', 'error'] as const) {
       })
     }, outcome)
     await expect(
-      page.getByRole('tab', { name: 'Catalog', exact: true }),
+      page.getByRole('tab', { name: 'History', exact: true }),
     ).toHaveAttribute('aria-selected', 'true')
     await page.getByRole('tab', { name: 'Run', exact: true }).click()
     const results = page.getByRole('region', {
