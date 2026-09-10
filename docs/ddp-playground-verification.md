@@ -1,7 +1,52 @@
 # DDP Playground verification and handoff
 
-Verified on 2026-09-05 for `meteor-devtools-evolved`. The complete feature set is
-implemented in one rollout. Automated browser tests run **headlessly**.
+Originally verified on 2026-09-05 for `meteor-devtools-evolved`. The progressive
+workspace polish was verified on 2026-09-10. Automated browser tests run
+**headlessly** unless a check explicitly says otherwise.
+
+## Progressive workspace verification — 2026-09-10
+
+| Check                                            | Result                                                             |
+| ------------------------------------------------ | ------------------------------------------------------------------ |
+| `yarn test`                                      | 399 tests passed across 64 files                                   |
+| `yarn typecheck`                                 | Passed, including strict application, E2E, and Playground projects |
+| `yarn lint`                                      | Passed                                                             |
+| Focused Prettier check for changed documentation | Passed                                                             |
+| `yarn build:chrome` / `yarn build:firefox`       | Passed; existing large-chunk warning remained                      |
+| Chrome and Firefox artifact validation           | Passed                                                             |
+| `yarn test:ui`                                   | 12 packaged-panel tests passed                                     |
+| Focused post-change Playground UI run            | 6 tests passed                                                     |
+| `yarn test:e2e`                                  | 38 tests passed against Meteor 3.5.1                               |
+| `yarn test:e2e:meteor2`                          | 38 tests passed against Meteor 2.16                                |
+
+The packaged-panel checks proved that Run and History are the only top-level
+Playground destinations; keyboard navigation and 600, 800, and 1440px layouts
+remain usable; advanced controls start hidden; and the guide is reachable from
+the workspace. Guided expectation and matrix authoring round-tripped through
+raw JSON. Changing a reviewed matrix through the guided builder invalidated the
+preview and dispatched no command. The live suites exercised guided transfer
+redaction, reviewed IndexedDB persistence, import/export, comparison, matrices,
+current-session execution, clean anonymous connections, and explicit Accounts
+session reuse on both Meteor versions.
+
+A headed Chrome session loaded the real Meteor 3.5 fixture with the unpacked
+Chrome build and opened DevTools. The page had no runtime errors; its console
+contained only expected HMR and React development messages. Chrome did not
+publish the native DevTools frontend or custom panel as a CDP target, while
+macOS denied assistive-access automation and display capture. Therefore no
+human-equivalent native-panel click-through is claimed. The temporary report and
+fixture screenshot are under
+`/private/tmp/meteor-devtools-playground-manual/`. The browser was closed; the
+pre-existing fixture process on port 2100 was left untouched.
+
+This polish changed presentation and authoring only. The command protocol,
+IndexedDB schema, export format, security boundary, quotas, and production
+dependencies did not change. The 2026-09-10
+[specification](../specs/2026-09-10-playground-progressive-workspace.md) and
+[decision](../decisions/2026-09-10-playground-progressive-workspace.md) describe
+the approved scope and recovery path.
+
+## Original feature verification — 2026-09-05
 
 ## Executed checks
 

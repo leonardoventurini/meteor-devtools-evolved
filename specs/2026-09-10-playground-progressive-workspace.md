@@ -77,24 +77,30 @@ separate sections and record types even though the navigation groups them.
 Tests are designed before implementation and extend the existing Vitest and
 packaged-panel Playwright architecture.
 
-- [ ] Add failing navigation tests proving that only Run and History are
+- [x] Add failing navigation tests proving that only Run and History are
       top-level tabs and that advanced/catalog disclosures preserve state.
-- [ ] Add failing routing tests for catalog examples, saved cases, snapshots,
+- [x] Add failing routing tests for catalog examples, saved cases, snapshots,
       comparisons, and transfer review.
-- [ ] Add failing builder tests proving expectation, matrix, and mask controls
+- [x] Add failing builder tests proving expectation, matrix, and mask controls
       produce the existing JSON contracts and raw JSON remains available.
-- [ ] Verify guided edits invalidate matrix previews exactly as equivalent raw
+- [x] Verify guided edits invalidate matrix previews exactly as equivalent raw
       edits do, without dispatching commands.
-- [ ] Verify keyboard navigation, narrow/wide layout, empty states, visible
+- [x] Verify keyboard navigation, narrow/wide layout, empty states, visible
       response summaries, and focus behavior in the packaged panel.
-- [ ] Run focused tests during implementation, then the full unit suite,
+- [x] Run focused tests during implementation, then the full unit suite,
       typecheck, lint, Chrome build/validation, packaged UI tests, Meteor 3 live
       Playground integration, and automated Meteor 2 compatibility coverage.
 - [ ] Manually inspect Run, Advanced testing, endpoint browsing, History,
       comparison, and transfer review in packaged Chrome against Meteor 3;
       capture screenshots and console errors.
-- [ ] Update the usage guide, focused recipes, README, changelog, decision, and
+- [x] Update the usage guide, focused recipes, README, changelog, decision, and
       verification record to match behavior actually checked.
+
+The headed Chrome session reached the Meteor 3 fixture with the unpacked
+extension and opened DevTools, but Chrome did not expose its custom panel as an
+automation target. macOS denied assistive-access automation and display capture,
+so the native panel click-through remains explicitly unverified. The packaged
+panel and live Meteor 3 workflows passed automated coverage.
 
 Acceptance is observable when a first-time user can compose and run a request
 without encountering advanced concepts, while every previous workflow remains

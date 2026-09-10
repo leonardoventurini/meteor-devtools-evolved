@@ -208,6 +208,27 @@ test('presents two focused surfaces and progressively discloses tools', async ({
     }),
   ).toContainText('/0/draft')
   await page
+    .getByRole('button', { name: 'Use guided matrix builder', exact: true })
+    .click()
+  await page
+    .getByRole('button', { name: 'Preview variants', exact: true })
+    .click()
+  await expect(
+    page.getByRole('button', { name: 'Start reviewed matrix', exact: true }),
+  ).toBeVisible()
+  await page.getByRole('button', { name: 'Add candidate', exact: true }).click()
+  await expect(
+    page.getByRole('button', { name: 'Start reviewed matrix', exact: true }),
+  ).toBeDisabled()
+  await expect
+    .poll(() =>
+      page.evaluate(() => (globalThis as unknown as PlaygroundHost).pendingRun),
+    )
+    .toBeUndefined()
+  await page
+    .getByRole('button', { name: 'Edit raw matrix JSON', exact: true })
+    .click()
+  await page
     .getByRole('textbox', { name: 'Matrix definition (JSON)', exact: true })
     .fill('{"includeBaseline":true,"changes":[]}')
   await page
