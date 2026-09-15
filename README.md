@@ -32,7 +32,7 @@ Meteor Devtools Evolved is currently available for Google Chrome and Mozilla Fir
 
 Are you beginning with Meteor? Do you want to get a sense of "what is going on" or even to optimize your Meteor app? This is the tool for you.
 
-:point_right: [Changelog](CHANGELOG.md) · [Contributing guide](CONTRIBUTING.md)
+:point_right: [Changelog](CHANGELOG.md) · [Privacy policy](PRIVACY.md) · [Contributing guide](CONTRIBUTING.md)
 
 ## Features
 
@@ -98,6 +98,9 @@ collection calls and Meteor 3 asynchronous settlement timing while preserving
 application return values and errors.
 
 ### Privacy
+
+Read the full [privacy policy](PRIVACY.md) for how inspected application data is
+handled and how local records can be removed.
 
 The extension does not collect or send analytics. Bookmarks remain in your
 browser's local IndexedDB storage. Playground cases and snapshots use a separate
