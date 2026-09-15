@@ -109,8 +109,8 @@ settings storage and is not transmitted. Playground runs send explicit requests
 to the selected application's server. Internal session-reuse credentials stay in
 the inspected page and bypass ordinary capture and persistence; manually entered
 payloads can contain secrets and remain visible in ephemeral inspection history.
-Review redaction before saving or exporting. Other network access includes the
-GitHub API for repository metadata and links explicitly opened from the extension.
+Review redaction before saving or exporting. External links open only when you
+choose them.
 
 ## Install
 

@@ -13,6 +13,7 @@ import { compact, flatten, omit } from '@/Utils/Objects'
 export class SettingStore implements ISettings {
   hydrated = false
 
+  // Preserve the shape of settings saved by earlier versions; this cache is no longer used.
   repositoryData: IGitHubRepository | null = null
 
   activeFilterBlacklist: string[] = []
@@ -27,11 +28,8 @@ export class SettingStore implements ISettings {
 
   constructor() {
     makeObservable(this, {
-      repositoryData: observable,
       activeFilterBlacklist: observable,
       activeFilters: observable,
-      setRepositoryData: action,
-      updateRepositoryData: action,
       setFilter: action,
     })
 
@@ -60,31 +58,6 @@ export class SettingStore implements ISettings {
         }
       },
     )
-  }
-
-  setRepositoryData(repositoryData: IGitHubRepository) {
-    this.repositoryData = repositoryData
-  }
-
-  updateRepositoryData() {
-    fetch(
-      'https://api.github.com/repos/leonardoventurini/meteor-devtools-evolved',
-    )
-      .then(response => response.json())
-      .then(data => {
-        if (data) {
-          if (!data.stargazers_count || !data.open_issues_count) {
-            console.log('Not updating repository data', data)
-            return
-          }
-
-          runInAction(() => {
-            this.setRepositoryData(data)
-          })
-        }
-      })
-
-      .catch(console.error)
   }
 
   setFilter(type: FilterType, isEnabled: boolean) {

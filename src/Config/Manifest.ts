@@ -21,7 +21,6 @@ export const createManifest = (browser: TargetBrowser) => ({
     default_icon: '/icons/meteor-48.png',
   },
   permissions: ['storage'],
-  host_permissions: ['https://api.github.com/*'],
   web_accessible_resources: [
     {
       resources: ['inject.js'],

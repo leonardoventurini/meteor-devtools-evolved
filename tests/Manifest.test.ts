@@ -6,7 +6,6 @@ const chromeManifest = createManifest('chrome')
 const firefoxManifest = createManifest('firefox')
 const webPageMatches = ['http://*/*', 'https://*/*']
 const iconSizes = ['16', '32', '48', '128']
-const analyticsOrigin = 'https://www.google-analytics.com/*'
 
 describe('browser manifest policy', () => {
   it('uses the package version for every browser', () => {
@@ -40,10 +39,9 @@ describe('browser manifest policy', () => {
     expect(Object.keys(firefoxManifest.icons)).toEqual(iconSizes)
   })
 
-  it('does not request retired analytics access or tab metadata', () => {
-    expect(chromeManifest.host_permissions).not.toContain(analyticsOrigin)
-    expect(firefoxManifest.host_permissions).not.toContain(analyticsOrigin)
-    expect(firefoxManifest.host_permissions).not.toContain('tabs')
+  it('does not request host access for public repository links', () => {
+    expect(chromeManifest).not.toHaveProperty('host_permissions')
+    expect(firefoxManifest).not.toHaveProperty('host_permissions')
   })
 
   it('uses extension-local storage for cross-context settings', () => {

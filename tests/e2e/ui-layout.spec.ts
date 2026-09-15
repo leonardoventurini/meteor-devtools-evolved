@@ -5,6 +5,8 @@ const SIDEBAR_WIDTH = 160
 const STATUS_HEIGHT = 29
 const MINIMUM_PANEL_WIDTH = 600
 const VIEWPORT_HEIGHT = 720
+const REPOSITORY_URL =
+  'https://github.com/leonardoventurini/meteor-devtools-evolved'
 
 interface PanelMessageScope {
   chrome: {
@@ -265,9 +267,30 @@ test('keeps subscription columns bounded and JSON inspection interactive', async
 })
 
 test.beforeEach(async ({ page, extensionId }) => {
-  // Remote repository metadata must not make toolbar geometry nondeterministic.
   await page.route('https://**/*', route => route.abort())
   await page.goto(`chrome-extension://${extensionId}/devtools-panel.html`)
+})
+
+test('keeps repository links available without network access', async ({
+  page,
+}) => {
+  const context = page.context()
+
+  await context.route('https://**/*', route => route.abort())
+  await expect(page.getByRole('button', { name: 'Star' })).toBeVisible()
+  await expect(page.getByRole('button', { name: 'Issues' })).toBeVisible()
+
+  for (const [name, path] of [
+    ['Star', 'stargazers'],
+    ['Issues', 'issues'],
+  ] as const) {
+    const [tab] = await Promise.all([
+      context.waitForEvent('page'),
+      page.getByRole('button', { name }).click(),
+    ])
+
+    await expect.poll(() => tab.url()).toBe(`${REPOSITORY_URL}/${path}`)
+  }
 })
 
 for (const width of [1280, 480]) {

@@ -40,10 +40,8 @@ to the selected Meteor application's server. The application server handles
 that request under its own privacy and security practices. The extension does
 not send that request to its developer.
 
-The extension requests public repository metadata from the GitHub API for its
-repository information display. It does not include inspected application data
-in that request. Links opened from the extension go to the sites you choose to
-visit.
+Links opened from the extension go to the sites you choose to visit. The
+extension does not request repository metadata from the GitHub API.
 
 The extension has no developer-operated service that receives your inspected
 application data, bookmarks, saved cases, snapshots, or preferences.

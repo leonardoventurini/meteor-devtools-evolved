@@ -69,10 +69,7 @@ if (browser === 'firefox') {
       .required,
     ['none'],
   )
-  assert.deepEqual(manifest.permissions, [
-    'storage',
-    'https://api.github.com/*',
-  ])
+  assert.deepEqual(manifest.permissions, ['storage'])
 }
 
 for (const htmlFile of ['devtools.html', 'devtools-panel.html']) {

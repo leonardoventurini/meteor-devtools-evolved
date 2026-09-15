@@ -26,6 +26,8 @@ All notable changes to this project will be documented in this file.
 
 ### Removed
 
+- Removed GitHub API host access and the live star count while retaining the
+  Star and Issues links in the DevTools toolbar.
 - Removed styled-components, its unused polished helper, and obsolete runtime
   styling mixins and breakpoint definitions from the extension.
 

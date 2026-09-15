@@ -1,24 +1,14 @@
-import { PanelPage } from '@/Constants'
-import React, { FunctionComponent, useEffect } from 'react'
+import { GITHUB_REPOSITORY_URL, PanelPage } from '@/Constants'
+import React, { FunctionComponent } from 'react'
 import { usePanelStore } from '@/Stores/PanelStore'
 import { observer } from 'mobx-react-lite'
 import { syncConnectionData, syncMinimongo, syncSubscriptions } from '@/Bridge'
 import { IMenuItem, ITab, TabBar } from '@/Components/TabBar'
-import { Tag } from '@blueprintjs/core'
-import { isNumber } from 'lodash'
 import { openTab } from '@/Utils/BackgroundEvents'
 import { ConnectionSelector } from './ConnectionSelector'
 
 export const Navigation: FunctionComponent = observer(() => {
   const panelStore = usePanelStore()
-
-  useEffect(() => {
-    setTimeout(() => {
-      panelStore.settingStore.updateRepositoryData()
-    }, 2000)
-  }, [])
-
-  const { repositoryData } = panelStore.settingStore
 
   const tabs: ITab[] = [
     {
@@ -68,6 +58,20 @@ export const Navigation: FunctionComponent = observer(() => {
 
   const menu: IMenuItem[] = [
     {
+      key: 'star',
+      icon: 'star',
+      content: <strong>Star</strong>,
+      shine: true,
+      handler: () => openTab(`${GITHUB_REPOSITORY_URL}/stargazers`),
+    },
+    {
+      key: 'feedback',
+      icon: 'issue',
+      content: <strong>Issues</strong>,
+      shine: true,
+      handler: () => openTab(`${GITHUB_REPOSITORY_URL}/issues`),
+    },
+    {
       key: 'help',
       icon: 'help',
       content: 'Help',
@@ -84,38 +88,6 @@ export const Navigation: FunctionComponent = observer(() => {
       shine: true,
     },
   ]
-
-  if (repositoryData) {
-    menu.unshift(
-      {
-        key: 'star',
-        icon: 'star',
-        content: (
-          <>
-            <strong>Star</strong>
-            {isNumber(repositoryData.stargazers_count) ? (
-              <Tag minimal round style={{ marginLeft: '.5rem' }}>
-                {repositoryData.stargazers_count}
-              </Tag>
-            ) : null}
-          </>
-        ),
-        shine: true,
-        handler: () => {
-          openTab(`${repositoryData.html_url}/stargazers`)
-        },
-      },
-      {
-        key: 'feedback',
-        icon: 'issue',
-        content: <strong>Issues</strong>,
-        handler: () => {
-          openTab(`${repositoryData.html_url}/issues`)
-        },
-        shine: true,
-      },
-    )
-  }
 
   return (
     <TabBar

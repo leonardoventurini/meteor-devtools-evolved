@@ -9,6 +9,7 @@ export default defineConfig({
     includeSources: [
       '.yarnrc.yml',
       'LICENSE.md',
+      'PRIVACY.md',
       'README.md',
       'package.json',
       'postcss.config.js',
