@@ -48,6 +48,10 @@ export interface MeteorFixtureDescriptor {
   release: string
   requiredSubscriptions: readonly string[]
   methods: readonly string[]
+  /**
+   * Launches the process supervisor directly so Playwright can wait for its
+   * owned Meteor process group to stop during web-server teardown.
+   */
   startCommand: string
   url: string
 }
@@ -71,7 +75,7 @@ export const METEOR_FIXTURES = {
     release: 'METEOR@3.5.1',
     requiredSubscriptions: ['links', 'fixture.dashboard', 'fixture.tasks'],
     methods: FIXTURE_METHODS,
-    startCommand: 'yarn devapp',
+    startCommand: 'node scripts/run-development.mjs app',
     url: 'http://127.0.0.1:2100',
   },
   'devapp-2.16': {
@@ -97,7 +101,7 @@ export const METEOR_FIXTURES = {
       'fixture.dashboard',
     ],
     methods: FIXTURE_METHODS,
-    startCommand: 'yarn devapp:2',
+    startCommand: 'node scripts/run-development.mjs app:2',
     url: 'http://127.0.0.1:2200',
   },
 } as const satisfies Record<string, MeteorFixtureDescriptor>
