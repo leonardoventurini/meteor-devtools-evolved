@@ -8,6 +8,9 @@ All notable changes to this project will be documented in this file.
 
 ### Changed
 
+- Changed Meteor integration CI startup to launch the supervised fixture directly
+  so browser tests waited for fixture cleanup.
+- Changed GitHub CI push verification to follow the main branch.
 - Reorganized Playground into focused Run and History workspaces, with observed
   endpoints and advanced testing progressively disclosed, guided expectation,
   matrix, and transfer-redaction builders with optional raw JSON, and a linked
