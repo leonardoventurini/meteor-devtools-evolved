@@ -12,6 +12,19 @@ const METEOR_DISCOVERY_TIMEOUT_MS = 10_000
 const METEOR_DISCOVERY_ATTEMPTS =
   METEOR_DISCOVERY_TIMEOUT_MS / METEOR_DISCOVERY_INTERVAL_MS
 
+// Meteor can become visible before its DDP and Mongo packages finish loading.
+const isMeteorRuntimeReady = (): boolean =>
+  typeof Meteor === 'object' &&
+  Meteor !== null &&
+  typeof Meteor.connection === 'object' &&
+  Meteor.connection !== null &&
+  typeof DDP === 'object' &&
+  DDP !== null &&
+  typeof DDP.connect === 'function' &&
+  typeof Mongo === 'object' &&
+  Mongo !== null &&
+  typeof Mongo.Collection === 'function'
+
 export const sendMessage = (eventType: EventType, data: object) => {
   window.postMessage(
     {
@@ -122,7 +135,7 @@ export function injectAll() {
     function inject() {
       --attempts
 
-      if (typeof Meteor === 'object' && !globalThis.__meteor_devtools_evolved) {
+      if (isMeteorRuntimeReady() && !globalThis.__meteor_devtools_evolved) {
         globalThis.__meteor_devtools_evolved = true
 
         initializeMeteorConnections(Meteor.connection, DDP, Mongo)
@@ -154,6 +167,8 @@ export function injectAll() {
               ? `Unable to find Meteor on iframe "${location.href}"`
               : 'Unable to find Meteor on the main page.',
           )
+        } else if (!globalThis.__meteor_devtools_evolved) {
+          warning('Unable to initialize: Meteor client runtime is incomplete.')
         }
       }
     }

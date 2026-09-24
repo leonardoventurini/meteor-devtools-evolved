@@ -27,6 +27,11 @@ All notable changes to this project will be documented in this file.
   and operation, with mouse and keyboard selection.
 - Added a headless packaged-panel layout check that runs without a Meteor server.
 
+### Fixed
+
+- Fixed startup errors when Meteor became available before its DDP or Mongo
+  globals by waiting for the complete client runtime before initialization.
+
 ### Removed
 
 - Removed GitHub API host access and the live star count while retaining the
