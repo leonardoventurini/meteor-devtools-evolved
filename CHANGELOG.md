@@ -6,11 +6,28 @@ All notable changes to this project will be documented in this file.
 
 ## [Unreleased]
 
+## [2.0.0-beta.2]
+
 ### Changed
 
 - Changed Meteor integration CI startup to launch the supervised fixture directly
   so browser tests waited for fixture cleanup.
 - Changed GitHub CI push verification to follow the main branch.
+
+### Fixed
+
+- Fixed startup errors when Meteor became available before its DDP or Mongo
+  globals by waiting for the complete client runtime before initialization.
+
+### Removed
+
+- Removed GitHub API host access and the live star count while retaining the
+  Star and Issues links in the DevTools toolbar.
+
+## [2.0.0-beta.1]
+
+### Changed
+
 - Reorganized Playground into focused Run and History workspaces, with observed
   endpoints and advanced testing progressively disclosed, guided expectation,
   matrix, and transfer-redaction builders with optional raw JSON, and a linked
@@ -27,15 +44,8 @@ All notable changes to this project will be documented in this file.
   and operation, with mouse and keyboard selection.
 - Added a headless packaged-panel layout check that runs without a Meteor server.
 
-### Fixed
-
-- Fixed startup errors when Meteor became available before its DDP or Mongo
-  globals by waiting for the complete client runtime before initialization.
-
 ### Removed
 
-- Removed GitHub API host access and the live star count while retaining the
-  Star and Issues links in the DevTools toolbar.
 - Removed styled-components, its unused polished helper, and obsolete runtime
   styling mixins and breakpoint definitions from the extension.
 
