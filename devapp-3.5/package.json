@@ -26,6 +26,14 @@
     "react-refresh": "^0.18.0",
     "swc-loader": "0.2.6"
   },
+  "overrides": {
+    "@rspack/dev-server": {
+      "webpack-dev-server": "^5.2.6"
+    },
+    "sockjs": {
+      "uuid": "^11.1.1"
+    }
+  },
   "meteor": {
     "mainModule": {
       "client": "client/main.jsx",

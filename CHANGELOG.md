@@ -6,6 +6,11 @@ All notable changes to this project will be documented in this file.
 
 ## [Unreleased]
 
+### Fixed
+
+- Updated vulnerable extension tooling and Meteor 3.5 fixture dependencies while
+  preserving the fixture's Rspack compatibility pins.
+
 ## [2.0.0-beta.2]
 
 ### Changed

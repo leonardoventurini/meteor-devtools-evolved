@@ -109,6 +109,12 @@ yarn audit:devapp
 `yarn audit:all` additionally reports development-only advisories without
 blocking CI when no patched upstream release exists.
 
+The Meteor 3.5 fixture keeps its Rspack pins and scopes security overrides to
+`@rspack/dev-server`'s Webpack dev server and SockJS's UUID dependency. UUID 11
+retains the CommonJS `v4()` API used by SockJS. Recheck these overrides when
+updating the parent packages, and run `yarn test:e2e` after fixture dependency
+changes to verify the adapter against the real Meteor runtime.
+
 The Playwright suite starts the real Meteor 3.5.1 and 2.16 fixtures and loads
 the production Chrome extension against each generation. It covers
 service-worker startup, page injection, rich deterministic data, DDP method and
