@@ -1,7 +1,7 @@
 import { Classes, Drawer, DrawerSize, Icon } from '@blueprintjs/core'
 import React, { FunctionComponent } from 'react'
 import { GridItem, PartnersGrid } from './PartnersGrid'
-import AuthorLogo from '@/Assets/leonardoventurini.png'
+import AuthorLogo from '@/Assets/leonardoventurini.jpg'
 
 const people: GridItem[] = [
   {

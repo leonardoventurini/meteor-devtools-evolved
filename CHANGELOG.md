@@ -6,6 +6,10 @@ All notable changes to this project will be documented in this file.
 
 ## [Unreleased]
 
+### Changed
+
+- Replaced the Help drawer's author portrait with the JPEG asset.
+
 ### Fixed
 
 - Updated vulnerable extension tooling and Meteor 3.5 fixture dependencies while
